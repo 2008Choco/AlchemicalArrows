@@ -3,15 +3,16 @@ package me.choco.arrows.startup;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.Plugin;
 
-import me.choco.arrows.api.methods.Arrows;
+import me.choco.arrows.api.Methods;
 
-public class Recipes implements Listener{
+public class Recipes extends Methods implements Listener{
 	
 	static Plugin AA = Bukkit.getServer().getPluginManager().getPlugin("AlchemicalArrows");
 	
@@ -19,20 +20,20 @@ public class Recipes implements Listener{
 	public static void enable(){
 		ArrayList<String> disabledArrows = new ArrayList<String>();
 		
-		ItemStack airArrow = Arrows.airArrow(AA.getConfig().getInt("ElementalArrows.AirArrow.Crafts"));
-		ItemStack earthArrow = Arrows.earthArrow(AA.getConfig().getInt("ElementalArrows.EarthArrow.Crafts"));
-		ItemStack magicArrow = Arrows.magicArrow(AA.getConfig().getInt("ElementalArrows.MagicArrow.Crafts"));
-		ItemStack enderArrow = Arrows.enderArrow(AA.getConfig().getInt("ElementalArrows.EnderArrow.Crafts"));
-		ItemStack lifeArrow = Arrows.lifeArrow(AA.getConfig().getInt("ElementalArrows.LifeArrow.Crafts"));
-		ItemStack deathArrow = Arrows.deathArrow(AA.getConfig().getInt("ElementalArrows.DeathArrow.Crafts"));
-		ItemStack lightArrow = Arrows.lightArrow(AA.getConfig().getInt("ElementalArrows.LightArrow.Crafts"));
-		ItemStack darknessArrow = Arrows.darknessArrow(AA.getConfig().getInt("ElementalArrows.DarknessArrow.Crafts"));
-		ItemStack fireArrow = Arrows.fireArrow(AA.getConfig().getInt("ElementalArrows.FireArrow.Crafts"));
-		ItemStack frostArrow = Arrows.frostArrow(AA.getConfig().getInt("ElementalArrows.FrostArrow.Crafts"));
-		ItemStack waterArrow = Arrows.waterArrow(AA.getConfig().getInt("ElementalArrows.WaterArrow.Crafts"));
-		ItemStack necroticArrow = Arrows.necroticArrow(AA.getConfig().getInt("ElementalArrows.NecroticArrow.Crafts"));
-		ItemStack confusionArrow = Arrows.confusionArrow(AA.getConfig().getInt("ElementalArrows.ConfusionArrow.Crafts"));
-		ItemStack magneticArrow = Arrows.magneticArrow(AA.getConfig().getInt("ElementalArrows.MagneticArrow.Crafts"));
+		ItemStack airArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.AirArrow.Crafts"), ChatColor.ITALIC + "Air Arrow");
+		ItemStack earthArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.EarthArrow.Crafts"), ChatColor.GRAY + "Earth Arrow");
+		ItemStack magicArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.MagicArrow.Crafts"), ChatColor.LIGHT_PURPLE + "Magic Arrow");
+		ItemStack enderArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.EnderArrow.Crafts"), ChatColor.DARK_PURPLE + "Ender Arrow");
+		ItemStack lifeArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.LifeArrow.Crafts"), ChatColor.GREEN + "Life Arrow");
+		ItemStack deathArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.DeathArrow.Crafts"), ChatColor.BLACK + "Death Arrow");
+		ItemStack lightArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.LightArrow.Crafts"), ChatColor.YELLOW + "Light Arrow");
+		ItemStack darknessArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.DarknessArrow.Crafts"), ChatColor.DARK_GRAY + "Darkness Arrow");
+		ItemStack fireArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.FireArrow.Crafts"), ChatColor.RED + "Fire Arrow");
+		ItemStack frostArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.FrostArrow.Crafts"), ChatColor.AQUA + "Frost Arrow");
+		ItemStack waterArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.WaterArrow.Crafts"), ChatColor.BLUE + "Water Arrow");
+		ItemStack necroticArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.NecroticArrow.Crafts"), ChatColor.DARK_GREEN + "Necrotic Arrow");
+		ItemStack confusionArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.ConfusionArrow.Crafts"), ChatColor.LIGHT_PURPLE + "Confusion Arrow");
+		ItemStack magneticArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.MagneticArrow.Crafts"), ChatColor.GRAY + "Magnetic Arrow");
 		
 		if (AA.getConfig().getBoolean("ElementalArrows.AirArrow.Craftable") == true){
 			ShapelessRecipe airArrowRecipe = new ShapelessRecipe(airArrow).addIngredient(Material.FEATHER).addIngredient(Material.ARROW);

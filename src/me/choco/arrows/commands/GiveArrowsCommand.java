@@ -10,10 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import me.choco.arrows.api.ArrowType;
-import me.choco.arrows.api.methods.Arrows;
-import me.choco.arrows.api.methods.Messages;
+import me.choco.arrows.api.Methods;
 
-public class GiveArrowsCommand implements CommandExecutor, Listener{
+public class GiveArrowsCommand extends Methods implements CommandExecutor, Listener{
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args){
@@ -22,8 +21,8 @@ public class GiveArrowsCommand implements CommandExecutor, Listener{
 				Player player = (Player) sender;
 				if (player.hasPermission("arrows.command.givearrow")){
 					if (args.length == 0){
-						Messages.notification(player, "Invalid Arguments!");
-						Messages.notification(player, "/givearrow <arrow> [count] [player]");
+						notification(player, "Invalid Arguments!");
+						notification(player, "/givearrow <arrow> [count] [player]");
 						return true;
 					}//Close if there's 0 arguments
 					
@@ -33,79 +32,79 @@ public class GiveArrowsCommand implements CommandExecutor, Listener{
 						if (args.length == 2){
 							giveCount = Integer.parseInt(args[1]);
 							if (giveCount <= 0){
-								Messages.notification(player, "Invalid integer " + giveCount + ". Must be a minimum of 1");
+								notification(player, "Invalid integer " + giveCount + ". Must be a minimum of 1");
 								return true;
 							}//Close if giveCount == 0
 						}//Close if there's a 3rd argument
 						if (args.length == 3){
 							if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[2]))){
 								targetPlayer = Bukkit.getPlayer(args[2]);
-								Messages.notification(player, "Given " + giveCount + " " + args[0] + " arrows to "
+								notification(player, "Given " + giveCount + " " + args[0] + " arrows to "
 										+ targetPlayer.getName());
 							}//Close if player is online
 							else{
-								Messages.notification(player, "That player (" + args[2] + ") is not online");
+								notification(player, "That player (" + args[2] + ") is not online");
 							}//Close if player is not online
 						}//Close if a player is specified
 						switch(args[0]){
 						case "air":
-							targetPlayer.getInventory().addItem(Arrows.airArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.ITALIC + "Air Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "earth":
-							targetPlayer.getInventory().addItem(Arrows.earthArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.GRAY + "Earth Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "magic":
-							targetPlayer.getInventory().addItem(Arrows.magicArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.LIGHT_PURPLE + "Magic Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "ender":
-							targetPlayer.getInventory().addItem(Arrows.enderArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.DARK_PURPLE + "Ender Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "life":
-							targetPlayer.getInventory().addItem(Arrows.lifeArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.GREEN + "Life Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "death":
-							targetPlayer.getInventory().addItem(Arrows.deathArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.BLACK + "Death Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "light":
-							targetPlayer.getInventory().addItem(Arrows.lightArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.YELLOW + "Light Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "darkness":
-							targetPlayer.getInventory().addItem(Arrows.darknessArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.DARK_GRAY + "Darkness Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "fire":
-							targetPlayer.getInventory().addItem(Arrows.fireArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.RED + "Fire Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "frost":
-							targetPlayer.getInventory().addItem(Arrows.frostArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.AQUA + "Frost Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "water":
-							targetPlayer.getInventory().addItem(Arrows.waterArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.BLUE + "Water Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "necrotic":
-							targetPlayer.getInventory().addItem(Arrows.necroticArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.DARK_GREEN + "Necrotic Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "confusion":
-							targetPlayer.getInventory().addItem(Arrows.confusionArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.LIGHT_PURPLE + "Confusion Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "magnetic":
-							targetPlayer.getInventory().addItem(Arrows.magneticArrow(giveCount));
+							targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.GRAY + "Magnetic Arrow"));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						default:
-							Messages.notification(player, "Invalid arrow type! Available arrow types:");
+							notification(player, "Invalid arrow type! Available arrow types:");
 							String arrowTypes = "";
 							for (ArrowType type : ArrowType.values()){
 								arrowTypes = arrowTypes + type.toString().toLowerCase() + ", ";
@@ -117,7 +116,7 @@ public class GiveArrowsCommand implements CommandExecutor, Listener{
 					}//Close if there are more than one arguments
 				}//Close if permissions == true
 				else{
-					Messages.notification(player, "You do not have the sufficient permissions to run this command");
+					notification(player, "You do not have the sufficient permissions to run this command");
 					return true;
 				}//Close if perissions == false
 			}//Close if sender is player
@@ -145,59 +144,59 @@ public class GiveArrowsCommand implements CommandExecutor, Listener{
 					Player targetPlayer = Bukkit.getPlayer(args[2]);
 					switch(args[0]){
 					case "air":
-						targetPlayer.getInventory().addItem(Arrows.airArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.ITALIC + "Air Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "earth":
-						targetPlayer.getInventory().addItem(Arrows.earthArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.GRAY + "Earth Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "magic":
-						targetPlayer.getInventory().addItem(Arrows.magicArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.LIGHT_PURPLE + "Magic Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
-					case "spectral":
-						targetPlayer.getInventory().addItem(Arrows.enderArrow(giveCount));
+					case "ender":
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.DARK_PURPLE + "Ender Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "life":
-						targetPlayer.getInventory().addItem(Arrows.lifeArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.GREEN + "Life Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "death":
-						targetPlayer.getInventory().addItem(Arrows.deathArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.BLACK + "Death Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "light":
-						targetPlayer.getInventory().addItem(Arrows.lightArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.YELLOW + "Light Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "darkness":
-						targetPlayer.getInventory().addItem(Arrows.darknessArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.DARK_GRAY + "Darkness Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "fire":
-						targetPlayer.getInventory().addItem(Arrows.fireArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.RED + "Fire Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "frost":
-						targetPlayer.getInventory().addItem(Arrows.frostArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.AQUA + "Frost Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "water":
-						targetPlayer.getInventory().addItem(Arrows.waterArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.BLUE + "Water Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "necrotic":
-						targetPlayer.getInventory().addItem(Arrows.necroticArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.DARK_GREEN + "Necrotic Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "confusion":
-						targetPlayer.getInventory().addItem(Arrows.confusionArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.LIGHT_PURPLE + "Confusion Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "magnetic":
-						targetPlayer.getInventory().addItem(Arrows.magneticArrow(giveCount));
+						targetPlayer.getInventory().addItem(createSpecializedArrow(giveCount, ChatColor.GRAY + "Magnetic Arrow"));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					default:

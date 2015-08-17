@@ -16,8 +16,8 @@ import org.bukkit.plugin.Plugin;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.ArrowType;
+import me.choco.arrows.api.Methods;
 import me.choco.arrows.api.events.SpecializedArrowShootEvent;
-import me.choco.arrows.api.methods.Messages;
 
 public class ProjectileShoot implements Listener{
 	
@@ -41,7 +41,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire an air arrow");
+					Methods.notification(player, "You don't have permission to fire an air arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Air Arrow"
 			
@@ -55,7 +55,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire an earth arrow");
+					Methods.notification(player, "You don't have permission to fire an earth arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Air Arrow"
 			
@@ -69,7 +69,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a magic arrow");
+					Methods.notification(player, "You don't have permission to fire a magic arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Magic Arrow"
 			
@@ -83,7 +83,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire an ender arrow");
+					Methods.notification(player, "You don't have permission to fire an ender arrow");
 				}//Close if permissions == false
 			}//Close if arrowItems' name == "Spectral Arrow"
 			
@@ -97,7 +97,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a life arrow");
+					Methods.notification(player, "You don't have permission to fire a life arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Life Arrow"
 			
@@ -111,7 +111,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a death arrow");
+					Methods.notification(player, "You don't have permission to fire a death arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Death Arrow"
 			
@@ -125,7 +125,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a light arrow");
+					Methods.notification(player, "You don't have permission to fire a light arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Light Arrow"
 			
@@ -139,7 +139,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a darkness arrow");
+					Methods.notification(player, "You don't have permission to fire a darkness arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Darkness Arrow"
 			
@@ -156,7 +156,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a fire arrow");
+					Methods.notification(player, "You don't have permission to fire a fire arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Fire Arrow"
 			
@@ -170,7 +170,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a frost arrow");
+					Methods.notification(player, "You don't have permission to fire a frost arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Frost Arrow"
 			
@@ -184,7 +184,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a water arrow");
+					Methods.notification(player, "You don't have permission to fire a water arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Water Arrow"
 			
@@ -198,7 +198,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a necrotic arrow");
+					Methods.notification(player, "You don't have permission to fire a necrotic arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Necrotic Arrow"
 			
@@ -212,7 +212,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a water arrow");
+					Methods.notification(player, "You don't have permission to fire a water arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Confusion Arrow"
 			
@@ -226,7 +226,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a magnetic arrow");
+					Methods.notification(player, "You don't have permission to fire a magnetic arrow");
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Magnetic Arrow"
 			

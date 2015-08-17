@@ -1,6 +1,6 @@
 name: AlchemicalArrows
 main: me.choco.arrows.AlchemicalArrows
-version: 1.0.1
+version: 1.0.2
 description: New arrows with special effects when hitting the ground or a player
 author: 2008Choco
 commands:

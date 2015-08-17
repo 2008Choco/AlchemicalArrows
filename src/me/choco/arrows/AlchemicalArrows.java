@@ -77,10 +77,12 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 	}//Close onPlayerJoin event
 }//Close class
 
-/* CHANGELOG FOR 1.0.1:
- * Added two strings into the constructor of the ArrowType class. Meta and DisplayTag
- * Added a private internal method to handle the picking up of arrows (still needs more work, but should clean up code)
- * Changed the name of Spectral Arrow to Ender Arrow (not to confuse it with the new 1.9 Spectral Arrow)
+/* CHANGELOG FOR 1.0.2:
+ * Allowed the recipe handler to extend the Methods class
+ * Removed the methods package from the API
+ * Moved the Messages and Arrows class into one Methods class (Decreases file size)
+ * Removed all methods to create arrows, and condensed it into one less complicated method, "createSpecializedArrow(int count, String displayName)"
+ * Removed unnecessary imports from many of the API classes
  */
 
 /* ARROW TYPES:
@@ -103,7 +105,7 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
  *            - If it hits the player: Lift the player in the air a random amount of blocks
  *            - If it hits the ground: Create a tiny tornado?
  *            Crafting Recipe: Arrow + Feather
- *        SPECTRAL (TODO: CHANGE NAME TO "ENDER ARROW"):
+ *        ENDER:
  *            - If it hits the player: Teleport the shooter to the player it hits
  *            - If it hits the ground: Teleport the player to the location the arrow landed
  *            Crafting Recipe: Arrow + Eye of Ender
@@ -150,5 +152,6 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
  * MainCommand:
  *     Sub-command for information about the individual arrows, "/aa info <arrow>"
  * General:
- *     Add optional sound effects to the arrows
+ *     Allow the ability to shoot arrows from dispensers
+ *     Allow skeletons to have a % chance to shoot one of the arrows
  */

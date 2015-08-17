@@ -10,8 +10,8 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 
+import me.choco.arrows.api.Methods;
 import me.choco.arrows.api.events.SpecializedArrowHitEntityEvent;
-import me.choco.arrows.api.methods.Messages;
 
 public class SpecializedArrowHitEntity implements Listener{
 	int temp = 0;
@@ -26,7 +26,7 @@ public class SpecializedArrowHitEntity implements Listener{
 				ApplicableRegionSet shooterSet = WGBukkit.getPlugin().getRegionManager(shooter.getWorld()).getApplicableRegions(shooter.getLocation());
 				if (shooterSet.queryState(null, DefaultFlag.PVP) == StateFlag.State.DENY && temp == 0){
 					event.setCancelled(true);
-					Messages.notification(shooter, "You cannot shoot specialized arrows while protected from pvp");
+					Methods.notification(shooter, "You cannot shoot specialized arrows while protected from pvp");
 					temp = 1;
 				}//Close if PvP is DENIED
 				
@@ -35,7 +35,7 @@ public class SpecializedArrowHitEntity implements Listener{
 					ApplicableRegionSet damagedSet = WGBukkit.getPlugin().getRegionManager(damaged.getWorld()).getApplicableRegions(damaged.getLocation());
 					if (damagedSet.queryState(null, DefaultFlag.PVP) == StateFlag.State.DENY && temp == 0){
 						event.setCancelled(true);
-						Messages.notification(shooter, "You cannot shoot specialized arrows at a player protected from pvp");
+						Methods.notification(shooter, "You cannot shoot specialized arrows at a player protected from pvp");
 						temp = 1;
 					}//Close if PvP is DENIED
 				}//Close if shooter isn't themselves

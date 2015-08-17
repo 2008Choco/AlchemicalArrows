@@ -13,12 +13,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import me.choco.arrows.AlchemicalArrows;
-import me.choco.arrows.api.methods.Messages;
+import me.choco.arrows.api.Methods;
 
 public class MainCommand implements CommandExecutor, Listener{
 	
 	Plugin AA = Bukkit.getPluginManager().getPlugin("AlchemicalArrows");
-	private static String APIVersion = "1.8.8-AA0.3c";
+	private static String APIVersion = "1.8.8-AA0.4";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
@@ -26,7 +26,7 @@ public class MainCommand implements CommandExecutor, Listener{
 			if (sender instanceof Player){
 				Player player = (Player) sender;
 				if (args.length == 0){
-					Messages.notification(player, "Invalid Arguments!");
+					Methods.notification(player, "Invalid Arguments!");
 					return false;
 				}//Close if there are no arguments
 				if (args.length >= 1){
@@ -40,15 +40,15 @@ public class MainCommand implements CommandExecutor, Listener{
 									AlchemicalArrows.specializedArrows.remove(arrow);
 									arrow.remove();
 								}//Close iterate through all arrows
-								Messages.notification(player, "Successfully removed " + ChatColor.AQUA + arrowCount
+								Methods.notification(player, "Successfully removed " + ChatColor.AQUA + arrowCount
 										+ ChatColor.GRAY + " specialized arrows from the world, and wiped them from memory");
 							}//Close if there's more than 0 arrows in the world
 							else{
-								Messages.notification(player, "No arrows in the world to remove");
+								Methods.notification(player, "No arrows in the world to remove");
 							}//Close if there's 0 arrows in the world
 						}//Close if permissions == true
 						else{
-							Messages.notification(player, "You do not have the sufficient permissions to run this command");
+							Methods.notification(player, "You do not have the sufficient permissions to run this command");
 						}//Close if permissions == false
 						return true;
 					}//Close if args 1 is "killAllArrows"
@@ -68,10 +68,10 @@ public class MainCommand implements CommandExecutor, Listener{
 					if (args[0].equalsIgnoreCase("reload")){
 						if (player.hasPermission("arrows.command.reload")){
 							AA.reloadConfig();
-							Messages.notification(player, ChatColor.GREEN + "Successfully reloaded configuration");
+							Methods.notification(player, ChatColor.GREEN + "Successfully reloaded configuration");
 						}//Close if permissions == true
 						else{
-							Messages.notification(player, "You do not have the sufficient permissions to run this command");
+							Methods.notification(player, "You do not have the sufficient permissions to run this command");
 						}//Close if permissions == false
 						return true;
 					}//Close if args 1 is "reload"
