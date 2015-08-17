@@ -15,7 +15,7 @@ import me.choco.arrows.api.Methods;
 public class Recipes extends Methods implements Listener{
 	
 	static Plugin AA = Bukkit.getServer().getPluginManager().getPlugin("AlchemicalArrows");
-	private static ArrayList<String> disabledArrows = new ArrayList<String>();
+	public static ArrayList<String> disabledArrows = new ArrayList<String>();
 	
 	public static void enable(){
 		ItemStack airArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.AirArrow.Crafts"), ChatColor.ITALIC + "Air Arrow");

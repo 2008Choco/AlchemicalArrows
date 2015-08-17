@@ -3,20 +3,18 @@ package me.choco.arrows;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.choco.arrows.commands.GiveArrowsCommand;
 import me.choco.arrows.commands.MainCommand;
 import me.choco.arrows.events.ArrowPickup;
+import me.choco.arrows.events.PlayerJoin;
 import me.choco.arrows.events.ProjectileHitBlock;
 import me.choco.arrows.events.ProjectileHitEntity;
 import me.choco.arrows.events.ProjectileShoot;
@@ -32,13 +30,14 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 	FileConfiguration config;
 	File cfile;
 	
+	@Override
 	public void onEnable(){
 		getServer().getPluginManager().registerEvents(new ProjectileShoot(), this);
 		getServer().getPluginManager().registerEvents(new ProjectileHitEntity(), this);
 		getServer().getPluginManager().registerEvents(new ProjectileHitBlock(), this);
 		getServer().getPluginManager().registerEvents(new ArrowPickup(), this);
 		getServer().getPluginManager().registerEvents(new SpecializedArrowHitEntity(), this);
-		getServer().getPluginManager().registerEvents(this, this);
+		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 		Bukkit.getPluginCommand("alchemicalarrows").setExecutor(new MainCommand());
 		Bukkit.getPluginCommand("givearrow").setExecutor(new GiveArrowsCommand());
 		this.config = getConfig();
@@ -63,18 +62,21 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 		}//Close if pluginmetrics is enabled in config
 	}//Close onEnable method
 	
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event){
-		Player player = event.getPlayer();
-		if (player.getUniqueId().toString().equals("73c62196-2af7-463d-8be1-a7a2270f4696")/*2008Choco*/){
-			player.sendMessage(ChatColor.GOLD + "--------------------------------------------");
-			player.sendMessage(ChatColor.GRAY + "     You are the developer of " + ChatColor.ITALIC + "AlchemicalArrows");
-			player.sendMessage("");
-			player.sendMessage(ChatColor.GRAY + "                What's up, " + ChatColor.GOLD + "" + ChatColor.ITALIC + "" + ChatColor.BOLD + player.getName());
-			player.sendMessage(ChatColor.DARK_AQUA + "                     Version: " + ChatColor.GRAY + this.getDescription().getVersion());
-			player.sendMessage(ChatColor.GOLD + "--------------------------------------------");
-		}//Close if my UUID joins
-	}//Close onPlayerJoin event
+	@Override
+	public void onDisable(){
+		getLogger().info("Removing all arrows from the world");
+		int arrowCount = specializedArrows.size();
+		if (arrowCount >= 1){
+			for (Iterator<Arrow> it = specializedArrows.iterator(); it.hasNext();){
+				Arrow arrow = it.next();
+				it.remove();
+				specializedArrows.remove(arrow);
+				arrow.remove();
+			}//Close iterate through all arrows
+		}//Close if there's more than 0 arrows in the world
+		specializedArrows.clear();
+		Recipes.disabledArrows.clear();
+	}//Close onDisable method
 }//Close class
 
 /* CHANGELOG FOR 1.0.2:
@@ -84,6 +86,8 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
  * Removed all methods to create arrows, and condensed it into one less complicated method, "createSpecializedArrow(int count, String displayName)"
  * Removed unnecessary imports from many of the API classes
  * Added private methods in the Recipe handler class to create recipes in a much more efficient way (cleaner & faster code)
+ * Added a softdepend for WorldGuard in the plugin.yml
+ * Added an onDisable method to kill all arrows, and clear all ArrayLists in order to prevent memory leaks
  */
 
 /* ARROW TYPES:
