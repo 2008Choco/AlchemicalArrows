@@ -18,7 +18,6 @@ public class Recipes extends Methods implements Listener{
 	private static ArrayList<String> disabledArrows = new ArrayList<String>();
 	
 	public static void enable(){
-		
 		ItemStack airArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.AirArrow.Crafts"), ChatColor.ITALIC + "Air Arrow");
 		ItemStack earthArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.EarthArrow.Crafts"), ChatColor.GRAY + "Earth Arrow");
 		ItemStack magicArrow = createSpecializedArrow(AA.getConfig().getInt("ElementalArrows.MagicArrow.Crafts"), ChatColor.LIGHT_PURPLE + "Magic Arrow");
@@ -50,11 +49,13 @@ public class Recipes extends Methods implements Listener{
 		createRecipe(confusionArrow, Material.POISONOUS_POTATO, AA.getConfig().getBoolean("ElementalArrows.ConfusionArrow.Craftable"));
 		createRecipe(magneticArrow, Material.IRON_INGOT, AA.getConfig().getBoolean("ElementalArrows.MagneticArrow.Craftable"));
 		
-		AA.getLogger().info("Disabled Arrows: " + disabledArrows);
+		if (!disabledArrows.isEmpty()){
+			AA.getLogger().info("Disabled Arrows: " + disabledArrows);
+		}//Close if disabled arrows isn't empty
 	}//Close enable method
 	
-	private static void createRecipe(ItemStack recipeItem, Material secondaryMaterial, boolean configCraftableFilePath){
-		if (configCraftableFilePath == true){
+	private static void createRecipe(ItemStack recipeItem, Material secondaryMaterial, boolean configCraftable){
+		if (configCraftable == true){
 			ShapelessRecipe recipe = new ShapelessRecipe(recipeItem).addIngredient(secondaryMaterial).addIngredient(Material.ARROW);
 			Bukkit.getServer().addRecipe(recipe);
 		}
@@ -64,8 +65,8 @@ public class Recipes extends Methods implements Listener{
 	}
 	
 	@SuppressWarnings("deprecation")
-	private static void createRecipe(ItemStack recipeItem, Material secondaryMaterial, byte byteData, boolean configCraftableFilePath){
-		if (configCraftableFilePath == true){
+	private static void createRecipe(ItemStack recipeItem, Material secondaryMaterial, byte byteData, boolean configCraftable){
+		if (configCraftable == true){
 			ShapelessRecipe recipe = new ShapelessRecipe(recipeItem).addIngredient(secondaryMaterial, (byte) byteData).addIngredient(Material.ARROW);
 			Bukkit.getServer().addRecipe(recipe);
 		}

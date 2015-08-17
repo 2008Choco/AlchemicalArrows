@@ -18,5 +18,5 @@ public class Methods{
 		arrowMeta.setDisplayName(displayName);
 		arrow.setItemMeta(arrowMeta);
 		return arrow;
-	}//Close airArrow method
+	}//Close arrow method
 }//Close class
