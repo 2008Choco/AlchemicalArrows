@@ -79,17 +79,6 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 	}//Close onDisable method
 }//Close class
 
-/* CHANGELOG FOR 1.0.2:
- * Allowed the recipe handler to extend the Methods class
- * Removed the methods package from the API
- * Moved the Messages and Arrows class into one Methods class (Decreases file size)
- * Removed all methods to create arrows, and condensed it into one less complicated method, "createSpecializedArrow(int count, String displayName)"
- * Removed unnecessary imports from many of the API classes
- * Added private methods in the Recipe handler class to create recipes in a much more efficient way (cleaner & faster code)
- * Added a softdepend for WorldGuard in the plugin.yml
- * Added an onDisable method to kill all arrows, and clear all ArrayLists in order to prevent memory leaks
- */
-
 /* ARROW TYPES:
  * 
  *    ELEMENTAL ARROWS:
