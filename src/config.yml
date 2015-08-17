@@ -1,0 +1,47 @@
+MetricsEnabled: true
+DisplayArrowTags: false
+  
+ElementalArrows:
+  AirArrow:
+    Craftable: true
+    Crafts: 16
+  EarthArrow:
+    Craftable: true
+    Crafts: 16
+  MagicArrow:
+    Craftable: true
+    Crafts: 8
+  SpectralArrow:
+    Craftable: true
+    Crafts: 8
+  LifeArrow:
+    Craftable: true
+    Crafts: 8
+  DeathArrow:
+    Craftable: true
+    Crafts: 4
+    InstantDeathPossible: true
+  LightArrow:
+    Craftable: true
+    Crafts: 8
+  DarknessArrow:
+    Craftable: true
+    Crafts: 16
+  FireArrow:
+    Craftable: true
+    Crafts: 16
+  FrostArrow:
+    Craftable: true
+    Crafts: 16
+  WaterArrow:
+    Craftable: true
+    Crafts: 8
+  NecroticArrow:
+    Craftable: true
+    Crafts: 8
+  ConfusionArrow:
+    Craftable: true
+    Crafts: 8
+  MagneticArrow:
+    Craftable: true
+    Crafts: 8
