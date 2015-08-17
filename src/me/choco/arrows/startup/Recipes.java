@@ -39,7 +39,7 @@ public class Recipes extends Methods implements Listener{
 		createRecipe(magicArrow, Material.BLAZE_POWDER, AA.getConfig().getBoolean("ElementalArrows.MagicArrow.Craftable"));
 		createRecipe(enderArrow, Material.EYE_OF_ENDER, AA.getConfig().getBoolean("ElementalArrows.EnderArrow.Craftable"));
 		createRecipe(lifeArrow, Material.SPECKLED_MELON, AA.getConfig().getBoolean("ElementalArrows.LifeArrow.Craftable"));
-		createRecipe(deathArrow, Material.SKULL_ITEM, (byte) 3, AA.getConfig().getBoolean("ElementalArrows.DeathArrow.Craftable"));
+		createRecipe(deathArrow, Material.SKULL_ITEM, (byte) 1, AA.getConfig().getBoolean("ElementalArrows.DeathArrow.Craftable"));
 		createRecipe(lightArrow, Material.GLOWSTONE_DUST, AA.getConfig().getBoolean("ElementalArrows.LightArrow.Craftable"));
 		createRecipe(darknessArrow, Material.COAL, AA.getConfig().getBoolean("ElementalArrows.DarknessArrow.Craftable"));
 		createRecipe(darknessArrow, Material.COAL, (byte) 1, AA.getConfig().getBoolean("ElementalArrows.DarknessArrow.Craftable"));

@@ -15,7 +15,7 @@ public class Methods{
 	public static ItemStack createSpecializedArrow(int arrowCount, String displayName){
 		ItemStack arrow = new ItemStack(Material.ARROW, arrowCount);
 		ItemMeta arrowMeta = arrow.getItemMeta();
-		arrowMeta.setDisplayName(ChatColor.ITALIC + "Air Arrow");
+		arrowMeta.setDisplayName(displayName);
 		arrow.setItemMeta(arrowMeta);
 		return arrow;
 	}//Close airArrow method
