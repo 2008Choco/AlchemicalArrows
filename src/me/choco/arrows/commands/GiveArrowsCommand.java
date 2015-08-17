@@ -60,8 +60,8 @@ public class GiveArrowsCommand implements CommandExecutor, Listener{
 							targetPlayer.getInventory().addItem(Arrows.magicArrow(giveCount));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
-						case "spectral":
-							targetPlayer.getInventory().addItem(Arrows.spectralArrow(giveCount));
+						case "ender":
+							targetPlayer.getInventory().addItem(Arrows.enderArrow(giveCount));
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						case "life":
@@ -157,7 +157,7 @@ public class GiveArrowsCommand implements CommandExecutor, Listener{
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "spectral":
-						targetPlayer.getInventory().addItem(Arrows.spectralArrow(giveCount));
+						targetPlayer.getInventory().addItem(Arrows.enderArrow(giveCount));
 						targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 						break;
 					case "life":

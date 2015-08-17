@@ -9,22 +9,24 @@ import org.bukkit.plugin.Plugin;
 import me.choco.arrows.AlchemicalArrows;
 
 public enum ArrowType{
-	AIR(),
-	EARTH(),
-	MAGIC(),
-	SPECTRAL(),
-	LIFE(),
-	DEATH(),
-	LIGHT(),
-	DARKNESS(),
-	FIRE(),
-	FROST(),
-	WATER(),
-	NECROTIC(),
-	CONFUSION(),
-	MAGNETIC();
+	AIR("Air", ChatColor.ITALIC + "Air"),
+	EARTH("Earth", ChatColor.GRAY + "Earth"),
+	MAGIC("Magic", ChatColor.LIGHT_PURPLE + "Magic"),
+	ENDER("Ender", ChatColor.DARK_PURPLE + "Ender"),
+	LIFE("Life", ChatColor.GREEN + "Life"),
+	DEATH("Death", ChatColor.BLACK + "Death"),
+	LIGHT("Light", ChatColor.YELLOW + "Light"),
+	DARKNESS("Darkness", ChatColor.DARK_GRAY + "Darkness"),
+	FIRE("Fire", ChatColor.RED + "Fire"),
+	FROST("Frost", ChatColor.AQUA + "Frost"),
+	WATER("Water", ChatColor.BLUE + "Water"),
+	NECROTIC("Necrotic", ChatColor.DARK_GREEN + "Necrotic"),
+	CONFUSION("Confusion", ChatColor.LIGHT_PURPLE + "Confusion"),
+	MAGNETIC("Magnetic", ChatColor.GRAY + "Magnetic");
 	
 	static Plugin AA = Bukkit.getPluginManager().getPlugin("AlchemicalArrows");
+	
+	ArrowType(String meta, String displayTag){}
 	
 	public static ArrowType getArrowType(Arrow arrow){
 		if (arrow.hasMetadata("Air")){
@@ -36,8 +38,8 @@ public enum ArrowType{
 		if (arrow.hasMetadata("Magic")){
 			return ArrowType.MAGIC;
 		}
-		if (arrow.hasMetadata("Spectral")){
-			return ArrowType.SPECTRAL;
+		if (arrow.hasMetadata("Ender")){
+			return ArrowType.ENDER;
 		}
 		if (arrow.hasMetadata("Life")){
 			return ArrowType.LIFE;
@@ -88,9 +90,9 @@ public enum ArrowType{
 			arrow.setMetadata("Magic", new FixedMetadataValue(AA, arrow));
 			arrow.setCustomName(ChatColor.LIGHT_PURPLE + "Magic");
 			break;
-		case SPECTRAL:
-			arrow.setMetadata("Spectral", new FixedMetadataValue(AA, arrow));
-			arrow.setCustomName(ChatColor.DARK_PURPLE + "Spectral");
+		case ENDER:
+			arrow.setMetadata("Ender", new FixedMetadataValue(AA, arrow));
+			arrow.setCustomName(ChatColor.DARK_PURPLE + "Ender");
 			break;
 		case LIFE:
 			arrow.setMetadata("Life", new FixedMetadataValue(AA, arrow));

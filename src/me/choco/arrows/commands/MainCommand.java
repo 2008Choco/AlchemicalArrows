@@ -18,7 +18,7 @@ import me.choco.arrows.api.methods.Messages;
 public class MainCommand implements CommandExecutor, Listener{
 	
 	Plugin AA = Bukkit.getPluginManager().getPlugin("AlchemicalArrows");
-	private static String APIVersion = "1.8.8-AA0.3b";
+	private static String APIVersion = "1.8.8-AA0.3c";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {

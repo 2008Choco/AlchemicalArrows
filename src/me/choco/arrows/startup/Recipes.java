@@ -22,7 +22,7 @@ public class Recipes implements Listener{
 		ItemStack airArrow = Arrows.airArrow(AA.getConfig().getInt("ElementalArrows.AirArrow.Crafts"));
 		ItemStack earthArrow = Arrows.earthArrow(AA.getConfig().getInt("ElementalArrows.EarthArrow.Crafts"));
 		ItemStack magicArrow = Arrows.magicArrow(AA.getConfig().getInt("ElementalArrows.MagicArrow.Crafts"));
-		ItemStack spectralArrow = Arrows.spectralArrow(AA.getConfig().getInt("ElementalArrows.SpectralArrow.Crafts"));
+		ItemStack enderArrow = Arrows.enderArrow(AA.getConfig().getInt("ElementalArrows.EnderArrow.Crafts"));
 		ItemStack lifeArrow = Arrows.lifeArrow(AA.getConfig().getInt("ElementalArrows.LifeArrow.Crafts"));
 		ItemStack deathArrow = Arrows.deathArrow(AA.getConfig().getInt("ElementalArrows.DeathArrow.Crafts"));
 		ItemStack lightArrow = Arrows.lightArrow(AA.getConfig().getInt("ElementalArrows.LightArrow.Crafts"));
@@ -58,12 +58,12 @@ public class Recipes implements Listener{
 			disabledArrows.add("Magic Arrow");
 		}
 
-		if (AA.getConfig().getBoolean("ElementalArrows.SpectralArrow.Craftable") == true){
-			ShapelessRecipe spectralArrowRecipe = new ShapelessRecipe(spectralArrow).addIngredient(Material.EYE_OF_ENDER).addIngredient(Material.ARROW);
-			Bukkit.getServer().addRecipe(spectralArrowRecipe);
+		if (AA.getConfig().getBoolean("ElementalArrows.EnderArrow.Craftable") == true){
+			ShapelessRecipe enderArrowRecipe = new ShapelessRecipe(enderArrow).addIngredient(Material.EYE_OF_ENDER).addIngredient(Material.ARROW);
+			Bukkit.getServer().addRecipe(enderArrowRecipe);
 		}
 		else{
-			disabledArrows.add("Spectral Arrow");
+			disabledArrows.add("Ender Arrow");
 		}
 		
 		if (AA.getConfig().getBoolean("ElementalArrows.LifeArrow.Craftable") == true){

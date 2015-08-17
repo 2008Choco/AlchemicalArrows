@@ -42,7 +42,7 @@ public class ParticleLoop implements Listener{
 								if (ArrowType.getArrowType(arrow) == ArrowType.MAGIC){
 									ParticleEffect.SPELL_WITCH.display(0.1F, 0.1F, 0.1F, 0.01F, 2, arrow.getLocation(), player);
 								}//Close if arrow is a Magic arrow
-								if (ArrowType.getArrowType(arrow) == ArrowType.SPECTRAL){
+								if (ArrowType.getArrowType(arrow) == ArrowType.ENDER){
 									ParticleEffect.PORTAL.display(0.1F, 0.1F, 0.1F, 0.1F, 3, arrow.getLocation(), player);
 								}//Close if arrow is a Spectral arrow
 								if (ArrowType.getArrowType(arrow) == ArrowType.LIFE){

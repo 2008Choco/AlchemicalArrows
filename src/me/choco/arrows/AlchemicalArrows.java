@@ -77,12 +77,10 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 	}//Close onPlayerJoin event
 }//Close class
 
-/* CHANGELOG FOR 1.0.0:
- * Officially released the first full version, out of Beta, version 1.0.0! Many official changes will be hapenning.
- * Removed the OP join message for the BETA version
- * Allowed the /givearrow command to be run from the console (Must use all parameters to give to another player)
-
-(Sorry if you were expecting a fancier version 1.0.0 :P There's not a whole lot of bugs to fix anymore now that I am out of Beta)
+/* CHANGELOG FOR 1.0.1:
+ * Added two strings into the constructor of the ArrowType class. Meta and DisplayTag
+ * Added a private internal method to handle the picking up of arrows (still needs more work, but should clean up code)
+ * Changed the name of Spectral Arrow to Ender Arrow (not to confuse it with the new 1.9 Spectral Arrow)
  */
 
 /* ARROW TYPES:

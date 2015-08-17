@@ -73,9 +73,9 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == false
 			}//Close if arrowItem's name == "Magic Arrow"
 			
-			if (arrowItem.hasItemMeta() && arrowItem.getItemMeta().getDisplayName().equals(ChatColor.DARK_PURPLE + "Spectral Arrow")){
-				if (player.hasPermission("arrows.shoot.spectral")){
-					ArrowType.setArrowType(arrow, ArrowType.SPECTRAL);
+			if (arrowItem.hasItemMeta() && arrowItem.getItemMeta().getDisplayName().equals(ChatColor.DARK_PURPLE + "Ender Arrow")){
+				if (player.hasPermission("arrows.shoot.ender")){
+					ArrowType.setArrowType(arrow, ArrowType.ENDER);
 					Bukkit.getServer().getPluginManager().callEvent(specializedArrowShootEvent);
 					if (specializedArrowShootEvent.isCancelled()){
 						event.setCancelled(true);
@@ -83,7 +83,7 @@ public class ProjectileShoot implements Listener{
 				}//Close if permissions == true
 				else{
 					event.setCancelled(true);
-					Messages.notification(player, "You don't have permission to fire a spectral arrow");
+					Messages.notification(player, "You don't have permission to fire an ender arrow");
 				}//Close if permissions == false
 			}//Close if arrowItems' name == "Spectral Arrow"
 			

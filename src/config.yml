@@ -11,7 +11,7 @@ ElementalArrows:
   MagicArrow:
     Craftable: true
     Crafts: 8
-  SpectralArrow:
+  EnderArrow:
     Craftable: true
     Crafts: 8
   LifeArrow:

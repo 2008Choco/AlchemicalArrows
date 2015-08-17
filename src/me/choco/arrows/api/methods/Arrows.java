@@ -50,11 +50,11 @@ public class Arrows{
 	}//Close magicArrow method
 	
 	/**
-	 * Create and return an Spectral Arrow object
+	 * Create and return an Ender Arrow object
 	 * @param arrowCount - The count of arrows you'd like to create
 	 * @return ItemStack
 	 */
-	public static ItemStack spectralArrow(int arrowCount){
+	public static ItemStack enderArrow(int arrowCount){
 		ItemStack spectralArrow = new ItemStack(Material.ARROW, arrowCount);
 		ItemMeta spectralMeta = spectralArrow.getItemMeta();
 		spectralMeta.setDisplayName(ChatColor.DARK_PURPLE + "Spectral Arrow");

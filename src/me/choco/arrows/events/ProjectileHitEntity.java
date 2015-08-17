@@ -99,7 +99,7 @@ public class ProjectileHitEntity implements Listener{
 							}
 						}//Close if arrow name is "Magic"
 						
-						if (ArrowType.getArrowType(arrow) == ArrowType.SPECTRAL){
+						if (ArrowType.getArrowType(arrow) == ArrowType.ENDER){
 							if (!specializedArrowHitEntityEvent.isCancelled()){
 								if (arrow.getShooter() instanceof Player){
 									arrow.setKnockbackStrength(0);
