@@ -83,6 +83,7 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
  * Moved the Messages and Arrows class into one Methods class (Decreases file size)
  * Removed all methods to create arrows, and condensed it into one less complicated method, "createSpecializedArrow(int count, String displayName)"
  * Removed unnecessary imports from many of the API classes
+ * Added private methods in the Recipe handler class to create recipes in a much more efficient way (cleaner & faster code)
  */
 
 /* ARROW TYPES:
