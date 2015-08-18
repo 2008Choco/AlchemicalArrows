@@ -21,6 +21,7 @@ The official BukkitDev page can be found by [clicking here](http://dev.bukkit.or
 * Added an onDisable method to kill all arrows, and clear all ArrayLists in order to prevent memory leaks
 * Added a changelog.md file to log all the changelogs
 * Changed the disabledArrows array list displaying in the console if it's empty
+* Added a printStackTrace() method if the plugin could not enable Metrics
 * General internal modifications and fixes for faster code processing
 
 ### Release 1.0.1 ###

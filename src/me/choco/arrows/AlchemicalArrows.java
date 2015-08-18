@@ -56,6 +56,7 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 		        metrics.start();
 		    }//Close an attempt to start metrics
 		    catch (IOException e){
+		    	e.printStackTrace();
 		        getLogger().warning("Could not enable Plugin Metrics. If issues continue, please put in a ticket on the "
 		        	+ "Alchemical Arrows development page");
 		    }//Close if an IOException occurs
