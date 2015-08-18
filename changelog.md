@@ -1,6 +1,6 @@
 <center><img src="http://i.imgur.com/H1NYMTj.png", width=400, height=200></center>
 
-# Changelog #
+# <center> Changelog </center> #
 - - - - - - - - - -
 
 This is where you will find the official changelog of all releases of *AlchemicalArrows &copy; *. This will be updated periodically in order to keep track of all changes related to this document. This is a large database of all changelogs that have ever been published to the official BukkitDev page.
@@ -19,6 +19,7 @@ The official BukkitDev page can be found by [clicking here](http://dev.bukkit.or
 * Added private methods in the Recipe handler class to create recipes in a much more efficient way (cleaner & faster code)
 * Added a softdepend for WorldGuard in the plugin.yml
 * Added an onDisable method to kill all arrows, and clear all ArrayLists in order to prevent memory leaks
+* Added a changelog.md file to log all the changelogs
 
 ### Release 1.0.1 ###
 * Added two strings into the constructor of the ArrowType class. Meta and DisplayTag
