@@ -1,5 +1,6 @@
 MetricsEnabled: true
 DisplayArrowTags: false
+SkeletonsShootSpecializedArrows: true
   
 ElementalArrows:
   AirArrow:
@@ -24,6 +25,7 @@ ElementalArrows:
   LightArrow:
     Craftable: true
     Crafts: 8
+    StrikesLightning: true
   DarknessArrow:
     Craftable: true
     Crafts: 16

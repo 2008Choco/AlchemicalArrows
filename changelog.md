@@ -10,6 +10,12 @@ The official BukkitDev page can be found by [clicking here](http://dev.bukkit.or
 ## Official Releases ##
 - - - - - - - - - -
 
+### Release 1.1.0 ###
+* Added the ability for skeletons to have a chance to fire specialized arrows
+* Added a new general config option to disable the function above
+* Changed arrows being Player-side only. They can now be used by any mob that shoots arrows as well
+* Added a new config option to disable the lightning strike on a light arrow (Basically, make the arrow useless)
+
 ### Release 1.0.2 ###
 * Allowed the recipe handler to extend the Methods class
 * Removed the methods package from the API
