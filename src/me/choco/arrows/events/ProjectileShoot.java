@@ -252,7 +252,7 @@ public class ProjectileShoot implements Listener{
 				if (AA.getConfig().getBoolean("SkeletonsShootSpecializedArrows")){
 					Random random = new Random();
 					int randomInt = random.nextInt(100);
-					if (randomInt <= ArrowType.values().length){
+					if (randomInt < ArrowType.values().length){
 						ArrowType.setArrowType(arrow, ArrowType.values()[randomInt]);
 					}//Close if the random int is less than the amount of arrows in the arrow types class
 				}//Close if the config is set to true

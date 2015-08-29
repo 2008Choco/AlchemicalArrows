@@ -1,6 +1,7 @@
 MetricsEnabled: true
 DisplayArrowTags: false
 SkeletonsShootSpecializedArrows: true
+ShooterCanAffectSelf: true
   
 ElementalArrows:
   AirArrow:

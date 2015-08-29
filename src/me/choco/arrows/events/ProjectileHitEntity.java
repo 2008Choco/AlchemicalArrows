@@ -9,11 +9,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.plugin.Plugin;
 
 import me.choco.arrows.api.events.SpecializedArrowHitEntityEvent;
 import me.choco.arrows.utils.ArrowHandling;
 
 public class ProjectileHitEntity implements Listener{
+	
+	Plugin AA = Bukkit.getPluginManager().getPlugin("AlchemicalArrows");
 	
 	@EventHandler(priority = EventPriority.LOW)
 	public void onProjectileHitPlayer(EntityDamageByEntityEvent event){
@@ -26,6 +29,9 @@ public class ProjectileHitEntity implements Listener{
 						
 						SpecializedArrowHitEntityEvent specializedArrowHitEntityEvent = new SpecializedArrowHitEntityEvent(damaged, arrow.getShooter(), arrow);
 						Bukkit.getPluginManager().callEvent(specializedArrowHitEntityEvent);
+						
+						if (!AA.getConfig().getBoolean("ShooterCanAffectSelf") && arrow.getShooter() == arrow.getShooter())
+							specializedArrowHitEntityEvent.setCancelled(true);
 						
 						if (!specializedArrowHitEntityEvent.isCancelled()){
 							ArrowHandling.arrowEffects(event, damaged, arrow);

@@ -10,6 +10,10 @@ The official BukkitDev page can be found by [clicking here](http://dev.bukkit.or
 ## Official Releases ##
 - - - - - - - - - -
 
+### Release 1.1.1 ###
+* Fixed ArrayIndexOutOfBoundsException (Cause: Skeleton attempts to shoot a 15th variant of arrow (does not exist))
+* Added a generic boolean configuration option to toggle whether the shooter can hit themselves with a specialized arrow or not
+
 ### Release 1.1.0 ###
 * Added the ability for skeletons to have a chance to fire specialized arrows
 * Added a new general config option to disable the function above
