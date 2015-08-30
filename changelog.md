@@ -10,6 +10,10 @@ The official BukkitDev page can be found by [clicking here](http://dev.bukkit.or
 ## Official Releases ##
 - - - - - - - - - -
 
+### Release 1.1.2 ###
+* Fixed an ArrayIndexOutOfBoundsException (Cause: Referencing arrows when a player doesn't have arrows)
+* Fixed incompatability issues with the [MAGIC](http://dev.bukkit.org/bukkit-plugins/MAGIC) plugin by [NathanWolf](http://dev.bukkit.org/profiles/nathanwolf)
+
 ### Release 1.1.1 ###
 * Fixed ArrayIndexOutOfBoundsException (Cause: Skeleton attempts to shoot a 15th variant of arrow (does not exist))
 * Added a generic boolean configuration option to toggle whether the shooter can hit themselves with a specialized arrow or not
