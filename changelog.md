@@ -10,6 +10,12 @@ The official BukkitDev page can be found by [clicking here](http://dev.bukkit.or
 ## Official Releases ##
 - - - - - - - - - -
 
+### Release 1.1.3 ###
+* Fixed a lot about the /givearrow command
+* |--> Fixed NumberFormatException when using a non-integer value for the arrow count to give
+* |--> Fixed the arrow count not being applied when giving arrows to another player (only giving 1 no matter what)
+* Changed the behaviour of the water arrow very very slightly
+
 ### Release 1.1.2 ###
 * Fixed an ArrayIndexOutOfBoundsException (Cause: Referencing arrows when a player doesn't have arrows)
 * Fixed incompatability issues with the [MAGIC](http://dev.bukkit.org/bukkit-plugins/MAGIC) plugin by [NathanWolf](http://dev.bukkit.org/profiles/nathanwolf)
