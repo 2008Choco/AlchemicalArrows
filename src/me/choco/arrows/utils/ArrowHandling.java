@@ -27,15 +27,14 @@ import me.choco.arrows.particles.ParticleEffect;
 public class ArrowHandling {
 	
 	static Plugin AA = Bukkit.getPluginManager().getPlugin("AlchemicalArrows");
+	static Random random = new Random();
 	
 	public static void arrowEffects(EntityDamageByEntityEvent event, final Entity damaged, Arrow arrow){
 		double damage = event.getDamage();
 		if (ArrowType.getArrowType(arrow) == ArrowType.AIR){
-			Random random = new Random();
 			event.setCancelled(true);
 			arrow.remove();
-			double randomY = random.nextDouble();
-			randomY++;
+			double randomY = random.nextDouble() + 1;
 			damaged.setVelocity(new Vector(0, randomY, 0));
 			((LivingEntity) damaged).damage(damage);
 		}//Close if arrow name is "Air"
@@ -44,14 +43,9 @@ public class ArrowHandling {
 			event.setCancelled(true);
 			arrow.remove();
 			Location blocation = damaged.getLocation();
-			int topX = blocation.getBlockX();
-			int topY = blocation.getBlockY();
-			int topZ = blocation.getBlockZ();
-			float eyeX = blocation.getYaw();
-			float eyeY = blocation.getPitch();
 			
 			while (!blocation.getBlock().getType().isSolid()){
-				blocation = new Location (damaged.getWorld(), topX, --topY, topZ, eyeX, eyeY);
+				blocation = blocation.subtract(0, 1, 0);
 			}//Close while loop
 			damaged.teleport(blocation);
 			
@@ -112,7 +106,6 @@ public class ArrowHandling {
 		}//Close if arrow name is "Life"
 		
 		if (ArrowType.getArrowType(arrow) == ArrowType.DEATH){
-			Random random = new Random();
 			int randomInt = random.nextInt(4);
 			if (damaged instanceof Damageable){
 				if (randomInt == 3){
@@ -140,23 +133,16 @@ public class ArrowHandling {
 			PotionEffect blindness = PotionEffectType.BLINDNESS.createEffect(300, 0);
 			LivingEntity damagedEntity = (LivingEntity) damaged;
 			damagedEntity.addPotionEffect(blindness);
+			if (arrow.getShooter() instanceof Player){
+				ParticleEffect.EXPLOSION_LARGE.display(1f, 1f, 1f, 1f, 10, damaged.getLocation().add(0, 0.75, 0), (Player) arrow.getShooter());
+			}//Close if shooter is a player
 			if (damaged instanceof Player){
 				ParticleEffect.EXPLOSION_LARGE.display(1f, 1f, 1f, 1f, 10, damaged.getLocation().add(0, 0.75, 0), (Player) damaged);
-				if (arrow.getShooter() instanceof Player){
-					ParticleEffect.EXPLOSION_LARGE.display(1f, 1f, 1f, 1f, 10, damaged.getLocation().add(0, 0.75, 0), (Player) arrow.getShooter());
-				}//Close if shooter is player
-			}//Close if damaged is player
-			else{
-				if (arrow.getShooter() instanceof Player){
-					ParticleEffect.EXPLOSION_LARGE.display(1f, 1f, 1f, 1f, 10, damaged.getLocation().add(0, 0.75, 0), (Player) arrow.getShooter());
-				}//Close if shooter is a player
-			}//Close if an entity is hit	
+			}//Close if damaged is a player
 		}//Close if arrow name is "Darkness"
 		
 		if (ArrowType.getArrowType(arrow) == ArrowType.FIRE){
-			Random random = new Random();
-			int randomTicks = 40 + random.nextInt(61);
-			damaged.setFireTicks(randomTicks);		
+			damaged.setFireTicks(40 + random.nextInt(59));		
 		}//Close if arrow name is "Fire"
 		
 		if (ArrowType.getArrowType(arrow) == ArrowType.FROST){

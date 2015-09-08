@@ -40,6 +40,7 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 		Bukkit.getPluginCommand("alchemicalarrows").setExecutor(new MainCommand());
 		Bukkit.getPluginCommand("givearrow").setExecutor(new GiveArrowsCommand());
+		
 		this.config = getConfig();
 		saveDefaultConfig();
 		this.cfile = new File(getDataFolder(), "config.yml");
@@ -148,5 +149,4 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
  *     Sub-command for information about the individual arrows, "/aa info <arrow>"
  * General:
  *     Allow the ability to shoot arrows from dispensers
- *     Allow skeletons to have a % chance to shoot one of the arrows
  */

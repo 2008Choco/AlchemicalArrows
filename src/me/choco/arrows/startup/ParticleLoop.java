@@ -31,7 +31,7 @@ public class ParticleLoop implements Listener{
 					}//Close if arrow is dead
 					for (Player player : Bukkit.getOnlinePlayers()){
 						if (arrow.getWorld() == player.getWorld()){
-							if (arrow.getLocation().distanceSquared(player.getLocation()) <= 100){
+							if (arrow.getLocation().distanceSquared(player.getLocation()) <= 400){
 								if (ArrowType.getArrowType(arrow) == ArrowType.AIR){
 									ParticleEffect.CLOUD.display(0.1F, 0.1F, 0.1F, 0.01F, 1, arrow.getLocation(), player);
 								}//Close if arrow is an Air arrow

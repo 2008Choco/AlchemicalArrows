@@ -10,6 +10,14 @@ The official BukkitDev page can be found by [clicking here](http://dev.bukkit.or
 ## Official Releases ##
 - - - - - - - - - -
 
+### Release 1.1.4 ###
+* Removed initializations of unnecessary integers in Earth and Fire Arrows
+* Removed multiply instantiations of the Random class for a couple of the arrows
+* Fixed particle declarations for the Darkness Arrow to run on less decisions
+* Added an aesthetic trim method to the string for disabled arrows on startup and fixed listings not using commas
+* Changed the display of "Disabled Arrows" to "Disabled Crafting Recipes" to clear any confusion. Arrows are still usable, just not craftable
+* Increased particle range on the arrows from 10 blocks, to 20 blocks
+
 ### Release 1.1.3 ###
 * Fixed a lot about the /givearrow command
 * |--> Fixed NumberFormatException when using a non-integer value for the arrow count to give

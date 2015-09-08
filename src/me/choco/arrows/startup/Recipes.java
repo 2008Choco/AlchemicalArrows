@@ -50,7 +50,7 @@ public class Recipes extends Methods implements Listener{
 		createRecipe(magneticArrow, Material.IRON_INGOT, AA.getConfig().getBoolean("ElementalArrows.MagneticArrow.Craftable"));
 		
 		if (!disabledArrows.isEmpty()){
-			AA.getLogger().info("Disabled Arrows: " + disabledArrows);
+			AA.getLogger().info("Disabled Crafting Recipes: " + disabledArrows.toString().trim());
 		}//Close if disabled arrows isn't empty
 	}//Close enable method
 	
@@ -60,7 +60,7 @@ public class Recipes extends Methods implements Listener{
 			Bukkit.getServer().addRecipe(recipe);
 		}
 		else{
-			disabledArrows.add(recipeItem.getItemMeta().getDisplayName().replace(" Arrow", ""));
+			disabledArrows.add(recipeItem.getItemMeta().getDisplayName().replace(" Arrow", ", "));
 		}
 	}
 	
@@ -71,7 +71,7 @@ public class Recipes extends Methods implements Listener{
 			Bukkit.getServer().addRecipe(recipe);
 		}
 		else{
-			disabledArrows.add(recipeItem.getItemMeta().getDisplayName().replace(" Arrow", ""));
+			disabledArrows.add(recipeItem.getItemMeta().getDisplayName().replace(" Arrow", ", "));
 		}
 	}
 }//Close class
