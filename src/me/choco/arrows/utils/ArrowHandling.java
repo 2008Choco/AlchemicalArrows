@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -142,7 +143,7 @@ public class ArrowHandling {
 		}//Close if arrow name is "Darkness"
 		
 		if (ArrowType.getArrowType(arrow) == ArrowType.FIRE){
-			damaged.setFireTicks(40 + random.nextInt(59));		
+			damaged.setFireTicks(40 + random.nextInt(59));
 		}//Close if arrow name is "Fire"
 		
 		if (ArrowType.getArrowType(arrow) == ArrowType.FROST){

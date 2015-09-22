@@ -19,7 +19,7 @@ public class ProjectileHitEntity implements Listener{
 	Plugin AA = Bukkit.getPluginManager().getPlugin("AlchemicalArrows");
 	
 	@EventHandler(priority = EventPriority.LOW)
-	public void onProjectileHitPlayer(EntityDamageByEntityEvent event){
+	public void onProjectileHitEntity(EntityDamageByEntityEvent event){
 		if (event.getDamager().getType() == EntityType.ARROW){
 			if (event.getDamager().getCustomName() != null){
 				if (event.getEntity().getWorld().getPVP() == true){

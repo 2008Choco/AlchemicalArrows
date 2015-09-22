@@ -5,14 +5,15 @@
 
 This is where you will find the official changelog of all releases of *AlchemicalArrows &copy; *. This will be updated periodically in order to keep track of all changes related to this document. This is a large database of all changelogs that have ever been published to the official BukkitDev page.
 
-The official BukkitDev page can be found by [clicking here](http://dev.bukkit.org/bukkit-plugins/alchemical-arrows)
+* The official BukkitDev page can be found by [clicking here](http://dev.bukkit.org/bukkit-plugins/alchemical-arrows)
+* The official SpigotMC page can be found by [clicking here](http://spigotmc.org/resources/alchemicalarrows.11693/)
 
 ## Official Releases ##
 - - - - - - - - - -
 
 ### Release 1.1.4 ###
-* Removed initializations of unnecessary integers in Earth and Fire Arrows
-* Removed multiply instantiations of the Random class for a couple of the arrows
+* Removed declarations of unnecessary integers in Earth and Fire Arrows
+* Removed multiple declarations of the Random class for a couple of the arrows
 * Fixed particle declarations for the Darkness Arrow to run on less decisions
 * Added an aesthetic trim method to the string for disabled arrows on startup and fixed listings not using commas
 * Changed the display of "Disabled Arrows" to "Disabled Crafting Recipes" to clear any confusion. Arrows are still usable, just not craftable

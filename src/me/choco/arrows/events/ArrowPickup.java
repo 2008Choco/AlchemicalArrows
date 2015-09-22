@@ -22,7 +22,7 @@ public class ArrowPickup extends Methods implements Listener{
 				event.setCancelled(true);
 				pickupArrow(item, event.getPlayer(), createSpecializedArrow(1, ChatColor.ITALIC + "Air Arrow"));
 			}//Close if it's an air arrow being picked up
-				
+
 			if (item.hasMetadata("Earth")){
 				event.setCancelled(true);
 				pickupArrow(item, event.getPlayer(), createSpecializedArrow(1, ChatColor.GRAY + "Earth Arrow"));
