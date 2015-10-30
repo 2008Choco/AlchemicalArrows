@@ -1,12 +1,10 @@
 package me.choco.arrows;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,33 +20,35 @@ import me.choco.arrows.events.SpecializedArrowHitEntity;
 import me.choco.arrows.startup.Metrics;
 import me.choco.arrows.startup.ParticleLoop;
 import me.choco.arrows.startup.Recipes;
+import me.choco.arrows.utils.ConfigAccessor;
 
 public class AlchemicalArrows extends JavaPlugin implements Listener{
 	
+	public ConfigAccessor messages;
 	public static ArrayList<Arrow> specializedArrows = new ArrayList<Arrow>();
-	
-	FileConfiguration config;
-	File cfile;
 	
 	@Override
 	public void onEnable(){
-		getServer().getPluginManager().registerEvents(new ProjectileShoot(), this);
+		getServer().getPluginManager().registerEvents(new ProjectileShoot(this), this);
 		getServer().getPluginManager().registerEvents(new ProjectileHitEntity(), this);
 		getServer().getPluginManager().registerEvents(new ProjectileHitBlock(), this);
 		getServer().getPluginManager().registerEvents(new ArrowPickup(), this);
-		getServer().getPluginManager().registerEvents(new SpecializedArrowHitEntity(), this);
+		getServer().getPluginManager().registerEvents(new SpecializedArrowHitEntity(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-		Bukkit.getPluginCommand("alchemicalarrows").setExecutor(new MainCommand());
-		Bukkit.getPluginCommand("givearrow").setExecutor(new GiveArrowsCommand());
+		getServer().getPluginManager().registerEvents(new Recipes(), this);
+		Bukkit.getPluginCommand("alchemicalarrows").setExecutor(new MainCommand(this));
+		Bukkit.getPluginCommand("givearrow").setExecutor(new GiveArrowsCommand(this));
 		
-		this.config = getConfig();
 		saveDefaultConfig();
-		this.cfile = new File(getDataFolder(), "config.yml");
 		
 		this.getLogger().info("Loading arrows and crafting recipes");
-		Recipes.enable();
+		Recipes recipes = new Recipes();
+		recipes.enable();
 		this.getLogger().info("Enabling particle effects for specialized arrows");
 		ParticleLoop.enable();
+		this.getLogger().info("Loading language file");
+		messages = new ConfigAccessor(this, "messages.yml");
+		messages.loadConfig();
 		
 		if (getConfig().getBoolean("MetricsEnabled") == true){
 			getLogger().info("Enabling Plugin Metrics");
@@ -62,6 +62,16 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 		        	+ "Alchemical Arrows development page");
 		    }//Close if an IOException occurs
 		}//Close if pluginmetrics is enabled in config
+		
+		for (String key : getConfig().getConfigurationSection("ElementalArrows").getKeys(false)){
+			String path = "ElementalArrows." + key + ".Crafts";
+			if (getConfig().getInt(path) <= 0){
+				this.getLogger().info("Changed config key " + path + " from " + getConfig().getInt(path) + " to 1. Cannot be less than 0");
+				getConfig().set("ElementalArrows." + key + ".Crafts", 1);
+				saveConfig();
+				reloadConfig();
+			}
+		}
 	}//Close onEnable method
 	
 	@Override
@@ -123,7 +133,7 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
  *            Crafting Recipe: Arrow + Wither Skull
  *        MAGIC:
  *            - If it hits the player: Shoot the player backwards very far
- *            - If it hits the ground: Summon a random splash potion
+ *            - If it hits the ground: Summon a random lingering potion effect
  *            Crafting Recipe: Arrow + Blaze Powder
  *        FROST:
  *            - If it hits the player: Prevent the player from moving for 5 seconds

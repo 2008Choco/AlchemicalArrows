@@ -6,23 +6,33 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.ArrowType;
 import me.choco.arrows.api.Methods;
+import me.choco.arrows.utils.Messages;
 
-public class GiveArrowsCommand extends Methods implements CommandExecutor, Listener{
+public class GiveArrowsCommand extends Methods implements CommandExecutor{
+	AlchemicalArrows plugin;
+	public GiveArrowsCommand(AlchemicalArrows plugin){
+		this.plugin = plugin;
+	}
+	
+	Messages message = new Messages(plugin);
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args){
+		FileConfiguration config = plugin.messages.getConfig();
 		if (command.getName().equalsIgnoreCase("givearrow") || command.getName().equalsIgnoreCase("givearrows")){
 			if (sender instanceof Player){
 				Player player = (Player) sender;
 				if (player.hasPermission("arrows.command.givearrow")){
 					if (args.length == 0){
-						notification(player, "Invalid Arguments!");
-						notification(player, "/givearrow <arrow> [count] [player]");
+						message.sendMessage(player, config.getString("Commands.InvalidCommandSyntax"));
+						message.sendMessage(player, "/givearrow <arrow> [count] [player]");
 						return true;
 					}//Close if there's 0 arguments
 					
@@ -33,23 +43,23 @@ public class GiveArrowsCommand extends Methods implements CommandExecutor, Liste
 							if (isInteger(args[1])){
 								giveCount = Integer.parseInt(args[1]);
 								if (giveCount <= 0){
-									notification(player, "Invalid integer " + giveCount + ". Must be a minimum of 1");
+									message.sendMessage(player, config.getString("Commands.GiveArrow.InvalidInteger").replaceAll("%giveCount%", String.valueOf(giveCount)));
 									return true;
 								}//Close if giveCount == 0
 							}//Close if it's an integer
 							else{
-								notification(player, args[1] + " is not an integer");
+								message.sendMessage(player, config.getString("Commands.GiveArrow.InvalidCountArgument").replaceAll("%giveCount%", String.valueOf(giveCount)));
 								return true;
 							}
 						}//Close if there's a 3rd argument
 						if (args.length == 3){
 							if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[2]))){
 								targetPlayer = Bukkit.getPlayer(args[2]);
-								notification(player, "Given " + giveCount + " " + args[0] + " arrows to "
-										+ targetPlayer.getName());
+								message.sendMessage(player, config.getString("Commands.GiveArrow.Success").replaceAll("%giveCount%", String.valueOf(giveCount)).replaceAll("%arrowType%", args[0]).replaceAll("%player%", targetPlayer.getName()));
 							}//Close if player is online
 							else{
-								notification(player, "That player (" + args[2] + ") is not online");
+								message.sendMessage(player, config.getString("Commands.PlayerNotOnline").replaceAll("%player%", args[2]));
+								return true;
 							}//Close if player is not online
 						}//Close if a player is specified
 						switch(args[0]){
@@ -110,7 +120,7 @@ public class GiveArrowsCommand extends Methods implements CommandExecutor, Liste
 							targetPlayer.playSound(targetPlayer.getLocation(), Sound.ITEM_PICKUP, 1, 1);
 							break;
 						default:
-							notification(player, "Invalid arrow type! Available arrow types:");
+							message.sendMessage(player, config.getString("Commands.GiveArrow.InvalidArrowType"));
 							String arrowTypes = "";
 							for (ArrowType type : ArrowType.values()){
 								arrowTypes = arrowTypes + type.toString().toLowerCase() + ", ";
@@ -122,7 +132,7 @@ public class GiveArrowsCommand extends Methods implements CommandExecutor, Liste
 					}//Close if there are more than one arguments
 				}//Close if permissions == true
 				else{
-					notification(player, "You do not have the sufficient permissions to run this command");
+					message.sendMessage(player, config.getString("Commands.NoPermission"));
 					return true;
 				}//Close if perissions == false
 			}//Close if sender is player

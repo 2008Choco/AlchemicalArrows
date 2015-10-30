@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -15,19 +16,23 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.ArrowType;
-import me.choco.arrows.api.Methods;
 import me.choco.arrows.api.events.SpecializedArrowShootEvent;
+import me.choco.arrows.utils.Messages;
 
 public class ProjectileShoot implements Listener{
+	AlchemicalArrows plugin;
+	public ProjectileShoot(AlchemicalArrows plugin){
+		this.plugin = plugin;
+	}
 	
-	Plugin AA = Bukkit.getServer().getPluginManager().getPlugin("AlchemicalArrows");
+	Messages message = new Messages(plugin);
 	
 	@EventHandler
 	public void onProjectileLaunch(ProjectileLaunchEvent event){
+		FileConfiguration config = plugin.messages.getConfig();
 		if (event.getEntity().getType() == EntityType.ARROW){
 			Arrow arrow = (Arrow) event.getEntity();
 			if (arrow.getShooter() instanceof Player){
@@ -46,7 +51,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire an air arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "an air arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Air Arrow"
 					
@@ -60,7 +65,8 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire an earth arrow");
+
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "an earth arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Air Arrow"
 					
@@ -74,7 +80,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a magic arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a magic arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Magic Arrow"
 					
@@ -88,7 +94,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire an ender arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "an ender arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItems' name == "Spectral Arrow"
 					
@@ -102,7 +108,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a life arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a life arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Life Arrow"
 					
@@ -116,7 +122,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a death arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a death arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Death Arrow"
 					
@@ -130,7 +136,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a light arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a light arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Light Arrow"
 					
@@ -144,7 +150,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a darkness arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a darkness arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Darkness Arrow"
 					
@@ -161,7 +167,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a fire arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a fire arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Fire Arrow"
 					
@@ -175,7 +181,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a frost arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a frost arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Frost Arrow"
 					
@@ -189,7 +195,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a water arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a water arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Water Arrow"
 					
@@ -203,7 +209,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a necrotic arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a necrotic arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Necrotic Arrow"
 					
@@ -217,7 +223,7 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a water arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a water arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Confusion Arrow"
 					
@@ -231,27 +237,29 @@ public class ProjectileShoot implements Listener{
 						}//Close if permissions == true
 						else{
 							event.setCancelled(true);
-							Methods.notification(player, "You don't have permission to fire a magnetic arrow");
+							message.sendMessage(player, config.getString("Events.NoPermissionToShootArrow").replaceAll("%arrow%", "a magnetic arrow"));
 						}//Close if permissions == false
 					}//Close if arrowItem's name == "Magnetic Arrow"
 					
 					//INFINITY ARROW HANDLING:
 					
-					if (player.getItemInHand().containsEnchantment(Enchantment.ARROW_INFINITE)
-							&& AlchemicalArrows.specializedArrows.contains(arrow)
-							&& !(player.getGameMode() == GameMode.CREATIVE)){
-						if (arrowItem.getAmount() > 1){
-							arrowItem.setAmount(arrowItem.getAmount() - 1);
-						}//Close if there is more than one item
-						else{
-							player.getInventory().clear(arrowSlot);
-						}//Close if there is only one left
-					}//Close if the bow is an infinite bow
+					if (!plugin.getConfig().getBoolean("AllowInfinity")){
+						if (player.getItemInHand().containsEnchantment(Enchantment.ARROW_INFINITE)
+								&& AlchemicalArrows.specializedArrows.contains(arrow)
+								&& !(player.getGameMode() == GameMode.CREATIVE)){
+							if (arrowItem.getAmount() > 1){
+								arrowItem.setAmount(arrowItem.getAmount() - 1);
+							}//Close if there is more than one item
+							else{
+								player.getInventory().clear(arrowSlot);
+							}//Close if there is only one left
+						}//Close if the bow is an infinite bow
+					}
 				}
 			}//Close if the shooter is a player
 			
 			if (arrow.getShooter() instanceof Skeleton){
-				if (AA.getConfig().getBoolean("SkeletonsShootSpecializedArrows")){
+				if (plugin.getConfig().getBoolean("SkeletonsShootSpecializedArrows")){
 					Random random = new Random();
 					int randomInt = random.nextInt(100);
 					if (randomInt < ArrowType.values().length){

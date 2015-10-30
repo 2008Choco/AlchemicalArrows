@@ -1,6 +1,6 @@
 name: AlchemicalArrows
 main: me.choco.arrows.AlchemicalArrows
-version: 1.1.4
+version: 1.2.3
 description: New arrows with special effects when hitting the ground or a player
 author: 2008Choco
 softdepends: [WorldGuard]
@@ -32,6 +32,24 @@ permissions:
             arrows.shoot.confusion: true
             arrows.shoot.necrotic: true
             arrows.shoot.magnetic: true
+    arrows.craft.*:
+        description: Allow the ability to craft every type of arrow available
+        default: true
+        children:
+            arrows.craft.air: true
+            arrows.craft.earth: true
+            arrows.craft.magic: true
+            arrows.craft.ender: true
+            arrows.craft.life: true
+            arrows.craft.death: true
+            arrows.craft.light: true
+            arrows.craft.darkness: true
+            arrows.craft.fire: true
+            arrows.craft.frost: true
+            arrows.craft.water: true
+            arrows.craft.confusion: true
+            arrows.craft.necrotic: true
+            arrows.craft.magnetic: true
     arrows.command.*:
         description: Allow the ability to use all administrative commands
         default: op

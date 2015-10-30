@@ -1,18 +1,10 @@
 package me.choco.arrows.api;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class Methods implements Listener{
-	
-	public static void notification(Player player, String message){
-		player.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + message);
-	}//Close notification method
-	
+public class Methods{
 	public static ItemStack createSpecializedArrow(int arrowCount, String displayName){
 		ItemStack arrow = new ItemStack(Material.ARROW, arrowCount);
 		ItemMeta arrowMeta = arrow.getItemMeta();

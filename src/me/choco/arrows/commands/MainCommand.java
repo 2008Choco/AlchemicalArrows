@@ -7,26 +7,34 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import me.choco.arrows.AlchemicalArrows;
-import me.choco.arrows.api.Methods;
+import me.choco.arrows.utils.Messages;
 
 public class MainCommand implements CommandExecutor, Listener{
+	AlchemicalArrows plugin;
+	public MainCommand(AlchemicalArrows plugin){
+		this.plugin = plugin;
+	}
+	
+	Messages message = new Messages(plugin);
 	
 	Plugin AA = Bukkit.getPluginManager().getPlugin("AlchemicalArrows");
-	private static String APIVersion = "1.8.8-AA0.4";
+	private String APIVersion = "1.8.8-AA0.4.1";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+		FileConfiguration config = plugin.messages.getConfig();
 		if (command.getName().equalsIgnoreCase("alchemicalarrows") || command.getName().equalsIgnoreCase("aa")){
 			if (sender instanceof Player){
 				Player player = (Player) sender;
 				if (args.length == 0){
-					Methods.notification(player, "Invalid Arguments!");
+					message.sendMessage(player, "Commands.InvalidSyntax");
 					return false;
 				}//Close if there are no arguments
 				if (args.length >= 1){
@@ -40,15 +48,14 @@ public class MainCommand implements CommandExecutor, Listener{
 									AlchemicalArrows.specializedArrows.remove(arrow);
 									arrow.remove();
 								}//Close iterate through all arrows
-								Methods.notification(player, "Successfully removed " + ChatColor.AQUA + arrowCount
-										+ ChatColor.GRAY + " specialized arrows from the world, and wiped them from memory");
+								message.sendMessage(player, config.getString("Commands.MainCommand.RemovedArrows").replaceAll("%arrowCount%", ChatColor.AQUA + String.valueOf(arrowCount) + ChatColor.GRAY));
 							}//Close if there's more than 0 arrows in the world
 							else{
-								Methods.notification(player, "No arrows in the world to remove");
+								message.sendMessage(player, config.getString("Commands.MainCommand.NoArrowsToRemove"));
 							}//Close if there's 0 arrows in the world
 						}//Close if permissions == true
 						else{
-							Methods.notification(player, "You do not have the sufficient permissions to run this command");
+							message.sendMessage(player, config.getString("Commands.NoPermission"));
 						}//Close if permissions == false
 						return true;
 					}//Close if args 1 is "killAllArrows"
@@ -68,10 +75,10 @@ public class MainCommand implements CommandExecutor, Listener{
 					if (args[0].equalsIgnoreCase("reload")){
 						if (player.hasPermission("arrows.command.reload")){
 							AA.reloadConfig();
-							Methods.notification(player, ChatColor.GREEN + "Successfully reloaded configuration");
+							message.sendMessage(player, config.getString("Commands.MainCommand.ReloadedConfig"));
 						}//Close if permissions == true
 						else{
-							Methods.notification(player, "You do not have the sufficient permissions to run this command");
+							message.sendMessage(player, config.getString("Commands.NoPermission"));
 						}//Close if permissions == false
 						return true;
 					}//Close if args 1 is "reload"

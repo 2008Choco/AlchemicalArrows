@@ -1,10 +1,12 @@
 package me.choco.arrows.events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -33,8 +35,10 @@ public class ProjectileHitEntity implements Listener{
 						if (!AA.getConfig().getBoolean("ShooterCanAffectSelf") && arrow.getShooter() == arrow.getShooter())
 							specializedArrowHitEntityEvent.setCancelled(true);
 						
-						if (!specializedArrowHitEntityEvent.isCancelled()){
+						if (!specializedArrowHitEntityEvent.isCancelled() || !event.isCancelled()){
 							ArrowHandling.arrowEffects(event, damaged, arrow);
+							if (arrow.getShooter() instanceof Player)
+								((Player)arrow.getShooter()).playSound(((Player)arrow.getShooter()).getLocation(), Sound.NOTE_PLING, 1, 1);
 						}//Close if specializedArrowHitEntityEvent isn't cancelled
 						else{
 							event.setCancelled(true);

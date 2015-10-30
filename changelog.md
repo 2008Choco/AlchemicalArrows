@@ -11,6 +11,46 @@ This is where you will find the official changelog of all releases of *Alchemica
 ## Official Releases ##
 - - - - - - - - - -
 
+### Release 1.2.3 ###
+* Fixed an incompatability bug with many griefing prevention / generic plugins (GriefPrevention, WorldGuard, ExtraHardMode, etc.)
+* Played a ding sound when you hit a mob to notify you that you hit the mob (just like a regular arrow would)
+* Potentially fixed not receiving the kill when killing a mob with a specialized arrow
+* Fixed ArrayIndexOutOfBoundsException spamming the console when a crafting recipe with 1 item is being used (sorry ;-;)
+
+### Release 1.2.2 ###
+* Fixed data values in recipes not working properly (wither skulls, charcoal, etc.)
+* Added a new general configuration option, AllowInfinity (default: false), to toggle whether infinity bows can be used with alchemical arrows or not
+* Added a check in the onEnable method to filter through all Crafts configuratino options. If less than 0, it will automatically set it to 1 (Can't have 0 or less (infinite) arrows as a result anymore)
+* |-> If you want to allow infinite arrows, use the new AllowInfinity configuration option
+
+### Release 1.2.1 ###
+* Changed the way blocked recipes are handled. They will no longer appear as a valid recipe if an alchemical arrow is used or if you don't have permission to craft it
+* Fixed the permission nodes for recipes not working properly
+* Fixed the recipes still accepting alchemical arrows
+* Fixed not being able to use named arrows, arrows with lore, or enchanted arrows in AlchemicalArrow crafting recipes
+* Changed the way specialized arrows are checked when used in a crafting recipe
+
+### Release 1.2.0 ###
+* Added a new permission nodes (and 14 child permission nodes)
+* Similar to the arrows.shoot.\* permission node, there is now a arrows.craft.\* permission node to allow crafting recipes. Default: true (for all children nodes)
+* Changed the parameters for many of the recipe methods
+* Removed the "notification" method from the API's Methods class
+* Removed many static references and replaced them with constructors w/ parameters to an instance of the plugin
+* Created a Messages class to send a message to a player
+* Added the generation of a messages.yml file to change all messages in the plugin (language /customization support)
+* Added a ConfigAccessor class in the utils package for easy access to the messages.yml file (or other configs ;D)
+* Fixed the /givearrow command giving the sender of the command arrows if an offline player is specified
+
+### Release 1.1.6 ###
+* Added an instance of "Recipes" in the main class
+* Fixed alchemical arrows being craftable with alchemical arrows in the recipe
+* Moved all item objects outside of the Recipes class
+* Removed the static modifier on the enable() method in the Recipes class
+
+### Release 1.1.5 ###
+* Changed the way the configuration is handled when enabling (more efficient)
+* Removed unnecessary variables in the onEnable method
+
 ### Release 1.1.4 ###
 * Removed declarations of unnecessary integers in Earth and Fire Arrows
 * Removed multiple declarations of the Random class for a couple of the arrows

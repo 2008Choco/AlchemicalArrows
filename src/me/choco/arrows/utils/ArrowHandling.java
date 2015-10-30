@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
-import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -188,5 +187,6 @@ public class ArrowHandling {
 			damaged.getWorld().playSound(damaged.getLocation(), Sound.BAT_TAKEOFF, 1, 2);
 			((LivingEntity) damaged).damage(damage);
 		}//Close if arrow name is "Confusion"
+		damaged.setLastDamageCause(event);
 	}//Close arrowHandling
 }//Close class
