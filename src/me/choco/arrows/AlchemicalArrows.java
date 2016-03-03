@@ -1,161 +1,116 @@
 package me.choco.arrows;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Arrow;
+import org.bukkit.Material;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.choco.arrows.commands.GiveArrowsCommand;
-import me.choco.arrows.commands.MainCommand;
-import me.choco.arrows.events.ArrowPickup;
-import me.choco.arrows.events.PlayerJoin;
-import me.choco.arrows.events.ProjectileHitBlock;
-import me.choco.arrows.events.ProjectileHitEntity;
+import me.choco.arrows.events.ArrowHitEntity;
+import me.choco.arrows.events.ArrowHitGround;
+import me.choco.arrows.events.ArrowHitPlayer;
 import me.choco.arrows.events.ProjectileShoot;
-import me.choco.arrows.events.SpecializedArrowHitEntity;
-import me.choco.arrows.startup.Metrics;
-import me.choco.arrows.startup.ParticleLoop;
-import me.choco.arrows.startup.Recipes;
-import me.choco.arrows.utils.ConfigAccessor;
+import me.choco.arrows.utils.ArrowRegistry;
+import me.choco.arrows.utils.ItemRecipes;
+import me.choco.arrows.utils.ParticleLoop;
+import me.choco.arrows.utils.arrows.AirArrow;
+import me.choco.arrows.utils.arrows.ConfusionArrow;
+import me.choco.arrows.utils.arrows.DarknessArrow;
+import me.choco.arrows.utils.arrows.DeathArrow;
+import me.choco.arrows.utils.arrows.EarthArrow;
+import me.choco.arrows.utils.arrows.EnderArrow;
+import me.choco.arrows.utils.arrows.FireArrow;
+import me.choco.arrows.utils.arrows.FrostArrow;
+import me.choco.arrows.utils.arrows.LifeArrow;
+import me.choco.arrows.utils.arrows.LightArrow;
+import me.choco.arrows.utils.arrows.MagicArrow;
+import me.choco.arrows.utils.arrows.MagneticArrow;
+import me.choco.arrows.utils.arrows.NecroticArrow;
+import me.choco.arrows.utils.arrows.WaterArrow;
 
 public class AlchemicalArrows extends JavaPlugin{
 	
-	public ConfigAccessor messages;
-	public static ArrayList<Arrow> specializedArrows = new ArrayList<Arrow>();
+	private static AlchemicalArrows instance;
+	private ArrowRegistry registry;
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
-		getServer().getPluginManager().registerEvents(new ProjectileShoot(this), this);
-		getServer().getPluginManager().registerEvents(new ProjectileHitEntity(), this);
-		getServer().getPluginManager().registerEvents(new ProjectileHitBlock(), this);
-		getServer().getPluginManager().registerEvents(new ArrowPickup(), this);
-		getServer().getPluginManager().registerEvents(new SpecializedArrowHitEntity(this), this);
-		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
-		getServer().getPluginManager().registerEvents(new Recipes(), this);
-		Bukkit.getPluginCommand("alchemicalarrows").setExecutor(new MainCommand(this));
-		Bukkit.getPluginCommand("givearrow").setExecutor(new GiveArrowsCommand(this));
+		instance = this;
+		registry = new ArrowRegistry(this);
 		
-		saveDefaultConfig();
+		//Enable the particle loop
+		new ParticleLoop(this).runTaskTimerAsynchronously(this, 0L, 1L);
 		
-		this.getLogger().info("Loading arrows and crafting recipes");
-		Recipes recipes = new Recipes();
-		recipes.enable();
-		this.getLogger().info("Enabling particle effects for specialized arrows");
-		ParticleLoop.enable();
-		this.getLogger().info("Loading language file");
-		messages = new ConfigAccessor(this, "messages.yml");
-		messages.loadConfig();
+		//Register events
+		this.getLogger().info("Registering events");
+		Bukkit.getPluginManager().registerEvents(new ArrowHitEntity(this), this);
+		Bukkit.getPluginManager().registerEvents(new ArrowHitGround(this), this);
+		Bukkit.getPluginManager().registerEvents(new ArrowHitPlayer(this), this);
+		Bukkit.getPluginManager().registerEvents(new ProjectileShoot(this), this);
+		Bukkit.getPluginManager().registerEvents(new ItemRecipes(), this);
 		
-		if (getConfig().getBoolean("MetricsEnabled") == true){
-			getLogger().info("Enabling Plugin Metrics");
-		    try{
-		        Metrics metrics = new Metrics(this);
-		        metrics.start();
-		    }
-		    catch (IOException e){
-		    	e.printStackTrace();
-		        getLogger().warning("Could not enable Plugin Metrics. If issues continue, please put in a ticket on the "
-		        	+ "Alchemical Arrows development page");
-		    }
-		}
+		//Arrow registry
+		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.airArrow, AirArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.confusionArrow, ConfusionArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.darknessArrow, DarknessArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.deathArrow, DeathArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.earthArrow, EarthArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.enderArrow, EnderArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.fireArrow, FireArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.frostArrow, FrostArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.lifeArrow, LifeArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.lightArrow, LightArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.magicArrow, MagicArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.magneticArrow, MagneticArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.necroticArrow, NecroticArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.waterArrow, WaterArrow.class);
 		
-		for (String key : getConfig().getConfigurationSection("ElementalArrows").getKeys(false)){
-			String path = "ElementalArrows." + key + ".Crafts";
-			if (getConfig().getInt(path) <= 0){
-				this.getLogger().info("Changed config key " + path + " from " + getConfig().getInt(path) + " to 1. Cannot be less than 0");
-				getConfig().set("ElementalArrows." + key + ".Crafts", 1);
-				saveConfig();
-				reloadConfig();
-			}
-		}
+		//Register crafting recipes
+		this.getLogger().info("Registering recipes");
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.airArrow).addIngredient(Material.ARROW).addIngredient(Material.FEATHER));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.confusionArrow).addIngredient(Material.ARROW).addIngredient(Material.POISONOUS_POTATO));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL, (byte) 1));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.deathArrow).addIngredient(Material.ARROW).addIngredient(Material.SKULL_ITEM, (byte) 1));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.earthArrow).addIngredient(Material.ARROW).addIngredient(Material.DIRT));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.enderArrow).addIngredient(Material.ARROW).addIngredient(Material.EYE_OF_ENDER));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.fireArrow).addIngredient(Material.ARROW).addIngredient(Material.FIREBALL));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.frostArrow).addIngredient(Material.ARROW).addIngredient(Material.SNOW_BALL));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.lifeArrow).addIngredient(Material.ARROW).addIngredient(Material.SPECKLED_MELON));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.lightArrow).addIngredient(Material.ARROW).addIngredient(Material.GLOWSTONE_DUST));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.magicArrow).addIngredient(Material.ARROW).addIngredient(Material.BLAZE_POWDER));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.magneticArrow).addIngredient(Material.ARROW).addIngredient(Material.IRON_INGOT));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.necroticArrow).addIngredient(Material.ARROW).addIngredient(Material.ROTTEN_FLESH));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.waterArrow).addIngredient(Material.ARROW).addIngredient(Material.WATER_BUCKET));
 	}
 	
 	@Override
-	public void onDisable(){
-		getLogger().info("Removing all arrows from the world");
-		int arrowCount = specializedArrows.size();
-		if (arrowCount >= 1){
-			for (Iterator<Arrow> it = specializedArrows.iterator(); it.hasNext();){
-				Arrow arrow = it.next();
-				it.remove();
-				specializedArrows.remove(arrow);
-				arrow.remove();
-			}
-		}
-		specializedArrows.clear();
-		Recipes.disabledArrows.clear();
+	public void onDisable() {
+		registry.getRegisteredArrows().clear();
+		ArrowRegistry.getArrowRegistry().clear();
+	}
+	
+	public static AlchemicalArrows getPlugin(){
+		return instance;
+	}
+	
+	public ArrowRegistry getArrowRegistry(){
+		return registry;
 	}
 }
 
-/* ARROW TYPES:
+/* 2.0 CHANGELOG:
  * 
- *    ELEMENTAL ARROWS:
- *    
- *        EARTH:
- *            - If it hits the player: Teleport the player in the ground and give them slowness for 5 seconds
- *            - If it hits the ground: create a seismic ripple damaging all players in range
- *            Crafting Recipe: Arrow + Dirt
- *        FIRE:
- *            - If it hits the player: Display fire rings around the player which will randomly harm them
- *            - If it hits the ground: Hitting a flammable block, fire spreads quickly around the arrow
- *            Crafting Recipe: Arrow + Fire Charge
- *        WATER:
- *            - If it hits the player: Shoot 3x as fast underwater
- *            - If it hits the ground: Mini tsunami in the direction it landed?
- *            Crafting Recipe: Arrow + Water Bucket
- *        AIR:
- *            - If it hits the player: Lift the player in the air a random amount of blocks
- *            - If it hits the ground: Create a tiny tornado?
- *            Crafting Recipe: Arrow + Feather
- *        ENDER:
- *            - If it hits the player: Teleport the shooter to the player it hits
- *            - If it hits the ground: Teleport the player to the location the arrow landed
- *            Crafting Recipe: Arrow + Eye of Ender
- *        DARKNESS:
- *            - If it hits the player: Give the player a blindness effect
- *            - If it hits the ground: Destroy nearby torches?
- *            Crafting Recipe: Arrow + Coal
- *        LIGHT:
- *            - If it hits the player: Make the player look upwards and lightning strike him
- *            - If it hits the ground: Place a torch on the area it lands
- *            Crafting Recipe: Arrow + Glowstone Dust
- *        LIFE:
- *            - If it hits the player: Heal the player it hits
- *            - If it hits the ground: Place flowers around the arrow
- *            Crafting Recipe: Arrow + Speckled Melon
- *        DEATH:
- *            - If it hits the player: Instantly kill the player it hits (EXPENSIVE! COSTS WITHER SKULLS!)
- *            - If it hits the ground: Kill all floral life and mobs (excluding players) around it
- *            Crafting Recipe: Arrow + Wither Skull
- *        MAGIC:
- *            - If it hits the player: Shoot the player backwards very far
- *            - If it hits the ground: Summon a random lingering potion effect
- *            Crafting Recipe: Arrow + Blaze Powder
- *        FROST:
- *            - If it hits the player: Prevent the player from moving for 5 seconds
- *            - If it hits the ground: Let the ground freeze over (snow layers)
- *            - SPECIAL (While in air): Freeze all water it traverses into ice
- *            Crafting Recipe: Arrow + Snowball
- *        CONFUSION:
- *            - If it hits the player: Confuse them and turn them around
- *            - If it hits the ground: N/A (TODO)
- *            Crafting Recipe: Arrow + Poisonous Potato
- *        NECROTIC:
- *            - If it hits the player: All hostile mobs in a 50 block radius are hostile towards that player
- *            - If it hits the ground: Summon a Zombie and kill the arrow?
- *            Crafting Recipe: Arrow + Rotten Flesh?
- *        MAGNETIC:
- *            - If it hits a player: Launch them towards the player that shot the arrow
- *            - If it hits the ground: Attract all items in a radius towards the arrow
- *            Crafting Recipe: Arrow + Iron Ingot
  */
 
-/* TODO LIST
- * MainCommand:
- *     Sub-command for information about the individual arrows, "/aa info <arrow>"
- * General:
- *     Allow the ability to shoot arrows from dispensers
+/* PLANS
+ * AlchemicalArrow interface class
+ * A class that implements AlchemicalArrow for every arrow
+ * Create a listener that runs the default AlchemicalArrow method
+ * 
+ * Entire goal of the rewrite:
+ *     Make it so that it's infinitely expandable for developers to create their own arrows
+ *     Remove the idea that all arrows are fixed within code, because they shouldn't be
+ *       -> AlchemicalArrows should be expandable
  */
