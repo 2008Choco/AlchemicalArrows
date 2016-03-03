@@ -13,7 +13,7 @@ public class ProjectileHitBlock implements Listener{
 			Arrow arrow = (Arrow) event.getEntity();
 			if (arrow.isOnGround()){
 				
-			}//Close 
-		}//Close if projectile is an arrow
-	}//Close onProjectileHitBlock
-}//Close class
+			}
+		}
+	}
+}

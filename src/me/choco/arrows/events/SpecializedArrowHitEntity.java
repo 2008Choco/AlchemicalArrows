@@ -25,6 +25,8 @@ public class SpecializedArrowHitEntity implements Listener{
 	
 	int temp = 0;
 	
+	//TODO: Rewrite this COMPLETELY
+	
 	@EventHandler
 	public void specialArrowHitEntity(SpecializedArrowHitEntityEvent event){
 		FileConfiguration config = plugin.messages.getConfig();
@@ -38,7 +40,7 @@ public class SpecializedArrowHitEntity implements Listener{
 					event.setCancelled(true);
 					message.sendMessage(shooter, config.getString("Events.CannotShootInsideRegion"));
 					temp = 1;
-				}//Close if PvP is DENIED
+				}
 				
 				//IF DAMAGED IS IN A PVP DENIED AREA
 				if (shooter != damaged){
@@ -47,10 +49,10 @@ public class SpecializedArrowHitEntity implements Listener{
 						event.setCancelled(true);
 						message.sendMessage(shooter, config.getString("Events.CannotShootPlayerInsideRegion"));
 						temp = 1;
-					}//Close if PvP is DENIED
-				}//Close if shooter isn't themselves
+					}
+				}
 				temp = 0;
-			}//Close if WorldGuard is installed
-		}//Close if the entity shot was a player
-	}//Close SpecializedArrowHitEntity event
-}//Close class
+			}
+		}
+	}
+}

@@ -31,49 +31,33 @@ public enum ArrowType{
 	public static ArrowType getArrowType(Arrow arrow){
 		if (arrow.hasMetadata("Air")){
 			return ArrowType.AIR;
-		}
-		if (arrow.hasMetadata("Earth")){
+		}else if (arrow.hasMetadata("Earth")){
 			return ArrowType.EARTH;
-		}
-		if (arrow.hasMetadata("Magic")){
+		}else if (arrow.hasMetadata("Magic")){
 			return ArrowType.MAGIC;
-		}
-		if (arrow.hasMetadata("Ender")){
+		}else if (arrow.hasMetadata("Ender")){
 			return ArrowType.ENDER;
-		}
-		if (arrow.hasMetadata("Life")){
+		}else if (arrow.hasMetadata("Life")){
 			return ArrowType.LIFE;
-		}
-		if (arrow.hasMetadata("Death")){
+		}else if (arrow.hasMetadata("Death")){
 			return ArrowType.DEATH;
-		}
-		if (arrow.hasMetadata("Light")){
+		}else if (arrow.hasMetadata("Light")){
 			return ArrowType.LIGHT;
-		}
-		if (arrow.hasMetadata("Darkness")){
+		}else if (arrow.hasMetadata("Darkness")){
 			return ArrowType.DARKNESS;
-		}
-		if (arrow.hasMetadata("Fire")){
+		}else if (arrow.hasMetadata("Fire")){
 			return ArrowType.FIRE;
-		}
-		if (arrow.hasMetadata("Frost")){
+		}else if (arrow.hasMetadata("Frost")){
 			return ArrowType.FROST;
-		}
-		if (arrow.hasMetadata("Water")){
+		}else if (arrow.hasMetadata("Water")){
 			return ArrowType.WATER;
-		}
-		if (arrow.hasMetadata("Necrotic")){
+		}else if (arrow.hasMetadata("Necrotic")){
 			return ArrowType.NECROTIC;
-		}
-		if (arrow.hasMetadata("Confusion")){
+		}else if (arrow.hasMetadata("Confusion")){
 			return ArrowType.CONFUSION;
-		}
-		if (arrow.hasMetadata("Magnetic")){
+		}else if (arrow.hasMetadata("Magnetic")){
 			return ArrowType.MAGNETIC;
-		}
-		else{
-			return null;
-		}
+		}else{ return null; }
 	}
 	
 	public static void setArrowType(Arrow arrow, ArrowType type){
@@ -134,8 +118,10 @@ public enum ArrowType{
 			arrow.setMetadata("Magnetic", new FixedMetadataValue(AA, arrow));
 			arrow.setCustomName(ChatColor.GRAY + "Magnetic");
 			break;
+		default:
+			break;
 		}
 		arrow.setCustomNameVisible(AA.getConfig().getBoolean("DisplayArrowTags"));
 		AlchemicalArrows.specializedArrows.add(arrow);
 	}
-}//Close ArrowType enum
+}

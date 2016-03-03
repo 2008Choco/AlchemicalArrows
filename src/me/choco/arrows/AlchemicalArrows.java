@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.choco.arrows.commands.GiveArrowsCommand;
@@ -22,7 +21,7 @@ import me.choco.arrows.startup.ParticleLoop;
 import me.choco.arrows.startup.Recipes;
 import me.choco.arrows.utils.ConfigAccessor;
 
-public class AlchemicalArrows extends JavaPlugin implements Listener{
+public class AlchemicalArrows extends JavaPlugin{
 	
 	public ConfigAccessor messages;
 	public static ArrayList<Arrow> specializedArrows = new ArrayList<Arrow>();
@@ -55,13 +54,13 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 		    try{
 		        Metrics metrics = new Metrics(this);
 		        metrics.start();
-		    }//Close an attempt to start metrics
+		    }
 		    catch (IOException e){
 		    	e.printStackTrace();
 		        getLogger().warning("Could not enable Plugin Metrics. If issues continue, please put in a ticket on the "
 		        	+ "Alchemical Arrows development page");
-		    }//Close if an IOException occurs
-		}//Close if pluginmetrics is enabled in config
+		    }
+		}
 		
 		for (String key : getConfig().getConfigurationSection("ElementalArrows").getKeys(false)){
 			String path = "ElementalArrows." + key + ".Crafts";
@@ -72,7 +71,7 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 				reloadConfig();
 			}
 		}
-	}//Close onEnable method
+	}
 	
 	@Override
 	public void onDisable(){
@@ -84,12 +83,12 @@ public class AlchemicalArrows extends JavaPlugin implements Listener{
 				it.remove();
 				specializedArrows.remove(arrow);
 				arrow.remove();
-			}//Close iterate through all arrows
-		}//Close if there's more than 0 arrows in the world
+			}
+		}
 		specializedArrows.clear();
 		Recipes.disabledArrows.clear();
-	}//Close onDisable method
-}//Close class
+	}
+}
 
 /* ARROW TYPES:
  * 

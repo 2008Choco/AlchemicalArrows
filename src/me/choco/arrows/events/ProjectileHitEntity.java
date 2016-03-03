@@ -38,14 +38,14 @@ public class ProjectileHitEntity implements Listener{
 						if (!specializedArrowHitEntityEvent.isCancelled() || !event.isCancelled()){
 							ArrowHandling.arrowEffects(event, damaged, arrow);
 							if (arrow.getShooter() instanceof Player)
-								((Player)arrow.getShooter()).playSound(((Player)arrow.getShooter()).getLocation(), Sound.NOTE_PLING, 1, 1);
-						}//Close if specializedArrowHitEntityEvent isn't cancelled
+								((Player)arrow.getShooter()).playSound(((Player)arrow.getShooter()).getLocation(), Sound.BLOCK_NOTE_PLING, 1, 1);
+						}
 						else{
 							event.setCancelled(true);
-						}//Close if the event is cancelled
-					}//Close if damaged is a LIVING entity
-				}//Close if PvP is enabled
-			}//Close if arrow has a name
-		}//Close if projectile is an arrow
-	}//Close onProjectileHitBlock
-}//Close class
+						}
+					}
+				}
+			}
+		}
+	}
+}

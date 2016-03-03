@@ -10,13 +10,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.utils.Messages;
 
-public class MainCommand implements CommandExecutor, Listener{
+public class MainCommand implements CommandExecutor{
 	AlchemicalArrows plugin;
 	public MainCommand(AlchemicalArrows plugin){
 		this.plugin = plugin;
@@ -36,7 +35,7 @@ public class MainCommand implements CommandExecutor, Listener{
 				if (args.length == 0){
 					message.sendMessage(player, "Commands.InvalidSyntax");
 					return false;
-				}//Close if there are no arguments
+				}
 				if (args.length >= 1){
 					if (args[0].equalsIgnoreCase("killallarrows")){
 						if (player.hasPermission("arrows.command.killallarrows")){
@@ -47,18 +46,18 @@ public class MainCommand implements CommandExecutor, Listener{
 									it.remove();
 									AlchemicalArrows.specializedArrows.remove(arrow);
 									arrow.remove();
-								}//Close iterate through all arrows
+								}
 								message.sendMessage(player, config.getString("Commands.MainCommand.RemovedArrows").replaceAll("%arrowCount%", ChatColor.AQUA + String.valueOf(arrowCount) + ChatColor.GRAY));
-							}//Close if there's more than 0 arrows in the world
+							}
 							else{
 								message.sendMessage(player, config.getString("Commands.MainCommand.NoArrowsToRemove"));
-							}//Close if there's 0 arrows in the world
-						}//Close if permissions == true
+							}
+						}
 						else{
 							message.sendMessage(player, config.getString("Commands.NoPermission"));
-						}//Close if permissions == false
+						}
 						return true;
-					}//Close if args 1 is "killAllArrows"
+					}
 					
 					if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("info")){
 						player.sendMessage(ChatColor.GOLD + "--------------------------------------------");
@@ -70,21 +69,21 @@ public class MainCommand implements CommandExecutor, Listener{
 						player.sendMessage("");
 						player.sendMessage(ChatColor.GOLD + "--------------------------------------------");
 						return true;
-					}//Close if args 1 is "version"
+					}
 					
 					if (args[0].equalsIgnoreCase("reload")){
 						if (player.hasPermission("arrows.command.reload")){
 							AA.reloadConfig();
 							message.sendMessage(player, config.getString("Commands.MainCommand.ReloadedConfig"));
-						}//Close if permissions == true
+						}
 						else{
 							message.sendMessage(player, config.getString("Commands.NoPermission"));
-						}//Close if permissions == false
+						}
 						return true;
-					}//Close if args 1 is "reload"
-				}//Close if there are more than one arguments
-			}//Close if sender is a player
-		}//Close if command is AlchemicalArrows
+					}
+				}
+			}
+		}
 		return false;
-	}//Close onCommand method
-}//Close class
+	}
+}

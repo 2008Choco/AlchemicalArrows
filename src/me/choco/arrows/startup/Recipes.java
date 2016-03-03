@@ -54,8 +54,8 @@ public class Recipes extends Methods implements Listener{
 		
 		if (!disabledArrows.isEmpty()){
 			AA.getLogger().info("Disabled Crafting Recipes: " + disabledArrows.toString().trim());
-		}//Close if disabled arrows isn't empty
-	}//Close enable method
+		}
+	}
 	
 	private static void createRecipe(ItemStack recipeItem, Material secondaryMaterial, boolean craftable){
 		if (craftable){
@@ -153,4 +153,4 @@ public class Recipes extends Methods implements Listener{
 			event.getInventory().setResult(new ItemStack(Material.AIR));
 		}
 	}
-}//Close class
+}

@@ -18,6 +18,6 @@ public class PlayerJoin implements Listener {
 			player.sendMessage(ChatColor.GRAY + "                What's up, " + ChatColor.GOLD + "" + ChatColor.ITALIC + "" + ChatColor.BOLD + player.getName());
 			player.sendMessage(ChatColor.DARK_AQUA + "                     Version: " + ChatColor.GRAY + Bukkit.getPluginManager().getPlugin("AlchemicalArrows").getDescription().getVersion());
 			player.sendMessage(ChatColor.GOLD + "--------------------------------------------");
-		}//Close if my UUID joins
-	}//Close onPlayerJoin event
-}//Close class
+		}
+	}
+}

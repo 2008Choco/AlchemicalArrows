@@ -22,31 +22,31 @@ public class SpecializedArrowHitEntityEvent extends Event implements Cancellable
 	
 	public HandlerList getHandlers(){
 	    return handlers;
-	}//Close handler
+	}
 	 
 	public static HandlerList getHandlerList(){
 	    return handlers;
-	}//Close handler
+	}
 
 	@Override
 	public boolean isCancelled(){
 		return cancelled;
-	}//Close isCancelled method
+	}
 
 	@Override
 	public void setCancelled(boolean cancel){
 		cancelled = cancel;
-	}//Close setCancelled method
+	}
 	
 	public Entity getEntity(){
 		return damagedEntity;
-	}//Close getEntity
+	}
 	
 	public ProjectileSource getShooter(){
 		return shooter;
-	}//Close getShooter
+	}
 	
 	public Arrow getArrow(){
 		return arrow;
-	}//Close getProjectile
-}//Close SpecializedArrowHitEntityEvent event class
+	}
+}
