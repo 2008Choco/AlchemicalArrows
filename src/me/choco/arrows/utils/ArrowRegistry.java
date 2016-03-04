@@ -31,10 +31,19 @@ public class ArrowRegistry {
 	 */
 	public static void registerAlchemicalArrow(ItemStack item, Class<? extends AlchemicalArrow> clazz){
 		item.setAmount(1);
-		if (item.getType().equals(Material.ARROW))
-			arrowRegistry.put(item, clazz);
-		else { throw new IllegalArgumentException("Arrow registry requires Material Enum type of ARROW. Given " + item.getType()); }
 		
+		if (getArrowRegistry().containsKey(item)){
+			throw new IllegalArgumentException("ItemStack is already being used by class " + getArrowRegistry().get(item).getName());
+		}else if (!item.getType().equals(Material.ARROW)){
+			throw new IllegalArgumentException("Arrow registry requires Material Enum type of ARROW. Given " + item.getType()); 
+		}
+		for (Class<? extends AlchemicalArrow> refClazz : getArrowRegistry().values()){
+			if (refClazz.getSimpleName().replace("Arrow", "").equalsIgnoreCase(clazz.getSimpleName().replace("Arrow", ""))){
+				throw new IllegalArgumentException("Class " + clazz.getSimpleName() + " is already in use in package " + refClazz.getName() + ". (Change your class name)");
+			}
+		}
+		
+		arrowRegistry.put(item, clazz);
 		if (!clazz.getPackage().getName().startsWith("me.choco.arrows.utils.arrows")){
 			AlchemicalArrows.getPlugin().getLogger().info("Successfully registered external arrow from package " + clazz.getPackage().getName());
 		}

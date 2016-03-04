@@ -5,6 +5,9 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.projectiles.BlockProjectileSource;
 
 public abstract class AlchemicalArrow {
@@ -45,6 +48,15 @@ public abstract class AlchemicalArrow {
 	 * @param source The block source that shot the arrow
 	 */
 	public void onShootFromBlockSource(BlockProjectileSource source){}
+	
+	/** Fired the instant before onHitPlayer() or onHitEntity() is called. Used to cancel events if necessary */
+	public void hitEntityEventHandler(EntityDamageByEntityEvent event){}
+	
+	/** Fired the instant before onHitBlock() is called. Used to cancel events if necessary */
+	public void hitGroundEventHandler(ProjectileHitEvent event){}
+	
+	/** Fired the instant before onShootFromPlayer(), onShootFromSkeleton(), or onShootFromBlockSource is called. Used to cancel events if necessary */
+	public void shootEventHandler(ProjectileLaunchEvent event){}
 	
 	/** This method will be called whilst the arrow is still alive
 	 * <br> The main intention for this is to determine the arrows particle effects, 

@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import me.choco.arrows.AlchemicalArrows;
+import me.choco.arrows.api.AlchemicalArrow;
 
 public class ArrowHitPlayer implements Listener{
 	
@@ -24,7 +25,9 @@ public class ArrowHitPlayer implements Listener{
 		Player player = (Player) event.getEntity();
 		
 		if (plugin.getArrowRegistry().isAlchemicalArrow(arrow)){
-			plugin.getArrowRegistry().getAlchemicalArrow(arrow).onHitPlayer(player);
+			AlchemicalArrow aarrow = plugin.getArrowRegistry().getAlchemicalArrow(arrow);
+			aarrow.hitEntityEventHandler(event);
+			aarrow.onHitPlayer(player);
 		}
 	}
 }

@@ -14,4 +14,8 @@ public class DarknessArrow extends AlchemicalArrow{
 	public void displayParticle(Player player) {
 		//TODO
 	}
+	
+	/* TODO
+	 * REWRITE AN IDEA FOR THIS
+	 */
 }

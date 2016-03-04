@@ -26,6 +26,8 @@ import me.choco.arrows.utils.arrows.MagicArrow;
 import me.choco.arrows.utils.arrows.MagneticArrow;
 import me.choco.arrows.utils.arrows.NecroticArrow;
 import me.choco.arrows.utils.arrows.WaterArrow;
+import me.choco.arrows.utils.commands.GiveArrowCmd;
+import me.choco.arrows.utils.commands.MainCmd;
 
 public class AlchemicalArrows extends JavaPlugin{
 	
@@ -48,6 +50,11 @@ public class AlchemicalArrows extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new ArrowHitPlayer(this), this);
 		Bukkit.getPluginManager().registerEvents(new ProjectileShoot(this), this);
 		Bukkit.getPluginManager().registerEvents(new ItemRecipes(), this);
+		
+		//Register commands
+		this.getLogger().info("Registering commands");
+		this.getCommand("alchemicalarrows").setExecutor(new MainCmd(this));
+		this.getCommand("givearrow").setExecutor(new GiveArrowCmd(this));
 		
 		//Arrow registry
 		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
@@ -100,17 +107,16 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
+/* Legacy Arrow Handling
+ * https://bitbucket.org/2008Choco/alchemicalarrows/src/1c1778740b822d7ae1fa0dc963a99703b433296b/src/me/choco/arrows/utils/ArrowHandling.java?fileviewer=file-view-default
+ */
+
 /* 2.0 CHANGELOG:
  * 
  */
 
-/* PLANS
- * AlchemicalArrow interface class
- * A class that implements AlchemicalArrow for every arrow
- * Create a listener that runs the default AlchemicalArrow method
- * 
- * Entire goal of the rewrite:
- *     Make it so that it's infinitely expandable for developers to create their own arrows
- *     Remove the idea that all arrows are fixed within code, because they shouldn't be
- *       -> AlchemicalArrows should be expandable
+/* TODO: WHAT'S LEFT LEFT TO COMPLETE
+ * Fix WorldGuard support (Wait for sk89q to update to 1.9)
+ * Configuration options
+ * Fix arrows not working when being picked up
  */

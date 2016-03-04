@@ -1,19 +1,25 @@
 package me.choco.arrows.events;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.BlockProjectileSource;
 
 import me.choco.arrows.AlchemicalArrows;
+import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ArrowRegistry;
 
 public class ProjectileShoot implements Listener{
+
+	Random random = new Random();
 	
 	AlchemicalArrows plugin;
 	ArrowRegistry registry;
@@ -38,19 +44,35 @@ public class ProjectileShoot implements Listener{
 				try{
 					registry.registerAlchemicalArrow(ArrowRegistry.getArrowRegistry().get(item).getDeclaredConstructor(Arrow.class).newInstance(arrow));
 				}catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e){
-					System.out.println("Something went wrong while attempting to register arrow " + ArrowRegistry.getArrowRegistry().get(item));
+					plugin.getLogger().info("Something went wrong while attempting to register arrow " + ArrowRegistry.getArrowRegistry().get(item));
 					e.printStackTrace(); 
 				}
 			}else{ return; }
-			plugin.getArrowRegistry().getAlchemicalArrow(arrow).onShootFromPlayer(player);
+			AlchemicalArrow aarrow = plugin.getArrowRegistry().getAlchemicalArrow(arrow);
+			aarrow.shootEventHandler(event);
+			aarrow.onShootFromPlayer(player);
 		}
-//		else if (arrow.getShooter() instanceof Skeleton){
-//			//TODO: Randomize whether skeletons can shoot arrows or not
-//			Skeleton skeleton = (Skeleton) arrow.getShooter();
-//			plugin.getArrowRegistry().getAlchemicalArrow(arrow).onShootFromSkeleton(skeleton);
-//		}else if (arrow.getShooter() instanceof BlockProjectileSource){
+		else if (arrow.getShooter() instanceof Skeleton){
+			if (random.nextInt(100) + 1 <= 10){
+				Object[] values = ArrowRegistry.getArrowRegistry().values().toArray();
+				@SuppressWarnings("unchecked")
+				Class<? extends AlchemicalArrow> randomValue = (Class<? extends AlchemicalArrow>) values[random.nextInt(values.length)];
+				try {
+					AlchemicalArrow aarrow = randomValue.getConstructor(Arrow.class).newInstance(arrow);
+					if (aarrow.skeletonsCanShoot()){
+						registry.registerAlchemicalArrow(aarrow);
+						Skeleton skeleton = (Skeleton) arrow.getShooter();
+						plugin.getArrowRegistry().getAlchemicalArrow(arrow).onShootFromSkeleton(skeleton);
+					}else{ return; }
+				}catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					plugin.getLogger().config("Something went wrong while attempting to allow a skeleton to shoot an arrow");
+					e.printStackTrace(); 
+				}
+			}
+		}else if (arrow.getShooter() instanceof BlockProjectileSource){
+//			TODO:
 //			BlockProjectileSource bps = (BlockProjectileSource) arrow.getShooter();
 //			plugin.getArrowRegistry().getAlchemicalArrow(arrow).onShootFromBlockSource(bps);
-//		}
+		}
 	}
 }

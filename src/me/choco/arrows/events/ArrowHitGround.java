@@ -8,6 +8,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.util.BlockIterator;
 
 import me.choco.arrows.AlchemicalArrows;
+import me.choco.arrows.api.AlchemicalArrow;
 
 public class ArrowHitGround implements Listener{
 	
@@ -30,7 +31,9 @@ public class ArrowHitGround implements Listener{
 				if (hitBlock.getType().isSolid()) break;
 			}
 			
-			plugin.getArrowRegistry().getAlchemicalArrow(arrow).onHitGround(hitBlock);
+			AlchemicalArrow aarrow = plugin.getArrowRegistry().getAlchemicalArrow(arrow);
+			aarrow.hitGroundEventHandler(event);
+			aarrow.onHitGround(hitBlock);
 		}
 	}
 }
