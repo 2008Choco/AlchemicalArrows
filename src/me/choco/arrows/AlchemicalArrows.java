@@ -39,6 +39,9 @@ public class AlchemicalArrows extends JavaPlugin{
 	public void onEnable(){
 		instance = this;
 		registry = new ArrowRegistry(this);
+		getConfig().options().copyDefaults(true);
+		saveConfig();
+		ItemRecipes recipes = new ItemRecipes(this);
 		
 		//Enable the particle loop
 		new ParticleLoop(this).runTaskTimerAsynchronously(this, 0L, 1L);
@@ -49,47 +52,50 @@ public class AlchemicalArrows extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new ArrowHitGround(this), this);
 		Bukkit.getPluginManager().registerEvents(new ArrowHitPlayer(this), this);
 		Bukkit.getPluginManager().registerEvents(new ProjectileShoot(this), this);
-		Bukkit.getPluginManager().registerEvents(new ItemRecipes(), this);
+		//TODO Bukkit.getPluginManager().registerEvents(new PickupArrow(this), this);
+		Bukkit.getPluginManager().registerEvents(recipes, this);
 		
 		//Register commands
 		this.getLogger().info("Registering commands");
 		this.getCommand("alchemicalarrows").setExecutor(new MainCmd(this));
+			this.getCommand("alchemicalarrows").setTabCompleter(new MainCmd(this));
 		this.getCommand("givearrow").setExecutor(new GiveArrowCmd(this));
-		
-		//Arrow registry
-		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.airArrow, AirArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.confusionArrow, ConfusionArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.darknessArrow, DarknessArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.deathArrow, DeathArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.earthArrow, EarthArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.enderArrow, EnderArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.fireArrow, FireArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.frostArrow, FrostArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.lifeArrow, LifeArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.lightArrow, LightArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.magicArrow, MagicArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.magneticArrow, MagneticArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.necroticArrow, NecroticArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.waterArrow, WaterArrow.class);
+			this.getCommand("givearrow").setTabCompleter(new GiveArrowCmd(this));
 		
 		//Register crafting recipes
 		this.getLogger().info("Registering recipes");
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.airArrow).addIngredient(Material.ARROW).addIngredient(Material.FEATHER));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.confusionArrow).addIngredient(Material.ARROW).addIngredient(Material.POISONOUS_POTATO));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL, (byte) 1));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.deathArrow).addIngredient(Material.ARROW).addIngredient(Material.SKULL_ITEM, (byte) 1));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.earthArrow).addIngredient(Material.ARROW).addIngredient(Material.DIRT));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.enderArrow).addIngredient(Material.ARROW).addIngredient(Material.EYE_OF_ENDER));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.fireArrow).addIngredient(Material.ARROW).addIngredient(Material.FIREBALL));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.frostArrow).addIngredient(Material.ARROW).addIngredient(Material.SNOW_BALL));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.lifeArrow).addIngredient(Material.ARROW).addIngredient(Material.SPECKLED_MELON));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.lightArrow).addIngredient(Material.ARROW).addIngredient(Material.GLOWSTONE_DUST));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.magicArrow).addIngredient(Material.ARROW).addIngredient(Material.BLAZE_POWDER));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.magneticArrow).addIngredient(Material.ARROW).addIngredient(Material.IRON_INGOT));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.necroticArrow).addIngredient(Material.ARROW).addIngredient(Material.ROTTEN_FLESH));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(ItemRecipes.waterArrow).addIngredient(Material.ARROW).addIngredient(Material.WATER_BUCKET));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.airArrow).addIngredient(Material.ARROW).addIngredient(Material.FEATHER));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.confusionArrow).addIngredient(Material.ARROW).addIngredient(Material.POISONOUS_POTATO));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL, (byte) 1));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.deathArrow).addIngredient(Material.ARROW).addIngredient(Material.SKULL_ITEM, (byte) 1));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.earthArrow).addIngredient(Material.ARROW).addIngredient(Material.DIRT));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.enderArrow).addIngredient(Material.ARROW).addIngredient(Material.EYE_OF_ENDER));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.fireArrow).addIngredient(Material.ARROW).addIngredient(Material.FIREBALL));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.frostArrow).addIngredient(Material.ARROW).addIngredient(Material.SNOW_BALL));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.lifeArrow).addIngredient(Material.ARROW).addIngredient(Material.SPECKLED_MELON));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.lightArrow).addIngredient(Material.ARROW).addIngredient(Material.GLOWSTONE_DUST));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.magicArrow).addIngredient(Material.ARROW).addIngredient(Material.BLAZE_POWDER));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.magneticArrow).addIngredient(Material.ARROW).addIngredient(Material.IRON_INGOT));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.necroticArrow).addIngredient(Material.ARROW).addIngredient(Material.ROTTEN_FLESH));
+		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.waterArrow).addIngredient(Material.ARROW).addIngredient(Material.WATER_BUCKET));
+		
+		//Arrow registry
+		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
+		ArrowRegistry.registerAlchemicalArrow(recipes.airArrow, AirArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.confusionArrow, ConfusionArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.darknessArrow, DarknessArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.deathArrow, DeathArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.earthArrow, EarthArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.enderArrow, EnderArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.fireArrow, FireArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.frostArrow, FrostArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.lifeArrow, LifeArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.lightArrow, LightArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.magicArrow, MagicArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.magneticArrow, MagneticArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.necroticArrow, NecroticArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.waterArrow, WaterArrow.class);
 	}
 	
 	@Override
@@ -115,8 +121,8 @@ public class AlchemicalArrows extends JavaPlugin{
  * 
  */
 
-/* TODO: WHAT'S LEFT LEFT TO COMPLETE
+/* TODO: WHAT'S LEFT TO COMPLETE
  * Fix WorldGuard support (Wait for sk89q to update to 1.9)
- * Configuration options
- * Fix arrows not working when being picked up
+ * Fix arrows not working when being picked up (TODO: Wait for ticket request "PlayerPickupArrowEvent" response, hope for new event)
+ * Set up Metrics
  */

@@ -45,8 +45,7 @@ public class EarthArrow extends AlchemicalArrow{
 			location = location.subtract(0, 1, 0);
 		entity.teleport(location);
 		
-		if (arrow.getShooter() instanceof Player)
-			((Player) arrow.getShooter()).playSound(entity.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 0.75F);
+		entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 0.75F);
 		if (entity instanceof LivingEntity){
 			PotionEffect slowness = PotionEffectType.SLOW.createEffect(150, 2);
 			((LivingEntity) entity).addPotionEffect(slowness);

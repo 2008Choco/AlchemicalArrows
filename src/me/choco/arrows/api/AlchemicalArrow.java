@@ -70,6 +70,11 @@ public abstract class AlchemicalArrow {
 	 */
 	public boolean skeletonsCanShoot(){ return true; }
 	
+	/** Whether the infinity enchantment is allowed to be used with this arrow
+	 * @return Whether infinity is allowed or not
+	 */
+	public boolean allowInfinity(){ return false; }
+	
 	/** Get the base arrow linked to this AlchemicalArrow
 	 * @return The arrow
 	 */

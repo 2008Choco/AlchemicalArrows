@@ -1,18 +1,23 @@
 package me.choco.arrows.utils.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.choco.arrows.AlchemicalArrows;
+import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ArrowRegistry;
 
-public class GiveArrowCmd implements CommandExecutor{
+public class GiveArrowCmd implements CommandExecutor, TabCompleter{
 	
 	AlchemicalArrows plugin;
 	public GiveArrowCmd(AlchemicalArrows plugin){
@@ -73,5 +78,16 @@ public class GiveArrowCmd implements CommandExecutor{
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
+		if (args.length == 1){
+			List<String> options = new ArrayList<>();
+			for (Class<? extends AlchemicalArrow> clazz : ArrowRegistry.getArrowRegistry().values())
+				options.add(clazz.getSimpleName().replace("Arrow", ""));
+			return options;
+		}
+		return null;
 	}
 }

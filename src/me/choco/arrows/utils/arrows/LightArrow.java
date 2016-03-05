@@ -6,6 +6,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class LightArrow extends AlchemicalArrow{
@@ -20,7 +21,9 @@ public class LightArrow extends AlchemicalArrow{
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		player.getWorld().strikeLightning(player.getLocation());
+		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.LightArrow.StrikesLightning")) 
+			player.getWorld().strikeLightning(player.getLocation());
+		
 		player.teleport(new Location(player.getWorld(), 
 				player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 
 				player.getLocation().getYaw(), -180));
@@ -28,7 +31,9 @@ public class LightArrow extends AlchemicalArrow{
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		entity.getWorld().strikeLightning(entity.getLocation());
+		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.LightArrow.StrikesLightning"))
+			entity.getWorld().strikeLightning(entity.getLocation());
+		
 		entity.teleport(new Location(entity.getWorld(), 
 				entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ(), 
 				entity.getLocation().getYaw(), -180));

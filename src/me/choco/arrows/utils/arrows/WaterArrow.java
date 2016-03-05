@@ -3,6 +3,7 @@ package me.choco.arrows.utils.arrows;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.util.Vector;
 
 import me.choco.arrows.api.AlchemicalArrow;
@@ -12,12 +13,23 @@ public class WaterArrow extends AlchemicalArrow{
 		super(arrow);
 	}
 	
+	private Vector initialVector;
+	
 	@Override
 	public void displayParticle(Player player) {
 		player.spawnParticle(Particle.WATER_WAKE, getArrow().getLocation(), 3, 0.1, 0.1, 0.1, 0.01);
 		if (getArrow().getLocation().getBlock().getType().name().contains("WATER")){
-			Vector underwaterVelocity = new Vector(getArrow().getVelocity().getX() * 3, getArrow().getVelocity().getY(), getArrow().getVelocity().getZ() * 3);
-			getArrow().setVelocity(underwaterVelocity);
+			getArrow().setVelocity(initialVector.normalize().multiply(0.95));
 		}
+	}
+	
+	@Override
+	public void onShootFromPlayer(Player player) {
+		this.initialVector = getArrow().getVelocity();
+	}
+	
+	@Override
+	public void onShootFromSkeleton(Skeleton skeleton) {
+		this.initialVector = getArrow().getVelocity();
 	}
 }

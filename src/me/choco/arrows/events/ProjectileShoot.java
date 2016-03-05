@@ -3,7 +3,9 @@ package me.choco.arrows.events;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
@@ -51,6 +53,21 @@ public class ProjectileShoot implements Listener{
 			AlchemicalArrow aarrow = plugin.getArrowRegistry().getAlchemicalArrow(arrow);
 			aarrow.shootEventHandler(event);
 			aarrow.onShootFromPlayer(player);
+			
+			//Arrow infinity handler
+			if (player.getInventory().getItemInMainHand() == null) return;
+			else if (player.getInventory().getItemInOffHand() == null) return;
+			if (!player.getGameMode().equals(GameMode.CREATIVE)){
+				if (player.getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.ARROW_INFINITE)){
+					if (reference.getAmount() > 1) reference.setAmount(reference.getAmount() - 1);
+					else{ player.getInventory().setItem(player.getInventory().first(Material.ARROW), new ItemStack(Material.AIR)); }
+				}else if (player.getInventory().getItemInOffHand().getEnchantments().containsKey(Enchantment.ARROW_INFINITE)){
+					if (!aarrow.allowInfinity()){
+						if (reference.getAmount() > 1) reference.setAmount(reference.getAmount() - 1);
+						else{ player.getInventory().setItem(player.getInventory().first(Material.ARROW), new ItemStack(Material.AIR)); }
+					}
+				}
+			}
 		}
 		else if (arrow.getShooter() instanceof Skeleton){
 			if (random.nextInt(100) + 1 <= 10){

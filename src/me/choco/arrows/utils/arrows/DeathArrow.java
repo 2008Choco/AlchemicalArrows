@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class DeathArrow extends AlchemicalArrow{
@@ -27,9 +28,14 @@ public class DeathArrow extends AlchemicalArrow{
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		int randomChance = random.nextInt(5) + 1;
-		if (randomChance == 3){
-			player.setHealth(0);
+		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DeathArrow.InstantDeathPossible")){
+			int randomChance = random.nextInt(100) + 1;
+			if (randomChance <= AlchemicalArrows.getPlugin().getConfig().getInt("Arrows.DeathArrow.InstantDeathPercentChance")){
+				player.setHealth(0);
+			}else{
+				PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
+				player.addPotionEffect(wither);
+			}
 		}else{
 			PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
 			player.addPotionEffect(wither);
@@ -38,10 +44,16 @@ public class DeathArrow extends AlchemicalArrow{
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		int randomChance = random.nextInt(5) + 1;
-		if (randomChance == 3){
-			if (entity instanceof LivingEntity)
-				((LivingEntity) entity).setHealth(0);
+		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DeathArrow.InstantDeathPossible")){
+			int randomChance = random.nextInt(100) + 1;
+			if (randomChance <= AlchemicalArrows.getPlugin().getConfig().getInt("Arrows.DeathArrow.InstantDeathPercentChance")){
+				if (entity instanceof LivingEntity)
+					((LivingEntity) entity).setHealth(0);
+			}else{
+				PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
+				if (entity instanceof LivingEntity) 
+					((LivingEntity) entity).addPotionEffect(wither);
+			}
 		}else{
 			PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
 			if (entity instanceof LivingEntity) 
