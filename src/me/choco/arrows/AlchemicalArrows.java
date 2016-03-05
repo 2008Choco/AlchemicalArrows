@@ -133,15 +133,3 @@ public class AlchemicalArrows extends JavaPlugin{
 		return registry;
 	}
 }
-
-/* Legacy Arrow Handling
- * https://bitbucket.org/2008Choco/alchemicalarrows/src/1c1778740b822d7ae1fa0dc963a99703b433296b/src/me/choco/arrows/utils/ArrowHandling.java?fileviewer=file-view-default
- */
-
-/* 2.0 CHANGELOG:
- * 
- */
-
-/* TODO: WHAT'S LEFT TO COMPLETE
- * Fix arrows not working when being picked up (TODO: Wait for ticket request "PlayerPickupArrowEvent" response, hope for new event)
- */
