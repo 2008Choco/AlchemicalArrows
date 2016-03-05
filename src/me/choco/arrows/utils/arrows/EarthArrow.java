@@ -27,6 +27,9 @@ public class EarthArrow extends AlchemicalArrow{
 	@Override
 	public void onHitPlayer(Player player) {
 		Location location = player.getLocation();
+		location.setX(Math.floor(location.getX()));
+		location.setY(Math.floor(location.getY()));
+		location.setZ(Math.floor(location.getZ()));
 		while (!location.getBlock().getType().isSolid())
 			location = location.subtract(0, 1, 0);
 		player.teleport(location);
@@ -41,6 +44,9 @@ public class EarthArrow extends AlchemicalArrow{
 	@Override
 	public void onHitEntity(Entity entity) {
 		Location location = entity.getLocation();
+		location.setX(Math.floor(location.getX()));
+		location.setY(Math.floor(location.getY()));
+		location.setZ(Math.floor(location.getZ()));
 		while (!location.getBlock().getType().isSolid())
 			location = location.subtract(0, 1, 0);
 		entity.teleport(location);

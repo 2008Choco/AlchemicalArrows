@@ -1,0 +1,33 @@
+MetricsEnabled: true
+Arrows:
+  AirArrow:
+    Crafts: 8
+  EarthArrow:
+    Crafts: 8
+  MagicArrow:
+    Crafts: 8
+  EnderArrow:
+    Crafts: 8
+  LifeArrow:
+    Crafts: 8
+  DeathArrow:
+    Crafts: 4
+    InstantDeathPossible: true
+    InstantDeathPercentChance: 20
+  LightArrow:
+    Crafts: 8
+    StrikesLightning: true
+  DarknessArrow:
+    Crafts: 8
+  FireArrow:
+    Crafts: 8
+  FrostArrow:
+    Crafts: 8
+  WaterArrow:
+    Crafts: 8
+  NecroticArrow:
+    Crafts: 8
+  ConfusionArrow:
+    Crafts: 8
+  MagneticArrow:
+    Crafts: 8

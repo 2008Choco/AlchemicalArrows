@@ -63,7 +63,7 @@ public class GiveArrowCmd implements CommandExecutor, TabCompleter{
 							ItemStack itemToGive = new ItemStack(Material.ARROW);
 							itemToGive.setItemMeta(arrow.getItemMeta());
 							itemToGive.setAmount(giveCount);
-							player.getInventory().addItem(itemToGive);
+							targetPlayer.getInventory().addItem(itemToGive);
 							player.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Successfully given " + giveCount + " of " + arrowName + " arrow " + (targetPlayer.getName().equals(player.getName()) ? "" : "to " + targetPlayer.getName()));
 							return true;
 						}

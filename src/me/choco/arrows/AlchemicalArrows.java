@@ -1,5 +1,7 @@
 package me.choco.arrows;
 
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -11,6 +13,7 @@ import me.choco.arrows.events.ArrowHitPlayer;
 import me.choco.arrows.events.ProjectileShoot;
 import me.choco.arrows.utils.ArrowRegistry;
 import me.choco.arrows.utils.ItemRecipes;
+import me.choco.arrows.utils.Metrics;
 import me.choco.arrows.utils.ParticleLoop;
 import me.choco.arrows.utils.arrows.AirArrow;
 import me.choco.arrows.utils.arrows.ConfusionArrow;
@@ -34,6 +37,8 @@ public class AlchemicalArrows extends JavaPlugin{
 	private static AlchemicalArrows instance;
 	private ArrowRegistry registry;
 	
+	public boolean worldGuardEnabled = false;
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
@@ -42,6 +47,9 @@ public class AlchemicalArrows extends JavaPlugin{
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		ItemRecipes recipes = new ItemRecipes(this);
+		
+		//Check if WorldGuard is available
+		worldGuardEnabled = Bukkit.getPluginManager().getPlugin("WorldGuard") != null;
 		
 		//Enable the particle loop
 		new ParticleLoop(this).runTaskTimerAsynchronously(this, 0L, 1L);
@@ -96,6 +104,19 @@ public class AlchemicalArrows extends JavaPlugin{
 		ArrowRegistry.registerAlchemicalArrow(recipes.magneticArrow, MagneticArrow.class);
 		ArrowRegistry.registerAlchemicalArrow(recipes.necroticArrow, NecroticArrow.class);
 		ArrowRegistry.registerAlchemicalArrow(recipes.waterArrow, WaterArrow.class);
+		
+		//Load Metrics
+		if (getConfig().getBoolean("MetricsEnabled") == true){
+			this.getLogger().info("Enabling Plugin Metrics");
+		    try{
+		        Metrics metrics = new Metrics(this);
+		        metrics.start();
+		    }catch (IOException e){
+		    	e.printStackTrace();
+		        getLogger().warning("Could not enable Plugin Metrics. If issues continue, please put in a ticket on the "
+		        	+ "AlchemicalArrows development page");
+		    }
+		}
 	}
 	
 	@Override
@@ -122,7 +143,5 @@ public class AlchemicalArrows extends JavaPlugin{
  */
 
 /* TODO: WHAT'S LEFT TO COMPLETE
- * Fix WorldGuard support (Wait for sk89q to update to 1.9)
  * Fix arrows not working when being picked up (TODO: Wait for ticket request "PlayerPickupArrowEvent" response, hope for new event)
- * Set up Metrics
  */

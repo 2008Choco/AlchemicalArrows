@@ -26,13 +26,13 @@ public class AirArrow extends AlchemicalArrow{
 	
 	@Override
 	public void onHitPlayer(Player player){
-		player.setVelocity(new Vector(0, random.nextDouble() + 1, 0));
+		player.setVelocity(new Vector(0, (random.nextDouble()*2) + 1, 0));
 		player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity){
-		entity.setVelocity(new Vector(0, random.nextDouble() + 1, 0));
+		entity.setVelocity(new Vector(0, 2, 0));
 		entity.getWorld().playSound(entity.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
 	}
 }
