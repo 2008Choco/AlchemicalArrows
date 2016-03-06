@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.util.Vector;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class WaterArrow extends AlchemicalArrow{
@@ -23,9 +24,14 @@ public class WaterArrow extends AlchemicalArrow{
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
-		this.initialVector = getArrow().getVelocity();
+		if (!player.hasPermission("arrows.shoot.water")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
+		}else{
+			this.initialVector = getArrow().getVelocity();
+		}
 	}
 	
 	@Override

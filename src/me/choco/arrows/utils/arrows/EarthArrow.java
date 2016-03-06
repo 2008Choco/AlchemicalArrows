@@ -12,6 +12,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class EarthArrow extends AlchemicalArrow{
@@ -55,6 +56,14 @@ public class EarthArrow extends AlchemicalArrow{
 		if (entity instanceof LivingEntity){
 			PotionEffect slowness = PotionEffectType.SLOW.createEffect(150, 2);
 			((LivingEntity) entity).addPotionEffect(slowness);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.earth")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
 }

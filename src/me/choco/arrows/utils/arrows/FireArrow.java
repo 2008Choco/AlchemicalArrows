@@ -7,6 +7,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class FireArrow extends AlchemicalArrow{
@@ -31,5 +32,13 @@ public class FireArrow extends AlchemicalArrow{
 	@Override
 	public void onHitEntity(Entity entity) {
 		entity.setFireTicks(40 + random.nextInt(61));
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.fire")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
+		}
 	}
 }

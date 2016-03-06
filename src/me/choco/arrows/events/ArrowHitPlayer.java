@@ -39,7 +39,7 @@ public class ArrowHitPlayer implements Listener{
 						aarrow.hitEntityEventHandler(event);
 						aarrow.onHitPlayer(player);
 					}
-				}else if (!regions.allows(DefaultFlag.PVP) || event.isCancelled()){
+				}else if ((!regions.allows(DefaultFlag.PVP) || event.isCancelled()) && !player.hasPermission("arrows.worldguardoverride")){
 					if (arrow.getShooter() instanceof Player){
 						((Player) arrow.getShooter()).sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "This player is protected from PvP");
 					}

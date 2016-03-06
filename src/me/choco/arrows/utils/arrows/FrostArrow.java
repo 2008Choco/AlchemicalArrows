@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class FrostArrow extends AlchemicalArrow{
@@ -35,6 +36,14 @@ public class FrostArrow extends AlchemicalArrow{
 			PotionEffect antijump = PotionEffectType.JUMP.createEffect(125, 500);
 			((LivingEntity) entity).addPotionEffect(slowness);
 			((LivingEntity) entity).addPotionEffect(antijump);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.frost")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
 }

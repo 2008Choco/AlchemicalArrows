@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class NecroticArrow extends AlchemicalArrow{
@@ -27,6 +28,14 @@ public class NecroticArrow extends AlchemicalArrow{
 			Entity entity = it.next();
 			if (entity instanceof Monster)
 				((Monster)entity).setTarget(player);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.necrotic")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
 }

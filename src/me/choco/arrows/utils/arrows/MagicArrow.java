@@ -7,6 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class MagicArrow extends AlchemicalArrow{
@@ -29,5 +30,13 @@ public class MagicArrow extends AlchemicalArrow{
 	public void onHitEntity(Entity entity) {
 		entity.setVelocity(new Vector((arrow.getVelocity().getX() * 2), 0.75, (getArrow().getVelocity().getZ()) * 2));
 		entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.magic")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
+		}
 	}
 }

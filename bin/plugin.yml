@@ -1,6 +1,6 @@
 name: AlchemicalArrows
 main: me.choco.arrows.AlchemicalArrows
-version: 2.0 BETA-1
+version: 2.0 BETA-2
 description: New arrows with special effects when hitting the ground or a player (Rewrite for AlchemicalArrows 1)
 author: 2008Choco
 softdepends: [WorldGuard]
@@ -14,6 +14,9 @@ commands:
       usage: /<command> <arrow> [count] [player]
       aliases: [givearrows]
 permissions:
+    arrows.worldguardoverride:
+        description: Override WorldGuard protection for arrows
+        default: false
     arrows.shoot.*:
         description: Allow the ability to fire every type of arrow available
         default: true

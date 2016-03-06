@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="lib" path="C:/Users/Hawke/Desktop/DevelopmentJars/spigot-1.9.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hawke/Desktop/DevelopmentJars/worldguard-6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Hawke/Desktop/DevelopmentJars/worldedit-bukkit-6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Hawke/Desktop/DevelopmentJars/worldguard-legacy-6.1.2-SNAPSHOT-dist.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Hawke/Desktop/DevelopmentJars/worldedit-bukkit-6.1.1-SNAPSHOT-dist.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

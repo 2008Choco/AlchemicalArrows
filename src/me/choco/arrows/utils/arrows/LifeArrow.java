@@ -9,6 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class LifeArrow extends AlchemicalArrow{
@@ -38,5 +39,13 @@ public class LifeArrow extends AlchemicalArrow{
 	@Override
 	public void hitEntityEventHandler(EntityDamageByEntityEvent event) {
 		event.setDamage(0);
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.life")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
+		}
 	}
 }

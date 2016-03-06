@@ -61,7 +61,7 @@ public class ProjectileShoot implements Listener{
 				if (regions.allows(DefaultFlag.PVP)){
 					aarrow.shootEventHandler(event);
 					aarrow.onShootFromPlayer(player);
-				}else if (!regions.allows(DefaultFlag.PVP) || event.isCancelled()){
+				}else if ((!regions.allows(DefaultFlag.PVP) || event.isCancelled()) && !player.hasPermission("arrows.worldguardoverride")){
 					player.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You cannot shoot alchemical arrows from a PvP protected region");
 					plugin.getArrowRegistry().unregisterAlchemicalArrow(aarrow);
 					event.setCancelled(true);

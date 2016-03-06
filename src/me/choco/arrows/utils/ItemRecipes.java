@@ -2,7 +2,9 @@ package me.choco.arrows.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -39,5 +41,42 @@ public class ItemRecipes implements Listener{
 		meta.setDisplayName(name);
 		item.setItemMeta(meta);
 		return item;
+	}
+	
+	@EventHandler
+	public void onPrepareCraftingRecipe(PrepareItemCraftEvent event){
+		ItemStack item = event.getInventory().getResult();
+		if (!item.hasItemMeta()) return;
+		else if (!item.getItemMeta().hasDisplayName()) return;
+		
+		if (item.getItemMeta().getDisplayName().equals(airArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.air")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(earthArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.earth")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(magicArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.magic")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(enderArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.ender")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(lifeArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.life")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(deathArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.death")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(lightArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.light")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(darknessArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.darkness")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(fireArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.fire")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(frostArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.frost")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(waterArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.water")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(necroticArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.necrotic")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(confusionArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.confusion")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(magneticArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.magnetic")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}
 	}
 }

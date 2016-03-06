@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class EnderArrow extends AlchemicalArrow{
@@ -69,6 +70,14 @@ public class EnderArrow extends AlchemicalArrow{
 				((Player) shooter).spawnParticle(Particle.PORTAL, entity.getLocation(), 50, 1, 1, 1);
 				((Player) shooter).spawnParticle(Particle.PORTAL, shooter.getLocation(), 50, 1, 1, 1);
 			}
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.ender")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
 }

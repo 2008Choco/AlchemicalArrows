@@ -38,4 +38,12 @@ public class LightArrow extends AlchemicalArrow{
 				entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ(), 
 				entity.getLocation().getYaw(), -180));
 	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.light")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
+		}
+	}
 }

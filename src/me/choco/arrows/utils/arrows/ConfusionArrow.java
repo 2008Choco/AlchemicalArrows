@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class ConfusionArrow extends AlchemicalArrow{
@@ -31,6 +32,14 @@ public class ConfusionArrow extends AlchemicalArrow{
 	public void onHitEntity(Entity entity) {
 		if (entity instanceof Creature){
 			((Creature) entity).setTarget(null);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.confusion")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
 }

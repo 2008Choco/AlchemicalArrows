@@ -65,4 +65,12 @@ public class DeathArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return false;
 	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onShootFromPlayer(Player player) {
+		if (!player.hasPermission("arrows.shoot.death")){
+			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
+		}
+	}
 }

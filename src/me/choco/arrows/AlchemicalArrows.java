@@ -133,3 +133,12 @@ public class AlchemicalArrows extends JavaPlugin{
 		return registry;
 	}
 }
+
+/* 2.0 BETA-2 CHANGELOG
+ * Updated WorldEdit soft dependancy to WorldEdit-bukkit-6.1.1-SNAPSHOT-dist
+ * Updated WorldGuard soft dependancy to WorldGuard-Legacy-6.1.2-SNAPSHOT-dist
+ * Readded permission nodes for shooting arrows (Same as legacy 1.2.3 permission nodes, arrows.shoot.*)
+ * Readded permission nodes for crafting arrows (Same as legacy 1.2.3 permission nodes, arrows.craft.*)
+ * Added permission node to override WorldGuard protection ("arrows.worldguardoverride", default: false)
+ * Added a particle effect to the Darkness arrow
+ */
