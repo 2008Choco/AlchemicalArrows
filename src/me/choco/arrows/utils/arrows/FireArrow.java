@@ -41,4 +41,14 @@ public class FireArrow extends AlchemicalArrow{
 			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
+	
+	@Override
+	public boolean allowInfinity() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.FireArrow.AllowInfinity");
+	}
+	
+	@Override
+	public boolean skeletonsCanShoot() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.FireArrow.SkeletonsCanShoot");
+	}
 }

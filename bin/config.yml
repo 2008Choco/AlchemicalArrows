@@ -1,33 +1,62 @@
+CheckForUpdates: true
 MetricsEnabled: true
 Arrows:
   AirArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   EarthArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   MagicArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   EnderArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   LifeArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   DeathArrow:
-    Crafts: 4
+    Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: false
     InstantDeathPossible: true
     InstantDeathPercentChance: 20
   LightArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
     StrikesLightning: true
   DarknessArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   FireArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   FrostArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   WaterArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   NecroticArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   ConfusionArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
   MagneticArrow:
     Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true

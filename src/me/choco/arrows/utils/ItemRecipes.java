@@ -31,7 +31,7 @@ public class ItemRecipes implements Listener{
 		frostArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.FrostArrow.Crafts"), ChatColor.AQUA + "Frost Arrow");
 		waterArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.WaterArrow.Crafts"), ChatColor.BLUE + "Water Arrow");
 		necroticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.NecroticArrow.Crafts"), ChatColor.DARK_GREEN + "Necrotic Arrow");
-		confusionArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.ConfusonArrow.Crafts"), ChatColor.LIGHT_PURPLE + "Confusion Arrow");
+		confusionArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.ConfusionArrow.Crafts"), ChatColor.LIGHT_PURPLE + "Confusion Arrow");
 		magneticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagneticArrow.Crafts"), ChatColor.GRAY + "Magnetic Arrow");
 	}
 	

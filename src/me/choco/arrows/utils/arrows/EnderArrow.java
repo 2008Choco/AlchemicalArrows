@@ -80,4 +80,14 @@ public class EnderArrow extends AlchemicalArrow{
 			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
+	
+	@Override
+	public boolean allowInfinity() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.EnderArrow.AllowInfinity");
+	}
+	
+	@Override
+	public boolean skeletonsCanShoot() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.EnderArrow.SkeletonsCanShoot");
+	}
 }

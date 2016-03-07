@@ -28,4 +28,14 @@ public class DarknessArrow extends AlchemicalArrow{
 			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
+	
+	@Override
+	public boolean allowInfinity() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DarknessArrow.AllowInfinity");
+	}
+	
+	@Override
+	public boolean skeletonsCanShoot() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DarknessArrow.SkeletonsCanShoot");
+	}
 }

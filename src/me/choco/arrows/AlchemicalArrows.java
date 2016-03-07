@@ -1,11 +1,20 @@
 package me.choco.arrows;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import me.choco.arrows.events.ArrowHitEntity;
 import me.choco.arrows.events.ArrowHitGround;
@@ -72,21 +81,21 @@ public class AlchemicalArrows extends JavaPlugin{
 		
 		//Register crafting recipes
 		this.getLogger().info("Registering recipes");
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.airArrow).addIngredient(Material.ARROW).addIngredient(Material.FEATHER));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.confusionArrow).addIngredient(Material.ARROW).addIngredient(Material.POISONOUS_POTATO));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.darknessArrow).addIngredient(Material.ARROW).addIngredient(Material.COAL, (byte) 1));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.deathArrow).addIngredient(Material.ARROW).addIngredient(Material.SKULL_ITEM, (byte) 1));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.earthArrow).addIngredient(Material.ARROW).addIngredient(Material.DIRT));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.enderArrow).addIngredient(Material.ARROW).addIngredient(Material.EYE_OF_ENDER));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.fireArrow).addIngredient(Material.ARROW).addIngredient(Material.FIREBALL));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.frostArrow).addIngredient(Material.ARROW).addIngredient(Material.SNOW_BALL));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.lifeArrow).addIngredient(Material.ARROW).addIngredient(Material.SPECKLED_MELON));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.lightArrow).addIngredient(Material.ARROW).addIngredient(Material.GLOWSTONE_DUST));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.magicArrow).addIngredient(Material.ARROW).addIngredient(Material.BLAZE_POWDER));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.magneticArrow).addIngredient(Material.ARROW).addIngredient(Material.IRON_INGOT));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.necroticArrow).addIngredient(Material.ARROW).addIngredient(Material.ROTTEN_FLESH));
-		Bukkit.getServer().addRecipe(new ShapelessRecipe(recipes.waterArrow).addIngredient(Material.ARROW).addIngredient(Material.WATER_BUCKET));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.airArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FEATHER));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.confusionArrow).shape("AAA","APA","AAA").setIngredient('A', Material.ARROW).setIngredient('P', Material.POISONOUS_POTATO));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL, (byte) 1));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.deathArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SKULL_ITEM, (byte) 1));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.earthArrow).shape("AAA","ADA","AAA").setIngredient('A', Material.ARROW).setIngredient('D', Material.DIRT));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.enderArrow).shape("AAA","AEA","AAA").setIngredient('A', Material.ARROW).setIngredient('E', Material.EYE_OF_ENDER));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.fireArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FIREBALL));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.frostArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SNOW_BALL));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.lifeArrow).shape("AAA","AMA","AAA").setIngredient('A', Material.ARROW).setIngredient('M', Material.SPECKLED_MELON));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.lightArrow).shape("AAA","AGA","AAA").setIngredient('A', Material.ARROW).setIngredient('G', Material.GLOWSTONE_DUST));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.magicArrow).shape("AAA","ABA","AAA").setIngredient('A', Material.ARROW).setIngredient('B', Material.BLAZE_POWDER));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.magneticArrow).shape("AAA","AIA","AAA").setIngredient('A', Material.ARROW).setIngredient('I', Material.IRON_INGOT));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.necroticArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.ROTTEN_FLESH));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.waterArrow).shape("AAA","AWA","AAA").setIngredient('A', Material.ARROW).setIngredient('W', Material.WATER_BUCKET));
 		
 		//Arrow registry
 		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
@@ -117,6 +126,37 @@ public class AlchemicalArrows extends JavaPlugin{
 		        	+ "AlchemicalArrows development page");
 		    }
 		}
+		
+		//Check for newer version (Bukget API)
+		if (getConfig().getBoolean("CheckForUpdates")){
+			this.getLogger().info("Getting version information...");
+			new BukkitRunnable(){
+				@Override
+				public void run(){
+					try{
+						JSONParser parser = new JSONParser();
+						URL news = new URL("https://api.bukget.org/3/plugins/bukkit/alchemical-arrows/latest");
+						BufferedReader in = new BufferedReader(new InputStreamReader(news.openStream()));
+						
+						JSONObject json = (JSONObject) parser.parse(in.readLine());
+						JSONArray array = (JSONArray) json.get("versions");
+						if (!((JSONObject) array.get(0)).get("version").equals(getDescription().getVersion())){
+							getLogger().info("\n" + StringUtils.repeat('*', 40) + "\n"
+									+ "** There is a newer version of AlchemicalArrows available!\n"
+									+ "**\n"
+									+ "** Your version: " + getDescription().getVersion() + "\n"
+									+ "** Newest version: " + ((JSONObject) array.get(0)).get("version") + "\n"
+									+ "**\n"
+									+ "** You can download it from " + ((JSONObject) array.get(0)).get("link") + "\n" 
+									+ StringUtils.repeat('*', 40));
+						}
+						in.close();
+					}catch(IOException | ParseException e){
+						System.out.println("Could not check for a new version. Perhaps the website is down?");
+					}
+				}
+			}.runTaskAsynchronously(this);
+		}
 	}
 	
 	@Override
@@ -134,11 +174,12 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* 2.0 BETA-2 CHANGELOG
- * Updated WorldEdit soft dependancy to WorldEdit-bukkit-6.1.1-SNAPSHOT-dist
- * Updated WorldGuard soft dependancy to WorldGuard-Legacy-6.1.2-SNAPSHOT-dist
- * Readded permission nodes for shooting arrows (Same as legacy 1.2.3 permission nodes, arrows.shoot.*)
- * Readded permission nodes for crafting arrows (Same as legacy 1.2.3 permission nodes, arrows.craft.*)
- * Added permission node to override WorldGuard protection ("arrows.worldguardoverride", default: false)
- * Added a particle effect to the Darkness arrow
+/* 2.0 BETA-3 CHANGELOG
+ * Added an automatic version checker to determine whether there's a new version or not (It runs asynchronously so it does not slow down startup process)
+ * Added a configuration option to disable the version checker (BukkitDev ToU forces me to ;P)
+ * Added "AllowInfinity" configuration option for each arrow to determine whether infinity is allowed for that arrow or not
+ * Added "SkeletonsCanShoot" configuration option for each arrow to determine whether skeletons are able to shoot that arrow or not
+ * Fixed ConfusionArrow recipe returning 0 arrows (typo in the code)
+ * Changed all arrow recipes to be 8 arrows surrounding the respective material (materials are still the same). It made more sense in my opinion
+ * Changed the default "Crafts" configuration option for Death Arrows to be set to 8 and respect the crafting recipe
  */

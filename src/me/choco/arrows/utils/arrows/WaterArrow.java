@@ -38,4 +38,14 @@ public class WaterArrow extends AlchemicalArrow{
 	public void onShootFromSkeleton(Skeleton skeleton) {
 		this.initialVector = getArrow().getVelocity();
 	}
+	
+	@Override
+	public boolean allowInfinity() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.WaterArrow.AllowInfinity");
+	}
+	
+	@Override
+	public boolean skeletonsCanShoot() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.WaterArrow.SkeletonsCanShoot");
+	}
 }

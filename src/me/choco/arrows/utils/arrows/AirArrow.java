@@ -44,4 +44,14 @@ public class AirArrow extends AlchemicalArrow{
 			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
 		}
 	}
+	
+	@Override
+	public boolean allowInfinity() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.AirArrow.AllowInfinity");
+	}
+	
+	@Override
+	public boolean skeletonsCanShoot() {
+		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.AirArrow.SkeletonsCanShoot");
+	}
 }
