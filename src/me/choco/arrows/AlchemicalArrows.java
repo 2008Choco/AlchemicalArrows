@@ -151,8 +151,12 @@ public class AlchemicalArrows extends JavaPlugin{
 									+ StringUtils.repeat('*', 40));
 						}
 						in.close();
-					}catch(IOException | ParseException e){
-						System.out.println("Could not check for a new version. Perhaps the website is down?");
+					}catch(IOException e){
+						getLogger().info("Could not check for a new version. Perhaps the website is down?");
+					}catch(ParseException e){
+						getLogger().info("There was an issue parsing JSON formatted data. If issues continue, please put in a ticket on the "
+								+ "AlchemicalArrows development page with the following stacktrace");
+						e.printStackTrace();
 					}
 				}
 			}.runTaskAsynchronously(this);
