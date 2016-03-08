@@ -178,12 +178,10 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* 2.0 BETA-3 CHANGELOG
- * Added an automatic version checker to determine whether there's a new version or not (It runs asynchronously so it does not slow down startup process)
- * Added a configuration option to disable the version checker (BukkitDev ToU forces me to ;P)
- * Added "AllowInfinity" configuration option for each arrow to determine whether infinity is allowed for that arrow or not
- * Added "SkeletonsCanShoot" configuration option for each arrow to determine whether skeletons are able to shoot that arrow or not
- * Fixed ConfusionArrow recipe returning 0 arrows (typo in the code)
- * Changed all arrow recipes to be 8 arrows surrounding the respective material (materials are still the same). It made more sense in my opinion
- * Changed the default "Crafts" configuration option for Death Arrows to be set to 8 and respect the crafting recipe
+/* 2.0 BETA-4 CHANGELOG
+ * Removed deprecated WorldGuard methods in attempt to fix a default __global__ PvP flag state bug
+ * Attempt to fix ArrowRegistry setting ItemStack parameter arrow count to 1
+ * Using the same fix as above, attempted to make the code the slightest bit more efficient when registering on shot
+ * Added a "getAlchemicalArrow()" method which requires a UUID parameter in the ArrowRegistry class for API developers
+ (As a side note, the Alchemical Arrows Wiki has been updated to explain the ArrowRegistry class in detail)
  */

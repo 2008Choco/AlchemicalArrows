@@ -19,6 +19,7 @@ import org.bukkit.projectiles.BlockProjectileSource;
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
+import com.sk89q.worldguard.protection.flags.StateFlag.State;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
@@ -45,7 +46,7 @@ public class ProjectileShoot implements Listener{
 			
 			//Register the arrow if it's in the arrow registry
 			ItemStack reference = player.getInventory().getItem(player.getInventory().first(Material.ARROW));
-			ItemStack item = new ItemStack(reference.getType()); item.setItemMeta(reference.hasItemMeta() ? reference.getItemMeta() : null);
+			ItemStack item = new ItemStack(reference); item.setAmount(1);
 			if (ArrowRegistry.getArrowRegistry().containsKey(item)){
 				try{
 					plugin.getArrowRegistry().registerAlchemicalArrow(ArrowRegistry.getArrowRegistry().get(item).getDeclaredConstructor(Arrow.class).newInstance(arrow));
@@ -58,10 +59,12 @@ public class ProjectileShoot implements Listener{
 			AlchemicalArrow aarrow = plugin.getArrowRegistry().getAlchemicalArrow(arrow);
 			if (plugin.worldGuardEnabled){
 				ApplicableRegionSet regions = WGBukkit.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation());
-				if (regions.allows(DefaultFlag.PVP)){
+				if (regions.queryState(null, DefaultFlag.PVP) == null || player.hasPermission("arrows.worldguardoverride")){
 					aarrow.shootEventHandler(event);
 					aarrow.onShootFromPlayer(player);
-				}else if ((!regions.allows(DefaultFlag.PVP) || event.isCancelled()) && !player.hasPermission("arrows.worldguardoverride")){
+				}else if (regions.queryState(null, DefaultFlag.PVP).equals(State.ALLOW)){
+					
+				}else if ((!regions.testState(null, DefaultFlag.PVP) || event.isCancelled())){
 					player.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You cannot shoot alchemical arrows from a PvP protected region");
 					plugin.getArrowRegistry().unregisterAlchemicalArrow(aarrow);
 					event.setCancelled(true);

@@ -30,12 +30,13 @@ public class ArrowRegistry {
 	 * @throws IllegalArgumentException Thrown if ItemStack parameter is not of Material type ARROW
 	 */
 	public static void registerAlchemicalArrow(ItemStack item, Class<? extends AlchemicalArrow> clazz){
-		item.setAmount(1);
+		ItemStack duplicate = new ItemStack(item);
+		duplicate.setAmount(1);
 		
-		if (getArrowRegistry().containsKey(item)){
-			throw new IllegalArgumentException("ItemStack is already being used by class " + getArrowRegistry().get(item).getName());
+		if (getArrowRegistry().containsKey(duplicate)){
+			throw new IllegalArgumentException("ItemStack is already being used by class " + getArrowRegistry().get(duplicate).getName());
 		}else if (!item.getType().equals(Material.ARROW)){
-			throw new IllegalArgumentException("Arrow registry requires Material Enum type of ARROW. Given " + item.getType()); 
+			throw new IllegalArgumentException("Arrow registry requires Material Enum type of ARROW. Given " + duplicate.getType()); 
 		}
 		for (Class<? extends AlchemicalArrow> refClazz : getArrowRegistry().values()){
 			if (refClazz.getSimpleName().replace("Arrow", "").equalsIgnoreCase(clazz.getSimpleName().replace("Arrow", ""))){
@@ -43,7 +44,7 @@ public class ArrowRegistry {
 			}
 		}
 		
-		arrowRegistry.put(item, clazz);
+		arrowRegistry.put(duplicate, clazz);
 		if (!clazz.getPackage().getName().startsWith("me.choco.arrows.utils.arrows")){
 			AlchemicalArrows.getPlugin().getLogger().info("Successfully registered external arrow from package " + clazz.getPackage().getName());
 		}
@@ -115,6 +116,14 @@ public class ArrowRegistry {
 	 */
 	public boolean isAlchemicalArrow(Arrow arrow){
 		return (arrows.containsKey(arrow.getUniqueId()));
+	}
+	
+	/** Check whether an Arrow is registered or not
+	 * @param uuid The UUID to reference
+	 * @return Whether it is registered/tracked or not
+	 */
+	public boolean isAlchemicalArrow(UUID uuid){
+		return (arrows.containsKey(uuid));
 	}
 	
 	/** Get the registered/tracked arrows from AlchemicalArrows. May be used to manipulate all current arrows
