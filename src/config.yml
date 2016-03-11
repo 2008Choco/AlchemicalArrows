@@ -5,58 +5,72 @@ Arrows:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Air Arrow"
   EarthArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Earth Arrow"
   MagicArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Magic Arrow"
   EnderArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Ender Arrow"
   LifeArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Life Arrow"
   DeathArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: false
     InstantDeathPossible: true
     InstantDeathPercentChance: 20
+    DisplayName: "Death Arrow"
   LightArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
     StrikesLightning: true
+    DisplayName: "Light Arrow"
   DarknessArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Darkness Arrow"
   FireArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Fire Arrow"
   FrostArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Frost Arrow"
   WaterArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Water Arrow"
   NecroticArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Necrotic Arrow"
   ConfusionArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Confusion Arrow"
   MagneticArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    DisplayName: "Magnetic Arrow"

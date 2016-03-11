@@ -19,20 +19,20 @@ public class ItemRecipes implements Listener{
 	public ItemRecipes(AlchemicalArrows plugin){
 		this.plugin = plugin;
 		
-		airArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.AirArrow.Crafts"), ChatColor.ITALIC + "Air Arrow");
-		earthArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.EarthArrow.Crafts"), ChatColor.GRAY + "Earth Arrow");
-		magicArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagicArrow.Crafts"), ChatColor.LIGHT_PURPLE + "Magic Arrow");
-		enderArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.EnderArrow.Crafts"), ChatColor.DARK_PURPLE + "Ender Arrow");
-		lifeArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.LifeArrow.Crafts"), ChatColor.GREEN + "Life Arrow");
-		deathArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.DeathArrow.Crafts"), ChatColor.BLACK + "Death Arrow");
-		lightArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.LightArrow.Crafts"), ChatColor.YELLOW + "Light Arrow");
-		darknessArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.DarknessArrow.Crafts"), ChatColor.DARK_GRAY + "Darkness Arrow");
-		fireArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.FireArrow.Crafts"), ChatColor.RED + "Fire Arrow");
-		frostArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.FrostArrow.Crafts"), ChatColor.AQUA + "Frost Arrow");
-		waterArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.WaterArrow.Crafts"), ChatColor.BLUE + "Water Arrow");
-		necroticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.NecroticArrow.Crafts"), ChatColor.DARK_GREEN + "Necrotic Arrow");
-		confusionArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.ConfusionArrow.Crafts"), ChatColor.LIGHT_PURPLE + "Confusion Arrow");
-		magneticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagneticArrow.Crafts"), ChatColor.GRAY + "Magnetic Arrow");
+		airArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.AirArrow.Crafts"), ChatColor.ITALIC + plugin.getConfig().getString("Arrows.AirArrow.DisplayName"));
+		earthArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.EarthArrow.Crafts"), ChatColor.GRAY + plugin.getConfig().getString("Arrows.EarthArrow.DisplayName"));
+		magicArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagicArrow.Crafts"), ChatColor.LIGHT_PURPLE + plugin.getConfig().getString("Arrows.MagicArrow.DisplayName"));
+		enderArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.EnderArrow.Crafts"), ChatColor.DARK_PURPLE + plugin.getConfig().getString("Arrows.EnderArrow.DisplayName"));
+		lifeArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.LifeArrow.Crafts"), ChatColor.GREEN + plugin.getConfig().getString("Arrows.LifeArrow.DisplayName"));
+		deathArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.DeathArrow.Crafts"), ChatColor.BLACK + plugin.getConfig().getString("Arrows.DeathArrow.DisplayName"));
+		lightArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.LightArrow.Crafts"), ChatColor.YELLOW + plugin.getConfig().getString("Arrows.LightArrow.DisplayName"));
+		darknessArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.DarknessArrow.Crafts"), ChatColor.DARK_GRAY + plugin.getConfig().getString("Arrows.DarknessArrow.DisplayName"));
+		fireArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.FireArrow.Crafts"), ChatColor.RED + plugin.getConfig().getString("Arrows.FireArrow.DisplayName"));
+		frostArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.FrostArrow.Crafts"), ChatColor.AQUA + plugin.getConfig().getString("Arrows.FrostArrow.DisplayName"));
+		waterArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.WaterArrow.Crafts"), ChatColor.BLUE + plugin.getConfig().getString("Arrows.WaterArrow.DisplayName"));
+		necroticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.NecroticArrow.Crafts"), ChatColor.DARK_GREEN + plugin.getConfig().getString("Arrows.NecroticArrow.DisplayName"));
+		confusionArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.ConfusionArrow.Crafts"), ChatColor.LIGHT_PURPLE + plugin.getConfig().getString("Arrows.ConfusionArrow.DisplayName"));
+		magneticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagneticArrow.Crafts"), ChatColor.GRAY + plugin.getConfig().getString("Arrows.MagneticArrow.DisplayName"));
 	}
 	
 	private ItemStack createItem(Material material, int count, String name){

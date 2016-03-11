@@ -3,7 +3,6 @@ package me.choco.arrows.events;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -15,11 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.BlockProjectileSource;
-
-import com.sk89q.worldguard.bukkit.WGBukkit;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
-import com.sk89q.worldguard.protection.flags.StateFlag.State;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
@@ -34,7 +28,6 @@ public class ProjectileShoot implements Listener{
 		this.plugin = plugin;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onShootArrow(ProjectileLaunchEvent event){
 		if (!(event.getEntity() instanceof Arrow)) return;
@@ -57,22 +50,8 @@ public class ProjectileShoot implements Listener{
 			}else{ return; }
 			
 			AlchemicalArrow aarrow = plugin.getArrowRegistry().getAlchemicalArrow(arrow);
-			if (plugin.worldGuardEnabled){
-				ApplicableRegionSet regions = WGBukkit.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation());
-				if (regions.queryState(null, DefaultFlag.PVP) == null || player.hasPermission("arrows.worldguardoverride")){
-					aarrow.shootEventHandler(event);
-					aarrow.onShootFromPlayer(player);
-				}else if (regions.queryState(null, DefaultFlag.PVP).equals(State.ALLOW)){
-					
-				}else if ((!regions.testState(null, DefaultFlag.PVP) || event.isCancelled())){
-					player.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You cannot shoot alchemical arrows from a PvP protected region");
-					plugin.getArrowRegistry().unregisterAlchemicalArrow(aarrow);
-					event.setCancelled(true);
-				}
-			}else{
-				aarrow.shootEventHandler(event);
-				aarrow.onShootFromPlayer(player);
-			}
+			aarrow.shootEventHandler(event);
+			aarrow.onShootFromPlayer(player);
 			
 			if (player.getInventory().getItemInMainHand() == null) return;
 			else if (player.getInventory().getItemInOffHand() == null) return;

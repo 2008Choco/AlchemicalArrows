@@ -13,7 +13,7 @@ import org.bukkit.projectiles.BlockProjectileSource;
 public abstract class AlchemicalArrow {
 	
 	protected Arrow arrow;
-	public AlchemicalArrow(Arrow arrow){
+	protected AlchemicalArrow(Arrow arrow){
 		this.arrow = arrow;
 	}
 	

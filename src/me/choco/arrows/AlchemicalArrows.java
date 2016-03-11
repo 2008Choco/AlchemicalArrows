@@ -178,10 +178,7 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* 2.0 BETA-4 CHANGELOG
- * Removed deprecated WorldGuard methods in attempt to fix a default __global__ PvP flag state bug
- * Attempt to fix ArrowRegistry setting ItemStack parameter arrow count to 1
- * Using the same fix as above, attempted to make the code the slightest bit more efficient when registering on shot
- * Added a "getAlchemicalArrow()" method which requires a UUID parameter in the ArrowRegistry class for API developers
- (As a side note, the Alchemical Arrows Wiki has been updated to explain the ArrowRegistry class in detail)
+/* 2.0 BETA-6 CHANGELOG
+ * Removed the inability to shoot arrows whilst in a WorldGuarded area with PvP denied
+ * |-> Instead, the arrow will deflect against the opposing player if PvP is denied
  */
