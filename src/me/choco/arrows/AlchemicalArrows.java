@@ -19,6 +19,7 @@ import org.json.simple.parser.ParseException;
 import me.choco.arrows.events.ArrowHitEntity;
 import me.choco.arrows.events.ArrowHitGround;
 import me.choco.arrows.events.ArrowHitPlayer;
+import me.choco.arrows.events.CustomDeathMessage;
 import me.choco.arrows.events.ProjectileShoot;
 import me.choco.arrows.utils.ArrowRegistry;
 import me.choco.arrows.utils.ItemRecipes;
@@ -69,6 +70,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new ArrowHitGround(this), this);
 		Bukkit.getPluginManager().registerEvents(new ArrowHitPlayer(this), this);
 		Bukkit.getPluginManager().registerEvents(new ProjectileShoot(this), this);
+		Bukkit.getPluginManager().registerEvents(new CustomDeathMessage(this), this);
 		//TODO Bukkit.getPluginManager().registerEvents(new PickupArrow(this), this);
 		Bukkit.getPluginManager().registerEvents(recipes, this);
 		
@@ -181,4 +183,6 @@ public class AlchemicalArrows extends JavaPlugin{
 /* 2.0 BETA-6 CHANGELOG
  * Removed the inability to shoot arrows whilst in a WorldGuarded area with PvP denied
  * |-> Instead, the arrow will deflect against the opposing player if PvP is denied
+ * Added custom death messages when being shot and killed directly with any alchemical arrows
+ * |-> This message varies depending on what or who kills you
  */
