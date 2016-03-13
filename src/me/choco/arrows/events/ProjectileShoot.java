@@ -22,10 +22,12 @@ import me.choco.arrows.utils.ArrowRegistry;
 public class ProjectileShoot implements Listener{
 
 	Random random = new Random();
+	int skeletonPercent = 10;
 	
 	AlchemicalArrows plugin;
 	public ProjectileShoot(AlchemicalArrows plugin){
 		this.plugin = plugin;
+		this.skeletonPercent = plugin.getConfig().getInt("SkeletonShootPercentage");
 	}
 	
 	@EventHandler
@@ -68,7 +70,7 @@ public class ProjectileShoot implements Listener{
 			}
 		}
 		else if (arrow.getShooter() instanceof Skeleton){
-			if (random.nextInt(100) + 1 <= 10){
+			if ((random.nextInt(100) + 1) <= skeletonPercent){
 				Object[] values = ArrowRegistry.getArrowRegistry().values().toArray();
 				@SuppressWarnings("unchecked")
 				Class<? extends AlchemicalArrow> randomValue = (Class<? extends AlchemicalArrow>) values[random.nextInt(values.length)];

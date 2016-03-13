@@ -1,6 +1,7 @@
 package me.choco.arrows.utils.arrows;
 
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -12,13 +13,14 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class ConfusionArrow extends AlchemicalArrow{
+	
 	public ConfusionArrow(Arrow arrow) {
 		super(arrow);
 	}
 	
 	@Override
 	public void displayParticle(Player player){
-		//TODO
+		player.spawnParticle(Particle.SPELL, getArrow().getLocation(), 2, 0.1, 0.1, 0.1, 1);
 	}
 	
 	@Override

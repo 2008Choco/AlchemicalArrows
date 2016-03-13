@@ -1,5 +1,6 @@
 CheckForUpdates: true
 MetricsEnabled: true
+SkeletonShootPercentage: 10
 Arrows:
   AirArrow:
     Crafts: 8
@@ -74,3 +75,9 @@ Arrows:
     AllowInfinity: false
     SkeletonsCanShoot: true
     DisplayName: "Magnetic Arrow"
+  GrappleArrow:
+    Crafts: 8
+    AllowInfinity: false
+    SkeletonsCanShoot: true
+    DisplayName: "Grapple Arrow"
+    GrappleForce: 2.5

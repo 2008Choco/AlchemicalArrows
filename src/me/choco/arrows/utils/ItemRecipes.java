@@ -13,7 +13,7 @@ import me.choco.arrows.AlchemicalArrows;
 public class ItemRecipes implements Listener{
 	
 	public ItemStack airArrow, earthArrow, magicArrow, enderArrow, lifeArrow, deathArrow, lightArrow, darknessArrow, fireArrow, frostArrow, 
-		waterArrow, necroticArrow, confusionArrow, magneticArrow;
+		waterArrow, necroticArrow, confusionArrow, magneticArrow, grappleArrow;
 	
 	AlchemicalArrows plugin;
 	public ItemRecipes(AlchemicalArrows plugin){
@@ -33,6 +33,7 @@ public class ItemRecipes implements Listener{
 		necroticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.NecroticArrow.Crafts"), ChatColor.DARK_GREEN + plugin.getConfig().getString("Arrows.NecroticArrow.DisplayName"));
 		confusionArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.ConfusionArrow.Crafts"), ChatColor.LIGHT_PURPLE + plugin.getConfig().getString("Arrows.ConfusionArrow.DisplayName"));
 		magneticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagneticArrow.Crafts"), ChatColor.GRAY + plugin.getConfig().getString("Arrows.MagneticArrow.DisplayName"));
+		grappleArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.GrappleArrow.Crafts"), ChatColor.YELLOW + plugin.getConfig().getString("Arrows.GrappleArrow.DisplayName"));
 	}
 	
 	private ItemStack createItem(Material material, int count, String name){
@@ -76,6 +77,8 @@ public class ItemRecipes implements Listener{
 		}else if (item.getItemMeta().getDisplayName().equals(confusionArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.confusion")){
 			event.getInventory().setResult(new ItemStack(Material.AIR));
 		}else if (item.getItemMeta().getDisplayName().equals(magneticArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.magnetic")){
+			event.getInventory().setResult(new ItemStack(Material.AIR));
+		}else if (item.getItemMeta().getDisplayName().equals(grappleArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.necrotic")){
 			event.getInventory().setResult(new ItemStack(Material.AIR));
 		}
 	}

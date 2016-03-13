@@ -16,13 +16,16 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class EarthArrow extends AlchemicalArrow{
+	
+	private final MaterialData dirt = new MaterialData(Material.DIRT);
+	
 	public EarthArrow(Arrow arrow){
 		super(arrow);
 	}
 	
 	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.BLOCK_DUST, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.1, new MaterialData(Material.DIRT));
+		player.spawnParticle(Particle.BLOCK_DUST, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.1, dirt);
 	}
 	
 	@Override

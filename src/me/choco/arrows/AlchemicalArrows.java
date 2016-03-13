@@ -33,6 +33,7 @@ import me.choco.arrows.utils.arrows.EarthArrow;
 import me.choco.arrows.utils.arrows.EnderArrow;
 import me.choco.arrows.utils.arrows.FireArrow;
 import me.choco.arrows.utils.arrows.FrostArrow;
+import me.choco.arrows.utils.arrows.GrappleArrow;
 import me.choco.arrows.utils.arrows.LifeArrow;
 import me.choco.arrows.utils.arrows.LightArrow;
 import me.choco.arrows.utils.arrows.MagicArrow;
@@ -59,7 +60,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		ItemRecipes recipes = new ItemRecipes(this);
 		
 		//Check if WorldGuard is available
-		worldGuardEnabled = Bukkit.getPluginManager().getPlugin("WorldGuard") != null;
+		worldGuardEnabled = Bukkit.getPluginManager().getPlugin("WorldGuard") != null;	
 		
 		//Enable the particle loop
 		new ParticleLoop(this).runTaskTimerAsynchronously(this, 0L, 1L);
@@ -98,6 +99,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.magneticArrow).shape("AAA","AIA","AAA").setIngredient('A', Material.ARROW).setIngredient('I', Material.IRON_INGOT));
 		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.necroticArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.ROTTEN_FLESH));
 		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.waterArrow).shape("AAA","AWA","AAA").setIngredient('A', Material.ARROW).setIngredient('W', Material.WATER_BUCKET));
+		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.grappleArrow).shape("AAA", "ATA", "AAA").setIngredient('A', Material.ARROW).setIngredient('T', Material.TRIPWIRE_HOOK));
 		
 		//Arrow registry
 		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
@@ -115,6 +117,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		ArrowRegistry.registerAlchemicalArrow(recipes.magneticArrow, MagneticArrow.class);
 		ArrowRegistry.registerAlchemicalArrow(recipes.necroticArrow, NecroticArrow.class);
 		ArrowRegistry.registerAlchemicalArrow(recipes.waterArrow, WaterArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(recipes.grappleArrow, GrappleArrow.class);
 		
 		//Load Metrics
 		if (getConfig().getBoolean("MetricsEnabled") == true){
@@ -180,9 +183,9 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* 2.0 BETA-6 CHANGELOG
- * Removed the inability to shoot arrows whilst in a WorldGuarded area with PvP denied
- * |-> Instead, the arrow will deflect against the opposing player if PvP is denied
- * Added custom death messages when being shot and killed directly with any alchemical arrows
- * |-> This message varies depending on what or who kills you
+/* 2.0 BETA-8 CHANGELOG
+ * TODO: Vampiric (life-steal) effect for necrotic arrow (Deals half damage)
+ * TODO: Spawn a random mob relatively close to the player when hitting player with Necrotic Arrow
+ * TODO: Add configuration option to toggle death messages
+ * TODO: Fix earth arrows
  */
