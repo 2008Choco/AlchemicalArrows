@@ -6,17 +6,19 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.inventory.ItemStack;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class NecroticArrow extends AlchemicalArrow{
 	
-	private final MaterialData rottenFlesh = new MaterialData(Material.ROTTEN_FLESH);
+	private final ItemStack rottenFlesh = new ItemStack(Material.ROTTEN_FLESH);
 	
 	public NecroticArrow(Arrow arrow) {
 		super(arrow);
@@ -34,6 +36,14 @@ public class NecroticArrow extends AlchemicalArrow{
 			Entity entity = it.next();
 			if (entity instanceof Monster)
 				((Monster)entity).setTarget(player);
+		}
+	}
+	
+	@Override
+	public void hitEntityEventHandler(EntityDamageByEntityEvent event) {
+		if (event.getDamager() instanceof Damageable){
+			Damageable damager = (Damageable) event.getDamager();
+			damager.setHealth(damager.getHealth() + event.getDamage()/2);
 		}
 	}
 	

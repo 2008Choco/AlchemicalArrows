@@ -3,6 +3,8 @@ package me.choco.arrows.utils.arrows;
 import org.bukkit.Particle;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
@@ -14,12 +16,14 @@ public class DarknessArrow extends AlchemicalArrow{
 	
 	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.DAMAGE_INDICATOR, getArrow().getLocation(), 3, 0.1, 0.1, 0.1, 0.1);
+		player.spawnParticle(Particle.DAMAGE_INDICATOR, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.1);
 	}
 	
-	/* TODO
-	 * REWRITE AN IDEA FOR THIS
-	 */
+	@Override
+	public void onHitPlayer(Player player) {
+		PotionEffect blindness = PotionEffectType.BLINDNESS.createEffect(500, 1);
+		player.addPotionEffect(blindness);
+	}
 	
 	@SuppressWarnings("deprecation")
 	@Override

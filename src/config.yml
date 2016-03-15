@@ -1,6 +1,7 @@
 CheckForUpdates: true
 MetricsEnabled: true
 SkeletonShootPercentage: 10
+CustomDeathMessages: true
 Arrows:
   AirArrow:
     Crafts: 8

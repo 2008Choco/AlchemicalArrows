@@ -14,11 +14,11 @@ public class PickupArrow implements Listener{
 	
 	@EventHandler
 	public void onPickupArrow(){
-//		for (AlchemicalArrow arrow : plugin.getArrowRegistry().getRegisteredArrows().values()){
-//			if (arrow.getArrow().equals(event.getArrow())){
-//				event.setCancelled(true);
+//		for (AlchemicalArrow aarrow : plugin.getArrowRegistry().getRegisteredArrows().values()){
+//			if (aarrow.getArrow().equals(arrow)){
+//				event.getItem().remove();
 //				for (ItemStack item : ArrowRegistry.getArrowRegistry().keySet()){
-//					if (ArrowRegistry.getArrowRegistry().get(item) instanceof arrow){
+//					if (ArrowRegistry.getArrowRegistry().get(item) instanceof aarrow.getClass()){
 //						event.getPlayer().getInventory().add(item);
 //						break;
 //					}

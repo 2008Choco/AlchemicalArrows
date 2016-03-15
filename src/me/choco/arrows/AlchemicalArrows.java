@@ -184,8 +184,12 @@ public class AlchemicalArrows extends JavaPlugin{
 }
 
 /* 2.0 BETA-8 CHANGELOG
- * TODO: Vampiric (life-steal) effect for necrotic arrow (Deals half damage)
- * TODO: Spawn a random mob relatively close to the player when hitting player with Necrotic Arrow
- * TODO: Add configuration option to toggle death messages
- * TODO: Fix earth arrows
+ * Added a vampiric (life-steal) effect to the necrotic arrow. Whatever damage dealt to an entity, half of that will be healed to the shooter
+ * Added a high priority to the custom death messages
+ * Added a configuration option to toggle custom death messages (In case you want to hide them with another plugin)
+ * Fixed Earth Arrows not burrowing the player in the ground
+ * Fixed Earth Arrows often times shooting players into the ground in a sort of glitchy way
+ * Fixed Necrotic Arrows spamming the console whilst active
+ * Readded blindness effect to Darkness Arrow when hitting players
+ * Decreased the particle count for Darkness Arrows (Much less... spammy)
  */

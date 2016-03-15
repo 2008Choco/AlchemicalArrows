@@ -46,7 +46,7 @@ public class ArrowRegistry {
 		
 		arrowRegistry.put(duplicate, clazz);
 		if (!clazz.getPackage().getName().startsWith("me.choco.arrows.utils.arrows")){
-			AlchemicalArrows.getPlugin().getLogger().info("Successfully registered external arrow from package " + clazz.getPackage().getName());
+			AlchemicalArrows.getPlugin().getLogger().info("Successfully registered external arrow (" + clazz.getSimpleName() + ") from package " + clazz.getPackage().getName());
 		}
 	}
 	
