@@ -20,6 +20,7 @@ import me.choco.arrows.events.ArrowHitEntity;
 import me.choco.arrows.events.ArrowHitGround;
 import me.choco.arrows.events.ArrowHitPlayer;
 import me.choco.arrows.events.CustomDeathMessage;
+import me.choco.arrows.events.PickupArrow;
 import me.choco.arrows.events.ProjectileShoot;
 import me.choco.arrows.utils.ArrowRegistry;
 import me.choco.arrows.utils.ItemRecipes;
@@ -72,7 +73,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		Bukkit.getPluginManager().registerEvents(new ArrowHitPlayer(this), this);
 		Bukkit.getPluginManager().registerEvents(new ProjectileShoot(this), this);
 		Bukkit.getPluginManager().registerEvents(new CustomDeathMessage(this), this);
-		//TODO Bukkit.getPluginManager().registerEvents(new PickupArrow(this), this);
+		Bukkit.getPluginManager().registerEvents(new PickupArrow(this), this);
 		Bukkit.getPluginManager().registerEvents(recipes, this);
 		
 		//Register commands
@@ -183,13 +184,7 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* 2.0 BETA-8 CHANGELOG
- * Added a vampiric (life-steal) effect to the necrotic arrow. Whatever damage dealt to an entity, half of that will be healed to the shooter
- * Added a high priority to the custom death messages
- * Added a configuration option to toggle custom death messages (In case you want to hide them with another plugin)
- * Fixed Earth Arrows not burrowing the player in the ground
- * Fixed Earth Arrows often times shooting players into the ground in a sort of glitchy way
- * Fixed Necrotic Arrows spamming the console whilst active
- * Readded blindness effect to Darkness Arrow when hitting players
- * Decreased the particle count for Darkness Arrows (Much less... spammy)
+/* 2.0 BETA-9 CHANGELOG
+ * Attempt to fix "ghost particles" when a chunk is unloaded and the arrow despawns
+ * Fixed not being able to pick up AlchemicalArrows from the ground after being shot
  */

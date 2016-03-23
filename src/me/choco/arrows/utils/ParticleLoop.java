@@ -24,7 +24,7 @@ public class ParticleLoop extends BukkitRunnable{
 		Iterator<UUID> it = registry.getRegisteredArrows().keySet().iterator();
 		while (it.hasNext()){
 			AlchemicalArrow arrow = registry.getAlchemicalArrow(it.next());
-			if (arrow.getArrow().isDead()){
+			if (arrow.getArrow().isDead() || !arrow.getArrow().isValid()){
 				it.remove();
 				continue;
 			}
