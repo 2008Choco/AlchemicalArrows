@@ -184,7 +184,6 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* 2.0 BETA-9 CHANGELOG
- * Attempt to fix "ghost particles" when a chunk is unloaded and the arrow despawns
- * Fixed not being able to pick up AlchemicalArrows from the ground after being shot
+/* 2.0 Release CHANGELOG
+ * Fixed arrows being picked up, even if another plugin prevents arrows from being picked up
  */

@@ -23,10 +23,11 @@ public class PickupArrow implements Listener{
 			if (aarrow.getArrow().equals(event.getArrow())){
 				for (ItemStack item : ArrowRegistry.getArrowRegistry().keySet()){
 					if (ArrowRegistry.getArrowRegistry().get(item).equals(aarrow.getClass())){
-						event.getPlayer().getInventory().addItem(item);
+						if (event.isCancelled()) return;
 						
 						event.setCancelled(true);
 						event.getArrow().remove();
+						event.getPlayer().getInventory().addItem(item);
 						event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
 						break;
 					}
