@@ -47,6 +47,7 @@ public class ItemRecipes implements Listener{
 	@EventHandler
 	public void onPrepareCraftingRecipe(PrepareItemCraftEvent event){
 		ItemStack item = event.getInventory().getResult();
+		if (item == null) return;
 		if (!item.hasItemMeta()) return;
 		else if (!item.getItemMeta().hasDisplayName()) return;
 		

@@ -31,7 +31,7 @@ public class ArrowHitPlayer implements Listener{
 		Player player = (Player) event.getEntity();
 		
 		if (plugin.getArrowRegistry().isAlchemicalArrow(arrow)){
-			if (plugin.worldGuardEnabled){
+			if (plugin.isWorldGuardSupported()){
 				if (arrow.getShooter() instanceof Player){
 					Player shooter = (Player) arrow.getShooter();
 					ApplicableRegionSet shooterRegions = WGBukkit.getRegionManager(shooter.getWorld()).getApplicableRegions(shooter.getLocation());

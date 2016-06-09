@@ -126,6 +126,14 @@ public class ArrowRegistry {
 		return (arrows.containsKey(uuid));
 	}
 	
+	/** Check whether an ItemStack is a registered arrow or not
+	 * @param item - The item to check
+	 * @return Whether it is an arrow or not
+	 */
+	public boolean isAlchemicalArrow(ItemStack item){
+		return (arrowRegistry.containsKey(item));
+	}
+	
 	/** Get the registered/tracked arrows from AlchemicalArrows. May be used to manipulate all current arrows
 	 * @return The registered AlchemicalArrow HashMap
 	 */

@@ -49,7 +49,7 @@ public class AlchemicalArrows extends JavaPlugin{
 	private static AlchemicalArrows instance;
 	private ArrowRegistry registry;
 	
-	public boolean worldGuardEnabled = false;
+	private boolean worldGuardEnabled = false;
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -182,8 +182,12 @@ public class AlchemicalArrows extends JavaPlugin{
 	public ArrowRegistry getArrowRegistry(){
 		return registry;
 	}
+
+	public boolean isWorldGuardSupported() {
+		return worldGuardEnabled;
+	}
 }
 
-/* 2.0 Release CHANGELOG
- * Fixed arrows being picked up, even if another plugin prevents arrows from being picked up
+/* 2.1.0 Release CHANGELOG
+ * 
  */

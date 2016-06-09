@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.projectiles.BlockProjectileSource;
 
 import me.choco.arrows.AlchemicalArrows;
@@ -37,10 +38,18 @@ public class ProjectileShoot implements Listener{
 		
 		if (arrow.getShooter() instanceof Player){
 			Player player = (Player) arrow.getShooter();
-			if (!player.getInventory().contains(Material.ARROW)) return;
+			PlayerInventory inventory = player.getInventory();
+			if (!inventory.contains(Material.ARROW)) return;
 			
 			//Register the arrow if it's in the arrow registry
-			ItemStack reference = player.getInventory().getItem(player.getInventory().first(Material.ARROW));
+			int arrowSlot = (isShotFromMainHand(player) ? inventory.first(Material.ARROW) : inventory.getHeldItemSlot());
+			ItemStack reference = inventory.getItem(arrowSlot);
+			
+			if (reference == null){
+				arrowSlot = inventory.first(Material.ARROW);
+				reference = inventory.getItem(arrowSlot);
+			}
+			
 			ItemStack item = new ItemStack(reference); item.setAmount(1);
 			if (ArrowRegistry.getArrowRegistry().containsKey(item)){
 				try{
@@ -55,20 +64,30 @@ public class ProjectileShoot implements Listener{
 			aarrow.shootEventHandler(event);
 			aarrow.onShootFromPlayer(player);
 			
-			if (player.getInventory().getItemInMainHand() == null) return;
-			else if (player.getInventory().getItemInOffHand() == null) return;
+			if (aarrow.allowInfinity()) return;
 			if (!player.getGameMode().equals(GameMode.CREATIVE)){
-				if (player.getInventory().getItemInMainHand().getEnchantments().containsKey(Enchantment.ARROW_INFINITE)){
-					if (reference.getAmount() > 1) reference.setAmount(reference.getAmount() - 1);
-					else{ player.getInventory().setItem(player.getInventory().first(Material.ARROW), new ItemStack(Material.AIR)); }
-				}else if (player.getInventory().getItemInOffHand().getEnchantments().containsKey(Enchantment.ARROW_INFINITE)){
-					if (!aarrow.allowInfinity()){
-						if (reference.getAmount() > 1) reference.setAmount(reference.getAmount() - 1);
-						else{ player.getInventory().setItem(player.getInventory().first(Material.ARROW), new ItemStack(Material.AIR)); }
+				if (inventory.getItemInMainHand() != null &&
+						inventory.getItemInMainHand().getEnchantments().containsKey(Enchantment.ARROW_INFINITE)){
+					
+					if (reference.getAmount() > 1){
+						reference.setAmount(reference.getAmount() - 1);
+					}else{ 
+						inventory.setItem(arrowSlot, new ItemStack(Material.AIR)); 
+					}
+				}
+				
+				else if (inventory.getItemInOffHand() != null && 
+						inventory.getItemInOffHand().getEnchantments().containsKey(Enchantment.ARROW_INFINITE)){
+					
+					if (reference.getAmount() > 1){
+						reference.setAmount(reference.getAmount() - 1);
+					}else{ 
+						inventory.setItem(arrowSlot, new ItemStack(Material.AIR)); 
 					}
 				}
 			}
 		}
+		
 		else if (arrow.getShooter() instanceof Skeleton){
 			if ((random.nextInt(100) + 1) <= skeletonPercent){
 				Object[] values = ArrowRegistry.getArrowRegistry().values().toArray();
@@ -86,10 +105,20 @@ public class ProjectileShoot implements Listener{
 					e.printStackTrace(); 
 				}
 			}
-		}else if (arrow.getShooter() instanceof BlockProjectileSource){
+		}
+		
+		else if (arrow.getShooter() instanceof BlockProjectileSource){
 //			TODO:
 //			BlockProjectileSource bps = (BlockProjectileSource) arrow.getShooter();
 //			plugin.getArrowRegistry().getAlchemicalArrow(arrow).onShootFromBlockSource(bps);
 		}
+	}
+	
+	private boolean isShotFromMainHand(Player player){
+		ItemStack mainHand = player.getInventory().getItemInMainHand();
+		ItemStack offHand = player.getInventory().getItemInOffHand();
+		
+		return ((mainHand != null && mainHand.getType().equals(Material.BOW)) || 
+				(mainHand == null && offHand != null && offHand.getType().equals(Material.BOW)));
 	}
 }
