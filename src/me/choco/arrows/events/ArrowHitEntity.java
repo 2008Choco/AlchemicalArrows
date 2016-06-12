@@ -12,7 +12,7 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class ArrowHitEntity implements Listener{
 	
-	AlchemicalArrows plugin;
+	private AlchemicalArrows plugin;
 	public ArrowHitEntity(AlchemicalArrows plugin){
 		this.plugin = plugin;
 	}

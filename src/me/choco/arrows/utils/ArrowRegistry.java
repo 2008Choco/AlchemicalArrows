@@ -18,11 +18,6 @@ public class ArrowRegistry {
 	/** Used to determine what ItemStack corresponds to what AlchemicalArrow type when registering arrows when shot */
 	private static HashMap<ItemStack, Class<? extends AlchemicalArrow>> arrowRegistry = new HashMap<>();
 	
-	AlchemicalArrows plugin;
-	public ArrowRegistry(AlchemicalArrows plugin){
-		this.plugin = plugin;
-	}
-	
 	/** Register an Alchemical Arrow.
 	 * <br>This is REQUIRED in order for AlchemicalArrows to recognize that you are in fact shooting an Alchemical Arrow
 	 * @param item The item variation of the Alchemical Arrow

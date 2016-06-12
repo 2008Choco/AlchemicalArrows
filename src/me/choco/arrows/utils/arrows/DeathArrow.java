@@ -15,7 +15,7 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class DeathArrow extends AlchemicalArrow{
 	
-	Random random = new Random();
+	private static final Random random = new Random();
 	
 	public DeathArrow(Arrow arrow) {
 		super(arrow);

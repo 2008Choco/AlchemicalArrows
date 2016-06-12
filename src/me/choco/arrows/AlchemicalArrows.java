@@ -55,7 +55,7 @@ public class AlchemicalArrows extends JavaPlugin{
 	@Override
 	public void onEnable(){
 		instance = this;
-		registry = new ArrowRegistry(this);
+		registry = new ArrowRegistry();
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		ItemRecipes recipes = new ItemRecipes(this);
@@ -78,10 +78,11 @@ public class AlchemicalArrows extends JavaPlugin{
 		
 		//Register commands
 		this.getLogger().info("Registering commands");
-		this.getCommand("alchemicalarrows").setExecutor(new MainCmd(this));
-			this.getCommand("alchemicalarrows").setTabCompleter(new MainCmd(this));
-		this.getCommand("givearrow").setExecutor(new GiveArrowCmd(this));
-			this.getCommand("givearrow").setTabCompleter(new GiveArrowCmd(this));
+		
+		MainCmd mc = new MainCmd(this);
+		GiveArrowCmd gac = new GiveArrowCmd();
+		this.getCommand("alchemicalarrows").setExecutor(mc); this.getCommand("alchemicalarrows").setTabCompleter(mc);
+		this.getCommand("givearrow").setExecutor(gac); this.getCommand("givearrow").setTabCompleter(gac);
 		
 		//Register crafting recipes
 		this.getLogger().info("Registering recipes");

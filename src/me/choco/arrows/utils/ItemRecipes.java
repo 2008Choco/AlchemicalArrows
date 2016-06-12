@@ -15,10 +15,7 @@ public class ItemRecipes implements Listener{
 	public ItemStack airArrow, earthArrow, magicArrow, enderArrow, lifeArrow, deathArrow, lightArrow, darknessArrow, fireArrow, frostArrow, 
 		waterArrow, necroticArrow, confusionArrow, magneticArrow, grappleArrow;
 	
-	AlchemicalArrows plugin;
 	public ItemRecipes(AlchemicalArrows plugin){
-		this.plugin = plugin;
-		
 		airArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.AirArrow.Crafts"), ChatColor.ITALIC + plugin.getConfig().getString("Arrows.AirArrow.DisplayName"));
 		earthArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.EarthArrow.Crafts"), ChatColor.GRAY + plugin.getConfig().getString("Arrows.EarthArrow.DisplayName"));
 		magicArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagicArrow.Crafts"), ChatColor.LIGHT_PURPLE + plugin.getConfig().getString("Arrows.MagicArrow.DisplayName"));

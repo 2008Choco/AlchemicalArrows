@@ -15,7 +15,8 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 
 public class MainCmd implements CommandExecutor, TabCompleter{
-	AlchemicalArrows plugin;
+	
+	private AlchemicalArrows plugin;
 	public MainCmd(AlchemicalArrows plugin){
 		this.plugin = plugin;
 	}

@@ -14,7 +14,7 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class AirArrow extends AlchemicalArrow{
 	
-	Random random = new Random();
+	private static final Random random = new Random();
 	
 	public AirArrow(Arrow arrow) {
 		super(arrow);

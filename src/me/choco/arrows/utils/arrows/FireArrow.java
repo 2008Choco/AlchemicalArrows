@@ -12,7 +12,7 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class FireArrow extends AlchemicalArrow{
 	
-	Random random = new Random();
+	private static final Random random = new Random();
 	
 	public FireArrow(Arrow arrow) {
 		super(arrow);

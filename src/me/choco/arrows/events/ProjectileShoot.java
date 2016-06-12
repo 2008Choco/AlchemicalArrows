@@ -22,10 +22,10 @@ import me.choco.arrows.utils.ArrowRegistry;
 
 public class ProjectileShoot implements Listener{
 
-	Random random = new Random();
+	private static final Random random = new Random();
 	int skeletonPercent = 10;
 	
-	AlchemicalArrows plugin;
+	private AlchemicalArrows plugin;
 	public ProjectileShoot(AlchemicalArrows plugin){
 		this.plugin = plugin;
 		this.skeletonPercent = plugin.getConfig().getInt("SkeletonShootPercentage");
@@ -45,7 +45,7 @@ public class ProjectileShoot implements Listener{
 			int arrowSlot = (isShotFromMainHand(player) ? inventory.first(Material.ARROW) : inventory.getHeldItemSlot());
 			ItemStack reference = inventory.getItem(arrowSlot);
 			
-			if (reference == null){
+			if (reference == null || !reference.getType().equals(Material.ARROW)){
 				arrowSlot = inventory.first(Material.ARROW);
 				reference = inventory.getItem(arrowSlot);
 			}

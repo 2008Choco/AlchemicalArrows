@@ -12,7 +12,7 @@ import me.choco.arrows.utils.ArrowRegistry;
 
 public class PickupArrow implements Listener{
 	
-	AlchemicalArrows plugin;
+	private AlchemicalArrows plugin;
 	public PickupArrow(AlchemicalArrows plugin){
 		this.plugin = plugin;
 	}

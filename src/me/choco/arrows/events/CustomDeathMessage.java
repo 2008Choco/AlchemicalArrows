@@ -19,7 +19,7 @@ public class CustomDeathMessage implements Listener{
 	private final String skeletonDeathMessage = "%player% was shot by a skeleton using a %type% arrow";
 	private final String blockSourceDeathMessage = "%player% was shot using a %type% arrow";
 
-	AlchemicalArrows plugin;
+	private AlchemicalArrows plugin;
 	public CustomDeathMessage(AlchemicalArrows plugin){
 		this.plugin = plugin;
 	}

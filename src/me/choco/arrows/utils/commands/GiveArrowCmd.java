@@ -13,16 +13,10 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ArrowRegistry;
 
 public class GiveArrowCmd implements CommandExecutor, TabCompleter{
-	
-	AlchemicalArrows plugin;
-	public GiveArrowCmd(AlchemicalArrows plugin){
-		this.plugin = plugin;
-	}
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){

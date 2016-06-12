@@ -12,7 +12,7 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class ArrowHitGround implements Listener{
 	
-	AlchemicalArrows plugin;
+	private AlchemicalArrows plugin;
 	public ArrowHitGround(AlchemicalArrows plugin){
 		this.plugin = plugin;
 	}

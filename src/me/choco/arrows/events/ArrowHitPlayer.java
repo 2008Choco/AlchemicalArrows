@@ -17,7 +17,7 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class ArrowHitPlayer implements Listener{
 	
-	AlchemicalArrows plugin;
+	private AlchemicalArrows plugin;
 	public ArrowHitPlayer(AlchemicalArrows plugin){
 		this.plugin = plugin;
 	}

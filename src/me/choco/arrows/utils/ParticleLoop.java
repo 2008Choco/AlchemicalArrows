@@ -12,10 +12,8 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class ParticleLoop extends BukkitRunnable{
 	
-	AlchemicalArrows plugin;
-	ArrowRegistry registry;
+	private ArrowRegistry registry;
 	public ParticleLoop(AlchemicalArrows plugin){
-		this.plugin = plugin;
 		this.registry = plugin.getArrowRegistry();
 	}
 	

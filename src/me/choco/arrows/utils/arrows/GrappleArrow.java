@@ -13,7 +13,7 @@ import me.choco.arrows.api.AlchemicalArrow;
 
 public class GrappleArrow extends AlchemicalArrow{
 	
-	double grappleForce;
+	private double grappleForce;
 	
 	public GrappleArrow(Arrow arrow) {
 		super(arrow);
