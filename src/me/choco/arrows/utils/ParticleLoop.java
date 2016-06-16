@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,14 +23,15 @@ public class ParticleLoop extends BukkitRunnable{
 		Iterator<UUID> it = registry.getRegisteredArrows().keySet().iterator();
 		while (it.hasNext()){
 			AlchemicalArrow arrow = registry.getAlchemicalArrow(it.next());
-			if (arrow.getArrow().isDead() || !arrow.getArrow().isValid()){
+			Arrow rawArrow = arrow.getArrow();
+			if (rawArrow.isDead() || !rawArrow.isValid()){
 				it.remove();
 				continue;
 			}
 			
 			for (Player player : Bukkit.getOnlinePlayers()){
-				if (!player.getWorld().getName().equals(arrow.getArrow().getWorld().getName())) continue;
-				if (player.getLocation().distance(arrow.getArrow().getLocation()) >= Math.sqrt(400)) continue;
+				if (!player.getWorld().equals(rawArrow.getWorld())) continue;
+				if (player.getLocation().distanceSquared(rawArrow.getLocation()) >= 400) continue;
 				arrow.displayParticle(player);
 			}
 		}

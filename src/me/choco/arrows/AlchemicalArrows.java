@@ -122,7 +122,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		ArrowRegistry.registerAlchemicalArrow(recipes.grappleArrow, GrappleArrow.class);
 		
 		//Load Metrics
-		if (getConfig().getBoolean("MetricsEnabled") == true){
+		if (getConfig().getBoolean("MetricsEnabled")){
 			this.getLogger().info("Enabling Plugin Metrics");
 		    try{
 		        Metrics metrics = new Metrics(this);

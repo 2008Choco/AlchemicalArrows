@@ -2,9 +2,11 @@ package me.choco.arrows.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -12,6 +14,7 @@ import me.choco.arrows.AlchemicalArrows;
 
 public class ItemRecipes implements Listener{
 	
+	private static final ItemStack air = new ItemStack(Material.AIR);
 	public ItemStack airArrow, earthArrow, magicArrow, enderArrow, lifeArrow, deathArrow, lightArrow, darknessArrow, fireArrow, frostArrow, 
 		waterArrow, necroticArrow, confusionArrow, magneticArrow, grappleArrow;
 	
@@ -46,38 +49,42 @@ public class ItemRecipes implements Listener{
 		ItemStack item = event.getInventory().getResult();
 		if (item == null) return;
 		if (!item.hasItemMeta()) return;
-		else if (!item.getItemMeta().hasDisplayName()) return;
+		if (!item.getItemMeta().hasDisplayName()) return;
 		
-		if (item.getItemMeta().getDisplayName().equals(airArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.air")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(earthArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.earth")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(magicArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.magic")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(enderArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.ender")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(lifeArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.life")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(deathArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.death")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(lightArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.light")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(darknessArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.darkness")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(fireArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.fire")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(frostArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.frost")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(waterArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.water")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(necroticArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.necrotic")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(confusionArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.confusion")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(magneticArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.magnetic")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
-		}else if (item.getItemMeta().getDisplayName().equals(grappleArrow.getItemMeta().getDisplayName()) && !event.getViewers().get(0).hasPermission("arrows.craft.necrotic")){
-			event.getInventory().setResult(new ItemStack(Material.AIR));
+		String name = item.getItemMeta().getDisplayName();
+		Player player = (Player) event.getViewers().get(0);
+		CraftingInventory inventory = event.getInventory();
+		
+		if (name.equals(airArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.air")){
+			inventory.setResult(air);
+		}else if (name.equals(earthArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.earth")){
+			inventory.setResult(air);
+		}else if (name.equals(magicArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.magic")){
+			inventory.setResult(air);
+		}else if (name.equals(enderArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.ender")){
+			inventory.setResult(air);
+		}else if (name.equals(lifeArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.life")){
+			inventory.setResult(air);
+		}else if (name.equals(deathArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.death")){
+			inventory.setResult(air);
+		}else if (name.equals(lightArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.light")){
+			inventory.setResult(air);
+		}else if (name.equals(darknessArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.darkness")){
+			inventory.setResult(air);
+		}else if (name.equals(fireArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.fire")){
+			inventory.setResult(air);
+		}else if (name.equals(frostArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.frost")){
+			inventory.setResult(air);
+		}else if (name.equals(waterArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.water")){
+			inventory.setResult(air);
+		}else if (name.equals(necroticArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.necrotic")){
+			inventory.setResult(air);
+		}else if (name.equals(confusionArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.confusion")){
+			inventory.setResult(air);
+		}else if (name.equals(magneticArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.magnetic")){
+			inventory.setResult(air);
+		}else if (name.equals(grappleArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.necrotic")){
+			inventory.setResult(air);
 		}
 	}
 }
