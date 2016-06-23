@@ -189,6 +189,6 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* 2.1.0 Release CHANGELOG
- * 
+/* 2.1.3 Release CHANGELOG
+ * Magnetic arrow now has its own particle effect (New falling sand particle)
  */
