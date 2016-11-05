@@ -11,6 +11,7 @@ import org.bukkit.util.Vector;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class AirArrow extends AlchemicalArrow{
 	
@@ -21,19 +22,24 @@ public class AirArrow extends AlchemicalArrow{
 	}
 	
 	@Override
+	public String getName() {
+		return "Air";
+	}
+	
+	@Override
 	public void displayParticle(Player player){
-		player.spawnParticle(Particle.CLOUD, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.01);
+		player.spawnParticle(Particle.CLOUD, arrow.getLocation(), 1, 0.1, 0.1, 0.1, 0.01);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player){
-		player.setVelocity(new Vector(0, (random.nextDouble()*2) + 1, 0));
+		player.setVelocity(new Vector(0, (random.nextDouble() * 2) + 1, 0));
 		player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity){
-		entity.setVelocity(new Vector(0, 2, 0));
+		entity.setVelocity(entity.getVelocity().setY((random.nextDouble() * 2) + 1));
 		entity.getWorld().playSound(entity.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
 	}
 	
@@ -47,11 +53,11 @@ public class AirArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.AirArrow.AllowInfinity");
+		return ConfigOption.AIR_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.AirArrow.SkeletonsCanShoot");
+		return ConfigOption.AIR_SKELETONS_CAN_SHOOT;
 	}
 }

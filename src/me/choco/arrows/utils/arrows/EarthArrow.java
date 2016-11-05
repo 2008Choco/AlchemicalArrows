@@ -14,18 +14,25 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class EarthArrow extends AlchemicalArrow{
 	
-	private final MaterialData dirt = new MaterialData(Material.DIRT);
+	private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 150, 2);
+	private static final MaterialData DIRT = new MaterialData(Material.DIRT);
 	
 	public EarthArrow(Arrow arrow){
 		super(arrow);
 	}
 	
 	@Override
+	public String getName() {
+		return "Earth";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.BLOCK_DUST, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.1, dirt);
+		player.spawnParticle(Particle.BLOCK_DUST, arrow.getLocation(), 1, 0.1, 0.1, 0.1, 0.1, DIRT);
 	}
 	
 	@Override
@@ -33,31 +40,31 @@ public class EarthArrow extends AlchemicalArrow{
 		Location location = player.getLocation();
 		while (!location.getBlock().getType().isSolid())
 			location = location.subtract(0, 1, 0);
-		location.setX(Math.floor(location.getX()) + 0.5);
-		location.setZ(Math.floor(location.getZ()) + 0.5);
+		location.setX(location.getBlockX() + 0.5);
+		location.setZ(location.getBlockY() + 0.5);
 		player.teleport(location);
 		
 		if (arrow.getShooter() instanceof Player)
 			((Player) arrow.getShooter()).playSound(player.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 0.75F);
 		player.playSound(player.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 0.75F);
-		PotionEffect slowness = PotionEffectType.SLOW.createEffect(150, 2);
-		player.addPotionEffect(slowness);
+		
+		player.addPotionEffect(SLOWNESS_EFFECT);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
+		if (!(entity instanceof LivingEntity)) return;
+		LivingEntity lEntity = (LivingEntity) entity;
+		
 		Location location = entity.getLocation();
 		while (!location.getBlock().getType().isSolid())
 			location = location.subtract(0, 1, 0);
-		location.setX(Math.floor(location.getX()) + 0.5);
-		location.setZ(Math.floor(location.getZ()) + 0.5);
-		entity.teleport(location);
+		location.setX(location.getBlockX() + 0.5);
+		location.setZ(location.getBlockY() + 0.5);
+		lEntity.teleport(location);
 		
 		entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 0.75F);
-		if (entity instanceof LivingEntity){
-			PotionEffect slowness = PotionEffectType.SLOW.createEffect(150, 2);
-			((LivingEntity) entity).addPotionEffect(slowness);
-		}
+		lEntity.addPotionEffect(SLOWNESS_EFFECT);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -70,11 +77,11 @@ public class EarthArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.EarthArrow.AllowInfinity");
+		return ConfigOption.EARTH_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.EarthArrow.SkeletonsCanShoot");
+		return ConfigOption.EARTH_SKELETONS_CAN_SHOOT;
 	}
 }

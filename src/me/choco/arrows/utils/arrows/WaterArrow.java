@@ -8,19 +8,26 @@ import org.bukkit.util.Vector;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class WaterArrow extends AlchemicalArrow{
+	
+	private Vector initialVector;
+	
 	public WaterArrow(Arrow arrow) {
 		super(arrow);
 	}
 	
-	private Vector initialVector;
+	@Override
+	public String getName() {
+		return "Water";
+	}
 	
 	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.WATER_WAKE, getArrow().getLocation(), 3, 0.1, 0.1, 0.1, 0.01);
-		if (getArrow().getLocation().getBlock().getType().name().contains("WATER")){
-			getArrow().setVelocity(initialVector.normalize().multiply(0.95));
+		player.spawnParticle(Particle.WATER_WAKE, arrow.getLocation(), 3, 0.1, 0.1, 0.1, 0.01);
+		if (arrow.getLocation().getBlock().getType().name().contains("WATER")){
+			arrow.setVelocity(initialVector.normalize().multiply(0.95));
 		}
 	}
 	
@@ -29,23 +36,23 @@ public class WaterArrow extends AlchemicalArrow{
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.water")){
 			AlchemicalArrows.getPlugin().getArrowRegistry().unregisterAlchemicalArrow(this);
-		}else{
-			this.initialVector = getArrow().getVelocity();
+			return;
 		}
+		this.initialVector = arrow.getVelocity();
 	}
 	
 	@Override
 	public void onShootFromSkeleton(Skeleton skeleton) {
-		this.initialVector = getArrow().getVelocity();
+		this.initialVector = arrow.getVelocity();
 	}
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.WaterArrow.AllowInfinity");
+		return ConfigOption.WATER_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.WaterArrow.SkeletonsCanShoot");
+		return ConfigOption.WATER_SKELETONS_CAN_SHOOT;
 	}
 }

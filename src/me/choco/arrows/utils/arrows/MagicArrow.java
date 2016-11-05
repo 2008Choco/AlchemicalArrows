@@ -9,26 +9,33 @@ import org.bukkit.util.Vector;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class MagicArrow extends AlchemicalArrow{
+	
 	public MagicArrow(Arrow arrow) {
 		super(arrow);
 	}
 	
 	@Override
+	public String getName() {
+		return "Magic";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.SPELL_WITCH, getArrow().getLocation(), 2, 0.1, 0.1, 0.1);
+		player.spawnParticle(Particle.SPELL_WITCH, arrow.getLocation(), 2, 0.1, 0.1, 0.1);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		player.setVelocity(new Vector((getArrow().getVelocity().getX() * 2), 0.75, (getArrow().getVelocity().getZ()) * 2));
+		player.setVelocity(new Vector((arrow.getVelocity().getX() * 2), 0.75, (arrow.getVelocity().getZ()) * 2));
 		player.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		entity.setVelocity(new Vector((arrow.getVelocity().getX() * 2), 0.75, (getArrow().getVelocity().getZ()) * 2));
+		entity.setVelocity(new Vector((arrow.getVelocity().getX() * 2), 0.75, (arrow.getVelocity().getZ()) * 2));
 		entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
@@ -42,11 +49,11 @@ public class MagicArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.MagicArrow.AllowInfinity");
+		return ConfigOption.MAGIC_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.MagicArrow.SkeletonsCanShoot");
+		return ConfigOption.MAGIC_SKELETONS_CAN_SHOOT;
 	}
 }

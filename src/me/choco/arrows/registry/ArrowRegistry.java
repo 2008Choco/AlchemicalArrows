@@ -1,4 +1,4 @@
-package me.choco.arrows.utils;
+package me.choco.arrows.registry;
 
 import java.util.HashMap;
 import java.util.UUID;

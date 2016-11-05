@@ -10,33 +10,40 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class FrostArrow extends AlchemicalArrow{
+	
+	private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 250, 254);
+	private static final PotionEffect ANTI_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 125, 500);
+	
 	public FrostArrow(Arrow arrow) {
 		super(arrow);
 	}
 	
 	@Override
+	public String getName() {
+		return "Frost";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.SNOW_SHOVEL, getArrow().getLocation(), 3, 0.1, 0.1, 0.1, 0.01);
+		player.spawnParticle(Particle.SNOW_SHOVEL, arrow.getLocation(), 3, 0.1, 0.1, 0.1, 0.01);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		PotionEffect slowness = PotionEffectType.SLOW.createEffect(250, 254);
-		PotionEffect antijump = PotionEffectType.JUMP.createEffect(125, 500);
-		player.addPotionEffect(slowness);
-		player.addPotionEffect(antijump);
+		player.addPotionEffect(SLOWNESS_EFFECT);
+		player.addPotionEffect(ANTI_JUMP_EFFECT);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		if (entity instanceof LivingEntity){
-			PotionEffect slowness = PotionEffectType.SLOW.createEffect(250, 254);
-			PotionEffect antijump = PotionEffectType.JUMP.createEffect(125, 500);
-			((LivingEntity) entity).addPotionEffect(slowness);
-			((LivingEntity) entity).addPotionEffect(antijump);
-		}
+		if (!(entity instanceof LivingEntity)) return;
+		LivingEntity lEntity = (LivingEntity) entity;
+		
+		lEntity.addPotionEffect(SLOWNESS_EFFECT);
+		lEntity.addPotionEffect(ANTI_JUMP_EFFECT);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -49,11 +56,11 @@ public class FrostArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.FrostArrow.AllowInfinity");
+		return ConfigOption.FROST_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.FrostArrow.SkeletonsCanShoot");
+		return ConfigOption.FROST_SKELETONS_CAN_SHOOT;
 	}
 }

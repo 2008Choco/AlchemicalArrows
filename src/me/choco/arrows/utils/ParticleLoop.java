@@ -10,19 +10,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.registry.ArrowRegistry;
 
 public class ParticleLoop extends BukkitRunnable{
 	
-	private ArrowRegistry registry;
+	private final ArrowRegistry arrowRegistry;
 	public ParticleLoop(AlchemicalArrows plugin){
-		this.registry = plugin.getArrowRegistry();
+		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 	
 	@Override
 	public void run(){
-		Iterator<UUID> it = registry.getRegisteredArrows().keySet().iterator();
+		Iterator<UUID> it = this.arrowRegistry.getRegisteredArrows().keySet().iterator();
 		while (it.hasNext()){
-			AlchemicalArrow arrow = registry.getAlchemicalArrow(it.next());
+			AlchemicalArrow arrow = this.arrowRegistry.getAlchemicalArrow(it.next());
 			Arrow rawArrow = arrow.getArrow();
 			if (rawArrow.isDead() || !rawArrow.isValid()){
 				it.remove();

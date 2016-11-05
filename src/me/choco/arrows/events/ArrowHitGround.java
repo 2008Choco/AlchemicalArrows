@@ -9,12 +9,13 @@ import org.bukkit.util.BlockIterator;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.registry.ArrowRegistry;
 
 public class ArrowHitGround implements Listener{
 	
-	private AlchemicalArrows plugin;
+	private final ArrowRegistry arrowRegistry;
 	public ArrowHitGround(AlchemicalArrows plugin){
-		this.plugin = plugin;
+		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 	
 	@EventHandler
@@ -22,18 +23,18 @@ public class ArrowHitGround implements Listener{
 		if (!(event.getEntity() instanceof Arrow)) return;
 		
 		Arrow arrow = (Arrow) event.getEntity();
-		if (plugin.getArrowRegistry().isAlchemicalArrow(arrow)){
-			BlockIterator it = new BlockIterator(arrow.getWorld(), arrow.getLocation().toVector(), arrow.getVelocity().normalize(), 0, 4);
-			
-			Block hitBlock = null;
-			while (it.hasNext()){
-				hitBlock = it.next();
-				if (hitBlock.getType().isSolid()) break;
-			}
-			
-			AlchemicalArrow aarrow = plugin.getArrowRegistry().getAlchemicalArrow(arrow);
-			aarrow.hitGroundEventHandler(event);
-			aarrow.onHitGround(hitBlock);
+		if (this.arrowRegistry.isAlchemicalArrow(arrow)) return;
+		
+		BlockIterator it = new BlockIterator(arrow.getWorld(), arrow.getLocation().toVector(), arrow.getVelocity().normalize(), 0, 4);
+		
+		Block hitBlock = null;
+		while (it.hasNext()){
+			hitBlock = it.next();
+			if (hitBlock.getType().isSolid()) break;
 		}
+		
+		AlchemicalArrow aarrow = this.arrowRegistry.getAlchemicalArrow(arrow);
+		aarrow.hitGroundEventHandler(event);
+		aarrow.onHitGround(hitBlock);
 	}
 }

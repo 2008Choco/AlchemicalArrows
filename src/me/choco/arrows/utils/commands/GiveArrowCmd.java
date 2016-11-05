@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.choco.arrows.api.AlchemicalArrow;
-import me.choco.arrows.utils.ArrowRegistry;
+import me.choco.arrows.registry.ArrowRegistry;
 
 public class GiveArrowCmd implements CommandExecutor, TabCompleter{
 	
@@ -54,8 +53,7 @@ public class GiveArrowCmd implements CommandExecutor, TabCompleter{
 					for (ItemStack arrow : ArrowRegistry.getArrowRegistry().keySet()){
 						String arrowName = ArrowRegistry.getArrowRegistry().get(arrow).getSimpleName().replace("Arrow", "").toLowerCase();
 						if (args[0].equalsIgnoreCase(arrowName)){
-							ItemStack itemToGive = new ItemStack(Material.ARROW);
-							itemToGive.setItemMeta(arrow.getItemMeta());
+							ItemStack itemToGive = arrow.clone();
 							itemToGive.setAmount(giveCount);
 							targetPlayer.getInventory().addItem(itemToGive);
 							player.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Successfully given " + giveCount + " of " + arrowName + " arrow " + (targetPlayer.getName().equals(player.getName()) ? "" : "to " + targetPlayer.getName()));

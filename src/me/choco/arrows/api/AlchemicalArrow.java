@@ -1,5 +1,7 @@
 package me.choco.arrows.api;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -10,12 +12,26 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.projectiles.BlockProjectileSource;
 
+import com.google.common.base.Preconditions;
+
+import me.choco.arrows.AlchemicalArrows;
+
 public abstract class AlchemicalArrow {
 	
-	protected Arrow arrow;
+	protected final Arrow arrow;
 	public AlchemicalArrow(Arrow arrow){
 		this.arrow = arrow;
 	}
+	
+	/** Get the base arrow linked to this AlchemicalArrow
+	 * @return The arrow
+	 */
+	public Arrow getArrow(){
+		return arrow;
+	}
+	
+	/** Get the name of the arrow used to be displayed in chat */
+	public abstract String getName();
 	
 	/** This method will be called when the arrow hits the ground
 	 * <br><b><i>Note: "block" parameter may on the odd occasion be null. Though rare, be cautious</i></b>
@@ -55,7 +71,7 @@ public abstract class AlchemicalArrow {
 	/** Fired the instant before onHitBlock() is called. Used to cancel events if necessary */
 	public void hitGroundEventHandler(ProjectileHitEvent event){}
 	
-	/** Fired the instant before onShootFromPlayer(), onShootFromSkeleton(), or onShootFromBlockSource is called. Used to cancel events if necessary */
+	/** Fired the instant before onShootFromPlayer(), onShootFromSkeleton(), or onShootFromBlockSource() is called. Used to cancel events if necessary */
 	public void shootEventHandler(ProjectileLaunchEvent event){}
 	
 	/** This method will be called whilst the arrow is still alive
@@ -75,10 +91,21 @@ public abstract class AlchemicalArrow {
 	 */
 	public boolean allowInfinity(){ return false; }
 	
-	/** Get the base arrow linked to this AlchemicalArrow
-	 * @return The arrow
+	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
+	
+	/** Create a new instance of an AlchemicalArrow
+	 * @param type - The type of arrow to create
+	 * @param arrow - The original arrow managed by Bukkit's API
+	 * @return a new instance of the specified arrow type. null if there is an invalid constructor in the class
 	 */
-	public Arrow getArrow(){
-		return arrow;
+	public static <T extends AlchemicalArrow> T createNewArrow(Class<T> type, Arrow arrow){
+		Preconditions.checkNotNull(arrow, "The provided arrow cannot be null");
+		
+		try{
+			return type.getDeclaredConstructor(Arrow.class).newInstance(arrow);
+		}catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e){
+			plugin.getLogger().warning("Could not create new arrow of type " + type.getName() + ". Constructor must only have parameter of type Arrow.class");
+			return null;
+		}
 	}
 }

@@ -14,30 +14,30 @@ import me.choco.arrows.AlchemicalArrows;
 
 public class ItemRecipes implements Listener{
 	
-	private static final ItemStack air = new ItemStack(Material.AIR);
-	public ItemStack airArrow, earthArrow, magicArrow, enderArrow, lifeArrow, deathArrow, lightArrow, darknessArrow, fireArrow, frostArrow, 
+	private static final ItemStack AIR = new ItemStack(Material.AIR);
+	public final ItemStack airArrow, earthArrow, magicArrow, enderArrow, lifeArrow, deathArrow, lightArrow, darknessArrow, fireArrow, frostArrow, 
 		waterArrow, necroticArrow, confusionArrow, magneticArrow, grappleArrow;
 	
 	public ItemRecipes(AlchemicalArrows plugin){
-		airArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.AirArrow.Crafts"), ChatColor.ITALIC + plugin.getConfig().getString("Arrows.AirArrow.DisplayName"));
-		earthArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.EarthArrow.Crafts"), ChatColor.GRAY + plugin.getConfig().getString("Arrows.EarthArrow.DisplayName"));
-		magicArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagicArrow.Crafts"), ChatColor.LIGHT_PURPLE + plugin.getConfig().getString("Arrows.MagicArrow.DisplayName"));
-		enderArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.EnderArrow.Crafts"), ChatColor.DARK_PURPLE + plugin.getConfig().getString("Arrows.EnderArrow.DisplayName"));
-		lifeArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.LifeArrow.Crafts"), ChatColor.GREEN + plugin.getConfig().getString("Arrows.LifeArrow.DisplayName"));
-		deathArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.DeathArrow.Crafts"), ChatColor.BLACK + plugin.getConfig().getString("Arrows.DeathArrow.DisplayName"));
-		lightArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.LightArrow.Crafts"), ChatColor.YELLOW + plugin.getConfig().getString("Arrows.LightArrow.DisplayName"));
-		darknessArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.DarknessArrow.Crafts"), ChatColor.DARK_GRAY + plugin.getConfig().getString("Arrows.DarknessArrow.DisplayName"));
-		fireArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.FireArrow.Crafts"), ChatColor.RED + plugin.getConfig().getString("Arrows.FireArrow.DisplayName"));
-		frostArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.FrostArrow.Crafts"), ChatColor.AQUA + plugin.getConfig().getString("Arrows.FrostArrow.DisplayName"));
-		waterArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.WaterArrow.Crafts"), ChatColor.BLUE + plugin.getConfig().getString("Arrows.WaterArrow.DisplayName"));
-		necroticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.NecroticArrow.Crafts"), ChatColor.DARK_GREEN + plugin.getConfig().getString("Arrows.NecroticArrow.DisplayName"));
-		confusionArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.ConfusionArrow.Crafts"), ChatColor.LIGHT_PURPLE + plugin.getConfig().getString("Arrows.ConfusionArrow.DisplayName"));
-		magneticArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.MagneticArrow.Crafts"), ChatColor.GRAY + plugin.getConfig().getString("Arrows.MagneticArrow.DisplayName"));
-		grappleArrow = createItem(Material.ARROW, plugin.getConfig().getInt("Arrows.GrappleArrow.Crafts"), ChatColor.YELLOW + plugin.getConfig().getString("Arrows.GrappleArrow.DisplayName"));
+		airArrow = createItem(ConfigOption.AIR_CRAFTS, ChatColor.ITALIC + ConfigOption.AIR_DISPLAY_NAME);
+		earthArrow = createItem(ConfigOption.EARTH_CRAFTS, ChatColor.GRAY + ConfigOption.EARTH_DISPLAY_NAME);
+		magicArrow = createItem(ConfigOption.MAGIC_CRAFTS, ChatColor.LIGHT_PURPLE + ConfigOption.MAGIC_DISPLAY_NAME);
+		enderArrow = createItem(ConfigOption.MAGIC_CRAFTS, ChatColor.DARK_PURPLE + ConfigOption.ENDER_DISPLAY_NAME);
+		lifeArrow = createItem(ConfigOption.LIFE_CRAFTS, ChatColor.GREEN + ConfigOption.LIFE_DISPLAY_NAME);
+		deathArrow = createItem(ConfigOption.DEATH_CRAFTS, ChatColor.BLACK + ConfigOption.DEATH_DISPLAY_NAME);
+		lightArrow = createItem(ConfigOption.LIGHT_CRAFTS, ChatColor.YELLOW + ConfigOption.LIGHT_DISPLAY_NAME);
+		darknessArrow = createItem(ConfigOption.DARKNESS_CRAFTS, ChatColor.DARK_GRAY + ConfigOption.DARKNESS_DISPLAY_NAME);
+		fireArrow = createItem(ConfigOption.FIRE_CRAFTS, ChatColor.RED + ConfigOption.FIRE_DISPLAY_NAME);
+		frostArrow = createItem(ConfigOption.FROST_CRAFTS, ChatColor.AQUA + ConfigOption.FROST_DISPLAY_NAME);
+		waterArrow = createItem(ConfigOption.WATER_CRAFTS, ChatColor.BLUE + ConfigOption.WATER_DISPLAY_NAME);
+		necroticArrow = createItem(ConfigOption.NECROTIC_CRAFTS, ChatColor.DARK_GREEN + ConfigOption.NECROTIC_DISPLAY_NAME);
+		confusionArrow = createItem(ConfigOption.CONFUSION_CRAFTS, ChatColor.LIGHT_PURPLE + ConfigOption.CONFUSION_DISPLAY_NAME);
+		magneticArrow = createItem(ConfigOption.MAGIC_CRAFTS, ChatColor.GRAY + ConfigOption.MAGNETIC_DISPLAY_NAME);
+		grappleArrow = createItem(ConfigOption.GRAPPLE_CRAFTS, ChatColor.YELLOW + ConfigOption.GRAPPLE_DISPLAY_NAME);
 	}
 	
-	private ItemStack createItem(Material material, int count, String name){
-		ItemStack item = new ItemStack(material, count);
+	private ItemStack createItem(int count, String name){
+		ItemStack item = new ItemStack(Material.ARROW, count);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(name);
 		item.setItemMeta(meta);
@@ -56,35 +56,35 @@ public class ItemRecipes implements Listener{
 		CraftingInventory inventory = event.getInventory();
 		
 		if (name.equals(airArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.air")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(earthArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.earth")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(magicArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.magic")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(enderArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.ender")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(lifeArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.life")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(deathArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.death")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(lightArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.light")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(darknessArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.darkness")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(fireArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.fire")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(frostArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.frost")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(waterArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.water")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(necroticArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.necrotic")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(confusionArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.confusion")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(magneticArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.magnetic")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}else if (name.equals(grappleArrow.getItemMeta().getDisplayName()) && !player.hasPermission("arrows.craft.necrotic")){
-			inventory.setResult(air);
+			inventory.setResult(AIR);
 		}
 	}
 }

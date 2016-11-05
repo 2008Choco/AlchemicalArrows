@@ -22,9 +22,9 @@ import me.choco.arrows.events.ArrowHitPlayer;
 import me.choco.arrows.events.CustomDeathMessage;
 import me.choco.arrows.events.PickupArrow;
 import me.choco.arrows.events.ProjectileShoot;
-import me.choco.arrows.utils.ArrowRegistry;
+import me.choco.arrows.registry.ArrowRegistry;
+import me.choco.arrows.utils.ConfigOption;
 import me.choco.arrows.utils.ItemRecipes;
-import me.choco.arrows.utils.Metrics;
 import me.choco.arrows.utils.ParticleLoop;
 import me.choco.arrows.utils.arrows.AirArrow;
 import me.choco.arrows.utils.arrows.ConfusionArrow;
@@ -43,6 +43,7 @@ import me.choco.arrows.utils.arrows.NecroticArrow;
 import me.choco.arrows.utils.arrows.WaterArrow;
 import me.choco.arrows.utils.commands.GiveArrowCmd;
 import me.choco.arrows.utils.commands.MainCmd;
+import me.choco.arrows.utils.general.Metrics;
 
 public class AlchemicalArrows extends JavaPlugin{
 	
@@ -50,14 +51,15 @@ public class AlchemicalArrows extends JavaPlugin{
 	private ArrowRegistry registry;
 	
 	private boolean worldGuardEnabled = false;
+	private boolean newVersionAvailable = false;
 	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
 		instance = this;
 		registry = new ArrowRegistry();
-		getConfig().options().copyDefaults(true);
-		saveConfig();
+		this.saveDefaultConfig();
+		ConfigOption.loadConfigurationValues(this);
 		ItemRecipes recipes = new ItemRecipes(this);
 		
 		//Check if WorldGuard is available
@@ -122,7 +124,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		ArrowRegistry.registerAlchemicalArrow(recipes.grappleArrow, GrappleArrow.class);
 		
 		//Load Metrics
-		if (getConfig().getBoolean("MetricsEnabled")){
+		if (ConfigOption.METRICS_ENABLED){
 			this.getLogger().info("Enabling Plugin Metrics");
 		    try{
 		        Metrics metrics = new Metrics(this);
@@ -135,7 +137,7 @@ public class AlchemicalArrows extends JavaPlugin{
 		}
 		
 		//Check for newer version (Bukget API)
-		if (getConfig().getBoolean("CheckForUpdates")){
+		if (ConfigOption.CHECK_FOR_UPDATES){
 			this.getLogger().info("Getting version information...");
 			new BukkitRunnable(){
 				@Override
@@ -156,6 +158,7 @@ public class AlchemicalArrows extends JavaPlugin{
 									+ "**\n"
 									+ "** You can download it from " + ((JSONObject) array.get(0)).get("link") + "\n" 
 									+ StringUtils.repeat('*', 40));
+							newVersionAvailable = true;
 						}
 						in.close();
 					}catch(IOException e){
@@ -187,8 +190,25 @@ public class AlchemicalArrows extends JavaPlugin{
 	public boolean isWorldGuardSupported() {
 		return worldGuardEnabled;
 	}
+	
+	public boolean isNewVersionAvailable() {
+		return newVersionAvailable;
+	}
 }
 
-/* 2.1.3 Release CHANGELOG
- * Magnetic arrow now has its own particle effect (New falling sand particle)
+/* Changelog 2.2.0:
+ * Rewrote a lot of individual arrow code for efficiency purposes
+ * Loads of general efficiency improvements throughout the code
+ * Some arrows now only affect LivingEntities whereas previous they would affect ALL entities
+ * API: Added a new abstract getName() method to get the name of arrow (e.g. "Air" for AirArrow)
+ * API: Added a static AlchemicalArrow#createAlchemicalArrow(Class<? extends AlchemicalArrow>, Arrow) method to create a new Alchemical Arrow of any specified type
+ * API: Added a AlchemicalArrows#isNewVersionAvailable() method to check if a new version is present on BukkitDev
+ * Added a ConfigOption class to manage configuration options a bit better and more efficiently throughout the plugin
+ * Encapsulated and externalized plenty of variables that required it
+ * The "/alchemicalarrows version" command will now display if there is a new version available or not
+ * Fixed a few "off-by-one" randomization patterns
+ * Further improved the way arrows are created and registered upon being launched
+ * Moved a few classes into new different packages to be more organized
+ * 
+ * An in-depth explanation (code-wise) of the changelog can be found on AlchemicalArrows BitBucket's commit history. Yes, AlchemicalArrows's repository is now public on the main page under the AlchemicalArrows API category!
  */

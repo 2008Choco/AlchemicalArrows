@@ -13,10 +13,11 @@ import org.bukkit.util.Vector;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class MagneticArrow extends AlchemicalArrow{
 	
-	private static final MaterialData iron = new MaterialData(Material.IRON_BLOCK), gold = new MaterialData(Material.GOLD_BLOCK);
+	private static final MaterialData IRON = new MaterialData(Material.IRON_BLOCK), GOLD = new MaterialData(Material.GOLD_BLOCK);
 	private static final Random random = new Random();
 	
 	public MagneticArrow(Arrow arrow) {
@@ -24,21 +25,28 @@ public class MagneticArrow extends AlchemicalArrow{
 	}
 	
 	@Override
+	public String getName() {
+		return "Magnetic";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.FALLING_DUST, arrow.getLocation(), 1, 0.1, 0.1, 0.1, iron);
+		player.spawnParticle(Particle.FALLING_DUST, arrow.getLocation(), 1, 0.1, 0.1, 0.1, IRON);
 		if (random.nextInt(10) == 0)
-			player.spawnParticle(Particle.FALLING_DUST, arrow.getLocation(), 1, 0.1, 0.1, 0.1, gold);
+			player.spawnParticle(Particle.FALLING_DUST, arrow.getLocation(), 1, 0.1, 0.1, 0.1, GOLD);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		player.setVelocity(new Vector(-(getArrow().getVelocity().getX() * 1.5), -(getArrow().getVelocity().getY() * 1.1), -(getArrow().getVelocity().getZ()) * 1.5));
+		Vector arrowVelocity = arrow.getVelocity();
+		player.setVelocity(new Vector(arrowVelocity.getX() * -1.5, arrowVelocity.getY() * -1.1, arrowVelocity.getZ() * -1.5));
 		player.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		entity.setVelocity(new Vector(-(getArrow().getVelocity().getX() * 1.5), -(getArrow().getVelocity().getY() * 1.1), -(getArrow().getVelocity().getZ()) * 1.5));
+		Vector arrowVelocity = arrow.getVelocity();
+		entity.setVelocity(new Vector(arrowVelocity.getX() * -1.5, arrowVelocity.getY() * -1.1, arrowVelocity.getZ() * -1.5));
 		entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
@@ -52,11 +60,11 @@ public class MagneticArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.MagneticArrow.AllowInfinity");
+		return ConfigOption.MAGNETIC_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.MagneticArrow.SkeletonsCanShoot");
+		return ConfigOption.MAGNETIC_SKELETONS_CAN_SHOOT;
 	}
 }

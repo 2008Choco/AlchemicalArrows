@@ -8,21 +8,29 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class DarknessArrow extends AlchemicalArrow{
+	
+	private static final PotionEffect BLINDNESS_EFFECT = new PotionEffect(PotionEffectType.BLINDNESS, 500, 1);
+	
 	public DarknessArrow(Arrow arrow) {
 		super(arrow);
 	}
 	
 	@Override
+	public String getName() {
+		return "Darkness";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.DAMAGE_INDICATOR, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.1);
+		player.spawnParticle(Particle.DAMAGE_INDICATOR, arrow.getLocation(), 1, 0.1, 0.1, 0.1, 0.1);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		PotionEffect blindness = PotionEffectType.BLINDNESS.createEffect(500, 1);
-		player.addPotionEffect(blindness);
+		player.addPotionEffect(BLINDNESS_EFFECT);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -35,11 +43,11 @@ public class DarknessArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DarknessArrow.AllowInfinity");
+		return ConfigOption.DARKNESS_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DarknessArrow.SkeletonsCanShoot");
+		return ConfigOption.DARKNESS_SKELETONS_CAN_SHOOT;
 	}
 }

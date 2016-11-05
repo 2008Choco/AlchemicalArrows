@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class FireArrow extends AlchemicalArrow{
 	
@@ -19,9 +20,14 @@ public class FireArrow extends AlchemicalArrow{
 	}
 	
 	@Override
+	public String getName() {
+		return "Fire";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.SMOKE_NORMAL, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.001);
-		player.spawnParticle(Particle.FLAME, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.001);
+		player.spawnParticle(Particle.SMOKE_NORMAL, arrow.getLocation(), 1, 0.1, 0.1, 0.1, 0.001);
+		player.spawnParticle(Particle.FLAME, arrow.getLocation(), 1, 0.1, 0.1, 0.1, 0.001);
 	}
 	
 	@Override
@@ -44,11 +50,11 @@ public class FireArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.FireArrow.AllowInfinity");
+		return ConfigOption.FIRE_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.FireArrow.SkeletonsCanShoot");
+		return ConfigOption.FIRE_SKELETONS_CAN_SHOOT;
 	}
 }

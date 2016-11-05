@@ -11,23 +11,33 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class ConfusionArrow extends AlchemicalArrow{
+	
+	private static final PotionEffect CONFUSION_EFFECT = new PotionEffect(PotionEffectType.CONFUSION, 500, 0);
 	
 	public ConfusionArrow(Arrow arrow) {
 		super(arrow);
 	}
 	
 	@Override
+	public String getName() {
+		return "Confusion";
+	}
+	
+	@Override
 	public void displayParticle(Player player){
-		player.spawnParticle(Particle.SPELL, getArrow().getLocation(), 2, 0.1, 0.1, 0.1, 1);
+		player.spawnParticle(Particle.SPELL, arrow.getLocation(), 2, 0.1, 0.1, 0.1, 1);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		PotionEffect confusion = PotionEffectType.CONFUSION.createEffect(500, 0);
-		player.addPotionEffect(confusion);
-		player.teleport(new Location(player.getWorld(), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), player.getLocation().getYaw() + 180, player.getLocation().getPitch()));
+		player.addPotionEffect(CONFUSION_EFFECT);
+		
+		Location backwards = player.getLocation();
+		backwards.setYaw(player.getLocation().getYaw() + 180);
+		player.teleport(backwards);
 	}
 	
 	@Override
@@ -47,11 +57,11 @@ public class ConfusionArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.ConfusionArrow.AllowInfinity");
+		return ConfigOption.CONFUSION_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.ConfusionArrow.SkeletonsCanShoot");
+		return ConfigOption.CONFUSION_SKELETONS_CAN_SHOOT;
 	}
 }

@@ -12,9 +12,11 @@ import org.bukkit.potion.PotionEffectType;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class DeathArrow extends AlchemicalArrow{
 	
+	private static final PotionEffect WITHER_EFFECT = new PotionEffect(PotionEffectType.WITHER, 300, 2);
 	private static final Random random = new Random();
 	
 	public DeathArrow(Arrow arrow) {
@@ -22,43 +24,42 @@ public class DeathArrow extends AlchemicalArrow{
 	}
 	
 	@Override
+	public String getName() {
+		return "Death";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.SMOKE_LARGE, getArrow().getLocation(), 2, 0.1, 0.1, 0.1, 0.01);
+		player.spawnParticle(Particle.SMOKE_LARGE, arrow.getLocation(), 2, 0.1, 0.1, 0.1, 0.01);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DeathArrow.InstantDeathPossible")){
-			int randomChance = random.nextInt(100) + 1;
-			if (randomChance <= AlchemicalArrows.getPlugin().getConfig().getInt("Arrows.DeathArrow.InstantDeathPercentChance")){
+		if (ConfigOption.DEATH_INSTANT_DEATH_POSSIBLE){
+			int randomChance = random.nextInt(100);
+			if (randomChance < ConfigOption.DEATH_INSTANT_DEATH_PERCENT_CHANCE){
 				player.setHealth(0);
-			}else{
-				PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
-				player.addPotionEffect(wither);
+				return;
 			}
-		}else{
-			PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
-			player.addPotionEffect(wither);
 		}
+		
+		player.addPotionEffect(WITHER_EFFECT);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DeathArrow.InstantDeathPossible")){
-			int randomChance = random.nextInt(100) + 1;
-			if (randomChance <= AlchemicalArrows.getPlugin().getConfig().getInt("Arrows.DeathArrow.InstantDeathPercentChance")){
-				if (entity instanceof LivingEntity)
-					((LivingEntity) entity).setHealth(0);
-			}else{
-				PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
-				if (entity instanceof LivingEntity) 
-					((LivingEntity) entity).addPotionEffect(wither);
+		if (!(entity instanceof LivingEntity)) return;
+		LivingEntity lEntity = (LivingEntity) entity;
+		
+		if (ConfigOption.DEATH_INSTANT_DEATH_POSSIBLE){
+			int randomChance = random.nextInt(100);
+			if (randomChance < ConfigOption.DEATH_INSTANT_DEATH_PERCENT_CHANCE){
+				lEntity.setHealth(0);
+				return;
 			}
-		}else{
-			PotionEffect wither = PotionEffectType.WITHER.createEffect(300, 2);
-			if (entity instanceof LivingEntity) 
-				((LivingEntity) entity).addPotionEffect(wither);
 		}
+		
+		lEntity.addPotionEffect(WITHER_EFFECT);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -71,11 +72,11 @@ public class DeathArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DeathArrow.AllowInfinity");
+		return ConfigOption.DEATH_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.DeathArrow.SkeletonsCanShoot");
+		return ConfigOption.DEATH_SKELETONS_CAN_SHOOT;
 	}
 }

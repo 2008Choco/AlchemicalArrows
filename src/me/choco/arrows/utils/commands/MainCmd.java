@@ -13,6 +13,7 @@ import org.bukkit.command.TabCompleter;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class MainCmd implements CommandExecutor, TabCompleter{
 	
@@ -21,7 +22,7 @@ public class MainCmd implements CommandExecutor, TabCompleter{
 		this.plugin = plugin;
 	}
 	
-	private String APIVersion = "1.9-AA2";
+	private String APIVersion = "1.10-AA2";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -55,12 +56,12 @@ public class MainCmd implements CommandExecutor, TabCompleter{
 				
 				else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("info")){
 					sender.sendMessage(ChatColor.GOLD + "--------------------------------------------");
-					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Version: " + ChatColor.RESET + ChatColor.GRAY  + plugin.getDescription().getVersion());
-					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "API Version: " + ChatColor.RESET + ChatColor.GRAY + APIVersion);
-					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Developer / Maintainer: " + ChatColor.RESET + ChatColor.GRAY + "2008Choco");
-					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Development Page: " + ChatColor.RESET + ChatColor.GRAY + "http://dev.bukkit.org/bukkit-plugins/alchemical-arrows");
-					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Report Bugs To: " + ChatColor.RESET + ChatColor.GRAY + "http://dev.bukkit.org/bukkit-plugins/alchemical-arrows/tickets");
-					sender.sendMessage("");
+					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Version: " + ChatColor.GRAY  + plugin.getDescription().getVersion());
+					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "API Version: " + ChatColor.GRAY + APIVersion);
+					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Developer / Maintainer: " + ChatColor.GRAY + "2008Choco");
+					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Development Page: " + ChatColor.GRAY + "http://dev.bukkit.org/bukkit-plugins/alchemical-arrows");
+					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Report Bugs To: " + ChatColor.GRAY + "http://dev.bukkit.org/bukkit-plugins/alchemical-arrows/tickets");
+					sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "New Version Available: " + ChatColor.GRAY + (plugin.isNewVersionAvailable() ? "Yes" : "No"));
 					sender.sendMessage(ChatColor.GOLD + "--------------------------------------------");
 					return true;
 				}
@@ -68,6 +69,7 @@ public class MainCmd implements CommandExecutor, TabCompleter{
 				else if (args[0].equalsIgnoreCase("reload")){
 					if (sender.hasPermission("arrows.command.reload")){
 						plugin.reloadConfig();
+						ConfigOption.loadConfigurationValues(plugin);
 						sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GREEN + "Configuration file successfully reloaded");
 					}else{
 						sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You have insufficient privileges to run this command");

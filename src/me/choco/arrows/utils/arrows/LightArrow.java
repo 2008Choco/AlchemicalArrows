@@ -8,35 +8,42 @@ import org.bukkit.entity.Player;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class LightArrow extends AlchemicalArrow{
+	
 	public LightArrow(Arrow arrow) {
 		super(arrow);
 	}
 	
 	@Override
+	public String getName() {
+		return "Light";
+	}
+	
+	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.FIREWORKS_SPARK, getArrow().getLocation(), 1, 0.1, 0.1, 0.1, 0.01);
+		player.spawnParticle(Particle.FIREWORKS_SPARK, arrow.getLocation(), 1, 0.1, 0.1, 0.1, 0.01);
 	}
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.LightArrow.StrikesLightning")) 
+		if (ConfigOption.LIGHT_STRIKES_LIGHTNING) 
 			player.getWorld().strikeLightning(player.getLocation());
 		
-		player.teleport(new Location(player.getWorld(), 
-				player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 
-				player.getLocation().getYaw(), -180));
+		Location upwards = player.getLocation();
+		upwards.setPitch(-180);
+		player.teleport(upwards);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		if (AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.LightArrow.StrikesLightning"))
+		if (ConfigOption.LIGHT_STRIKES_LIGHTNING)
 			entity.getWorld().strikeLightning(entity.getLocation());
 		
-		entity.teleport(new Location(entity.getWorld(), 
-				entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ(), 
-				entity.getLocation().getYaw(), -180));
+		Location upwards = entity.getLocation();
+		upwards.setPitch(-180);
+		entity.teleport(upwards);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -49,11 +56,11 @@ public class LightArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.LightArrow.AllowInfinity");
+		return ConfigOption.LIGHT_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.LightArrow.SkeletonsCanShoot");
+		return ConfigOption.LIGHT_SKELETONS_CAN_SHOOT;
 	}
 }

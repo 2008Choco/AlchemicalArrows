@@ -10,28 +10,32 @@ import org.bukkit.util.Vector;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
+import me.choco.arrows.utils.ConfigOption;
 
 public class GrappleArrow extends AlchemicalArrow{
 	
-	private double grappleForce;
-	
 	public GrappleArrow(Arrow arrow) {
 		super(arrow);
-		this.grappleForce = AlchemicalArrows.getPlugin().getConfig().getDouble("Arrows.GrappleArrow.GrappleForce");
+	}
+	
+	@Override
+	public String getName() {
+		return "Grapple";
 	}
 	
 	@Override
 	public void displayParticle(Player player) {
-		player.spawnParticle(Particle.CRIT, getArrow().getLocation(), 3, 0.1, 0.1, 0.1, 0.1);
+		player.spawnParticle(Particle.CRIT, arrow.getLocation(), 3, 0.1, 0.1, 0.1, 0.1);
 	}
 	
 	@Override
 	public void onHitGround(Block block){
-		if (getArrow().getShooter() instanceof LivingEntity){
-			Vector grappleVelocity = getArrow().getLocation().toVector().subtract(((LivingEntity) getArrow().getShooter()).getLocation().toVector()).normalize();
-			((LivingEntity) getArrow().getShooter()).setVelocity(grappleVelocity.multiply(grappleForce));
-			arrow.getWorld().playSound(getArrow().getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
-		}
+		if (!(arrow.getShooter() instanceof LivingEntity)) return;
+		LivingEntity shooter = (LivingEntity) arrow.getShooter();
+		
+		Vector grappleVelocity = arrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
+		shooter.setVelocity(grappleVelocity.multiply(ConfigOption.GRAPPLE_GRAPPLE_FORCE));
+		arrow.getWorld().playSound(arrow.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -44,11 +48,11 @@ public class GrappleArrow extends AlchemicalArrow{
 	
 	@Override
 	public boolean allowInfinity() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.GrappleArrow.AllowInfinity");
+		return ConfigOption.GRAPPLE_ALLOW_INFINITY;
 	}
 	
 	@Override
 	public boolean skeletonsCanShoot() {
-		return AlchemicalArrows.getPlugin().getConfig().getBoolean("Arrows.GrappleArrow.SkeletonsCanShoot");
+		return ConfigOption.GRAPPLE_SKELETONS_CAN_SHOOT;
 	}
 }
