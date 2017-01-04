@@ -12,8 +12,6 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.projectiles.BlockProjectileSource;
 
-import com.google.common.base.Preconditions;
-
 import me.choco.arrows.AlchemicalArrows;
 
 public abstract class AlchemicalArrow {
@@ -86,6 +84,11 @@ public abstract class AlchemicalArrow {
 	 */
 	public boolean skeletonsCanShoot(){ return true; }
 	
+	/** Whether skeletons are able to drop this arrow upon death or not. Defaults to true
+	 * @return Whether skeletons may drop this arrow or not
+	 */
+	public double skeletonLootWeight(){ return 10.0; }
+	
 	/** Whether the infinity enchantment is allowed to be used with this arrow
 	 * @return Whether infinity is allowed or not
 	 */
@@ -99,8 +102,6 @@ public abstract class AlchemicalArrow {
 	 * @return a new instance of the specified arrow type. null if there is an invalid constructor in the class
 	 */
 	public static <T extends AlchemicalArrow> T createNewArrow(Class<T> type, Arrow arrow){
-		Preconditions.checkNotNull(arrow, "The provided arrow cannot be null");
-		
 		try{
 			return type.getDeclaredConstructor(Arrow.class).newInstance(arrow);
 		}catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e){

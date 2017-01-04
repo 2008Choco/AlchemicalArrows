@@ -16,11 +16,11 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 
-public class ArrowHitPlayer implements Listener{
+public class ArrowHitPlayerListener implements Listener{
 	
 	private final AlchemicalArrows plugin;
 	private final ArrowRegistry arrowRegistry;
-	public ArrowHitPlayer(AlchemicalArrows plugin){
+	public ArrowHitPlayerListener(AlchemicalArrows plugin){
 		this.plugin = plugin;
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}

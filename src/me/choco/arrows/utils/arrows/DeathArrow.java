@@ -79,4 +79,9 @@ public class DeathArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.DEATH_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.DEATH_SKELETON_LOOT_WEIGHT;
+	}
 }

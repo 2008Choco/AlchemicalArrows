@@ -56,4 +56,9 @@ public class MagicArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.MAGIC_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.MAGIC_SKELETON_LOOT_WEIGHT;
+	}
 }

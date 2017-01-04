@@ -66,4 +66,9 @@ public class LifeArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.LIFE_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.LIGHT_SKELETON_LOOT_WEIGHT;
+	}
 }

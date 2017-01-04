@@ -55,4 +55,9 @@ public class WaterArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.WATER_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.WATER_SKELETON_LOOT_WEIGHT;
+	}
 }

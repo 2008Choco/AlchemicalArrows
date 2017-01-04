@@ -60,4 +60,9 @@ public class AirArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.AIR_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.AIR_SKELETON_LOOT_WEIGHT;
+	}
 }

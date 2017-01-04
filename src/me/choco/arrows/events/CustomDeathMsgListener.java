@@ -15,14 +15,14 @@ import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 import me.choco.arrows.utils.ConfigOption;
 
-public class CustomDeathMessage implements Listener{
+public class CustomDeathMsgListener implements Listener{
 
-	private static final String playerDeathMessage = "%player% was shot by %killer% using a %type% arrow";
-	private static final String skeletonDeathMessage = "%player% was shot by a skeleton using a %type% arrow";
-	private static final String blockSourceDeathMessage = "%player% was shot using a %type% arrow";
+	private static final String PLAYER_DEATH_MESSAGE = "%player% was shot by %killer% using a %type% arrow";
+	private static final String SKELETON_DEATH_MESSAGE = "%player% was shot by a skeleton using a %type% arrow";
+	private static final String BLOCK_SOURCE_DEATH_MESSAGE = "%player% was shot using a %type% arrow";
 
 	private final ArrowRegistry arrowRegistry;
-	public CustomDeathMessage(AlchemicalArrows plugin){
+	public CustomDeathMsgListener(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 
@@ -44,13 +44,13 @@ public class CustomDeathMessage implements Listener{
 		
 		if (arrow.getShooter() instanceof Player){
 			Player killer = (Player) arrow.getShooter();
-			event.setDeathMessage(playerDeathMessage.replace("%player%", killedName).replace("%killer%", killer.getName()).replace("%type%", arrowType));
+			event.setDeathMessage(PLAYER_DEATH_MESSAGE.replace("%player%", killedName).replace("%killer%", killer.getName()).replace("%type%", arrowType));
 		}
 		
 		else if (arrow.getShooter() instanceof Skeleton)
-			event.setDeathMessage(skeletonDeathMessage.replace("%player%", killedName).replace("%type%", arrowType));
+			event.setDeathMessage(SKELETON_DEATH_MESSAGE.replace("%player%", killedName).replace("%type%", arrowType));
 		
 		else if (arrow.getShooter() instanceof BlockProjectileSource)
-			event.setDeathMessage(blockSourceDeathMessage.replace("%player%", killedName).replace("%type%", arrowType));
+			event.setDeathMessage(BLOCK_SOURCE_DEATH_MESSAGE.replace("%player%", killedName).replace("%type%", arrowType));
 	}
 }

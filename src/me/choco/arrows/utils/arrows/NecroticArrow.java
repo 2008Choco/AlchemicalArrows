@@ -69,4 +69,9 @@ public class NecroticArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.NECROTIC_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.NECROTIC_SKELETON_LOOT_WEIGHT;
+	}
 }

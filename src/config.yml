@@ -1,37 +1,47 @@
 CheckForUpdates: true
 MetricsEnabled: true
-SkeletonShootPercentage: 10
 CustomDeathMessages: true
+
+Skeletons:
+  SkeletonShootPercentage: 10
+  SkeletonLootPercentage: 25
+
 Arrows:
   AirArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    SkeletonLootWeight: 6.66
     DisplayName: "Air Arrow"
   EarthArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    SkeletonLootWeight: 6.66
     DisplayName: "Earth Arrow"
   MagicArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    SkeletonLootWeight: 6.66
     DisplayName: "Magic Arrow"
   EnderArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    SkeletonLootWeight: 6.66
     DisplayName: "Ender Arrow"
   LifeArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    SkeletonLootWeight: 6.66
     DisplayName: "Life Arrow"
   DeathArrow:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: false
+    SkeletonLootWeight: 6.66
     InstantDeathPossible: true
     InstantDeathPercentChance: 20
     DisplayName: "Death Arrow"
@@ -39,46 +49,55 @@ Arrows:
     Crafts: 8
     AllowInfinity: false
     SkeletonsCanShoot: true
+    SkeletonLootWeight: 6.66
     StrikesLightning: true
     DisplayName: "Light Arrow"
   DarknessArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
     DisplayName: "Darkness Arrow"
   FireArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
     DisplayName: "Fire Arrow"
   FrostArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
     DisplayName: "Frost Arrow"
   WaterArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
     DisplayName: "Water Arrow"
   NecroticArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
     DisplayName: "Necrotic Arrow"
   ConfusionArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
     DisplayName: "Confusion Arrow"
   MagneticArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
     DisplayName: "Magnetic Arrow"
   GrappleArrow:
     Crafts: 8
     AllowInfinity: false
+    SkeletonLootWeight: 6.66
     SkeletonsCanShoot: true
-    DisplayName: "Grapple Arrow"
     GrappleForce: 2.5
+    DisplayName: "Grapple Arrow"

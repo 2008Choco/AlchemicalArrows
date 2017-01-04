@@ -50,4 +50,9 @@ public class DarknessArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.DARKNESS_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.DARKNESS_SKELETON_LOOT_WEIGHT;
+	}
 }

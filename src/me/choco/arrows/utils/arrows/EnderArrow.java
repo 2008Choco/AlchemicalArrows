@@ -97,4 +97,9 @@ public class EnderArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.ENDER_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.ENDER_SKELETON_LOOT_WEIGHT;
+	}
 }

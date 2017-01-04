@@ -5,23 +5,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import me.choco.arrows.events.ArrowHitEntity;
-import me.choco.arrows.events.ArrowHitGround;
-import me.choco.arrows.events.ArrowHitPlayer;
-import me.choco.arrows.events.CustomDeathMessage;
-import me.choco.arrows.events.PickupArrow;
-import me.choco.arrows.events.ProjectileShoot;
+import me.choco.arrows.events.ArrowHitEntityListener;
+import me.choco.arrows.events.ArrowHitGroundListener;
+import me.choco.arrows.events.ArrowHitPlayerListener;
+import me.choco.arrows.events.CustomDeathMsgListener;
+import me.choco.arrows.events.PickupArrowListener;
+import me.choco.arrows.events.ProjectileShootListener;
+import me.choco.arrows.events.SkeletonKillListener;
 import me.choco.arrows.registry.ArrowRegistry;
 import me.choco.arrows.utils.ConfigOption;
 import me.choco.arrows.utils.ItemRecipes;
@@ -47,6 +46,9 @@ import me.choco.arrows.utils.general.Metrics;
 
 public class AlchemicalArrows extends JavaPlugin{
 	
+	private static final int RESOURCE_ID = 11693;
+	private static final String SPIGET_LINK = "https://api.spiget.org/v2/resources/" + RESOURCE_ID + "/versions/latest";
+	
 	private static AlchemicalArrows instance;
 	private ArrowRegistry registry;
 	
@@ -70,12 +72,13 @@ public class AlchemicalArrows extends JavaPlugin{
 		
 		//Register events
 		this.getLogger().info("Registering events");
-		Bukkit.getPluginManager().registerEvents(new ArrowHitEntity(this), this);
-		Bukkit.getPluginManager().registerEvents(new ArrowHitGround(this), this);
-		Bukkit.getPluginManager().registerEvents(new ArrowHitPlayer(this), this);
-		Bukkit.getPluginManager().registerEvents(new ProjectileShoot(this), this);
-		Bukkit.getPluginManager().registerEvents(new CustomDeathMessage(this), this);
-		Bukkit.getPluginManager().registerEvents(new PickupArrow(this), this);
+		Bukkit.getPluginManager().registerEvents(new ArrowHitEntityListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new ArrowHitGroundListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new ArrowHitPlayerListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new ProjectileShootListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new CustomDeathMsgListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PickupArrowListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new SkeletonKillListener(this), this);
 		Bukkit.getPluginManager().registerEvents(recipes, this);
 		
 		//Register commands
@@ -88,22 +91,23 @@ public class AlchemicalArrows extends JavaPlugin{
 		
 		//Register crafting recipes
 		this.getLogger().info("Registering recipes");
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.airArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FEATHER));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.confusionArrow).shape("AAA","APA","AAA").setIngredient('A', Material.ARROW).setIngredient('P', Material.POISONOUS_POTATO));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL, (byte) 1));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.deathArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SKULL_ITEM, (byte) 1));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.earthArrow).shape("AAA","ADA","AAA").setIngredient('A', Material.ARROW).setIngredient('D', Material.DIRT));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.enderArrow).shape("AAA","AEA","AAA").setIngredient('A', Material.ARROW).setIngredient('E', Material.EYE_OF_ENDER));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.fireArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FIREBALL));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.frostArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SNOW_BALL));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.lifeArrow).shape("AAA","AMA","AAA").setIngredient('A', Material.ARROW).setIngredient('M', Material.SPECKLED_MELON));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.lightArrow).shape("AAA","AGA","AAA").setIngredient('A', Material.ARROW).setIngredient('G', Material.GLOWSTONE_DUST));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.magicArrow).shape("AAA","ABA","AAA").setIngredient('A', Material.ARROW).setIngredient('B', Material.BLAZE_POWDER));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.magneticArrow).shape("AAA","AIA","AAA").setIngredient('A', Material.ARROW).setIngredient('I', Material.IRON_INGOT));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.necroticArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.ROTTEN_FLESH));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.waterArrow).shape("AAA","AWA","AAA").setIngredient('A', Material.ARROW).setIngredient('W', Material.WATER_BUCKET));
-		Bukkit.getServer().addRecipe(new ShapedRecipe(recipes.grappleArrow).shape("AAA", "ATA", "AAA").setIngredient('A', Material.ARROW).setIngredient('T', Material.TRIPWIRE_HOOK));
+		Server server = Bukkit.getServer();
+		server.addRecipe(new ShapedRecipe(recipes.airArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FEATHER));
+		server.addRecipe(new ShapedRecipe(recipes.confusionArrow).shape("AAA","APA","AAA").setIngredient('A', Material.ARROW).setIngredient('P', Material.POISONOUS_POTATO));
+		server.addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL));
+		server.addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL, (byte) 1));
+		server.addRecipe(new ShapedRecipe(recipes.deathArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SKULL_ITEM, (byte) 1));
+		server.addRecipe(new ShapedRecipe(recipes.earthArrow).shape("AAA","ADA","AAA").setIngredient('A', Material.ARROW).setIngredient('D', Material.DIRT));
+		server.addRecipe(new ShapedRecipe(recipes.enderArrow).shape("AAA","AEA","AAA").setIngredient('A', Material.ARROW).setIngredient('E', Material.EYE_OF_ENDER));
+		server.addRecipe(new ShapedRecipe(recipes.fireArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FIREBALL));
+		server.addRecipe(new ShapedRecipe(recipes.frostArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SNOW_BALL));
+		server.addRecipe(new ShapedRecipe(recipes.lifeArrow).shape("AAA","AMA","AAA").setIngredient('A', Material.ARROW).setIngredient('M', Material.SPECKLED_MELON));
+		server.addRecipe(new ShapedRecipe(recipes.lightArrow).shape("AAA","AGA","AAA").setIngredient('A', Material.ARROW).setIngredient('G', Material.GLOWSTONE_DUST));
+		server.addRecipe(new ShapedRecipe(recipes.magicArrow).shape("AAA","ABA","AAA").setIngredient('A', Material.ARROW).setIngredient('B', Material.BLAZE_POWDER));
+		server.addRecipe(new ShapedRecipe(recipes.magneticArrow).shape("AAA","AIA","AAA").setIngredient('A', Material.ARROW).setIngredient('I', Material.IRON_INGOT));
+		server.addRecipe(new ShapedRecipe(recipes.necroticArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.ROTTEN_FLESH));
+		server.addRecipe(new ShapedRecipe(recipes.waterArrow).shape("AAA","AWA","AAA").setIngredient('A', Material.ARROW).setIngredient('W', Material.WATER_BUCKET));
+		server.addRecipe(new ShapedRecipe(recipes.grappleArrow).shape("AAA", "ATA", "AAA").setIngredient('A', Material.ARROW).setIngredient('T', Material.TRIPWIRE_HOOK));
 		
 		//Arrow registry
 		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
@@ -136,47 +140,17 @@ public class AlchemicalArrows extends JavaPlugin{
 		    }
 		}
 		
-		//Check for newer version (Bukget API)
+		//Check for newer version (Spiget API)
 		if (ConfigOption.CHECK_FOR_UPDATES){
 			this.getLogger().info("Getting version information...");
-			new BukkitRunnable(){
-				@Override
-				public void run(){
-					try{
-						JSONParser parser = new JSONParser();
-						URL news = new URL("https://api.bukget.org/3/plugins/bukkit/alchemical-arrows/latest");
-						BufferedReader in = new BufferedReader(new InputStreamReader(news.openStream()));
-						
-						JSONObject json = (JSONObject) parser.parse(in.readLine());
-						JSONArray array = (JSONArray) json.get("versions");
-						if (!((JSONObject) array.get(0)).get("version").equals(getDescription().getVersion())){
-							getLogger().info("\n" + StringUtils.repeat('*', 40) + "\n"
-									+ "** There is a newer version of AlchemicalArrows available!\n"
-									+ "**\n"
-									+ "** Your version: " + getDescription().getVersion() + "\n"
-									+ "** Newest version: " + ((JSONObject) array.get(0)).get("version") + "\n"
-									+ "**\n"
-									+ "** You can download it from " + ((JSONObject) array.get(0)).get("link") + "\n" 
-									+ StringUtils.repeat('*', 40));
-							newVersionAvailable = true;
-						}
-						in.close();
-					}catch(IOException e){
-						getLogger().info("Could not check for a new version. Perhaps the website is down?");
-					}catch(ParseException e){
-						getLogger().info("There was an issue parsing JSON formatted data. If issues continue, please put in a ticket on the "
-								+ "AlchemicalArrows development page with the following stacktrace");
-						e.printStackTrace();
-					}
-				}
-			}.runTaskAsynchronously(this);
+			this.doVersionCheck();
 		}
 	}
 	
 	@Override
 	public void onDisable() {
-		registry.getRegisteredArrows().clear();
-		ArrowRegistry.getArrowRegistry().clear();
+		this.registry.clearRegisteredArrows();
+		this.registry.clearArrowRegistry();
 	}
 	
 	public static AlchemicalArrows getPlugin(){
@@ -194,21 +168,40 @@ public class AlchemicalArrows extends JavaPlugin{
 	public boolean isNewVersionAvailable() {
 		return newVersionAvailable;
 	}
+	
+	public void doVersionCheck() {
+		Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(SPIGET_LINK).openStream()))){
+
+				JSONParser parser = new JSONParser();
+				JSONObject json = (JSONObject) parser.parse(reader);
+				
+				String currentVersion = getDescription().getVersion(), recentVersion = (String) json.get("name");
+				
+				if (!currentVersion.equals(recentVersion)) {
+					getLogger().info("New version available. Your Version = " + currentVersion + ". New Version = " + recentVersion);
+					newVersionAvailable = true;
+				}
+			}catch(IOException e){
+				getLogger().info("Could not check for a new version. Perhaps the website is down?");
+			} catch (ParseException e) {
+				getLogger().info("There was an issue parsing JSON formatted data. If issues continue, please put in a ticket on the "
+						+ "AlchemicalArrows development page with the following stacktrace");
+				e.printStackTrace();
+			}
+		});
+	}
 }
 
-/* Changelog 2.2.0:
- * Rewrote a lot of individual arrow code for efficiency purposes
- * Loads of general efficiency improvements throughout the code
- * Some arrows now only affect LivingEntities whereas previous they would affect ALL entities
- * API: Added a new abstract getName() method to get the name of arrow (e.g. "Air" for AirArrow)
- * API: Added a static AlchemicalArrow#createAlchemicalArrow(Class<? extends AlchemicalArrow>, Arrow) method to create a new Alchemical Arrow of any specified type
- * API: Added a AlchemicalArrows#isNewVersionAvailable() method to check if a new version is present on BukkitDev
- * Added a ConfigOption class to manage configuration options a bit better and more efficiently throughout the plugin
- * Encapsulated and externalized plenty of variables that required it
- * The "/alchemicalarrows version" command will now display if there is a new version available or not
- * Fixed a few "off-by-one" randomization patterns
- * Further improved the way arrows are created and registered upon being launched
- * Moved a few classes into new different packages to be more organized
- * 
- * An in-depth explanation (code-wise) of the changelog can be found on AlchemicalArrows BitBucket's commit history. Yes, AlchemicalArrows's repository is now public on the main page under the AlchemicalArrows API category!
+/* Changelog 2.3.0:
+ * Fixed a NullPointerException when regular arrows hit the ground
+ * Switched the update checker from using BukGet to SpiGet. (Rest in peace, BukGet project :c)
+ * Now compiled with Java 8 rather than Java 7
+ * Skeletons now have a 25% chance to drop alchemical arrows (configuration options added per arrow)
+ * Rewrote a little bit of the internal workings of the API to ease development
+ * Renamed all listener classes to include "Listener" at the end
+ * API: Added an AlchemicalArrow#skeletonLootWeight() method, obviously, indicating the chance that the arrow will get dropped
+ * API: Changed the arrow registry Map to a BiMap
+ * API: Added an ArrowRegistry#getInformationalInstance() method to retrieve data from arrows
+ * API: Methods in the arrow registry that return Maps / Sets are now immutable
  */

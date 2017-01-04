@@ -63,4 +63,9 @@ public class FrostArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.FROST_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.FROST_SKELETON_LOOT_WEIGHT;
+	}
 }

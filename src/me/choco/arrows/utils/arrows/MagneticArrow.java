@@ -67,4 +67,9 @@ public class MagneticArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.MAGNETIC_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.MAGNETIC_SKELETON_LOOT_WEIGHT;
+	}
 }

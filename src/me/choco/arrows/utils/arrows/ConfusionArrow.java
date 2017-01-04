@@ -64,4 +64,9 @@ public class ConfusionArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.CONFUSION_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.CONFUSION_SKELETON_LOOT_WEIGHT;
+	}
 }

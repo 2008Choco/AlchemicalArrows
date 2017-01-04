@@ -84,4 +84,9 @@ public class EarthArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.EARTH_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.EARTH_SKELETON_LOOT_WEIGHT;
+	}
 }

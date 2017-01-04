@@ -23,12 +23,12 @@ import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 import me.choco.arrows.utils.ConfigOption;
 
-public class ProjectileShoot implements Listener{
+public class ProjectileShootListener implements Listener{
 
 	private static final Random random = new Random();
 	
 	private final ArrowRegistry arrowRegistry;
-	public ProjectileShoot(AlchemicalArrows plugin){
+	public ProjectileShootListener(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 	
@@ -78,7 +78,7 @@ public class ProjectileShoot implements Listener{
 		else if (arrow.getShooter() instanceof Skeleton){
 			if (random.nextInt(100) < ConfigOption.SKELETON_SHOOT_PERCENTAGE){
 				Collection<Class<? extends AlchemicalArrow>> arrows = ArrowRegistry.getArrowRegistry().values();
-				Class<? extends AlchemicalArrow> type = Iterables.get(ArrowRegistry.getArrowRegistry().values(), random.nextInt(arrows.size()));
+				Class<? extends AlchemicalArrow> type = Iterables.get(arrows, random.nextInt(arrows.size()));
 				
 				AlchemicalArrow aarrow = AlchemicalArrow.createNewArrow(type, arrow);
 				if (arrow == null || !aarrow.skeletonsCanShoot()) return;

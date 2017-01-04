@@ -11,10 +11,10 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 
-public class PickupArrow implements Listener{
+public class PickupArrowListener implements Listener{
 	
 	private final ArrowRegistry arrowRegistry;
-	public PickupArrow(AlchemicalArrows plugin){
+	public PickupArrowListener(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 	

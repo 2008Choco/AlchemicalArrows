@@ -11,10 +11,10 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 
-public class ArrowHitGround implements Listener{
+public class ArrowHitGroundListener implements Listener{
 	
 	private final ArrowRegistry arrowRegistry;
-	public ArrowHitGround(AlchemicalArrows plugin){
+	public ArrowHitGroundListener(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 	
@@ -23,7 +23,7 @@ public class ArrowHitGround implements Listener{
 		if (!(event.getEntity() instanceof Arrow)) return;
 		
 		Arrow arrow = (Arrow) event.getEntity();
-		if (this.arrowRegistry.isAlchemicalArrow(arrow)) return;
+		if (!this.arrowRegistry.isAlchemicalArrow(arrow)) return;
 		
 		BlockIterator it = new BlockIterator(arrow.getWorld(), arrow.getLocation().toVector(), arrow.getVelocity().normalize(), 0, 4);
 		

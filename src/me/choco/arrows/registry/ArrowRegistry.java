@@ -1,11 +1,17 @@
 package me.choco.arrows.registry;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.inventory.ItemStack;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
@@ -13,10 +19,11 @@ import me.choco.arrows.api.AlchemicalArrow;
 public class ArrowRegistry {
 	
 	/** Used to keep track of all arrows currently active in the world */
-	private HashMap<UUID, AlchemicalArrow> arrows = new HashMap<>();
+	private final Map<UUID, AlchemicalArrow> arrows = Maps.newHashMap();
 	
 	/** Used to determine what ItemStack corresponds to what AlchemicalArrow type when registering arrows when shot */
-	private static HashMap<ItemStack, Class<? extends AlchemicalArrow>> arrowRegistry = new HashMap<>();
+	private static final BiMap<ItemStack, Class<? extends AlchemicalArrow>> ARROW_REGISTRY = HashBiMap.create(64);
+	private static final Map<Class<? extends AlchemicalArrow>, AlchemicalArrow> INFORMATIONAL_INSTANCE_MAP = Maps.newHashMap();
 	
 	/** Register an Alchemical Arrow.
 	 * <br>This is REQUIRED in order for AlchemicalArrows to recognize that you are in fact shooting an Alchemical Arrow
@@ -28,28 +35,29 @@ public class ArrowRegistry {
 		ItemStack duplicate = new ItemStack(item);
 		duplicate.setAmount(1);
 		
-		if (getArrowRegistry().containsKey(duplicate)){
+		if (ARROW_REGISTRY.containsKey(duplicate)){
 			throw new IllegalArgumentException("ItemStack is already being used by class " + getArrowRegistry().get(duplicate).getName());
 		}else if (!item.getType().equals(Material.ARROW)){
 			throw new IllegalArgumentException("Arrow registry requires Material Enum type of ARROW. Given " + duplicate.getType()); 
 		}
-		for (Class<? extends AlchemicalArrow> refClazz : getArrowRegistry().values()){
+		for (Class<? extends AlchemicalArrow> refClazz : ARROW_REGISTRY.values()){
 			if (refClazz.getSimpleName().replace("Arrow", "").equalsIgnoreCase(clazz.getSimpleName().replace("Arrow", ""))){
 				throw new IllegalArgumentException("Class " + clazz.getSimpleName() + " is already in use in package " + refClazz.getName() + ". (Change your class name)");
 			}
 		}
 		
-		arrowRegistry.put(duplicate, clazz);
+		ARROW_REGISTRY.put(duplicate, clazz);
+		INFORMATIONAL_INSTANCE_MAP.put(clazz, AlchemicalArrow.createNewArrow(clazz, null));
 		if (!clazz.getPackage().getName().startsWith("me.choco.arrows.utils.arrows")){
-			AlchemicalArrows.getPlugin().getLogger().info("Successfully registered external arrow (" + clazz.getSimpleName() + ") from package " + clazz.getPackage().getName());
+			AlchemicalArrows.getPlugin().getLogger().info("Successfully registered external arrow (" + clazz.getName() + ")");
 		}
 	}
 	
 	/** Get the registry for all Alchemical Arrows. Mainly used for Alchemical Arrows registration purposes, but is free to use
 	 * @return The registry of arrow classes and items
 	 */
-	public static HashMap<ItemStack, Class<? extends AlchemicalArrow>> getArrowRegistry(){
-		return arrowRegistry;
+	public static BiMap<ItemStack, Class<? extends AlchemicalArrow>> getArrowRegistry(){
+		return ImmutableBiMap.copyOf(ARROW_REGISTRY);
 	}
 	
 	/** Register an Arrow extending the AlchemicalArrow class. Used to keep track of living arrow entities
@@ -126,13 +134,32 @@ public class ArrowRegistry {
 	 * @return Whether it is an arrow or not
 	 */
 	public boolean isAlchemicalArrow(ItemStack item){
-		return (arrowRegistry.containsKey(item));
+		return (ARROW_REGISTRY.containsKey(item));
 	}
 	
 	/** Get the registered/tracked arrows from AlchemicalArrows. May be used to manipulate all current arrows
 	 * @return The registered AlchemicalArrow HashMap
 	 */
-	public HashMap<UUID, AlchemicalArrow> getRegisteredArrows(){
-		return arrows;
+	public Map<UUID, AlchemicalArrow> getRegisteredArrows(){
+		return ImmutableMap.copyOf(arrows);
+	}
+	
+	/** Get an instance of an alchemical arrow to be used for INFORMATIONAL PURPOSES! 
+	 * (i.e. to retrieve data from methods). 
+	 * <br><b>NOTE: </b>The instance of AlchemicalArrow provides a null arrow parameter
+	 * @param clazz - The arrow to create
+	 * @return an instance of alchemical arrow
+	 */
+	public AlchemicalArrow getInformationalInstance(Class<? extends AlchemicalArrow> clazz) {
+		return INFORMATIONAL_INSTANCE_MAP.get(clazz);
+	}
+	
+	public void clearRegisteredArrows() {
+		this.arrows.clear();
+	}
+	
+	public void clearArrowRegistry() {
+		ARROW_REGISTRY.clear();
+		INFORMATIONAL_INSTANCE_MAP.clear();
 	}
 }

@@ -55,4 +55,9 @@ public class GrappleArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.GRAPPLE_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.GRAPPLE_SKELETON_LOOT_WEIGHT;
+	}
 }

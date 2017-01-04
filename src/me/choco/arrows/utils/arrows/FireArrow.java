@@ -57,4 +57,9 @@ public class FireArrow extends AlchemicalArrow{
 	public boolean skeletonsCanShoot() {
 		return ConfigOption.FIRE_SKELETONS_CAN_SHOOT;
 	}
+	
+	@Override
+	public double skeletonLootWeight() {
+		return ConfigOption.FIRE_SKELETON_LOOT_WEIGHT;
+	}
 }
