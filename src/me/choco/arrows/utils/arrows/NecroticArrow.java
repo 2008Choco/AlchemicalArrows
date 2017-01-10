@@ -52,7 +52,6 @@ public class NecroticArrow extends AlchemicalArrow{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.necrotic")){

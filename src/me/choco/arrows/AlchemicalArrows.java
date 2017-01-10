@@ -193,15 +193,8 @@ public class AlchemicalArrows extends JavaPlugin{
 	}
 }
 
-/* Changelog 2.3.0:
- * Fixed a NullPointerException when regular arrows hit the ground
- * Switched the update checker from using BukGet to SpiGet. (Rest in peace, BukGet project :c)
- * Now compiled with Java 8 rather than Java 7
- * Skeletons now have a 25% chance to drop alchemical arrows (configuration options added per arrow)
- * Rewrote a little bit of the internal workings of the API to ease development
- * Renamed all listener classes to include "Listener" at the end
- * API: Added an AlchemicalArrow#skeletonLootWeight() method, obviously, indicating the chance that the arrow will get dropped
- * API: Changed the arrow registry Map to a BiMap
- * API: Added an ArrowRegistry#getInformationalInstance() method to retrieve data from arrows
- * API: Methods in the arrow registry that return Maps / Sets are now immutable
+/* Changelog 2.3.1:
+ * Fixed an UnsupportedOperationException that occurred when an alchemical arrow was picked up
+ * API: Undeprecated the ArrowRegistry#unregisterAlchemicalArrow() methods
+ * API: Added a #purgeArrows() method to kill all arrows that were prepared for unregistration
  */

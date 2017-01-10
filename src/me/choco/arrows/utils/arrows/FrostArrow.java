@@ -46,7 +46,6 @@ public class FrostArrow extends AlchemicalArrow{
 		lEntity.addPotionEffect(ANTI_JUMP_EFFECT);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.frost")){

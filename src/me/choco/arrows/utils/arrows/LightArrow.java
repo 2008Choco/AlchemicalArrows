@@ -46,7 +46,6 @@ public class LightArrow extends AlchemicalArrow{
 		entity.teleport(upwards);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.light")){

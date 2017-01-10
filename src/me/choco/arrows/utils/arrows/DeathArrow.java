@@ -62,7 +62,6 @@ public class DeathArrow extends AlchemicalArrow{
 		lEntity.addPotionEffect(WITHER_EFFECT);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.death")){

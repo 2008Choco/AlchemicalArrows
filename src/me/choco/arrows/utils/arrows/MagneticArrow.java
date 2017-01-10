@@ -50,7 +50,6 @@ public class MagneticArrow extends AlchemicalArrow{
 		entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.magnetic")){

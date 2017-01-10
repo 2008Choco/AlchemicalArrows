@@ -40,7 +40,6 @@ public class FireArrow extends AlchemicalArrow{
 		entity.setFireTicks(40 + random.nextInt(61));
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.fire")){

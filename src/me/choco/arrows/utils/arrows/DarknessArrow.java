@@ -33,7 +33,6 @@ public class DarknessArrow extends AlchemicalArrow{
 		player.addPotionEffect(BLINDNESS_EFFECT);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.darkness")){

@@ -1,6 +1,8 @@
 package me.choco.arrows.registry;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Material;
@@ -20,6 +22,7 @@ public class ArrowRegistry {
 	
 	/** Used to keep track of all arrows currently active in the world */
 	private final Map<UUID, AlchemicalArrow> arrows = Maps.newHashMap();
+	private final Set<UUID> arrowsToPurge = new HashSet<>();
 	
 	/** Used to determine what ItemStack corresponds to what AlchemicalArrow type when registering arrows when shot */
 	private static final BiMap<ItemStack, Class<? extends AlchemicalArrow>> ARROW_REGISTRY = HashBiMap.create(64);
@@ -68,33 +71,37 @@ public class ArrowRegistry {
 	}
 	
 	/** Unregister an Arrow extending the AlchemicalArrow class
+	 * <br><b>NOTE: </b>This will prepare the arrow for deletion, and not immediately
+	 * delete it until the {@link #purgeArrows()} method is called
 	 * @param arrow The arrow to unregister
-	 * @deprecated This method should not be used as Alchemical Arrows automatically unregisters this automatically
-	 * <br>ConcurrentModificationExceptions may occur if this method is used
 	 */
-	@Deprecated
 	public void unregisterAlchemicalArrow(AlchemicalArrow arrow){
-		arrows.remove(arrow.getArrow().getUniqueId());
+		this.arrowsToPurge.add(arrow.getArrow().getUniqueId());
 	}
 	
 	/** Unregister an Arrow extending the AlchemicalArrow class
+	 * <br><b>NOTE: </b>This will prepare the arrow for deletion, and not immediately
+	 * delete it until the {@link #purgeArrows()} method is called
 	 * @param arrow The Arrow entity to unregister
-	 * @deprecated This method should not be used as Alchemical Arrows automatically unregisters this automatically
-	 * <br>ConcurrentModificationExceptions may occur if this method is used
 	 */
-	@Deprecated
 	public void unregisterAlchemicalArrow(Arrow arrow){
-		arrows.remove(arrow.getUniqueId());
+		this.arrowsToPurge.add(arrow.getUniqueId());
 	}
 	
-	/** Unregister an Arrow extending the AlchemicalArrow class
+	/** Unregister an Arrow extending the AlchemicalArrow class.
+	 * <br><b>NOTE: </b>This will prepare the arrow for deletion, and not immediately
+	 * delete it until the {@link #purgeArrows()} method is called
 	 * @param arrow The UUID of the arrow to unregister
-	 * @deprecated This method should not be used as Alchemical Arrows automatically unregisters this automatically
-	 * <br>ConcurrentModificationExceptions may occur if this method is used
 	 */
-	@Deprecated
 	public void unregisterAlchemicalArrow(UUID uuid){
-		arrows.remove(uuid);
+		this.arrowsToPurge.add(uuid);
+	}
+	
+	/** Remove all arrows from the registry that were prepared for unregistration
+	 */
+	public void purgeArrows(){
+		this.arrowsToPurge.forEach(u -> this.arrows.remove(u));
+		this.arrowsToPurge.clear();
 	}
 	
 	/** Get a registered Arrow tracked by Alchemical Arrows

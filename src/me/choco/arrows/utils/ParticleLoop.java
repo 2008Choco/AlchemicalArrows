@@ -1,11 +1,9 @@
 package me.choco.arrows.utils;
 
-import java.util.Iterator;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.choco.arrows.AlchemicalArrows;
@@ -21,20 +19,20 @@ public class ParticleLoop extends BukkitRunnable{
 	
 	@Override
 	public void run(){
-		Iterator<UUID> it = this.arrowRegistry.getRegisteredArrows().keySet().iterator();
-		while (it.hasNext()){
-			AlchemicalArrow arrow = this.arrowRegistry.getAlchemicalArrow(it.next());
+		for (UUID arrowUUID : this.arrowRegistry.getRegisteredArrows().keySet()) {
+			AlchemicalArrow arrow = this.arrowRegistry.getAlchemicalArrow(arrowUUID);
 			Arrow rawArrow = arrow.getArrow();
 			if (rawArrow.isDead() || !rawArrow.isValid()){
-				it.remove();
+				this.arrowRegistry.unregisterAlchemicalArrow(arrow);
 				continue;
 			}
 			
-			for (Player player : Bukkit.getOnlinePlayers()){
-				if (!player.getWorld().equals(rawArrow.getWorld())) continue;
-				if (player.getLocation().distanceSquared(rawArrow.getLocation()) >= 400) continue;
-				arrow.displayParticle(player);
-			}
+			Bukkit.getOnlinePlayers().stream()
+				.filter(p -> p.getWorld() == rawArrow.getWorld())
+				.filter(p -> p.getLocation().distanceSquared(rawArrow.getLocation()) <= 400)
+				.forEach(p -> arrow.displayParticle(p));
 		}
+		
+		this.arrowRegistry.purgeArrows();
 	}
 }

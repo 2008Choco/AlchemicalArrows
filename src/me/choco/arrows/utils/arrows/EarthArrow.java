@@ -67,7 +67,6 @@ public class EarthArrow extends AlchemicalArrow{
 		lEntity.addPotionEffect(SLOWNESS_EFFECT);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.earth")){

@@ -49,7 +49,6 @@ public class LifeArrow extends AlchemicalArrow{
 		event.setDamage(0);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.life")){

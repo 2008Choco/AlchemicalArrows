@@ -80,7 +80,6 @@ public class EnderArrow extends AlchemicalArrow{
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onShootFromPlayer(Player player) {
 		if (!player.hasPermission("arrows.shoot.ender")){
