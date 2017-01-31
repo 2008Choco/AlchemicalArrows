@@ -14,6 +14,8 @@ import me.choco.arrows.utils.ConfigOption;
 
 public class GrappleArrow extends AlchemicalArrow{
 	
+	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
+	
 	public GrappleArrow(Arrow arrow) {
 		super(arrow);
 	}
@@ -34,7 +36,16 @@ public class GrappleArrow extends AlchemicalArrow{
 		LivingEntity shooter = (LivingEntity) arrow.getShooter();
 		
 		Vector grappleVelocity = arrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
-		shooter.setVelocity(grappleVelocity.multiply(ConfigOption.GRAPPLE_GRAPPLE_FORCE));
+		grappleVelocity.multiply(ConfigOption.GRAPPLE_GRAPPLE_FORCE);
+		if (plugin.isUsingPaper()) {
+			boolean negativeX = grappleVelocity.getX() < 0, negativeY = grappleVelocity.getY() < 0, negativeZ = grappleVelocity.getZ() < 0;
+			
+			grappleVelocity.setX(Math.min(Math.abs(grappleVelocity.getX()), 4) * (negativeX ? -1 : 1));
+			grappleVelocity.setY(Math.min(Math.abs(grappleVelocity.getY()), 4) * (negativeY ? -1 : 1));
+			grappleVelocity.setZ(Math.min(Math.abs(grappleVelocity.getZ()), 4) * (negativeZ ? -1 : 1));
+		}
+		shooter.setVelocity(grappleVelocity);
+		
 		arrow.getWorld().playSound(arrow.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	

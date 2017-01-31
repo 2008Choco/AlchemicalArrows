@@ -17,6 +17,8 @@ import me.choco.arrows.utils.ConfigOption;
 
 public class MagneticArrow extends AlchemicalArrow{
 	
+	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
+	
 	private static final MaterialData IRON = new MaterialData(Material.IRON_BLOCK), GOLD = new MaterialData(Material.GOLD_BLOCK);
 	private static final Random random = new Random();
 	
@@ -39,14 +41,32 @@ public class MagneticArrow extends AlchemicalArrow{
 	@Override
 	public void onHitPlayer(Player player) {
 		Vector arrowVelocity = arrow.getVelocity();
-		player.setVelocity(new Vector(arrowVelocity.getX() * -1.5, arrowVelocity.getY() * -1.1, arrowVelocity.getZ() * -1.5));
+		Vector newVelocity = new Vector((arrowVelocity.getX() * -1.5), arrowVelocity.getY() * -1.1, (arrowVelocity.getZ()) * -1.5);
+		if (plugin.isUsingPaper()) {
+			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
+			
+			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));
+			newVelocity.setY(Math.min(Math.abs(newVelocity.getY()), 4) * (negativeY ? -1 : 1));
+			newVelocity.setZ(Math.min(Math.abs(newVelocity.getZ()), 4) * (negativeZ ? -1 : 1));
+		}
+		
+		player.setVelocity(newVelocity);
 		player.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
 		Vector arrowVelocity = arrow.getVelocity();
-		entity.setVelocity(new Vector(arrowVelocity.getX() * -1.5, arrowVelocity.getY() * -1.1, arrowVelocity.getZ() * -1.5));
+		Vector newVelocity = new Vector((arrowVelocity.getX() * -1.5), arrowVelocity.getY() * -1.1, (arrowVelocity.getZ()) * -1.5);
+		if (plugin.isUsingPaper()) {
+			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
+			
+			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));
+			newVelocity.setY(Math.min(Math.abs(newVelocity.getY()), 4) * (negativeY ? -1 : 1));
+			newVelocity.setZ(Math.min(Math.abs(newVelocity.getZ()), 4) * (negativeZ ? -1 : 1));
+		}
+		
+		entity.setVelocity(newVelocity);
 		entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	

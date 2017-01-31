@@ -3,6 +3,7 @@ package me.choco.arrows;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.URL;
 
 import org.bukkit.Bukkit;
@@ -55,11 +56,14 @@ public class AlchemicalArrows extends JavaPlugin{
 	private boolean worldGuardEnabled = false;
 	private boolean newVersionAvailable = false;
 	
+	private boolean usingPaper = false;
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable(){
 		instance = this;
-		registry = new ArrowRegistry();
+		this.registry = new ArrowRegistry();
+		this.getServerMod(); // Check for PaperSpigot... Damn it velocity caps
 		this.saveDefaultConfig();
 		ConfigOption.loadConfigurationValues(this);
 		ItemRecipes recipes = new ItemRecipes(this);
@@ -169,6 +173,10 @@ public class AlchemicalArrows extends JavaPlugin{
 		return newVersionAvailable;
 	}
 	
+	public boolean isUsingPaper() {
+		return usingPaper;
+	}
+	
 	public void doVersionCheck() {
 		Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(SPIGET_LINK).openStream()))){
@@ -191,10 +199,27 @@ public class AlchemicalArrows extends JavaPlugin{
 			}
 		});
 	}
+	
+	private void getServerMod() {
+		Server server = Bukkit.getServer();
+		String version = server.getClass().getPackage().getName().split("\\.")[3];
+		try {
+			Class<?> classCraftServer = Class.forName("org.bukkit.craftbukkit." + version + ".CraftServer");
+			Object craftServer = classCraftServer.cast(server);
+			Field serverName = classCraftServer.getField("serverName");
+			
+			serverName.setAccessible(true);
+			this.usingPaper = ((String) serverName.get(craftServer)).equals("Paper");
+			serverName.setAccessible(false);
+			
+			System.out.println("PaperSpigot detected. Arrow velocities will be limited");
+		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
+			System.out.println("Could not determine proper server implementation. Assuming Paper is not in use");
+		}
+	}
 }
 
-/* Changelog 2.3.1:
- * Fixed an UnsupportedOperationException that occurred when an alchemical arrow was picked up
- * API: Undeprecated the ArrowRegistry#unregisterAlchemicalArrow() methods
- * API: Added a #purgeArrows() method to kill all arrows that were prepared for unregistration
+/* Changelog 2.3.3:
+ * Commands can now be run through console
+ * Modified some of the command code (It was rather old and poorly written)
  */

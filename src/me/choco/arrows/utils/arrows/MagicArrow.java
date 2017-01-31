@@ -13,6 +13,8 @@ import me.choco.arrows.utils.ConfigOption;
 
 public class MagicArrow extends AlchemicalArrow{
 	
+	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
+	
 	public MagicArrow(Arrow arrow) {
 		super(arrow);
 	}
@@ -29,13 +31,32 @@ public class MagicArrow extends AlchemicalArrow{
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		player.setVelocity(new Vector((arrow.getVelocity().getX() * 2), 0.75, (arrow.getVelocity().getZ()) * 2));
+		Vector arrowVelocity = arrow.getVelocity();
+		Vector newVelocity = new Vector((arrowVelocity.getX() * 2), 0.75, (arrowVelocity.getZ()) * 2);
+		if (plugin.isUsingPaper()) {
+			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
+			
+			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));
+			newVelocity.setY(Math.min(Math.abs(newVelocity.getY()), 4) * (negativeY ? -1 : 1));
+			newVelocity.setZ(Math.min(Math.abs(newVelocity.getZ()), 4) * (negativeZ ? -1 : 1));
+		}
+		
+		player.setVelocity(newVelocity);
 		player.playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		entity.setVelocity(new Vector((arrow.getVelocity().getX() * 2), 0.75, (arrow.getVelocity().getZ()) * 2));
+		Vector newVelocity = new Vector((arrow.getVelocity().getX() * 2), 0.75, (arrow.getVelocity().getZ()) * 2);
+		if (plugin.isUsingPaper()) {
+			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
+			
+			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));
+			newVelocity.setY(Math.min(Math.abs(newVelocity.getY()), 4) * (negativeY ? -1 : 1));
+			newVelocity.setZ(Math.min(Math.abs(newVelocity.getZ()), 4) * (negativeZ ? -1 : 1));
+		}
+		
+		entity.setVelocity(newVelocity);
 		entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
 	}
 	
