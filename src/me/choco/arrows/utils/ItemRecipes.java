@@ -12,7 +12,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import me.choco.arrows.AlchemicalArrows;
 
-public class ItemRecipes implements Listener{
+/**
+ * Handles all arrow recipes for the core arrows and permission-based 
+ * crafting events
+ * 
+ * @author Parker Hawke - 2008Choco
+ */
+public class ItemRecipes implements Listener {
 	
 	private static final ItemStack AIR = new ItemStack(Material.AIR);
 	public final ItemStack airArrow, earthArrow, magicArrow, enderArrow, lifeArrow, deathArrow, lightArrow, darknessArrow, fireArrow, frostArrow, 

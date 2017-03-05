@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -12,9 +12,9 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class GrappleArrow extends AlchemicalArrow{
+public class GrappleArrow extends AlchemicalArrow {
 	
-	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
+	private static final AlchemicalArrows PLUGIN = AlchemicalArrows.getPlugin();
 	
 	public GrappleArrow(Arrow arrow) {
 		super(arrow);
@@ -37,7 +37,7 @@ public class GrappleArrow extends AlchemicalArrow{
 		
 		Vector grappleVelocity = arrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
 		grappleVelocity.multiply(ConfigOption.GRAPPLE_GRAPPLE_FORCE);
-		if (plugin.isUsingPaper()) {
+		if (PLUGIN.isUsingPaper()) {
 			boolean negativeX = grappleVelocity.getX() < 0, negativeY = grappleVelocity.getY() < 0, negativeZ = grappleVelocity.getZ() < 0;
 			
 			grappleVelocity.setX(Math.min(Math.abs(grappleVelocity.getX()), 4) * (negativeX ? -1 : 1));

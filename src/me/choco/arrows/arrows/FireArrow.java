@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import java.util.Random;
 
@@ -11,9 +11,9 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class FireArrow extends AlchemicalArrow{
+public class FireArrow extends AlchemicalArrow {
 	
-	private static final Random random = new Random();
+	private static final Random RANDOM = new Random();
 	
 	public FireArrow(Arrow arrow) {
 		super(arrow);
@@ -32,12 +32,12 @@ public class FireArrow extends AlchemicalArrow{
 	
 	@Override
 	public void onHitPlayer(Player player) {
-		player.setFireTicks(40 + random.nextInt(61));
+		player.setFireTicks(40 + RANDOM.nextInt(61));
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity) {
-		entity.setFireTicks(40 + random.nextInt(61));
+		entity.setFireTicks(40 + RANDOM.nextInt(61));
 	}
 	
 	@Override

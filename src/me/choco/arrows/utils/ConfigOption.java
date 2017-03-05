@@ -4,6 +4,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import me.choco.arrows.AlchemicalArrows;
 
+/**
+ * An easy-access configuration class holding all configured values
+ * 
+ * @author Parker Hawke - 2008Choco
+ */
 public class ConfigOption {
 	
 	public static boolean CHECK_FOR_UPDATES;
@@ -109,6 +114,12 @@ public class ConfigOption {
 	public static double GRAPPLE_GRAPPLE_FORCE;
 	public static String GRAPPLE_DISPLAY_NAME;
 	
+	/**
+	 * Load all values from the main configuration file to the fields. All
+	 * fields are null until this method is invoked at least once.
+	 * 
+	 * @param plugin - An instance of AlchemicalArrows to retrieve the config file
+	 */
 	public static void loadConfigurationValues(AlchemicalArrows plugin){
 		FileConfiguration config = plugin.getConfig();
 		

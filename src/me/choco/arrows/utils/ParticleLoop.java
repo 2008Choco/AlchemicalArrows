@@ -2,7 +2,6 @@ package me.choco.arrows.utils;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Arrow;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -10,9 +9,10 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 
-public class ParticleLoop extends BukkitRunnable{
+public class ParticleLoop extends BukkitRunnable {
 	
 	private final ArrowRegistry arrowRegistry;
+	
 	public ParticleLoop(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
@@ -27,12 +27,13 @@ public class ParticleLoop extends BukkitRunnable{
 				continue;
 			}
 			
-			Bukkit.getOnlinePlayers().stream()
-				.filter(p -> p.getWorld() == rawArrow.getWorld())
+			rawArrow.getWorld().getPlayers().stream()
 				.filter(p -> p.getLocation().distanceSquared(rawArrow.getLocation()) <= 400)
 				.forEach(p -> arrow.displayParticle(p));
 		}
 		
-		this.arrowRegistry.purgeArrows();
+		if (this.arrowRegistry.getArrowsToPurge() > 0) {
+			this.arrowRegistry.purgeArrows();
+		}
 	}
 }

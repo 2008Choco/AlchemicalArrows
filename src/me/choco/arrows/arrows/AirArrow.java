@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import java.util.Random;
 
@@ -6,16 +6,18 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.util.Vector;
 
 import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class AirArrow extends AlchemicalArrow{
+public class AirArrow extends AlchemicalArrow {
 	
-	private static final Random random = new Random();
+	private static final Random RANDOM = new Random();
 	
 	public AirArrow(Arrow arrow) {
 		super(arrow);
@@ -32,14 +34,25 @@ public class AirArrow extends AlchemicalArrow{
 	}
 	
 	@Override
-	public void onHitPlayer(Player player){
-		player.setVelocity(new Vector(0, (random.nextDouble() * 2) + 1, 0));
-		player.playSound(player.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
+	public void hitEntityEventHandler(EntityDamageByEntityEvent event) {
+		if (!(event.getEntity() instanceof LivingEntity)) return;
+		LivingEntity entity = (LivingEntity) event.getEntity();
+		
+		event.setCancelled(true);
+		entity.damage(event.getFinalDamage(), event.getDamager());
+		entity.setVelocity(entity.getVelocity().setY((RANDOM.nextDouble() * 2) + 1));
+		
+		if (entity instanceof Player) {
+			((Player) entity).playSound(entity.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
+		}
+		
+		event.getDamager().remove(); // This will be unregistered
 	}
 	
 	@Override
 	public void onHitEntity(Entity entity){
-		entity.setVelocity(entity.getVelocity().setY((random.nextDouble() * 2) + 1));
+		double x = entity.getVelocity().getX(), z = entity.getVelocity().getZ();
+		entity.setVelocity(new Vector(x, (RANDOM.nextDouble() * 2) + 1, z));
 		entity.getWorld().playSound(entity.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
 	}
 	

@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,7 +16,7 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class EarthArrow extends AlchemicalArrow{
+public class EarthArrow extends AlchemicalArrow {
 	
 	private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 150, 2);
 	private static final MaterialData DIRT = new MaterialData(Material.DIRT);
@@ -38,8 +38,10 @@ public class EarthArrow extends AlchemicalArrow{
 	@Override
 	public void onHitPlayer(Player player) {
 		Location location = player.getLocation();
-		while (!location.getBlock().getType().isSolid())
+		while (!location.getBlock().getType().isSolid()) {
 			location = location.subtract(0, 1, 0);
+			System.out.println("x: " + location.getBlockX() + ", y: " + location.getBlockY() + ", z: " + location.getBlockZ());
+		}
 		location.setX(location.getBlockX() + 0.5);
 		location.setZ(location.getBlockY() + 0.5);
 		player.teleport(location);

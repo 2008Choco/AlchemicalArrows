@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -11,9 +11,9 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class MagicArrow extends AlchemicalArrow{
+public class MagicArrow extends AlchemicalArrow {
 	
-	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
+	private static final AlchemicalArrows PLUGIN = AlchemicalArrows.getPlugin();
 	
 	public MagicArrow(Arrow arrow) {
 		super(arrow);
@@ -33,7 +33,7 @@ public class MagicArrow extends AlchemicalArrow{
 	public void onHitPlayer(Player player) {
 		Vector arrowVelocity = arrow.getVelocity();
 		Vector newVelocity = new Vector((arrowVelocity.getX() * 2), 0.75, (arrowVelocity.getZ()) * 2);
-		if (plugin.isUsingPaper()) {
+		if (PLUGIN.isUsingPaper()) {
 			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
 			
 			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));
@@ -48,7 +48,7 @@ public class MagicArrow extends AlchemicalArrow{
 	@Override
 	public void onHitEntity(Entity entity) {
 		Vector newVelocity = new Vector((arrow.getVelocity().getX() * 2), 0.75, (arrow.getVelocity().getZ()) * 2);
-		if (plugin.isUsingPaper()) {
+		if (PLUGIN.isUsingPaper()) {
 			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
 			
 			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));

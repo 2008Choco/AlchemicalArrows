@@ -21,9 +21,10 @@ import me.choco.arrows.utils.ConfigOption;
 
 public class SkeletonKillListener implements Listener {
 	
-	private static final Random random = new Random();
+	private static final Random RANDOM = new Random();
 	
 	private final ArrowRegistry arrowRegistry;
+	
 	public SkeletonKillListener(AlchemicalArrows plugin) {
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
@@ -33,10 +34,10 @@ public class SkeletonKillListener implements Listener {
 		LivingEntity entity = event.getEntity();
 		
 		if (!(entity instanceof Skeleton)) return;
-		if (random.nextInt(100) > ConfigOption.SKELETON_LOOT_PERCENTAGE) return;
+		if (RANDOM.nextInt(100) > ConfigOption.SKELETON_LOOT_PERCENTAGE) return;
 		
 		event.getDrops().removeIf(i -> i.getType() == Material.ARROW);
-		event.getDrops().add(this.getWeightedRandom(random.nextInt(2) + 1));
+		event.getDrops().add(this.getWeightedRandom(RANDOM.nextInt(2) + 1));
 	}
 	
 	public ItemStack getWeightedRandom(int amount) {
@@ -47,7 +48,7 @@ public class SkeletonKillListener implements Listener {
 			totalWeight += this.arrowRegistry.getInformationalInstance(arrow).skeletonLootWeight();
 		}
 		
-		double randomValue = random.nextDouble() * totalWeight;
+		double randomValue = RANDOM.nextDouble() * totalWeight;
 		ItemStack item = null;
 		for (int i = 0; i < arrows.size(); i++) {
 			Class<? extends AlchemicalArrow> arrow = Iterables.get(arrows, i);
@@ -61,7 +62,7 @@ public class SkeletonKillListener implements Listener {
 
 		if (item == null) {
 			Set<ItemStack> possibleItems = ArrowRegistry.getArrowRegistry().keySet();
-			item = Iterables.get(possibleItems, random.nextInt(possibleItems.size())).clone();
+			item = Iterables.get(possibleItems, RANDOM.nextInt(possibleItems.size())).clone();
 		}
 		
 		item.setAmount(amount);

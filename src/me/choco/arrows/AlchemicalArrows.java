@@ -6,15 +6,30 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.net.URL;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
+import me.choco.arrows.arrows.AirArrow;
+import me.choco.arrows.arrows.ConfusionArrow;
+import me.choco.arrows.arrows.DarknessArrow;
+import me.choco.arrows.arrows.DeathArrow;
+import me.choco.arrows.arrows.EarthArrow;
+import me.choco.arrows.arrows.EnderArrow;
+import me.choco.arrows.arrows.FireArrow;
+import me.choco.arrows.arrows.FrostArrow;
+import me.choco.arrows.arrows.GrappleArrow;
+import me.choco.arrows.arrows.LifeArrow;
+import me.choco.arrows.arrows.LightArrow;
+import me.choco.arrows.arrows.MagicArrow;
+import me.choco.arrows.arrows.MagneticArrow;
+import me.choco.arrows.arrows.NecroticArrow;
+import me.choco.arrows.arrows.WaterArrow;
 import me.choco.arrows.events.ArrowHitEntityListener;
 import me.choco.arrows.events.ArrowHitGroundListener;
 import me.choco.arrows.events.ArrowHitPlayerListener;
@@ -26,29 +41,16 @@ import me.choco.arrows.registry.ArrowRegistry;
 import me.choco.arrows.utils.ConfigOption;
 import me.choco.arrows.utils.ItemRecipes;
 import me.choco.arrows.utils.ParticleLoop;
-import me.choco.arrows.utils.arrows.AirArrow;
-import me.choco.arrows.utils.arrows.ConfusionArrow;
-import me.choco.arrows.utils.arrows.DarknessArrow;
-import me.choco.arrows.utils.arrows.DeathArrow;
-import me.choco.arrows.utils.arrows.EarthArrow;
-import me.choco.arrows.utils.arrows.EnderArrow;
-import me.choco.arrows.utils.arrows.FireArrow;
-import me.choco.arrows.utils.arrows.FrostArrow;
-import me.choco.arrows.utils.arrows.GrappleArrow;
-import me.choco.arrows.utils.arrows.LifeArrow;
-import me.choco.arrows.utils.arrows.LightArrow;
-import me.choco.arrows.utils.arrows.MagicArrow;
-import me.choco.arrows.utils.arrows.MagneticArrow;
-import me.choco.arrows.utils.arrows.NecroticArrow;
-import me.choco.arrows.utils.arrows.WaterArrow;
 import me.choco.arrows.utils.commands.GiveArrowCmd;
 import me.choco.arrows.utils.commands.MainCmd;
 import me.choco.arrows.utils.general.Metrics;
 
-public class AlchemicalArrows extends JavaPlugin{
+public class AlchemicalArrows extends JavaPlugin {
 	
 	private static final int RESOURCE_ID = 11693;
 	private static final String SPIGET_LINK = "https://api.spiget.org/v2/resources/" + RESOURCE_ID + "/versions/latest";
+	
+	private static final Gson GSON = new Gson();
 	
 	private static AlchemicalArrows instance;
 	private ArrowRegistry registry;
@@ -63,7 +65,7 @@ public class AlchemicalArrows extends JavaPlugin{
 	public void onEnable(){
 		instance = this;
 		this.registry = new ArrowRegistry();
-		this.getServerMod(); // Check for PaperSpigot... Damn it velocity caps
+		this.usingPaper = this.checkServerMod(); // Check for PaperSpigot... Damn it velocity caps
 		this.saveDefaultConfig();
 		ConfigOption.loadConfigurationValues(this);
 		ItemRecipes recipes = new ItemRecipes(this);
@@ -157,34 +159,67 @@ public class AlchemicalArrows extends JavaPlugin{
 		this.registry.clearArrowRegistry();
 	}
 	
+	/**
+	 * Get an instance of AlchemicalArrows
+	 * 
+	 * @return the AlchemicalArrows instance
+	 */
 	public static AlchemicalArrows getPlugin(){
 		return instance;
 	}
 	
+	/**
+	 * Get the arrow registry instance used to register arrows 
+	 * to AlchemicalArrows. All arrows must be registered in order
+	 * to be recognized by the plugin
+	 * 
+	 * @return the arrow registry instance
+	 */
 	public ArrowRegistry getArrowRegistry(){
 		return registry;
 	}
 
+	/**
+	 * Whether WorldGuard support is available or not. If the returned
+	 * value is true, some arrow functionality may be limited in WorldGuard
+	 * regions
+	 * 
+	 * @return true if WorldGuard is present on the server
+	 */
 	public boolean isWorldGuardSupported() {
 		return worldGuardEnabled;
 	}
 	
+	/**
+	 * Whether a new version of AlchemicalArrows is available or not. This
+	 * method does not make a version check, but simply retrieves a cached value
+	 * 
+	 * @return true if a new version is available
+	 */
 	public boolean isNewVersionAvailable() {
 		return newVersionAvailable;
 	}
 	
+	/**
+	 * Whether the server is using Paper Spigot or not. If the returned
+	 * value is true, velocity-based arrows will be limited due to limits
+	 * set by the server mod (|4| in each direction)
+	 * 
+	 * @return true if using Paper Spigot
+	 */
 	public boolean isUsingPaper() {
 		return usingPaper;
 	}
 	
+	/**
+	 * Perform an asynchronous version check to SpiGet. Results may be
+	 * retrieved with {@link #isNewVersionAvailable()}
+	 */
 	public void doVersionCheck() {
 		Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(SPIGET_LINK).openStream()))){
-
-				JSONParser parser = new JSONParser();
-				JSONObject json = (JSONObject) parser.parse(reader);
-				
-				String currentVersion = getDescription().getVersion(), recentVersion = (String) json.get("name");
+				JsonObject object = GSON.fromJson(reader, JsonObject.class);
+				String currentVersion = getDescription().getVersion(), recentVersion = object.get("name").getAsString();
 				
 				if (!currentVersion.equals(recentVersion)) {
 					getLogger().info("New version available. Your Version = " + currentVersion + ". New Version = " + recentVersion);
@@ -192,15 +227,11 @@ public class AlchemicalArrows extends JavaPlugin{
 				}
 			}catch(IOException e){
 				getLogger().info("Could not check for a new version. Perhaps the website is down?");
-			} catch (ParseException e) {
-				getLogger().info("There was an issue parsing JSON formatted data. If issues continue, please put in a ticket on the "
-						+ "AlchemicalArrows development page with the following stacktrace");
-				e.printStackTrace();
 			}
 		});
 	}
 	
-	private void getServerMod() {
+	private boolean checkServerMod() {
 		Server server = Bukkit.getServer();
 		String version = server.getClass().getPackage().getName().split("\\.")[3];
 		try {
@@ -209,17 +240,22 @@ public class AlchemicalArrows extends JavaPlugin{
 			Field serverName = classCraftServer.getField("serverName");
 			
 			serverName.setAccessible(true);
-			this.usingPaper = ((String) serverName.get(craftServer)).equals("Paper");
+			boolean usingPaper = ((String) serverName.get(craftServer)).equals("Paper");
 			serverName.setAccessible(false);
 			
 			System.out.println("PaperSpigot detected. Arrow velocities will be limited");
+			return usingPaper;
 		} catch (NoSuchFieldException | SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
 			System.out.println("Could not determine proper server implementation. Assuming Paper is not in use");
+			return false;
 		}
 	}
 }
 
-/* Changelog 2.3.3:
- * Commands can now be run through console
- * Modified some of the command code (It was rather old and poorly written)
+/* Changelog 2.3.4:
+ * Fixed an invalid permission issue with /givearrow
+ * Fixed the /givearrow command always printing "invalid arrow type x given" for valid arrows
+ * Fixed air arrows rarely applying its effect. It should now apply 100% of the time
+ * The particle loop is now slightly more efficient; Will only kill arrows when necessary and runs less operations
+ * Documented a bunch of methods in the main class and fixed older documentation (More clear & cleaner)
  */

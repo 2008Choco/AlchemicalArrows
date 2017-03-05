@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import java.util.Random;
 
@@ -14,10 +14,10 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class DeathArrow extends AlchemicalArrow{
+public class DeathArrow extends AlchemicalArrow {
 	
 	private static final PotionEffect WITHER_EFFECT = new PotionEffect(PotionEffectType.WITHER, 300, 2);
-	private static final Random random = new Random();
+	private static final Random RANDOM = new Random();
 	
 	public DeathArrow(Arrow arrow) {
 		super(arrow);
@@ -36,7 +36,7 @@ public class DeathArrow extends AlchemicalArrow{
 	@Override
 	public void onHitPlayer(Player player) {
 		if (ConfigOption.DEATH_INSTANT_DEATH_POSSIBLE){
-			int randomChance = random.nextInt(100);
+			int randomChance = RANDOM.nextInt(100);
 			if (randomChance < ConfigOption.DEATH_INSTANT_DEATH_PERCENT_CHANCE){
 				player.setHealth(0);
 				return;
@@ -52,7 +52,7 @@ public class DeathArrow extends AlchemicalArrow{
 		LivingEntity lEntity = (LivingEntity) entity;
 		
 		if (ConfigOption.DEATH_INSTANT_DEATH_POSSIBLE){
-			int randomChance = random.nextInt(100);
+			int randomChance = RANDOM.nextInt(100);
 			if (randomChance < ConfigOption.DEATH_INSTANT_DEATH_PERCENT_CHANCE){
 				lEntity.setHealth(0);
 				return;

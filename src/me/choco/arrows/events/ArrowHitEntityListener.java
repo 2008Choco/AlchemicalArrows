@@ -11,9 +11,10 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 
-public class ArrowHitEntityListener implements Listener{
+public class ArrowHitEntityListener implements Listener {
 	
 	private final ArrowRegistry arrowRegistry;
+	
 	public ArrowHitEntityListener(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}

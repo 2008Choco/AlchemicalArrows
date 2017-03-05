@@ -15,13 +15,14 @@ import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 import me.choco.arrows.utils.ConfigOption;
 
-public class CustomDeathMsgListener implements Listener{
+public class CustomDeathMsgListener implements Listener {
 
 	private static final String PLAYER_DEATH_MESSAGE = "%player% was shot by %killer% using a %type% arrow";
 	private static final String SKELETON_DEATH_MESSAGE = "%player% was shot by a skeleton using a %type% arrow";
 	private static final String BLOCK_SOURCE_DEATH_MESSAGE = "%player% was shot using a %type% arrow";
 
 	private final ArrowRegistry arrowRegistry;
+	
 	public CustomDeathMsgListener(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}

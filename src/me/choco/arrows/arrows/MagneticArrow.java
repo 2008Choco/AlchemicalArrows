@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import java.util.Random;
 
@@ -15,12 +15,12 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class MagneticArrow extends AlchemicalArrow{
+public class MagneticArrow extends AlchemicalArrow {
 	
-	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
+	private static final AlchemicalArrows PLUGIN = AlchemicalArrows.getPlugin();
 	
 	private static final MaterialData IRON = new MaterialData(Material.IRON_BLOCK), GOLD = new MaterialData(Material.GOLD_BLOCK);
-	private static final Random random = new Random();
+	private static final Random RANDOM = new Random();
 	
 	public MagneticArrow(Arrow arrow) {
 		super(arrow);
@@ -34,7 +34,7 @@ public class MagneticArrow extends AlchemicalArrow{
 	@Override
 	public void displayParticle(Player player) {
 		player.spawnParticle(Particle.FALLING_DUST, arrow.getLocation(), 1, 0.1, 0.1, 0.1, IRON);
-		if (random.nextInt(10) == 0)
+		if (RANDOM.nextInt(10) == 0)
 			player.spawnParticle(Particle.FALLING_DUST, arrow.getLocation(), 1, 0.1, 0.1, 0.1, GOLD);
 	}
 	
@@ -42,7 +42,7 @@ public class MagneticArrow extends AlchemicalArrow{
 	public void onHitPlayer(Player player) {
 		Vector arrowVelocity = arrow.getVelocity();
 		Vector newVelocity = new Vector((arrowVelocity.getX() * -1.5), arrowVelocity.getY() * -1.1, (arrowVelocity.getZ()) * -1.5);
-		if (plugin.isUsingPaper()) {
+		if (PLUGIN.isUsingPaper()) {
 			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
 			
 			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));
@@ -58,7 +58,7 @@ public class MagneticArrow extends AlchemicalArrow{
 	public void onHitEntity(Entity entity) {
 		Vector arrowVelocity = arrow.getVelocity();
 		Vector newVelocity = new Vector((arrowVelocity.getX() * -1.5), arrowVelocity.getY() * -1.1, (arrowVelocity.getZ()) * -1.5);
-		if (plugin.isUsingPaper()) {
+		if (PLUGIN.isUsingPaper()) {
 			boolean negativeX = newVelocity.getX() < 0, negativeY = newVelocity.getY() < 0, negativeZ = newVelocity.getZ() < 0;
 			
 			newVelocity.setX(Math.min(Math.abs(newVelocity.getX()), 4) * (negativeX ? -1 : 1));

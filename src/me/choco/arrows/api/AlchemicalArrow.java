@@ -14,91 +14,136 @@ import org.bukkit.projectiles.BlockProjectileSource;
 
 import me.choco.arrows.AlchemicalArrows;
 
+/**
+ * Represents the base of an alchemical arrow with special effects
+ * upon hitting a block, entity or player.
+ * 
+ * @author Parker Hawke - 2008Choco
+ */
 public abstract class AlchemicalArrow {
 	
 	protected final Arrow arrow;
+	
 	public AlchemicalArrow(Arrow arrow){
 		this.arrow = arrow;
 	}
 	
-	/** Get the base arrow linked to this AlchemicalArrow
-	 * @return The arrow
+	/** 
+	 * Get the {@link Arrow} that represents this AlchemicalArrow
+	 * 
+	 * @return The representing arrow
 	 */
 	public Arrow getArrow(){
 		return arrow;
 	}
 	
-	/** Get the name of the arrow used to be displayed in chat */
+	/** 
+	 * Get the name of the arrow to be displayed in chat 
+	 */
 	public abstract String getName();
 	
-	/** This method will be called when the arrow hits the ground
-	 * <br><b><i>Note: "block" parameter may on the odd occasion be null. Though rare, be cautious</i></b>
-	 * @param block The block the arrow lands on
+	/** 
+	 * Called when the arrow hits the ground
+	 * <br><b>Note:</b> "block" parameter may be null. Though rare, be cautious
+	 * 
+	 * @param block - The block the arrow lands on
 	 */
 	public void onHitGround(Block block){}
 	
-	/** This method will be called when the arrow hits a player
-	 * @param player The player damaged by the arrow
+	/** 
+	 * Called when the arrow hits a player
+	 * 
+	 * @param player - The player damaged by the arrow
 	 */
 	public void onHitPlayer(Player player){}
 	
-	/** This method will be called when the arrow hits an entity (excluding Players)
-	 * @param entity The entity damaged by the arrow
+	/** 
+	 * Called when the arrow hits any entity excluding Players
+	 * 
+	 * @param entity - The entity damaged by the arrow
 	 */
 	public void onHitEntity(Entity entity){}
 	
-	/** This method is fired at a low priority when a player successfully shoots an arrow
-	 * @param player The player that shot the arrow
+	/** 
+	 * Called at low priority when a player successfully shoots an arrow
+	 * 
+	 * @param player - The player that shot the arrow
 	 */
 	public void onShootFromPlayer(Player player){}
 	
-	/** This method is fired at a low priority when a Skeleton successfully shoots an arrow
-	 * <br>{@link #skeletonsCanShoot()} must return true for this method to be called</b>
-	 * @param skeleton
+	/** 
+	 * Called at a low priority when a {@link Skeleton} successfully shoots an arrow. 
+	 * {@link #skeletonsCanShoot()} must return true for this method to be called
+	 * 
+	 * @param skeleton - The skeleton that shot the arrow
 	 */
 	public void onShootFromSkeleton(Skeleton skeleton){}
 	
-	/** This method is fired at a low priority when a BlockProjectileSource (i.e. Dispenser) shoots an arrow
-	 * @param source The block source that shot the arrow
+	/** 
+	 * Called at a low priority when a {@link BlockProjectileSource} (i.e. Dispenser) 
+	 * shoots an arrow
+	 * 
+	 * @param source - The block source that shot the arrow
 	 */
 	public void onShootFromBlockSource(BlockProjectileSource source){}
 	
-	/** Fired the instant before onHitPlayer() or onHitEntity() is called. Used to cancel events if necessary */
+	/** 
+	 * Called the instant before {@link #onHitPlayer(Player)} or {@link #onHitEntity(Entity)} 
+	 * is called. Used to cancel events if necessary 
+	 */
 	public void hitEntityEventHandler(EntityDamageByEntityEvent event){}
 	
-	/** Fired the instant before onHitBlock() is called. Used to cancel events if necessary */
+	/** 
+	 * Fired the instant before {@link #onHitGround(Block)} is called. Used to cancel
+	 * events if necessary
+	 */
 	public void hitGroundEventHandler(ProjectileHitEvent event){}
 	
-	/** Fired the instant before onShootFromPlayer(), onShootFromSkeleton(), or onShootFromBlockSource() is called. Used to cancel events if necessary */
+	/** 
+	 * Fired the instant before {@link #onShootFromPlayer(Player)}, {@link #onShootFromSkeleton(Skeleton)} 
+	 * or {@link #onShootFromBlockSource(BlockProjectileSource)} is called. Used to cancel events if necessary 
+	 */
 	public void shootEventHandler(ProjectileLaunchEvent event){}
 	
-	/** This method will be called whilst the arrow is still alive
-	 * <br> The main intention for this is to determine the arrows particle effects, 
-	 * however may be used for other reasons, such as world-interactions whilst in motion
-	 * @param player The player to display the partcile to
+	/** 
+	 * Called whilst the arrow is still alive. The main intention for this is to
+	 * determine the arrows particle effects, however may be used for other reasons
+	 * such as world-interactions whilst in motion
+	 * 
+	 * @param player - The player to display the particle to
 	 */
 	public void displayParticle(Player player){}
 	
-	/** Whether skeletons are able to shoot this arrow or not. Defaults to true
-	 * @return Whether skeletons may shoot this arrow or not
+	/** 
+	 * Whether skeletons are able to shoot this arrow or not. Defaults to true
+	 * 
+	 * @return true if skeletons can shoot this arrow or not
 	 */
 	public boolean skeletonsCanShoot(){ return true; }
 	
-	/** Whether skeletons are able to drop this arrow upon death or not. Defaults to true
-	 * @return Whether skeletons may drop this arrow or not
+	/** 
+	 * The weight (chance) at which skeletons are able to drop this arrow. Set
+	 * to 0 if skeletons should not drop the arrow. Defaults to 10.0
+	 * 
+	 * @return The drop weight of this arrow
 	 */
 	public double skeletonLootWeight(){ return 10.0; }
 	
-	/** Whether the infinity enchantment is allowed to be used with this arrow
+	/** 
+	 * Whether the infinity enchantment is allowed to be used with this arrow
+	 * 
 	 * @return Whether infinity is allowed or not
 	 */
 	public boolean allowInfinity(){ return false; }
 	
 	private static final AlchemicalArrows plugin = AlchemicalArrows.getPlugin();
 	
-	/** Create a new instance of an AlchemicalArrow
+	/** 
+	 * Create a new instance of an AlchemicalArrow
+	 * 
 	 * @param type - The type of arrow to create
 	 * @param arrow - The original arrow managed by Bukkit's API
+	 * 
 	 * @return a new instance of the specified arrow type. null if there is an invalid constructor in the class
 	 */
 	public static <T extends AlchemicalArrow> T createNewArrow(Class<T> type, Arrow arrow){

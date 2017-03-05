@@ -15,11 +15,11 @@ import org.bukkit.inventory.ItemStack;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 
-public class GiveArrowCmd implements CommandExecutor, TabCompleter{
+public class GiveArrowCmd implements CommandExecutor, TabCompleter {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-		if (sender.hasPermission("arrows.command.givearrow")) {
+		if (!sender.hasPermission("arrows.command.givearrow")) {
 			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You have insufficient privileges to run this command");
 			return true;
 		}
@@ -53,6 +53,7 @@ public class GiveArrowCmd implements CommandExecutor, TabCompleter{
 				return true;
 			}
 			
+			boolean validArrow = false;
 			for (ItemStack arrow : ArrowRegistry.getArrowRegistry().keySet()){
 				String arrowName = ArrowRegistry.getArrowRegistry().get(arrow).getSimpleName().replace("Arrow", "").toLowerCase();
 				if (args[0].equalsIgnoreCase(arrowName)){
@@ -60,10 +61,14 @@ public class GiveArrowCmd implements CommandExecutor, TabCompleter{
 					itemToGive.setAmount(giveCount);
 					targetPlayer.getInventory().addItem(itemToGive);
 					sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Successfully given " + giveCount + " of " + arrowName + " arrow " + (targetPlayer.getName().equals(sender.getName()) ? "" : "to " + targetPlayer.getName()));
+					
+					validArrow = true;
+					break;
 				}
 			}
 			
-			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Invalid arrow type \"" + args[0] + "\" given");
+			if (!validArrow)
+				sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Invalid arrow type \"" + args[0] + "\" given");
 		}
 		else {
 			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "/givearrow <arrow> [count] [player]");

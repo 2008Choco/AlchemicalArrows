@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -10,7 +10,7 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class LightArrow extends AlchemicalArrow{
+public class LightArrow extends AlchemicalArrow {
 	
 	public LightArrow(Arrow arrow) {
 		super(arrow);

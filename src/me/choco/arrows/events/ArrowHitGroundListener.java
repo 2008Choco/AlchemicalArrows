@@ -11,9 +11,10 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 
-public class ArrowHitGroundListener implements Listener{
+public class ArrowHitGroundListener implements Listener {
 	
 	private final ArrowRegistry arrowRegistry;
+	
 	public ArrowHitGroundListener(AlchemicalArrows plugin){
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}

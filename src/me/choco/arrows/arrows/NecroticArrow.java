@@ -1,4 +1,4 @@
-package me.choco.arrows.utils.arrows;
+package me.choco.arrows.arrows;
 
 import java.util.Iterator;
 
@@ -16,7 +16,7 @@ import me.choco.arrows.AlchemicalArrows;
 import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.utils.ConfigOption;
 
-public class NecroticArrow extends AlchemicalArrow{
+public class NecroticArrow extends AlchemicalArrow {
 	
 	private static final ItemStack ROTTEN_FLESH = new ItemStack(Material.ROTTEN_FLESH);
 	

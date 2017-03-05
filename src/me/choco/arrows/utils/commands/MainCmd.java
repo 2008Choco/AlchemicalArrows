@@ -14,14 +14,15 @@ import me.choco.arrows.api.AlchemicalArrow;
 import me.choco.arrows.registry.ArrowRegistry;
 import me.choco.arrows.utils.ConfigOption;
 
-public class MainCmd implements CommandExecutor, TabCompleter{
+public class MainCmd implements CommandExecutor, TabCompleter {
+	
+	private static final String API_VERSION = "1.10-AA2";
 	
 	private AlchemicalArrows plugin;
+	
 	public MainCmd(AlchemicalArrows plugin){
 		this.plugin = plugin;
 	}
-	
-	private String APIVersion = "1.10-AA2";
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
@@ -49,7 +50,7 @@ public class MainCmd implements CommandExecutor, TabCompleter{
 			else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("info")){
 				sender.sendMessage(ChatColor.GOLD + "--------------------------------------------");
 				sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Version: " + ChatColor.GRAY  + plugin.getDescription().getVersion());
-				sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "API Version: " + ChatColor.GRAY + APIVersion);
+				sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "API Version: " + ChatColor.GRAY + API_VERSION);
 				sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Developer / Maintainer: " + ChatColor.GRAY + "2008Choco");
 				sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Development Page: " + ChatColor.GRAY + "http://dev.bukkit.org/bukkit-plugins/alchemical-arrows");
 				sender.sendMessage(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Report Bugs To: " + ChatColor.GRAY + "http://dev.bukkit.org/bukkit-plugins/alchemical-arrows/tickets");
