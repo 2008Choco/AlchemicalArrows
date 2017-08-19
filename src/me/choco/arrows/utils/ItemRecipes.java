@@ -22,19 +22,19 @@ public class ItemRecipes implements Listener {
 	
 	public static final ItemStack AIR_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.AIR_DISPLAY_NAME).build();
 	public static final ItemStack EARTH_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack MAGIC_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack ENDER_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack LIFE_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack DEATH_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack LIGHT_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack DARKNESS_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack FIRE_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack FROST_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack WATER_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack NECROTIC_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack CONFUSION_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack MAGNETIC_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
-	public static final ItemStack GRAPPLE_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.EARTH_DISPLAY_NAME).build();
+	public static final ItemStack MAGIC_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.MAGIC_DISPLAY_NAME).build();
+	public static final ItemStack ENDER_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.ENDER_DISPLAY_NAME).build();
+	public static final ItemStack LIFE_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.LIFE_DISPLAY_NAME).build();
+	public static final ItemStack DEATH_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.DEATH_DISPLAY_NAME).build();
+	public static final ItemStack LIGHT_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.LIGHT_DISPLAY_NAME).build();
+	public static final ItemStack DARKNESS_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.DARKNESS_DISPLAY_NAME).build();
+	public static final ItemStack FIRE_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.FIRE_DISPLAY_NAME).build();
+	public static final ItemStack FROST_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.FROST_DISPLAY_NAME).build();
+	public static final ItemStack WATER_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.WATER_DISPLAY_NAME).build();
+	public static final ItemStack NECROTIC_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.NECROTIC_DISPLAY_NAME).build();
+	public static final ItemStack CONFUSION_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.CONFUSION_DISPLAY_NAME).build();
+	public static final ItemStack MAGNETIC_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.MAGNETIC_DISPLAY_NAME).build();
+	public static final ItemStack GRAPPLE_ARROW = new ItemBuilder(Material.ARROW).setName(ConfigOption.GRAPPLE_DISPLAY_NAME).build();
 	
 	@EventHandler
 	public void onPrepareCraftingRecipe(PrepareItemCraftEvent event){
