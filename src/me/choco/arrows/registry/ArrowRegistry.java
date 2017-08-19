@@ -50,9 +50,11 @@ public class ArrowRegistry {
 		
 		if (ARROW_REGISTRY.containsKey(duplicate)){
 			throw new IllegalArgumentException("ItemStack is already being used by class " + getArrowRegistry().get(duplicate).getName());
-		}else if (!item.getType().equals(Material.ARROW)){
+		}
+		else if (!item.getType().equals(Material.ARROW)){
 			throw new IllegalArgumentException("Arrow registry requires Material Enum type of ARROW. Given " + duplicate.getType()); 
 		}
+		
 		for (Class<? extends AlchemicalArrow> refClazz : ARROW_REGISTRY.values()){
 			if (refClazz.getSimpleName().replace("Arrow", "").equalsIgnoreCase(clazz.getSimpleName().replace("Arrow", ""))){
 				throw new IllegalArgumentException("Class " + clazz.getSimpleName() + " is already in use in package " + refClazz.getName() + ". (Change your class name)");
@@ -61,7 +63,7 @@ public class ArrowRegistry {
 		
 		ARROW_REGISTRY.put(duplicate, clazz);
 		INFORMATIONAL_INSTANCE_MAP.put(clazz, AlchemicalArrow.createNewArrow(clazz, null));
-		if (!clazz.getPackage().getName().startsWith("me.choco.arrows.utils.arrows")){
+		if (!clazz.getPackage().getName().startsWith("me.choco.arrows.arrows")){
 			AlchemicalArrows.getPlugin().getLogger().info("Successfully registered external arrow (" + clazz.getName() + ")");
 		}
 	}

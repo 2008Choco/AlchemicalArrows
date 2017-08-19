@@ -264,12 +264,5 @@ public class AlchemicalArrows extends JavaPlugin {
 			return false;
 		}
 	}
+	
 }
-
-/* Changelog 2.3.4:
- * Fixed an invalid permission issue with /givearrow
- * Fixed the /givearrow command always printing "invalid arrow type x given" for valid arrows
- * Fixed air arrows rarely applying its effect. It should now apply 100% of the time
- * The particle loop is now slightly more efficient; Will only kill arrows when necessary and runs less operations
- * Documented a bunch of methods in the main class and fixed older documentation (More clear & cleaner)
- */
