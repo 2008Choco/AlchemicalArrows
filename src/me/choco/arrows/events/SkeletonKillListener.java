@@ -34,7 +34,7 @@ public class SkeletonKillListener implements Listener {
 		LivingEntity entity = event.getEntity();
 		
 		if (!(entity instanceof Skeleton)) return;
-		if (RANDOM.nextInt(100) > ConfigOption.SKELETON_LOOT_PERCENTAGE) return;
+		if ((RANDOM.nextInt(100) + 1) > ConfigOption.SKELETON_LOOT_PERCENTAGE) return;
 		
 		event.getDrops().removeIf(i -> i.getType() == Material.ARROW);
 		event.getDrops().add(this.getWeightedRandom(RANDOM.nextInt(2) + 1));
