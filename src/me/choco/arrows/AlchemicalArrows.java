@@ -11,8 +11,11 @@ import com.google.gson.JsonObject;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.choco.arrows.arrows.AirArrow;
@@ -43,6 +46,7 @@ import me.choco.arrows.utils.ItemRecipes;
 import me.choco.arrows.utils.ParticleLoop;
 import me.choco.arrows.utils.commands.GiveArrowCmd;
 import me.choco.arrows.utils.commands.MainCmd;
+import me.choco.arrows.utils.general.ItemBuilder;
 import me.choco.arrows.utils.general.Metrics;
 
 public class AlchemicalArrows extends JavaPlugin {
@@ -68,7 +72,6 @@ public class AlchemicalArrows extends JavaPlugin {
 		this.usingPaper = this.checkServerMod(); // Check for PaperSpigot... Damn it velocity caps
 		this.saveDefaultConfig();
 		ConfigOption.loadConfigurationValues(this);
-		ItemRecipes recipes = new ItemRecipes(this);
 		
 		//Check if WorldGuard is available
 		worldGuardEnabled = Bukkit.getPluginManager().getPlugin("WorldGuard") != null;	
@@ -85,7 +88,7 @@ public class AlchemicalArrows extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new CustomDeathMsgListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new PickupArrowListener(this), this);
 		Bukkit.getPluginManager().registerEvents(new SkeletonKillListener(this), this);
-		Bukkit.getPluginManager().registerEvents(recipes, this);
+		Bukkit.getPluginManager().registerEvents(new ItemRecipes(), this);
 		
 		//Register commands
 		this.getLogger().info("Registering commands");
@@ -97,41 +100,40 @@ public class AlchemicalArrows extends JavaPlugin {
 		
 		//Register crafting recipes
 		this.getLogger().info("Registering recipes");
-		Server server = Bukkit.getServer();
-		server.addRecipe(new ShapedRecipe(recipes.airArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FEATHER));
-		server.addRecipe(new ShapedRecipe(recipes.confusionArrow).shape("AAA","APA","AAA").setIngredient('A', Material.ARROW).setIngredient('P', Material.POISONOUS_POTATO));
-		server.addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL));
-		server.addRecipe(new ShapedRecipe(recipes.darknessArrow).shape("AAA","ACA","AAA").setIngredient('A', Material.ARROW).setIngredient('C', Material.COAL, (byte) 1));
-		server.addRecipe(new ShapedRecipe(recipes.deathArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SKULL_ITEM, (byte) 1));
-		server.addRecipe(new ShapedRecipe(recipes.earthArrow).shape("AAA","ADA","AAA").setIngredient('A', Material.ARROW).setIngredient('D', Material.DIRT));
-		server.addRecipe(new ShapedRecipe(recipes.enderArrow).shape("AAA","AEA","AAA").setIngredient('A', Material.ARROW).setIngredient('E', Material.EYE_OF_ENDER));
-		server.addRecipe(new ShapedRecipe(recipes.fireArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.FIREBALL));
-		server.addRecipe(new ShapedRecipe(recipes.frostArrow).shape("AAA","ASA","AAA").setIngredient('A', Material.ARROW).setIngredient('S', Material.SNOW_BALL));
-		server.addRecipe(new ShapedRecipe(recipes.lifeArrow).shape("AAA","AMA","AAA").setIngredient('A', Material.ARROW).setIngredient('M', Material.SPECKLED_MELON));
-		server.addRecipe(new ShapedRecipe(recipes.lightArrow).shape("AAA","AGA","AAA").setIngredient('A', Material.ARROW).setIngredient('G', Material.GLOWSTONE_DUST));
-		server.addRecipe(new ShapedRecipe(recipes.magicArrow).shape("AAA","ABA","AAA").setIngredient('A', Material.ARROW).setIngredient('B', Material.BLAZE_POWDER));
-		server.addRecipe(new ShapedRecipe(recipes.magneticArrow).shape("AAA","AIA","AAA").setIngredient('A', Material.ARROW).setIngredient('I', Material.IRON_INGOT));
-		server.addRecipe(new ShapedRecipe(recipes.necroticArrow).shape("AAA","AFA","AAA").setIngredient('A', Material.ARROW).setIngredient('F', Material.ROTTEN_FLESH));
-		server.addRecipe(new ShapedRecipe(recipes.waterArrow).shape("AAA","AWA","AAA").setIngredient('A', Material.ARROW).setIngredient('W', Material.WATER_BUCKET));
-		server.addRecipe(new ShapedRecipe(recipes.grappleArrow).shape("AAA", "ATA", "AAA").setIngredient('A', Material.ARROW).setIngredient('T', Material.TRIPWIRE_HOOK));
+		this.newRecipe("air_arrow", ItemRecipes.AIR_ARROW, ConfigOption.AIR_CRAFTS, Material.FEATHER);
+		this.newRecipe("confusion_arrow", ItemRecipes.CONFUSION_ARROW, ConfigOption.CONFUSION_CRAFTS, Material.POISONOUS_POTATO);
+		this.newRecipe("darnkess_arrow", ItemRecipes.DARKNESS_ARROW, ConfigOption.DARKNESS_CRAFTS, Material.COAL);
+		this.newRecipe("darnkess_arrow2", ItemRecipes.DARKNESS_ARROW, ConfigOption.DARKNESS_CRAFTS, new MaterialData(Material.COAL, (byte) 1));
+		this.newRecipe("death_arrow", ItemRecipes.DEATH_ARROW, ConfigOption.DEATH_CRAFTS, new MaterialData(Material.SKULL, (byte) 1));
+		this.newRecipe("earth_arrow", ItemRecipes.EARTH_ARROW, ConfigOption.EARTH_CRAFTS, Material.DIRT);
+		this.newRecipe("ender_arrow", ItemRecipes.ENDER_ARROW, ConfigOption.ENDER_CRAFTS, Material.EYE_OF_ENDER);
+		this.newRecipe("fire_arrow", ItemRecipes.FIRE_ARROW, ConfigOption.FIRE_CRAFTS, Material.FIREBALL);
+		this.newRecipe("frost_arrow", ItemRecipes.FROST_ARROW, ConfigOption.FROST_CRAFTS, Material.SNOW_BALL);
+		this.newRecipe("life_arrow", ItemRecipes.LIFE_ARROW, ConfigOption.LIFE_CRAFTS, Material.SPECKLED_MELON);
+		this.newRecipe("light_arrow", ItemRecipes.LIGHT_ARROW, ConfigOption.LIGHT_CRAFTS, Material.GLOWSTONE_DUST);
+		this.newRecipe("magic_arrow", ItemRecipes.MAGIC_ARROW, ConfigOption.MAGIC_CRAFTS, Material.BLAZE_POWDER);
+		this.newRecipe("magnetic_arrow", ItemRecipes.MAGNETIC_ARROW, ConfigOption.MAGNETIC_CRAFTS, Material.IRON_INGOT);
+		this.newRecipe("necrotic_arrow", ItemRecipes.NECROTIC_ARROW, ConfigOption.NECROTIC_CRAFTS, Material.ROTTEN_FLESH);
+		this.newRecipe("water_arrow", ItemRecipes.WATER_ARROW, ConfigOption.WATER_CRAFTS, Material.WATER_BUCKET);
+		this.newRecipe("grapple_arrow", ItemRecipes.GRAPPLE_ARROW, ConfigOption.GRAPPLE_CRAFTS, Material.TRIPWIRE_HOOK);
 		
 		//Arrow registry
 		this.getLogger().info("Registering all basic AlchemicalArrow arrows");
-		ArrowRegistry.registerAlchemicalArrow(recipes.airArrow, AirArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.confusionArrow, ConfusionArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.darknessArrow, DarknessArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.deathArrow, DeathArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.earthArrow, EarthArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.enderArrow, EnderArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.fireArrow, FireArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.frostArrow, FrostArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.lifeArrow, LifeArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.lightArrow, LightArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.magicArrow, MagicArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.magneticArrow, MagneticArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.necroticArrow, NecroticArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.waterArrow, WaterArrow.class);
-		ArrowRegistry.registerAlchemicalArrow(recipes.grappleArrow, GrappleArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.AIR_ARROW, AirArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.CONFUSION_ARROW, ConfusionArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.DARKNESS_ARROW, DarknessArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.DEATH_ARROW, DeathArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.EARTH_ARROW, EarthArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.ENDER_ARROW, EnderArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.FIRE_ARROW, FireArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.FROST_ARROW, FrostArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.LIFE_ARROW, LifeArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.LIGHT_ARROW, LightArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.MAGIC_ARROW, MagicArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.MAGNETIC_ARROW, MagneticArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.NECROTIC_ARROW, NecroticArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.WATER_ARROW, WaterArrow.class);
+		ArrowRegistry.registerAlchemicalArrow(ItemRecipes.GRAPPLE_ARROW, GrappleArrow.class);
 		
 		//Load Metrics
 		if (ConfigOption.METRICS_ENABLED){
@@ -229,6 +231,18 @@ public class AlchemicalArrows extends JavaPlugin {
 				getLogger().info("Could not check for a new version. Perhaps the website is down?");
 			}
 		});
+	}
+	
+	private void newRecipe(String itemName, ItemStack item, int amount, MaterialData secondaryMaterial) {
+		ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(this, itemName), new ItemBuilder(item).setAmount(amount).build())
+				.shape("AAA", "ASA", "AAA")
+				.setIngredient('A', Material.ARROW)
+				.setIngredient('S', secondaryMaterial);
+		this.getServer().addRecipe(recipe);
+	}
+	
+	private void newRecipe(String itemName, ItemStack item, int amount, Material material) {
+		this.newRecipe(itemName, item, amount, new MaterialData(material));
 	}
 	
 	private boolean checkServerMod() {
