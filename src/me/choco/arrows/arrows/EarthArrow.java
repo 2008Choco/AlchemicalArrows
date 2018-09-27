@@ -43,7 +43,7 @@ public class EarthArrow extends AlchemicalArrow {
 			System.out.println("x: " + location.getBlockX() + ", y: " + location.getBlockY() + ", z: " + location.getBlockZ());
 		}
 		location.setX(location.getBlockX() + 0.5);
-		location.setZ(location.getBlockY() + 0.5);
+		location.setZ(location.getBlockZ() + 0.5);
 		player.teleport(location);
 		
 		if (arrow.getShooter() instanceof Player)
@@ -62,7 +62,7 @@ public class EarthArrow extends AlchemicalArrow {
 		while (!location.getBlock().getType().isSolid())
 			location = location.subtract(0, 1, 0);
 		location.setX(location.getBlockX() + 0.5);
-		location.setZ(location.getBlockY() + 0.5);
+		location.setZ(location.getBlockZ() + 0.5);
 		lEntity.teleport(location);
 		
 		entity.getWorld().playSound(entity.getLocation(), Sound.BLOCK_GRASS_BREAK, 1, 0.75F);
