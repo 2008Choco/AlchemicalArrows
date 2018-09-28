@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -63,6 +64,9 @@ public class AlchemicalArrowFrost extends AlchemicalArrow {
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
 		location.getWorld().spawnParticle(Particle.SNOW_SHOVEL, location, 3, 0.1, 0.1, 0.1, 0.01);
+		
+		if (location.getBlock().getType() != Material.WATER) return;
+		this.freezeRadius(arrow, location);
 	}
 	
 	@Override
@@ -81,8 +85,46 @@ public class AlchemicalArrowFrost extends AlchemicalArrow {
 	}
 	
 	@Override
+	public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
+		this.freezeRadius(arrow, block.getLocation());
+	}
+	
+	@Override
 	public boolean onShootFromPlayer(AlchemicalArrowEntity arrow, Player player) {
 		return player.hasPermission("arrows.shoot.frost");
+	}
+	
+	private void freezeRadius(AlchemicalArrowEntity arrow, Location location) {
+		double radius = Math.min(config.getDouble("Arrow.Frost.Effect.WaterFreezeRadius", 3.5), 7.0);
+		if (radius <= 0.0) return;
+		
+		// Center the location
+		location.setX(location.getBlockX() + 0.5);
+		location.setZ(location.getBlockZ() + 0.5);
+		
+		boolean blocksChanged = false;
+		
+		// Slowly fill ice from outer radius to center
+		for (double currentRadius = radius; currentRadius >= 0; currentRadius -= 0.5) {
+			for (double theta = 0; theta < Math.PI * 2; theta += Math.PI / 16) {
+				double x = Math.cos(theta) * currentRadius;
+				double z = Math.sin(theta) * currentRadius;
+				
+				location.add(x, 0, z);
+				
+				Block block = location.getBlock();
+				if (block.getType() == Material.WATER) {
+					location.getBlock().setType(Material.FROSTED_ICE);
+					blocksChanged = true;
+				}
+				
+				location.subtract(x, 0, z);
+			}
+		}
+		
+		if (blocksChanged) {
+			arrow.getArrow().remove();
+		}
 	}
 	
 }

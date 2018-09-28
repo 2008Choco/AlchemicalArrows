@@ -124,6 +124,8 @@ Arrow:
   Frost:
     RecipeYield: 8
     AllowInfinity: false
+    Effect:
+      WaterFreezeRadius: 3.5
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
