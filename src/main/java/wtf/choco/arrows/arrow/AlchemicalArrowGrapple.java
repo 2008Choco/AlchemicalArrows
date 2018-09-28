@@ -74,6 +74,7 @@ public class AlchemicalArrowGrapple extends AlchemicalArrow {
 		
 		shooter.setVelocity(grappleVelocity);
 		bukkitArrow.getWorld().playSound(bukkitArrow.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
+		bukkitArrow.remove();
 	}
 	
 	@Override
