@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -57,6 +58,9 @@ import wtf.choco.arrows.utils.ItemBuilder;
  * @author Parker Hawke - 2008Choco
  */
 public class AlchemicalArrows extends JavaPlugin {
+	
+	
+	public static final String CHAT_PREFIX = ChatColor.GOLD.toString() + ChatColor.BOLD + "AlchemicalArrows | " + ChatColor.GRAY;
 	
 	private static final int RESOURCE_ID = 11693;
 	private static final String SPIGET_LINK = "https://api.spiget.org/v2/resources/" + RESOURCE_ID + "/versions/latest";

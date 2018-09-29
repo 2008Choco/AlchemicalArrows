@@ -1,5 +1,7 @@
 package wtf.choco.arrows.commands;
 
+import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +39,12 @@ public class GiveArrowCmd implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!sender.hasPermission("arrows.command.givearrow")) {
-			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You have insufficient privileges to run this command");
+			sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
 			return true;
 		}
 		
 		if (args.length < 1) {
-			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "/givearrow <arrow> [count] [player]");
+			sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "Invalid command syntax! " + ChatColor.GRAY + "Missing parameter. " + ChatColor.YELLOW + "/" + label + " <arrow> [count] [player]");
 			return true;
 		}
 		
@@ -53,13 +55,13 @@ public class GiveArrowCmd implements CommandExecutor {
 			targetPlayer = Bukkit.getPlayer(args[2]);
 			
 			if (targetPlayer == null) {
-				sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Player " + args[2] + " is not currently online");
+				sender.sendMessage(CHAT_PREFIX + "A player with the name " + ChatColor.YELLOW + args[2] + " could not be found. Are they online?");
 				return true;
 			}
 		}
 		
 		if (targetPlayer == null) {
-			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You must specify a player in order to execute this command from the console");
+			sender.sendMessage(CHAT_PREFIX + "A player name must be specified in order to execute this command from the console");
 			return true;
 		}
 		
@@ -67,24 +69,22 @@ public class GiveArrowCmd implements CommandExecutor {
 		
 		if (!arrowNamespace.contains(":")) {
 			arrowNamespace = plugin.getName().toLowerCase() + ":" + arrowNamespace;
-		}
-		else if (arrowNamespace.startsWith(":") || arrowNamespace.split(":").length > 2) {
-			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Invalid namespace. Pattern IDs should be "
-					+ "formatted as " + ChatColor.YELLOW + "namespace:id" + ChatColor.GRAY + " (i.e. " + ChatColor.YELLOW
-					+ "\"alchemicalarrows:air\"" + ChatColor.GRAY + ")");
+		} else if (arrowNamespace.startsWith(":") || arrowNamespace.split(":").length > 2) {
+			sender.sendMessage(CHAT_PREFIX + "Invalid namespace. Pattern IDs should be formatted as " + ChatColor.YELLOW + "namespace:id"
+					+ ChatColor.GRAY + " (for example, " + ChatColor.YELLOW + "alchemicalarrows:air" + ChatColor.GRAY + ")");
 			return true;
 		}
 		
 		AlchemicalArrow arrow = ArrowRegistry.getCustomArrow(arrowNamespace);
 		if (arrow == null) {
-			sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Invalid arrow type \"" + arrowNamespace + "\" given");
+			sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowNamespace);
 			return true;
 		}
 		
-		ItemStack itemToGive = arrow.getItem();
+		ItemStack itemToGive = arrow.getItem().clone();
 		itemToGive.setAmount(giveCount);
 		targetPlayer.getInventory().addItem(itemToGive);
-		sender.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "Successfully given " + giveCount + " of " + arrow.getDisplayName() + ChatColor.GRAY + (targetPlayer == sender ? "" : " to " + targetPlayer.getName()));
+		sender.sendMessage(CHAT_PREFIX + "Successfully given " + ChatColor.GREEN + giveCount + ChatColor.GRAY + " of " + arrow.getDisplayName() + ChatColor.GRAY + (targetPlayer == sender ? "" : " to " + targetPlayer.getName()));
 		return true;
 	}
 	
