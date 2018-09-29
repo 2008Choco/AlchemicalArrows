@@ -273,7 +273,9 @@ public class AlchemicalArrows extends JavaPlugin {
 						.setIngredient('S', secondaryMaterials[i - 1]);
 				Bukkit.addRecipe(recipe);
 			} else {
-				this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(recipeKey, arrow, secondaryMaterials));
+				for (Material secondaryMaterial : secondaryMaterials) {
+					this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(recipeKey, arrow, secondaryMaterial));
+				}
 			}
 		}
 		
