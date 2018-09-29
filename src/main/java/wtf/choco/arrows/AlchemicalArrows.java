@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,6 +28,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,6 +59,7 @@ import wtf.choco.arrows.utils.ItemBuilder;
  * 
  * @author Parker Hawke - 2008Choco
  */
+@SuppressWarnings("deprecation") // Draft API (RecipeChoice.MaterialChoice)
 public class AlchemicalArrows extends JavaPlugin {
 	
 	
@@ -262,21 +265,18 @@ public class AlchemicalArrows extends JavaPlugin {
 	}
 	
 	private void createArrow(AlchemicalArrow arrow, String name, Material... secondaryMaterials) {
-		for (int i = 1; i <= secondaryMaterials.length; i++) {
-			NamespacedKey recipeKey = new NamespacedKey(this, arrow.getKey().getKey() + "_" + i);
-			
-			if (!getConfig().getBoolean("Crafting.CauldronCrafting")) {
-				int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);
-				ShapedRecipe recipe = new ShapedRecipe(recipeKey, new ItemBuilder(arrow.getItem()).setAmount(amount).build())
-						.shape("AAA", "ASA", "AAA")
-						.setIngredient('A', Material.ARROW)
-						.setIngredient('S', secondaryMaterials[i - 1]);
-				Bukkit.addRecipe(recipe);
-			} else {
-				for (Material secondaryMaterial : secondaryMaterials) {
-					this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(recipeKey, arrow, secondaryMaterial));
-				}
+		boolean cauldronCrafting = getConfig().getBoolean("Crafting.CauldronCrafting");
+		NamespacedKey recipeKey = new NamespacedKey(this, arrow.getKey().getKey());
+		
+		if (cauldronCrafting) {
+			for (Material secondaryMaterial : secondaryMaterials) {
+				this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(recipeKey, arrow, secondaryMaterial));
 			}
+		} else {
+			int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);
+			Bukkit.addRecipe(new ShapedRecipe(recipeKey, new ItemBuilder(arrow.getItem()).setAmount(amount).build())
+					.shape("AAA", "ASA", "AAA").setIngredient('A', Material.ARROW)
+					.setIngredient('S', new MaterialChoice(Arrays.asList(secondaryMaterials))));
 		}
 		
 		ArrowRegistry.registerCustomArrow(arrow);
