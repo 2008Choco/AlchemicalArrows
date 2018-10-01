@@ -30,6 +30,9 @@ local.properties
 # Eclipse Core		
 .project
 
+### Eclipse Maven ###
+dependency-reduced-pom.xml
+
 # JDT-specific (Eclipse Java Development Tools)		
 .classpath
 
