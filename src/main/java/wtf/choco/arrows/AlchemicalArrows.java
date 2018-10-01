@@ -21,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
@@ -43,6 +42,7 @@ import wtf.choco.arrows.crafting.CauldronUpdateTask;
 import wtf.choco.arrows.events.ArrowHitEntityListener;
 import wtf.choco.arrows.events.ArrowHitGroundListener;
 import wtf.choco.arrows.events.ArrowHitPlayerListener;
+import wtf.choco.arrows.events.ArrowRecipeDiscoverListener;
 import wtf.choco.arrows.events.CauldronManipulationListener;
 import wtf.choco.arrows.events.CraftingPermissionListener;
 import wtf.choco.arrows.events.CustomDeathMsgListener;
@@ -59,9 +59,7 @@ import wtf.choco.arrows.utils.ItemBuilder;
  * 
  * @author Parker Hawke - 2008Choco
  */
-@SuppressWarnings("deprecation") // Draft API (RecipeChoice.MaterialChoice)
 public class AlchemicalArrows extends JavaPlugin {
-	
 	
 	public static final String CHAT_PREFIX = ChatColor.GOLD.toString() + ChatColor.BOLD + "AlchemicalArrows | " + ChatColor.GRAY;
 	
@@ -80,6 +78,8 @@ public class AlchemicalArrows extends JavaPlugin {
 	
 	private boolean worldGuardEnabled = false;
 	private boolean newVersionAvailable = false;
+	
+	private ArrowRecipeDiscoverListener recipeListener;
 	
 	@Override
 	public void onEnable() {
@@ -109,6 +109,7 @@ public class AlchemicalArrows extends JavaPlugin {
 		manager.registerEvents(new SkeletonKillListener(this), this);
 		manager.registerEvents(new CraftingPermissionListener(), this);
 		manager.registerEvents(new CauldronManipulationListener(this), this);
+		manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
 		
 		// Register commands
 		this.getLogger().info("Registering commands");
@@ -164,6 +165,7 @@ public class AlchemicalArrows extends JavaPlugin {
 		ArrowRegistry.clearRegisteredArrows();
 		this.arrowRegistry.clearAlchemicalArrows();
 		this.arrowUpdateTask.cancel();
+		this.recipeListener.clearRecipeKeys();
 		
 		if (cauldronUpdateTask != null) {
 			this.cauldronUpdateTask.cancel();
@@ -266,20 +268,20 @@ public class AlchemicalArrows extends JavaPlugin {
 	
 	private void createArrow(AlchemicalArrow arrow, String name, Material... secondaryMaterials) {
 		boolean cauldronCrafting = getConfig().getBoolean("Crafting.CauldronCrafting");
-		NamespacedKey recipeKey = new NamespacedKey(this, arrow.getKey().getKey());
 		
 		if (cauldronCrafting) {
 			for (Material secondaryMaterial : secondaryMaterials) {
-				this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(recipeKey, arrow, secondaryMaterial));
+				this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(arrow.getKey(), arrow, secondaryMaterial));
 			}
 		} else {
 			int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);
-			Bukkit.addRecipe(new ShapedRecipe(recipeKey, new ItemBuilder(arrow.getItem()).setAmount(amount).build())
+			Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), new ItemBuilder(arrow.getItem()).setAmount(amount).build())
 					.shape("AAA", "ASA", "AAA").setIngredient('A', Material.ARROW)
 					.setIngredient('S', new MaterialChoice(Arrays.asList(secondaryMaterials))));
 		}
 		
 		ArrowRegistry.registerCustomArrow(arrow);
+		this.recipeListener.includeRecipeKey(arrow.getKey());
 	}
 	
 	private Block blockFromString(String value) {
