@@ -271,7 +271,7 @@ public class AlchemicalArrows extends JavaPlugin {
 		
 		if (cauldronCrafting) {
 			for (Material secondaryMaterial : secondaryMaterials) {
-				this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(arrow.getKey(), arrow, secondaryMaterial));
+				this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(arrow.getKey(), arrow, Material.ARROW, secondaryMaterial));
 			}
 		} else {
 			int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);

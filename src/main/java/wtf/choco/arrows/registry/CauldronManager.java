@@ -67,9 +67,9 @@ public class CauldronManager {
 		return recipes.remove(key);
 	}
 	
-	public CauldronRecipe getApplicableRecipe(Map<Material, Integer> ingredients) {
+	public CauldronRecipe getApplicableRecipe(Material catalyst, Map<Material, Integer> ingredients) {
 		return recipes.values().stream()
-				.filter(r -> r.getExpectedYieldFromIngredients(ingredients) >= 1)
+				.filter(r -> r.getCatalyst() == catalyst && r.getExpectedYieldFromIngredients(ingredients) >= 1)
 				.findFirst().orElse(null);
 	}
 	

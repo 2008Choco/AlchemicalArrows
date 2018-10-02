@@ -76,26 +76,30 @@ public class CauldronUpdateTask extends BukkitRunnable {
 				});
 			
 			// Attempt crafting recipes in bubbling cauldrons
-			while (cauldron.hasIngredient(Material.ARROW)) {
-				CauldronRecipe activeRecipe = cauldronManager.getApplicableRecipe(cauldron.getIngredients());
-				if (activeRecipe == null) return;
-				
-				CauldronCraftEvent ccEvent = new CauldronCraftEvent(cauldron, activeRecipe);
-				Bukkit.getPluginManager().callEvent(ccEvent);
-				if (ccEvent.isCancelled()) {
-					break;
+			if (CauldronRecipe.CATALYSTS.size() == 0) return;
+			
+			for (Material catalyst : CauldronRecipe.CATALYSTS) {
+				while (cauldron.hasIngredient(catalyst)) {
+					CauldronRecipe activeRecipe = cauldronManager.getApplicableRecipe(catalyst, cauldron.getIngredients());
+					if (activeRecipe == null) return;
+					
+					CauldronCraftEvent ccEvent = new CauldronCraftEvent(cauldron, activeRecipe);
+					Bukkit.getPluginManager().callEvent(ccEvent);
+					if (ccEvent.isCancelled()) {
+						break;
+					}
+					
+					ThreadLocalRandom random = ThreadLocalRandom.current();
+					Vector itemVelocity = new Vector(random.nextDouble() / 10.0, 0.2 + (random.nextDouble() / 2), random.nextDouble() / 10.0);
+					world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), ccEvent.getResult().getItem()).setVelocity(itemVelocity);
+					
+					if (ccEvent.shouldConsumeIngredients()) {
+						cauldron.removeIngredients(activeRecipe);
+						cauldron.removeIngredient(catalyst, 1);
+					}
+					
+					world.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, 1F, 1.5F);
 				}
-				
-				ThreadLocalRandom random = ThreadLocalRandom.current();
-				Vector itemVelocity = new Vector(random.nextDouble() / 10.0, 0.2 + (random.nextDouble() / 2), random.nextDouble() / 10.0);
-				world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), ccEvent.getResult().getItem()).setVelocity(itemVelocity);
-				
-				if (ccEvent.shouldConsumeIngredients()) {
-					cauldron.removeIngredients(activeRecipe);
-					cauldron.removeIngredient(Material.ARROW, 1);
-				}
-				
-				world.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, 1F, 1.5F);
 			}
 		}
 	}

@@ -1,7 +1,9 @@
 package wtf.choco.arrows.crafting;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -16,37 +18,55 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 
 public class CauldronRecipe implements Keyed {
 	
+	protected static final List<Material> CATALYSTS = new ArrayList<>();
+	
 	private final NamespacedKey key;
 	private final AlchemicalArrow result;
+	private final Material catalyst;
 	private final Map<Material, Integer> ingredients;
 	
-	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, EnumMap<Material, Integer> ingredients) {
+	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, EnumMap<Material, Integer> ingredients) {
 		Preconditions.checkNotNull(key, "Namespaced key must not be null");
 		
 		this.key = key;
 		this.result = result;
+		this.catalyst = catalyst;
 		this.ingredients = ingredients.clone();
+		
+		if (!CATALYSTS.contains(catalyst)) {
+			CATALYSTS.add(catalyst);
+		}
 	}
 	
-	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material... ingredients) {
+	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Material... ingredients) {
 		Preconditions.checkNotNull(key, "Namespaced key must not be null");
 		
 		this.key = key;
 		this.result = result;
+		this.catalyst = catalyst;
 		this.ingredients = new EnumMap<>(Material.class);
 		
 		for (Material ingredient : ingredients) {
 			this.ingredients.put(ingredient, 1);
 		}
+		
+		if (!CATALYSTS.contains(catalyst)) {
+			CATALYSTS.add(catalyst);
+		}
 	}
 	
-	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material ingredient) {
+	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Material ingredient) {
 		Preconditions.checkNotNull(key, "Namespaced key must not be null");
 		
 		this.key = key;
 		this.result = result;
+		this.catalyst = catalyst;
 		this.ingredients = new EnumMap<>(Material.class);
 		this.ingredients.put(ingredient, 1);
+		
+		if (!CATALYSTS.contains(catalyst)) {
+			CATALYSTS.add(catalyst);
+		}
 	}
 	
 	@Override
@@ -56,6 +76,10 @@ public class CauldronRecipe implements Keyed {
 	
 	public AlchemicalArrow getResult() {
 		return result;
+	}
+	
+	public Material getCatalyst() {
+		return catalyst;
 	}
 	
 	public CauldronRecipe addIngredient(Material material, int amount) {
