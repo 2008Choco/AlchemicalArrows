@@ -2,20 +2,24 @@ package wtf.choco.arrows.commands;
 
 import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.util.StringUtil;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
 public class AlchemicalArrowsCmd implements CommandExecutor {
 	
-	public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> (args.length == 1) ? Arrays.asList("killallarrows", "version", "reload") : null;
+	private static final List<String> DEFAULT_COMPLETIONS = Arrays.asList("killallarrows", "version", "reload");
+	public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> (args.length > 0) ? StringUtil.copyPartialMatches(args[0], DEFAULT_COMPLETIONS, new ArrayList<>()) : null;
 	
 	private final AlchemicalArrows plugin;
 	

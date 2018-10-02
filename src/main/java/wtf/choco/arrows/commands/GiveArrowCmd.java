@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,8 +26,13 @@ public class GiveArrowCmd implements CommandExecutor {
 		if (args.length != 1) return null;
 		
 		List<String> arguments = new ArrayList<>();
-		for (AlchemicalArrow arrow : ArrowRegistry.getRegisteredCustomArrows())
-			arguments.add(arrow.getKey().toString());
+		for (AlchemicalArrow arrow : ArrowRegistry.getRegisteredCustomArrows()) {
+			NamespacedKey key = arrow.getKey();
+			if (key.toString().startsWith(args[0]) || key.getKey().startsWith(args[0])) {
+				arguments.add(arrow.getKey().toString());
+			}
+		}
+		
 		return arguments;
 	};
 	
