@@ -278,10 +278,10 @@ public class AlchemicalArrows extends JavaPlugin {
 			Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), new ItemBuilder(arrow.getItem()).setAmount(amount).build())
 					.shape("AAA", "ASA", "AAA").setIngredient('A', Material.ARROW)
 					.setIngredient('S', new MaterialChoice(Arrays.asList(secondaryMaterials))));
+			this.recipeListener.includeRecipeKey(arrow.getKey());
 		}
 		
 		ArrowRegistry.registerCustomArrow(arrow);
-		this.recipeListener.includeRecipeKey(arrow.getKey());
 	}
 	
 	private Block blockFromString(String value) {

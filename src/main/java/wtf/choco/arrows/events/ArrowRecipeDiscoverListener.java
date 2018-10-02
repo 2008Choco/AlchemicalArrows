@@ -14,7 +14,7 @@ public class ArrowRecipeDiscoverListener implements Listener {
 	
 	@EventHandler
 	public void onDiscoverArrowRecipe(PlayerRecipeDiscoverEvent event) {
-		if (!event.getRecipe().getKey().toString().equalsIgnoreCase("minecraft:arrow")) return;
+		if (!event.getRecipe().toString().equalsIgnoreCase("minecraft:arrow")) return;
 		event.getPlayer().discoverRecipes(alchemicalArrowRecipeKeys);
 	}
 	
