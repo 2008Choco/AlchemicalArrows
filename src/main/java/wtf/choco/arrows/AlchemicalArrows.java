@@ -275,7 +275,7 @@ public class AlchemicalArrows extends JavaPlugin {
 			}
 		} else {
 			int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);
-			Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), new ItemBuilder(arrow.getItem()).setAmount(amount).build())
+			Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), ItemBuilder.modify(arrow.getItem()).amount(amount).build())
 					.shape("AAA", "ASA", "AAA").setIngredient('A', Material.ARROW)
 					.setIngredient('S', new MaterialChoice(Arrays.asList(secondaryMaterials))));
 			this.recipeListener.includeRecipeKey(arrow.getKey());

@@ -1,142 +1,277 @@
 package wtf.choco.arrows.utils;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 /**
- * A class to assist those in creating ItemStacks in the confines of a single line of code
- * This class removes the need to get ItemMeta
+ * A utility class to assist in the creation of ItemStacks in the confines of a single line.
  * 
  * @author Parker Hawke - 2008Choco
- * @since 3/30/2016 - March 30th, 2016
  */
-public class ItemBuilder {
+public final class ItemBuilder {
+	
+	private static final Set<Material> ILLEGAL_TYPES = EnumSet.of(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR);
 	
 	private final ItemStack item;
 	private final ItemMeta meta;
 	
-	/**
-	 * Construct a new ItemBuilder with the provided material
-	 * 
-	 * @param material the item's material
-	 */
-	public ItemBuilder(Material material) {
-		this(new ItemStack(material));
+	private ItemBuilder(Material type, int amount) {
+		Preconditions.checkArgument(type != null, "Cannot create ItemBuilder for null Material");
+		Preconditions.checkArgument(!ILLEGAL_TYPES.contains(type), "Illegal material!");
+		Preconditions.checkArgument(amount > 0 && amount <= type.getMaxStackSize(), "Amount must be between 0 - " + type.getMaxStackSize());
+		
+		this.item = new ItemStack(type);
+		this.meta = item.getItemMeta();
 	}
 	
-	/**
-	 * Construct a new ItemBuilder based upon a pre-existing ItemStack instance. The
-	 * constructed instance will be a clone of the provided ItemStack object
-	 * 
-	 * @param item the existing ItemStack
-	 */
-	public ItemBuilder(ItemStack item) {
+	private ItemBuilder(ItemStack item) {
+		Preconditions.checkArgument(item != null, "Cannot modify a null item");
+		Preconditions.checkArgument(!ILLEGAL_TYPES.contains(item.getType()), "Illegal material!");
+		
 		this.item = item.clone();
 		this.meta = item.getItemMeta();
 	}
 	
 	/**
-	 * Set the item's name
+	 * Get a new instance of an ItemBuilder given a (non-null and non-air) {@link Material} and
+	 * a quantity greater than 0 and less than or equal to {@link Material#getMaxStackSize()}.
 	 * 
-	 * @param name the new name to set
+	 * @param type the type of item to build
+	 * @param amount the item amount
 	 * 
-	 * @return this instance. Allows for chained calls
+	 * @return the ItemBuilder instance for the provided values
 	 */
-	public ItemBuilder setName(String name) {
+	public static ItemBuilder of(Material type, int amount) {
+		return new ItemBuilder(type, amount);
+	}
+	
+	/**
+	 * Get a new instance of an ItemBuilder given a (non-null and non-air) {@link Material}.
+	 * 
+	 * @param type the type of item to build
+	 * 
+	 * @return the ItemBuilder instance for the provided material
+	 */
+	public static ItemBuilder of(Material type) {
+		return new ItemBuilder(type, 1);
+	}
+	
+	/**
+	 * Get a new instance of ItemBuilder to modify an existing {@link ItemStack}. The
+	 * ItemStack passed will be cloned, therefore the passed reference will not be modified,
+	 * but rather a copy of it. The result of {@link #build()} will be a separate item with
+	 * the changes applied from this builder instance. The provided item acts as a base for
+	 * the values in this builder.
+	 * 
+	 * @param item the item to build
+	 * 
+	 * @return the ItemBuilder instance for the provided item
+	 */
+	public static ItemBuilder modify(ItemStack item) {
+		return new ItemBuilder(item);
+	}
+	
+	/**
+	 * Check whether the specified type of ItemMeta is supported by this ItemBuilder.
+	 * 
+	 * @param type the type of meta to check
+	 * 
+	 * @return true if supported, false otherwise or if null
+	 */
+	public boolean isSupportedMeta(Class<? extends ItemMeta> type) {
+		return type != null && type.isInstance(meta);
+	}
+	
+	/**
+	 * Apply a method from a more specific type of ItemMeta to this ItemBuilder instance.
+	 * If the type provided is unsupported by this ItemBuilder (according to
+	 * {@link #isSupportedMeta(Class)}), this method will throw an exception, therefore it
+	 * is recommended that it be checked before invoking this method if you are unsure as to
+	 * what is and is not supported.
+	 * 
+	 * @param type the type of ItemMeta to apply
+	 * @param applier the function to apply to the ItemMeta instance
+	 * 
+	 * @param <T> The ItemMeta type to be applied in the consumer function
+	 * 
+	 * @return this instance. Allows for chained method calls
+	 */
+	public <T extends ItemMeta> ItemBuilder specific(Class<T> type, Consumer<T> applier) {
+		Preconditions.checkArgument(type != null, "Cannot apply meta for type null");
+		Preconditions.checkArgument(isSupportedMeta(type), "The specified ItemMeta type is not supported by this ItemBuilder instance");
+		Preconditions.checkArgument(applier != null, "Application function must not be null");
+		
+		applier.accept(type.cast(meta));
+		return this;
+	}
+	
+	/**
+	 * Set the item name.
+	 * 
+	 * @param name the name to set
+	 * 
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemMeta#setDisplayName(String)
+	 */
+	public ItemBuilder name(String name) {
 		this.meta.setDisplayName(name);
 		return this;
 	}
 	
 	/**
-	 * Set the item's lore
+	 * Set the item lore in the form of varargs.
 	 * 
-	 * @param lore the new lore to set
+	 * @param lore the lore to set
 	 * 
-	 * @return this instance. Allows for chained calls
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemBuilder#lore(List)
+	 * @see ItemMeta#setLore(List)
 	 */
-	public ItemBuilder setLore(List<String> lore) {
+	public ItemBuilder lore(String... lore) {
+		if (lore.length > 0) {
+			this.meta.setLore(Arrays.asList(lore));
+		}
+		
+		return this;
+	}
+	
+	/**
+	 * Set the item lore in the form of a {@literal List<String>}.
+	 * 
+	 * @param lore the lore to set
+	 * 
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemBuilder#lore(String...)
+	 * @see ItemMeta#setLore(List)
+	 */
+	public ItemBuilder lore(List<String> lore) {
 		this.meta.setLore(lore);
 		return this;
 	}
 	
 	/**
-	 * Set the item's amount
+	 * Set the item damage. Some items may not display damage or accept the damage attribute at
+	 * all, in which case this method will simply fail silently.
 	 * 
-	 * @param amount the new amount to set
+	 * @param damage the damage to set
 	 * 
-	 * @return this instance. Allows for chained calls
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see Damageable#setDamage(int)
 	 */
-	public ItemBuilder setAmount(int amount) {
+	public ItemBuilder damage(int damage) {
+		((Damageable) meta).setDamage(damage);
+		return this;
+	}
+	
+	/**
+	 * Set the item amount. This damage must range between 1 and {@link Material#getMaxStackSize()}
+	 * according to the type being built in this ItemBuilder instance.
+	 * 
+	 * @param amount the amount to set
+	 * 
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemStack#setAmount(int)
+	 */
+	public ItemBuilder amount(int amount) {
 		this.item.setAmount(amount);
 		return this;
 	}
 	
 	/**
-	 * Add {@link ItemFlag}s to the item
-	 * 
-	 * @param flags the flags to add to the item
-	 * 
-	 * @return this instance. Allows for chained calls
-	 */
-	public ItemBuilder addFlags(ItemFlag... flags) {
-		this.meta.addItemFlags(flags);
-		return this;
-	}
-	
-	/**
-	 * Add an {@link Enchantment} with a given level to the item
+	 * Apply an enchantment with the specified level to the item. This method does not respect the
+	 * level limitations of an enchantment (i.e. Sharpness VI may be applied if desired).
 	 * 
 	 * @param enchantment the enchantment to add
-	 * @param level the level of the enchantment
+	 * @param level the enchantment level to set
 	 * 
-	 * @return this instance. Allows for chained calls
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemMeta#addEnchant(Enchantment, int, boolean)
 	 */
-	public ItemBuilder addEnchantment(Enchantment enchantment, int level) {
+	public ItemBuilder enchantment(Enchantment enchantment, int level) {
 		this.meta.addEnchant(enchantment, level, true);
 		return this;
 	}
 	
 	/**
-	 * Set the item's unbreakable state
+	 * Add an attribute modifier to this item.
 	 * 
-	 * @param unbreakable the new unbreakable state
+	 * @param attribute the attribute for which to add a modifier
+	 * @param modifier the modifier to apply
 	 * 
-	 * @return this instance. Allows for chained calls
+	 * @return this instance. Allows for chained method calls
 	 */
-	public ItemBuilder setUnbreakable(boolean unbreakable) {
-		this.meta.setUnbreakable(unbreakable);
+	public ItemBuilder attribute(Attribute attribute, AttributeModifier modifier) {
+		this.meta.addAttributeModifier(attribute, modifier);
 		return this;
 	}
 	
 	/**
-	 * Apply a function from a specific implementation of ItemMeta. If the type of
-	 * ItemMeta used in this ItemBuilder is not of the type passed to the function,
-	 * the method call will be ignored and this ItemBuilder will continue without
-	 * any errors.
+	 * Apply flags to the item.
 	 * 
-	 * @param metaType the type of meta to apply methods from
-	 * @param metaFunction the meta application method
-	 * @param <T> the type of meta
+	 * @param flags the flags to set
 	 * 
-	 * @return this instance. Allows for chained calls
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemMeta#addItemFlags(ItemFlag...)
 	 */
-	public <T extends ItemMeta> ItemBuilder applyCustomMeta(Class<T> metaType, Consumer<T> metaFunction) {
-		if (!metaType.isInstance(meta)) return this;
+	public ItemBuilder flags(ItemFlag... flags) {
+		if (flags.length > 0) {
+			this.meta.addItemFlags(flags);
+		}
 		
-		metaFunction.accept(metaType.cast(meta));
 		return this;
 	}
 	
 	/**
-	 * Build the ItemStack and return the result
+	 * Set the unbreakable state of this item to true.
 	 * 
-	 * @return the resulting ItemStack
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemMeta#setUnbreakable(boolean)
+	 */
+	public ItemBuilder unbreakable() {
+		this.meta.setUnbreakable(true);
+		return this;
+	}
+	
+	/**
+	 * Set the item's localized name.
+	 * 
+	 * @param name the localized name to set
+	 * 
+	 * @return this instance. Allows for chained method calls
+	 * 
+	 * @see ItemMeta#setLocalizedName(String)
+	 */
+	public ItemBuilder localizedName(String name) {
+		this.meta.setLocalizedName(name);
+		return this;
+	}
+	
+	/**
+	 * Complete the building of this ItemBuilder and return the resulting ItemStack.
+	 * 
+	 * @return the completed {@link ItemStack} instance built by this builder
 	 */
 	public ItemStack build() {
 		this.item.setItemMeta(meta);

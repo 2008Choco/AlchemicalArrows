@@ -31,9 +31,9 @@ public class AlchemicalArrowMagic extends AlchemicalArrow {
 	public AlchemicalArrowMagic(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "magic");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Magic.Item.DisplayName", "&dMagic Arrow")))
-				.setLore(config.getStringList("Arrow.Magic.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Magic.Item.DisplayName", "&dMagic Arrow")))
+				.lore(config.getStringList("Arrow.Magic.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

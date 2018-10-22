@@ -28,9 +28,9 @@ public class AlchemicalArrowWater extends AlchemicalArrow {
 	public AlchemicalArrowWater(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "water");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Water.Item.DisplayName", "&9Water Arrow")))
-				.setLore(config.getStringList("Arrow.Water.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Water.Item.DisplayName", "&9Water Arrow")))
+				.lore(config.getStringList("Arrow.Water.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

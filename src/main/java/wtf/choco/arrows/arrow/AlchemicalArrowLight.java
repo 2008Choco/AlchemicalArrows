@@ -28,9 +28,9 @@ public class AlchemicalArrowLight extends AlchemicalArrow {
 	public AlchemicalArrowLight(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "light");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Light.Item.DisplayName", "&eLight Arrow")))
-				.setLore(config.getStringList("Arrow.Light.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Light.Item.DisplayName", "&eLight Arrow")))
+				.lore(config.getStringList("Arrow.Light.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

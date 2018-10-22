@@ -36,9 +36,9 @@ public class AlchemicalArrowDeath extends AlchemicalArrow {
 	public AlchemicalArrowDeath(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "death");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Death.Item.DisplayName", "&0Death Arrow")))
-				.setLore(config.getStringList("Arrow.Death.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Death.Item.DisplayName", "&0Death Arrow")))
+				.lore(config.getStringList("Arrow.Death.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

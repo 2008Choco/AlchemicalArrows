@@ -42,9 +42,9 @@ public class AlchemicalArrowAir extends AlchemicalArrow {
 	public AlchemicalArrowAir(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "air");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Air.Item.DisplayName", "&oAir Arrow")))
-				.setLore(config.getStringList("Arrow.Air.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Air.Item.DisplayName", "&oAir Arrow")))
+				.lore(config.getStringList("Arrow.Air.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

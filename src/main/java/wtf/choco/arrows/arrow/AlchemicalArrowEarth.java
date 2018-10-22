@@ -35,9 +35,9 @@ public class AlchemicalArrowEarth extends AlchemicalArrow {
 	public AlchemicalArrowEarth(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "earth");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Earth.Item.DisplayName", "&7Earth Arrow")))
-				.setLore(config.getStringList("Arrow.Earth.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Earth.Item.DisplayName", "&7Earth Arrow")))
+				.lore(config.getStringList("Arrow.Earth.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

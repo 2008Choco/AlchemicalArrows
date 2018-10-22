@@ -34,9 +34,9 @@ public class AlchemicalArrowNecrotic extends AlchemicalArrow {
 	public AlchemicalArrowNecrotic(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "necrotic");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Necrotic.Item.DisplayName", "&2Necrotic Arrow")))
-				.setLore(config.getStringList("Arrow.Necrotic.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Necrotic.Item.DisplayName", "&2Necrotic Arrow")))
+				.lore(config.getStringList("Arrow.Necrotic.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

@@ -34,9 +34,9 @@ public class AlchemicalArrowFrost extends AlchemicalArrow {
 	public AlchemicalArrowFrost(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "frost");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Frost.Item.DisplayName", "&bFrost Arrow")))
-				.setLore(config.getStringList("Arrow.Frost.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Frost.Item.DisplayName", "&bFrost Arrow")))
+				.lore(config.getStringList("Arrow.Frost.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

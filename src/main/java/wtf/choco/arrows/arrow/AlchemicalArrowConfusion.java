@@ -32,9 +32,9 @@ public class AlchemicalArrowConfusion extends AlchemicalArrow {
 	public AlchemicalArrowConfusion(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "confusion");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Confusion.Item.DisplayName", "&dConfusion Arrow")))
-				.setLore(config.getStringList("Arrow.Confusion.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Confusion.Item.DisplayName", "&dConfusion Arrow")))
+				.lore(config.getStringList("Arrow.Confusion.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

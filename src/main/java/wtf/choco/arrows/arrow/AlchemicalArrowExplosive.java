@@ -33,9 +33,9 @@ public class AlchemicalArrowExplosive extends AlchemicalArrow {
 	public AlchemicalArrowExplosive(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "explosive");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Explosive.Item.DisplayName", "&cExplosive Arrow")))
-				.setLore(config.getStringList("Arrow.Explosive.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Explosive.Item.DisplayName", "&cExplosive Arrow")))
+				.lore(config.getStringList("Arrow.Explosive.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

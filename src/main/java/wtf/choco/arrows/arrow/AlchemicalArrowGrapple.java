@@ -31,9 +31,9 @@ public class AlchemicalArrowGrapple extends AlchemicalArrow {
 	public AlchemicalArrowGrapple(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "grapple");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Grapple.Item.DisplayName", "&eGrapple Arrow")))
-				.setLore(config.getStringList("Arrow.Grapple.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Grapple.Item.DisplayName", "&eGrapple Arrow")))
+				.lore(config.getStringList("Arrow.Grapple.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();

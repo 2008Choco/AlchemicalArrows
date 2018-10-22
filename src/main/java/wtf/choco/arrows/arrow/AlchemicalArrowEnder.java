@@ -35,9 +35,9 @@ public class AlchemicalArrowEnder extends AlchemicalArrow {
 	public AlchemicalArrowEnder(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.key = new NamespacedKey(plugin, "ender");
-		this.item = new ItemBuilder(Material.ARROW)
-				.setName(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Ender.Item.DisplayName", "&5Ender Arrow")))
-				.setLore(config.getStringList("Arrow.Ender.Item.Lore").stream()
+		this.item = ItemBuilder.of(Material.ARROW)
+				.name(ChatColor.translateAlternateColorCodes('&', config.getString("Arrow.Ender.Item.DisplayName", "&5Ender Arrow")))
+				.lore(config.getStringList("Arrow.Ender.Item.Lore").stream()
 						.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 						.collect(Collectors.toList())
 				).build();
