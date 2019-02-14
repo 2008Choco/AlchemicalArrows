@@ -1,4 +1,4 @@
-package wtf.choco.arrows.events;
+package wtf.choco.arrows.listeners;
 
 import com.sk89q.worldguard.bukkit.WGBukkit;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;

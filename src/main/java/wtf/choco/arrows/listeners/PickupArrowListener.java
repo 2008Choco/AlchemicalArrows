@@ -1,4 +1,4 @@
-package wtf.choco.arrows.events;
+package wtf.choco.arrows.listeners;
 
 import org.bukkit.GameMode;
 import org.bukkit.Sound;

@@ -1,4 +1,4 @@
-package wtf.choco.arrows.events;
+package wtf.choco.arrows.listeners;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
