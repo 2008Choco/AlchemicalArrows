@@ -1,6 +1,6 @@
 package wtf.choco.arrows.events;
 
-import org.bukkit.entity.Player;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
@@ -15,9 +15,9 @@ public class CraftingPermissionListener implements Listener {
 	@EventHandler
 	public void onPrepareCraftingRecipe(PrepareItemCraftEvent event){
 		ItemStack item = event.getInventory().getResult();
-		if (item == null) return;
+		if (item == null || event.getViewers().isEmpty()) return;
 
-		Player player = (Player) event.getViewers().get(0);
+		HumanEntity player = event.getViewers().get(0);
 		CraftingInventory inventory = event.getInventory();
 
 		AlchemicalArrow type = ArrowRegistry.getCustomArrow(item);
