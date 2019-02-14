@@ -1,6 +1,7 @@
 package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -13,15 +14,16 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
 
-	private final FileConfiguration config;
+	public static final ArrowProperty<Boolean> PROPERTY_STRIKE_LIGHTNING = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "strike_lightning"), Boolean.class, true);
 
 	public AlchemicalArrowLight(AlchemicalArrows plugin) {
 		super(plugin, "light", c -> c.getString("Arrow.Light.Item.DisplayName", "&eLight Arrow"), c -> c.getStringList("Arrow.Light.Item.Lore"));
 
-		this.config = plugin.getConfig();
+		FileConfiguration config = plugin.getConfig();
 		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Light.Skeleton.CanShoot", true));
 		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Light.AllowInfinity", false));
 		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Light.Skeleton.LootDropWeight", 10.0));
+		this.properties.setProperty(PROPERTY_STRIKE_LIGHTNING, config.getBoolean("Arrow.Light.Effect.StrikeLightning", PROPERTY_STRIKE_LIGHTNING.getDefaultValue()));
 	}
 
 	@Override
@@ -41,7 +43,7 @@ public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
 	}
 
 	private void applyEffect(LivingEntity entity) {
-		if (config.getBoolean("Arrow.Light.Effect.StrikeLightning", true)) {
+		if (properties.getPropertyValue(PROPERTY_STRIKE_LIGHTNING).booleanValue()) {
 			entity.getWorld().strikeLightning(entity.getLocation());
 		}
 

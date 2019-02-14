@@ -2,6 +2,7 @@ package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,18 +18,20 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
 
+	public static final ArrowProperty<Double> PROPERTY_WATER_FREEZE_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "water_freeze_radius"), Double.class, 3.5);
+
 	private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 100, 254);
 	private static final PotionEffect ANTI_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 100, 500);
-
-	private final FileConfiguration config;
+	private static final double WATER_FREEZE_RADIUS_LIMIT = 7.0;
 
 	public AlchemicalArrowFrost(AlchemicalArrows plugin) {
 		super(plugin, "frost", c -> c.getString("Arrow.Frost.Item.DisplayName", "&bFrost Arrow"), c -> c.getStringList("Arrow.Frost.Item.Lore"));
 
-		this.config = plugin.getConfig();
+		FileConfiguration config = plugin.getConfig();
 		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Frost.Skeleton.CanShoot", true));
 		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Frost.AllowInfinity", false));
 		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Frost.Skeleton.LootDropWeight", 10.0));
+		this.properties.setProperty(PROPERTY_WATER_FREEZE_RADIUS, Math.min(config.getDouble("Arrow.Frost.Effect.WaterFreezeRadius", PROPERTY_WATER_FREEZE_RADIUS.getDefaultValue()), WATER_FREEZE_RADIUS_LIMIT));
 	}
 
 	@Override
@@ -60,7 +63,7 @@ public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
 	}
 
 	private void freezeRadius(AlchemicalArrowEntity arrow, Location location) {
-		double radius = Math.min(config.getDouble("Arrow.Frost.Effect.WaterFreezeRadius", 3.5), 7.0);
+		double radius = properties.getPropertyValue(PROPERTY_WATER_FREEZE_RADIUS).doubleValue();
 		if (radius <= 0.0) return;
 
 		// Center the location

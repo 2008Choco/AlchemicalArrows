@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -23,19 +24,20 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
 
+	public static final ArrowProperty<Double> PROPERTY_MAGNETISM_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "magnetism_radius"), Double.class, 5.0);
+
 	private static final Random RANDOM = new Random();
 	private static final BlockData IRON = Material.IRON_BLOCK.createBlockData(), GOLD = Material.GOLD_BLOCK.createBlockData();
 	private static final int MAGNETISM_RADIUS_LIMIT = 10;
 
-	private final FileConfiguration config;
-
 	public AlchemicalArrowMagnetic(AlchemicalArrows plugin) {
 		super(plugin, "magnetic", c -> c.getString("Arrow.Magnetic.Item.DisplayName", "&7Magnetic Arrow"), c -> c.getStringList("Arrow.Magnetic.Item.Lore"));
 
-		this.config = plugin.getConfig();
+		FileConfiguration config = plugin.getConfig();
 		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Magnetic.Skeleton.CanShoot", true));
 		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Magnetic.AllowInfinity", false));
 		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Magnetic.Skeleton.LootDropWeight", 10.0));
+		this.properties.setProperty(PROPERTY_MAGNETISM_RADIUS, Math.min(config.getDouble("Arrow.Magnetic.Effect.MagnetismRadius", PROPERTY_MAGNETISM_RADIUS.getDefaultValue()), MAGNETISM_RADIUS_LIMIT));
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
 		// Validate in-tile arrow
 		if (!arrow.getArrow().isInBlock()) return;
 
-		double radius = Math.min(config.getDouble("Arrows.Magnetic.Effect.MagnetismRadius", 5.0), MAGNETISM_RADIUS_LIMIT);
+		double radius = properties.getPropertyValue(PROPERTY_MAGNETISM_RADIUS).doubleValue();
 		if (radius <= 0.0) return;
 
 		// Attract nearby entities

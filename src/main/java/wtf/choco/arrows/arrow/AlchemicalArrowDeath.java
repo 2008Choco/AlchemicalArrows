@@ -3,6 +3,7 @@ package wtf.choco.arrows.arrow;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,18 +20,21 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
 
+	public static final ArrowProperty<Boolean> PROPERTY_INSTANT_DEATH_POSSIBLE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "instant_death_possible"), Boolean.class, true);
+	public static final ArrowProperty<Double> PROPERTY_INSTANT_DEATH_CHANCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "isntant_death_chance"), Double.class, 20.0);
+
 	private static final PotionEffect WITHER_EFFECT = new PotionEffect(PotionEffectType.WITHER, 100, 2);
 	private static final Random RANDOM = new Random();
-
-	private final FileConfiguration config;
 
 	public AlchemicalArrowDeath(AlchemicalArrows plugin) {
 		super(plugin, "death", c -> c.getString("Arrow.Death.Item.DisplayName", "&0Death Arrow"), c -> c.getStringList("Arrow.Death.Item.Lore"));
 
-		this.config = plugin.getConfig();
+		FileConfiguration config = plugin.getConfig();
 		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Death.Skeleton.CanShoot", true));
 		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Death.AllowInfinity", false));
 		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Death.Skeleton.LootDropWeight", 10.0));
+		this.properties.setProperty(PROPERTY_INSTANT_DEATH_POSSIBLE, config.getBoolean("Arrow.Death.Effect.InstantDeathPossible", PROPERTY_INSTANT_DEATH_POSSIBLE.getDefaultValue()));
+		this.properties.setProperty(PROPERTY_INSTANT_DEATH_CHANCE, config.getDouble("Arrow.Death.Effect.InstantDeathChance", PROPERTY_INSTANT_DEATH_CHANCE.getDefaultValue()));
 	}
 
 	@Override
@@ -56,10 +60,10 @@ public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
 	}
 
 	private void attemptInstantDeath(Arrow source, LivingEntity entity) {
-		if (!config.getBoolean("Arrow.Death.Effect.InstantDeathPossible", true)) return;
+		if (!properties.getPropertyValue(PROPERTY_INSTANT_DEATH_POSSIBLE).booleanValue()) return;
 
 		int chance = RANDOM.nextInt(100);
-		if (chance > config.getDouble("Arrow.Death.Effect.InstantDeathChance", 20.0)) return;
+		if (chance > properties.getPropertyValue(PROPERTY_INSTANT_DEATH_CHANCE).doubleValue()) return;
 
 		entity.damage(entity.getHealth(), source);
 	}

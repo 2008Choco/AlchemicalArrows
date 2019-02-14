@@ -6,6 +6,7 @@ import com.sk89q.worldguard.bukkit.WGBukkit;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,8 +25,10 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 
+	public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "floral_radius"), Integer.class, 2);
+
 	private static final PotionEffect REGENERATION_EFFECT = new PotionEffect(PotionEffectType.REGENERATION, 300, 2);
-	private static final int GROWTH_RADIUS_LIMIT = 5;
+	private static final int FLORAL_RADIUS_LIMIT = 5;
 	private static final Material[] GROWABLE_MATERIALS = {
 		Material.ALLIUM, Material.AZURE_BLUET, Material.BLUE_ORCHID,
 		Material.DANDELION, Material.GRASS, Material.ORANGE_TULIP,
@@ -34,17 +37,16 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 	};
 
 	private final AlchemicalArrows plugin;
-	private final FileConfiguration config;
 
 	public AlchemicalArrowLife(AlchemicalArrows plugin) {
 		super(plugin, "life", c -> c.getString("Arrow.Life.Item.DisplayName", "&aLife Arrow"), c -> c.getStringList("Arrow.Life.Item.Lore"));
-
 		this.plugin = plugin;
-		this.config = plugin.getConfig();
 
+		FileConfiguration config = plugin.getConfig();
 		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Life.Skeleton.CanShoot", true));
 		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Life.AllowInfinity", false));
 		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Life.Skeleton.LootDropWeight", 10.0));
+		this.properties.setProperty(PROPERTY_FLORAL_RADIUS, Math.min(config.getInt("Arrow.Life.Effect.FloralRadius", PROPERTY_FLORAL_RADIUS.getDefaultValue()), FLORAL_RADIUS_LIMIT));
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 
 	@Override
 	public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-		int radius = Math.min(config.getInt("Arrow.Life.Effect.FloralRadius", 2), GROWTH_RADIUS_LIMIT);
+		int radius = properties.getPropertyValue(PROPERTY_FLORAL_RADIUS).intValue();
 		if (radius <= 0) return;
 
 		// WorldGuard check

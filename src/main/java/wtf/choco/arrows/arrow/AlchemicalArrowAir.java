@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -24,20 +25,21 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
 
+	public static final ArrowProperty<Double> PROPERTY_BREATHE_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "breathe_radius"), Double.class, 2.0);
+
 	private static final Random RANDOM = new Random();
-	private static final int BREATH_RADIUS_LIMIT = 4;
+	private static final int BREATHE_RADIUS_LIMIT = 4;
 
 	private int lastTick = 10;
-
-	private final FileConfiguration config;
 
 	public AlchemicalArrowAir(AlchemicalArrows plugin) {
 		super(plugin, "air", c -> c.getString("Arrow.Air.Item.DisplayName", "&oAir Arrow"), c -> c.getStringList("Arrow.Air.Item.Lore"));
 
-		this.config = plugin.getConfig();
+		FileConfiguration config = plugin.getConfig();
 		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Air.Skeleton.CanShoot", true));
 		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Air.AllowInfinity", false));
 		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Air.Skeleton.LootDropWeight", 10.0));
+		this.properties.setProperty(PROPERTY_BREATHE_RADIUS, Math.min(config.getDouble("Arrow.Air.Effect.BreatheRadius", PROPERTY_BREATHE_RADIUS.getDefaultValue()), BREATHE_RADIUS_LIMIT));
 	}
 
 	@Override
@@ -52,7 +54,7 @@ public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
 		BlockData data = block.getBlockData();
 		if (block.getType() != Material.WATER || (data instanceof Waterlogged && !((Waterlogged) data).isWaterlogged())) return;
 
-		double radius = Math.min(config.getDouble("Arrows.Air.Effect.BreatheRadius", 2.0), BREATH_RADIUS_LIMIT);
+		double radius = properties.getPropertyValue(PROPERTY_BREATHE_RADIUS).doubleValue();
 		if (radius <= 0.0) return;
 
 		// Replenish air of nearby underwater entities

@@ -1,6 +1,7 @@
 package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -20,15 +21,16 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
 
-	private final FileConfiguration config;
+	public static final ArrowProperty<Boolean> PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "teleport_on_hit_block"), Boolean.class, true);
 
 	public AlchemicalArrowEnder(AlchemicalArrows plugin) {
 		super(plugin, "ender", c -> c.getString("Arrow.Ender.Item.DisplayName", "&5Ender Arrow"), c -> c.getStringList("Arrow.Ender.Item.Lore"));
 
-		this.config = plugin.getConfig();
+		FileConfiguration config = plugin.getConfig();
 		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Ender.Skeleton.CanShoot", true));
 		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Ender.AllowInfinity", false));
 		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Ender.Skeleton.LootDropWeight", 10.0));
+		this.properties.setProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK, config.getBoolean("Arrow.Ender.Effect.TeleportOnHitBlock", PROPERTY_TELEPORT_ON_HIT_BLOCK.getDefaultValue()));
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
 
 	@Override
 	public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-		if (!config.getBoolean("Arrow.Ender.Effect.TeleportOnHitBlock")) return;
+		if (!properties.getPropertyValue(PROPERTY_TELEPORT_ON_HIT_BLOCK).booleanValue()) return;
 
 		ProjectileSource shooter = arrow.getArrow().getShooter();
 		if (!(shooter instanceof LivingEntity)) return;
