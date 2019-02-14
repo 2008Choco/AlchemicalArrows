@@ -2,6 +2,8 @@ package wtf.choco.arrows.api.property;
 
 import java.util.Objects;
 
+import com.google.common.base.Preconditions;
+
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 
@@ -45,6 +47,9 @@ public final class ArrowProperty<T> implements Keyed {
 	 * @param defaultValue the value to which this property will default if not explicitly set
 	 */
 	public ArrowProperty(NamespacedKey key, Class<T> type, T defaultValue) {
+		Preconditions.checkArgument(key != null, "Property key must not be null");
+		Preconditions.checkArgument(type != null, "Type must not be null");
+
 		this.key = key;
 		this.type = type;
 		this.defaultValue = defaultValue;
@@ -75,7 +80,7 @@ public final class ArrowProperty<T> implements Keyed {
 
 	@Override
 	public int hashCode() {
-		return 31 * (key == null ? 0 : key.hashCode());
+		return key.hashCode();
 	}
 
 	@Override
