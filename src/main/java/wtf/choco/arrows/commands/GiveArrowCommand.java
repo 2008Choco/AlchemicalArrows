@@ -20,7 +20,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
-public class GiveArrowCmd implements CommandExecutor {
+public class GiveArrowCommand implements CommandExecutor {
 
 	public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> {
 		if (args.length != 1) return null;
@@ -38,7 +38,7 @@ public class GiveArrowCmd implements CommandExecutor {
 
 	private final AlchemicalArrows plugin;
 
-	public GiveArrowCmd(AlchemicalArrows plugin) {
+	public GiveArrowCommand(AlchemicalArrows plugin) {
 		this.plugin = plugin;
 	}
 

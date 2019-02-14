@@ -33,8 +33,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.arrow.*;
-import wtf.choco.arrows.commands.AlchemicalArrowsCmd;
-import wtf.choco.arrows.commands.GiveArrowCmd;
+import wtf.choco.arrows.commands.AlchemicalArrowsCommand;
+import wtf.choco.arrows.commands.GiveArrowCommand;
 import wtf.choco.arrows.crafting.AlchemicalCauldron;
 import wtf.choco.arrows.crafting.CauldronRecipe;
 import wtf.choco.arrows.crafting.CauldronUpdateTask;
@@ -112,8 +112,8 @@ public class AlchemicalArrows extends JavaPlugin {
 
 		// Register commands
 		this.getLogger().info("Registering commands");
-		this.setupCommand("alchemicalarrows", new AlchemicalArrowsCmd(this), AlchemicalArrowsCmd.TAB_COMPLETER);
-		this.setupCommand("givearrow", new GiveArrowCmd(this), GiveArrowCmd.TAB_COMPLETER);
+		this.setupCommand("alchemicalarrows", new AlchemicalArrowsCommand(this), AlchemicalArrowsCommand.TAB_COMPLETER);
+		this.setupCommand("givearrow", new GiveArrowCommand(this), GiveArrowCommand.TAB_COMPLETER);
 
 		// Register crafting recipes
 		this.getLogger().info("Registering default alchemical arrows and their recipes");

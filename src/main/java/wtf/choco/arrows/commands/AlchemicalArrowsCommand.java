@@ -16,14 +16,14 @@ import org.bukkit.util.StringUtil;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
-public class AlchemicalArrowsCmd implements CommandExecutor {
+public class AlchemicalArrowsCommand implements CommandExecutor {
 
 	private static final List<String> DEFAULT_COMPLETIONS = Arrays.asList("killallarrows", "version", "reload");
 	public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> (args.length > 0) ? StringUtil.copyPartialMatches(args[0], DEFAULT_COMPLETIONS, new ArrayList<>()) : null;
 
 	private final AlchemicalArrows plugin;
 
-	public AlchemicalArrowsCmd(AlchemicalArrows plugin) {
+	public AlchemicalArrowsCommand(AlchemicalArrows plugin) {
 		this.plugin = plugin;
 	}
 
