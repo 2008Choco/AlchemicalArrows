@@ -9,21 +9,21 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRecipeDiscoverEvent;
 
 public class ArrowRecipeDiscoverListener implements Listener {
-	
+
 	private final Set<NamespacedKey> alchemicalArrowRecipeKeys = new HashSet<>();
-	
+
 	@EventHandler
 	public void onDiscoverArrowRecipe(PlayerRecipeDiscoverEvent event) {
 		if (!event.getRecipe().toString().equalsIgnoreCase("minecraft:arrow")) return;
 		event.getPlayer().discoverRecipes(alchemicalArrowRecipeKeys);
 	}
-	
+
 	public void includeRecipeKey(NamespacedKey key) {
 		this.alchemicalArrowRecipeKeys.add(key);
 	}
-	
+
 	public void clearRecipeKeys() {
 		this.alchemicalArrowRecipeKeys.clear();
 	}
-	
+
 }

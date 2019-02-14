@@ -14,13 +14,13 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
 public class PickupArrowListener implements Listener {
-	
+
 	private final ArrowRegistry arrowRegistry;
-	
+
 	public PickupArrowListener(AlchemicalArrows plugin) {
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
-	
+
 	@EventHandler
 	@SuppressWarnings("deprecation")
 	public void onPickupArrow(PlayerPickupArrowEvent event) {
@@ -33,12 +33,12 @@ public class PickupArrowListener implements Listener {
 				|| arrow.getPickupStatus() == PickupStatus.DISALLOWED) {
 			return;
 		}
-		
+
 		event.setCancelled(true);
 		arrow.remove();
-		
+
 		player.getInventory().addItem(alchemicalArrow.getImplementation().getItem());
 		player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
 	}
-	
+
 }

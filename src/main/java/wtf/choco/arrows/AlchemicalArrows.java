@@ -56,31 +56,31 @@ import wtf.choco.arrows.utils.ItemBuilder;
 
 /**
  * The entry point of the AlchemicalArrows plugin and its API
- * 
+ *
  * @author Parker Hawke - 2008Choco
  */
 public class AlchemicalArrows extends JavaPlugin {
-	
+
 	public static final String CHAT_PREFIX = ChatColor.GOLD.toString() + ChatColor.BOLD + "AlchemicalArrows | " + ChatColor.GRAY;
-	
+
 	private static final int RESOURCE_ID = 11693;
 	private static final String SPIGET_LINK = "https://api.spiget.org/v2/resources/" + RESOURCE_ID + "/versions/latest";
-	
+
 	private static final Gson GSON = new Gson();
 	private static AlchemicalArrows instance;
-	
+
 	private ArrowRegistry arrowRegistry;
 	private CauldronManager cauldronManager;
 	private ArrowUpdateTask arrowUpdateTask;
 	private CauldronUpdateTask cauldronUpdateTask;
-	
+
 	private File cauldronFile;
-	
+
 	private boolean worldGuardEnabled = false;
 	private boolean newVersionAvailable = false;
-	
+
 	private ArrowRecipeDiscoverListener recipeListener;
-	
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -88,15 +88,15 @@ public class AlchemicalArrows extends JavaPlugin {
 		this.cauldronManager = new CauldronManager();
 		this.saveDefaultConfig();
 		this.cauldronFile = new File(getDataFolder(), "cauldrons.data");
-		
+
 		// Variable initialization
 		this.worldGuardEnabled = Bukkit.getPluginManager().getPlugin("WorldGuard") != null;
 		this.arrowUpdateTask = ArrowUpdateTask.startArrowUpdateTask(this);
-		
+
 		if (getConfig().getBoolean("Crafting.CauldronCrafting", true)) {
 			this.cauldronUpdateTask = CauldronUpdateTask.startTask(this);
 		}
-		
+
 		// Register events
 		this.getLogger().info("Registering events");
 		PluginManager manager = Bukkit.getPluginManager();
@@ -110,12 +110,12 @@ public class AlchemicalArrows extends JavaPlugin {
 		manager.registerEvents(new CraftingPermissionListener(), this);
 		manager.registerEvents(new CauldronManipulationListener(this), this);
 		manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
-		
+
 		// Register commands
 		this.getLogger().info("Registering commands");
 		this.setupCommand("alchemicalarrows", new AlchemicalArrowsCmd(this), AlchemicalArrowsCmd.TAB_COMPLETER);
 		this.setupCommand("givearrow", new GiveArrowCmd(this), GiveArrowCmd.TAB_COMPLETER);
-		
+
 		// Register crafting recipes
 		this.getLogger().info("Registering default alchemical arrows and their recipes");
 		FileConfiguration config = getConfig();
@@ -135,7 +135,7 @@ public class AlchemicalArrows extends JavaPlugin {
 		this.createArrow(new AlchemicalArrowMagnetic(this), "Magnetic", Material.IRON_INGOT);
 		this.createArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
 		this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
-		
+
 		// Load cauldrons
 		if (cauldronFile.exists()) {
 			try (BufferedReader reader = new BufferedReader(new FileReader(cauldronFile))) {
@@ -144,44 +144,44 @@ public class AlchemicalArrows extends JavaPlugin {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// Load Metrics
 		if (config.getBoolean("MetricsEnabled", true)) {
 			this.getLogger().info("Enabling Plugin Metrics");
-	    	
+
 			Metrics metrics = new Metrics(this);
 			metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> config.getBoolean("Crafting.CauldronCrafting", true) ? "Cauldron Crafting" : "Vanilla Crafting"));
 		}
-		
+
 		// Check for newer version (Spiget API)
 		if (config.getBoolean("CheckForUpdates", true)) {
 			this.getLogger().info("Getting version information...");
 			this.doVersionCheck();
 		}
 	}
-	
+
 	@Override
 	public void onDisable() {
 		ArrowRegistry.clearRegisteredArrows();
 		this.arrowRegistry.clearAlchemicalArrows();
 		this.arrowUpdateTask.cancel();
 		this.recipeListener.clearRecipeKeys();
-		
+
 		if (cauldronUpdateTask != null) {
 			this.cauldronUpdateTask.cancel();
 		}
-		
+
 		Collection<AlchemicalCauldron> cauldrons = this.cauldronManager.getAlchemicalCauldrons();
 		if (cauldrons.size() >= 1) {
 			try {
 				this.cauldronFile.createNewFile();
 				PrintWriter writer = new PrintWriter(cauldronFile);
-				
+
 				for (AlchemicalCauldron cauldron : cauldrons) {
 					Block block = cauldron.getCauldronBlock();
 					writer.println(block.getWorld().getUID() + "," + block.getX() + "," + block.getY() + "," + block.getZ());
 				}
-				
+
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -189,34 +189,34 @@ public class AlchemicalArrows extends JavaPlugin {
 		} else {
 			this.cauldronFile.delete();
 		}
-		
+
 		this.cauldronManager.clearAlchemicalCauldrons();
 		this.cauldronManager.clearRecipes();
 	}
-	
+
 	/**
 	 * Get an instance of AlchemicalArrows
-	 * 
+	 *
 	 * @return the AlchemicalArrows instance
 	 */
 	public static AlchemicalArrows getInstance() {
 		return instance;
 	}
-	
+
 	/**
 	 * Get the arrow registry instance used to register arrows
 	 * to AlchemicalArrows. All arrows must be registered in order
 	 * to be recognized by the plugin
-	 * 
+	 *
 	 * @return the arrow registry instance
 	 */
 	public ArrowRegistry getArrowRegistry() {
 		return arrowRegistry;
 	}
-	
+
 	/**
 	 * Get the cauldron manager instance used to track in-world alchemical cauldrons
-	 * 
+	 *
 	 * @return the cauldron manager
 	 */
 	public CauldronManager getCauldronManager() {
@@ -227,29 +227,29 @@ public class AlchemicalArrows extends JavaPlugin {
 	 * Whether WorldGuard support is available or not. If the returned
 	 * value is true, some arrow functionality may be limited in WorldGuard
 	 * regions
-	 * 
+	 *
 	 * @return true if WorldGuard is present on the server
 	 */
 	public boolean isWorldGuardSupported() {
 		return worldGuardEnabled;
 	}
-	
+
 	/**
 	 * Whether a new version of AlchemicalArrows is available or not. This
 	 * method does not make a version check, but simply retrieves a cached value
-	 * 
+	 *
 	 * @return true if a new version is available
 	 */
 	public boolean isNewVersionAvailable() {
 		return newVersionAvailable;
 	}
-	
+
 	private void doVersionCheck() {
 		Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(SPIGET_LINK).openStream()))) {
 				JsonObject object = GSON.fromJson(reader, JsonObject.class);
 				String currentVersion = getDescription().getVersion(), recentVersion = object.get("name").getAsString();
-				
+
 				if (!currentVersion.equals(recentVersion)) {
 					getLogger().info("New version available. Your Version = " + currentVersion + ". New Version = " + recentVersion);
 					this.newVersionAvailable = true;
@@ -259,16 +259,16 @@ public class AlchemicalArrows extends JavaPlugin {
 			}
 		});
 	}
-	
+
 	private void setupCommand(String commandString, CommandExecutor executor, TabCompleter tabCompleter) {
 		PluginCommand command = getCommand(commandString);
 		command.setExecutor(executor);
 		command.setTabCompleter(tabCompleter);
 	}
-	
+
 	private void createArrow(AlchemicalArrow arrow, String name, Material... secondaryMaterials) {
 		boolean cauldronCrafting = getConfig().getBoolean("Crafting.CauldronCrafting");
-		
+
 		if (cauldronCrafting) {
 			for (Material secondaryMaterial : secondaryMaterials) {
 				this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(arrow.getKey(), arrow, Material.ARROW, secondaryMaterial));
@@ -280,21 +280,21 @@ public class AlchemicalArrows extends JavaPlugin {
 					.setIngredient('S', new MaterialChoice(Arrays.asList(secondaryMaterials))));
 			this.recipeListener.includeRecipeKey(arrow.getKey());
 		}
-		
+
 		ArrowRegistry.registerCustomArrow(arrow);
 	}
-	
+
 	private Block blockFromString(String value) {
 		if (value == null) return null;
-		
+
 		String[] parts = value.split(",");
 		if (parts.length != 4) return null;
-		
+
 		World world = Bukkit.getWorld(UUID.fromString(parts[0]));
 		int x = NumberUtils.toInt(parts[1], Integer.MIN_VALUE), y = NumberUtils.toInt(parts[2], Integer.MIN_VALUE), z = NumberUtils.toInt(parts[3], Integer.MIN_VALUE);
 		if (world == null || x == Integer.MIN_VALUE || y == Integer.MIN_VALUE || z == Integer.MIN_VALUE) return null;
-		
+
 		return new Location(world, x, y, z).getBlock();
 	}
-	
+
 }

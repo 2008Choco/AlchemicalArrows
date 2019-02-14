@@ -16,30 +16,30 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
 public class CustomDeathMsgListener implements Listener {
-	
+
 	private final FileConfiguration config;
 	private final ArrowRegistry arrowRegistry;
-	
+
 	public CustomDeathMsgListener(AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		if (!config.getBoolean("DeathMessages.Enabled", true)) return;
 		if (!(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent)) return;
-		
+
 		EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event.getEntity().getLastDamageCause();
 		if (!(e.getDamager() instanceof Arrow)) return;
-		
+
 		Arrow arrow = (Arrow) e.getDamager();
 		AlchemicalArrowEntity alchemicalArrow = arrowRegistry.getAlchemicalArrow(arrow);
 		if (alchemicalArrow == null) return;
-		
+
 		String killedName = event.getEntity().getName();
 		String arrowType = alchemicalArrow.getImplementation().getDisplayName();
-		
+
 		// Change death messages
 		if (arrow.getShooter() instanceof Player) {
 			Player killer = (Player) arrow.getShooter();
@@ -55,5 +55,5 @@ public class CustomDeathMsgListener implements Listener {
 			event.setDeathMessage(message.replace("%player%", killedName).replace("%type%", arrowType));
 		}
 	}
-	
+
 }
