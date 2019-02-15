@@ -23,46 +23,33 @@ public class CauldronRecipe implements Keyed {
 	private final NamespacedKey key;
 	private final AlchemicalArrow result;
 	private final Material catalyst;
-	private final Map<Material, Integer> ingredients;
+	private final Map<Material, Integer> ingredients = new EnumMap<>(Material.class);
 
-	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, EnumMap<Material, Integer> ingredients) {
-		Preconditions.checkNotNull(key, "Namespaced key must not be null");
-
-		this.key = key;
-		this.result = result;
-		this.catalyst = catalyst;
-		this.ingredients = ingredients.clone();
-
-		if (!CATALYSTS.contains(catalyst)) {
-			CATALYSTS.add(catalyst);
-		}
+	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Map<Material, Integer> ingredients) {
+		this(key, result, catalyst);
+		this.ingredients.putAll(ingredients);
 	}
 
 	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Material... ingredients) {
-		Preconditions.checkNotNull(key, "Namespaced key must not be null");
+		this(key, result, catalyst);
 
-		this.key = key;
-		this.result = result;
-		this.catalyst = catalyst;
-		this.ingredients = new EnumMap<>(Material.class);
-
+		Preconditions.checkState(ingredients.length > 0, "Recipes contain at least one ingredient (excluding the catalyst)");
 		for (Material ingredient : ingredients) {
 			this.ingredients.put(ingredient, 1);
-		}
-
-		if (!CATALYSTS.contains(catalyst)) {
-			CATALYSTS.add(catalyst);
 		}
 	}
 
 	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Material ingredient) {
+		this(key, result, catalyst);
+		this.ingredients.put(ingredient, 1);
+	}
+
+	private CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst) {
 		Preconditions.checkNotNull(key, "Namespaced key must not be null");
 
 		this.key = key;
 		this.result = result;
 		this.catalyst = catalyst;
-		this.ingredients = new EnumMap<>(Material.class);
-		this.ingredients.put(ingredient, 1);
 
 		if (!CATALYSTS.contains(catalyst)) {
 			CATALYSTS.add(catalyst);
