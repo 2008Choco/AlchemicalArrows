@@ -3,7 +3,10 @@ package wtf.choco.arrows.commands;
 import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -13,6 +16,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -55,18 +59,27 @@ public class GiveArrowCommand implements CommandExecutor {
 		}
 
 		int giveCount = (args.length >= 2) ? clamp(NumberUtils.toInt(args[1], 1), 1, 64) : 1;
-		Player targetPlayer = (sender instanceof Player) ? (Player) sender : null;
+		List<Player> targets = (sender instanceof Player) ? Arrays.asList((Player) sender) : Collections.EMPTY_LIST;
 
 		if (args.length >= 3) {
-			targetPlayer = Bukkit.getPlayer(args[2]);
+			try {
+				List<Player> potentialTargets = Bukkit.selectEntities(sender, args[2]).stream()
+						.filter(e -> e.getType() == EntityType.PLAYER)
+						.map(e -> (Player) e).collect(Collectors.toList());
 
-			if (targetPlayer == null) {
-				sender.sendMessage(CHAT_PREFIX + "A player with the name " + ChatColor.YELLOW + args[2] + " could not be found. Are they online?");
+				if (potentialTargets.size() == 0) {
+					sender.sendMessage(CHAT_PREFIX + "Malformed player selector. You must specify either an online player name, UUID or selector (i.e. @p, @a, @s or @r)");
+					return true;
+				}
+
+				targets = potentialTargets;
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(CHAT_PREFIX + "Malformed player selector. You must specify either a player name, UUID or selector (i.e. @p, @a, @s or @r)");
 				return true;
 			}
 		}
 
-		if (targetPlayer == null) {
+		if (targets.isEmpty()) {
 			sender.sendMessage(CHAT_PREFIX + "A player name must be specified in order to execute this command from the console");
 			return true;
 		}
@@ -89,8 +102,15 @@ public class GiveArrowCommand implements CommandExecutor {
 
 		ItemStack itemToGive = arrow.getItem().clone();
 		itemToGive.setAmount(giveCount);
-		targetPlayer.getInventory().addItem(itemToGive);
-		sender.sendMessage(CHAT_PREFIX + "Successfully given " + ChatColor.GREEN + giveCount + ChatColor.GRAY + " of " + arrow.getDisplayName() + ChatColor.GRAY + (targetPlayer == sender ? "" : " to " + targetPlayer.getName()));
+		targets.forEach(p -> p.getInventory().addItem(itemToGive));
+
+		if (targets.size() == 1) {
+			Player target = targets.get(0);
+			sender.sendMessage(CHAT_PREFIX + "Successfully given " + ChatColor.GREEN + giveCount + ChatColor.GRAY + " of " + arrow.getDisplayName() + ChatColor.GRAY + (target == sender ? "" : " to " + target.getName()));
+		} else {
+			sender.sendMessage(CHAT_PREFIX + "Successfully given " + ChatColor.GREEN + giveCount + ChatColor.GRAY + " of " + arrow.getDisplayName() + ChatColor.GRAY + " to " + targets.size() + " players");
+		}
+
 		return true;
 	}
 
