@@ -2,7 +2,7 @@ package wtf.choco.arrows.arrow;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.sk89q.worldguard.bukkit.WGBukkit;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -72,15 +72,9 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 		int radius = properties.getPropertyValue(PROPERTY_FLORAL_RADIUS).intValue();
 		if (radius <= 0) return;
 
-		// WorldGuard check
-		ProjectileSource shooter = arrow.getArrow().getShooter();
-		if (plugin.isWorldGuardSupported() && shooter instanceof Player
-				&& !WGBukkit.getPlugin().canBuild((Player) shooter, block)) {
-			return;
-		}
-
 		// Generate flowers around the block at variable radius
-		boolean found = false;
+		ProjectileSource shooter = arrow.getArrow().getShooter();
+		boolean found = false, worldguard = plugin.isWorldGuardSupported(), isPlayer = shooter instanceof Player;
 		ThreadLocalRandom random = ThreadLocalRandom.current();
 
 		for (int x = -radius; x <= radius; x++) {
@@ -104,7 +98,13 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 					continue;
 				}
 
-				relative.setType(GROWABLE_MATERIALS[random.nextInt(GROWABLE_MATERIALS.length)]);
+				// WorldGuard check
+				Material type = GROWABLE_MATERIALS[random.nextInt(GROWABLE_MATERIALS.length)];
+				if (worldguard && isPlayer && WorldGuardPlugin.inst().createProtectionQuery().testBlockPlace(shooter, block.getLocation(), type)) {
+					continue;
+				}
+
+				relative.setType(type);
 			}
 		}
 	}

@@ -1,9 +1,12 @@
 package wtf.choco.arrows.listeners;
 
-import com.sk89q.worldguard.bukkit.WGBukkit;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.DefaultFlag;
-import com.sk89q.worldguard.protection.flags.StateFlag.State;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.internal.platform.WorldGuardPlatform;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
@@ -39,22 +42,26 @@ public class ArrowHitPlayerListener implements Listener {
 
 		/* WorldGuard Support */
 		if (plugin.isWorldGuardSupported()) {
+			WorldGuardPlugin worldguardPlugin = WorldGuardPlugin.inst();
+			WorldGuardPlatform worldguard = WorldGuard.getInstance().getPlatform();
+			RegionQuery query = worldguard.getRegionContainer().createQuery();
+
 			// Check state of shooter
 			if (arrow.getShooter() instanceof Player) {
 				Player shooter = (Player) arrow.getShooter();
-				ApplicableRegionSet shooterRegions = WGBukkit.getRegionManager(shooter.getWorld()).getApplicableRegions(shooter.getLocation());
+				if (!shooter.hasPermission("arrows.worldguardoverride")) {
+					StateFlag.State state = query.queryState(BukkitAdapter.adapt(shooter.getLocation()), worldguardPlugin.wrapPlayer(shooter), Flags.PVP);
 
-				if (!shooter.hasPermission("arrows.worldguardoverride") &&
-						shooterRegions.queryState(null, DefaultFlag.PVP) != null && shooterRegions.queryState(null, DefaultFlag.PVP) == State.DENY) {
-					shooter.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You cannot hit a player whilst protected by PvP");
-					event.setCancelled(true);
-					return;
+					if (!shooter.hasPermission("arrows.worldguardoverride") && state == StateFlag.State.DENY) {
+						shooter.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You cannot hit a player whilst protected by PvP");
+						event.setCancelled(true);
+						return;
+					}
 				}
 			}
 
 			// Check state of damaged
-			ApplicableRegionSet damagedRegions = WGBukkit.getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation());
-			if (!damagedRegions.testState(null, DefaultFlag.PVP) || event.isCancelled()) {
+			if (event.isCancelled() || !query.testState(BukkitAdapter.adapt(player.getLocation()), null, Flags.PVP)) {
 				if (arrow.getShooter() instanceof Player){
 					((Player) arrow.getShooter()).sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "This player is protected from PvP");
 				}

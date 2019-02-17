@@ -23,7 +23,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
+        <version>3.2.1</version>
         <configuration>
           <relocations>
             <relocation>
@@ -55,7 +55,7 @@
     </repository>
     <repository>
       <id>bstats-repo</id>
-      <url>http://repo.bstats.org/content/repositories/releases/</url>
+      <url>https://repo.codemc.org/repository/maven-public</url>
     </repository>
   </repositories>
   
@@ -66,32 +66,22 @@
       <version>1.13.2-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
-    
-    <!-- WorldEdit & WorldGuard -->
-    <dependency>
-      <groupId>com.sk89q.worldedit</groupId>
-      <artifactId>worldedit-core</artifactId>
-      <version>6.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sk89q.worldedit</groupId>
-      <artifactId>worldedit-bukkit</artifactId>
-      <version>6.1.5</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>com.sk89q.worldguard</groupId>
       <artifactId>worldguard-legacy</artifactId>
-      <version>6.2</version>
+      <version>7.0.0-SNAPSHOT</version>
       <scope>provided</scope>
+      <exclusions> <!-- Get rid of that nasty Bukkit 1.6 API from WorldGuard -->
+        <exclusion>
+          <groupId>org.bukkit</groupId>
+          <artifactId>bukkit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
-
-    <!-- bStats Maven -->
     <dependency>
       <groupId>org.bstats</groupId>
       <artifactId>bstats-bukkit</artifactId>
-      <version>1.2</version>
+      <version>1.4</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
