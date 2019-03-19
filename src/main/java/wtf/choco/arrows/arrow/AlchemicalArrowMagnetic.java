@@ -43,6 +43,8 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
 		World world = location.getWorld();
+		if (world == null) return;
+
 		world.spawnParticle(Particle.FALLING_DUST, location, 1, 0.1, 0.1, 0.1, IRON);
 		if (RANDOM.nextInt(10) == 0) {
 			world.spawnParticle(Particle.FALLING_DUST, location, 1, 0.1, 0.1, 0.1, GOLD);

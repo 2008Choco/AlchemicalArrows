@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -24,7 +26,7 @@ public class SkeletonKillListener implements Listener {
 
 	private final FileConfiguration config;
 
-	public SkeletonKillListener(AlchemicalArrows plugin) {
+	public SkeletonKillListener(@NotNull AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 	}
 
@@ -44,6 +46,7 @@ public class SkeletonKillListener implements Listener {
 		drops.add(toDrop);
 	}
 
+	@Nullable
 	public ItemStack getWeightedRandom(int amount) {
 		double totalWeight = 0;
 

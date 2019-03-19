@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -30,6 +29,8 @@ import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.arrow.*;
@@ -138,7 +139,13 @@ public class AlchemicalArrows extends JavaPlugin {
 		// Load cauldrons
 		if (cauldronFile.exists()) {
 			try (BufferedReader reader = new BufferedReader(new FileReader(cauldronFile))) {
-				reader.lines().map(this::blockFromString).filter(Objects::nonNull).map(AlchemicalCauldron::new).forEach(cauldronManager::addAlchemicalCauldron);
+				String line = null;
+				while ((line = reader.readLine()) != null) {
+					Block block = blockFromString(line);
+					if (block == null) continue;
+
+					this.cauldronManager.addAlchemicalCauldron(new AlchemicalCauldron(block));
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -259,13 +266,15 @@ public class AlchemicalArrows extends JavaPlugin {
 		});
 	}
 
-	private void setupCommand(String commandString, CommandExecutor executor, TabCompleter tabCompleter) {
+	private void setupCommand(@NotNull String commandString, @NotNull CommandExecutor executor, @Nullable TabCompleter tabCompleter) {
 		PluginCommand command = getCommand(commandString);
+		if (command == null) return;
+
 		command.setExecutor(executor);
 		command.setTabCompleter(tabCompleter);
 	}
 
-	private void createArrow(AlchemicalArrow arrow, String name, Material... secondaryMaterials) {
+	private void createArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
 		boolean cauldronCrafting = getConfig().getBoolean("Crafting.CauldronCrafting");
 
 		if (cauldronCrafting) {
@@ -283,9 +292,8 @@ public class AlchemicalArrows extends JavaPlugin {
 		ArrowRegistry.registerCustomArrow(arrow);
 	}
 
-	private Block blockFromString(String value) {
-		if (value == null) return null;
-
+	@Nullable
+	private Block blockFromString(@NotNull String value) {
 		String[] parts = value.split(",");
 		if (parts.length != 4) return null;
 

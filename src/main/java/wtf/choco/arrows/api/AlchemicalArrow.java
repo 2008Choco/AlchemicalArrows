@@ -15,6 +15,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.BlockProjectileSource;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.api.property.PropertyMap;
@@ -35,6 +36,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 *
 	 * @return the arrow's display name
 	 */
+	@NotNull
 	public abstract String getDisplayName();
 
 	/**
@@ -46,6 +48,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 *
 	 * @return the arrow item
 	 */
+	@NotNull
 	public abstract ItemStack getItem();
 
 	/**
@@ -53,6 +56,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 *
 	 * @return the arrow properties
 	 */
+	@NotNull
 	public final PropertyMap getProperties() {
 		return properties;
 	}
@@ -64,7 +68,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the alchemical arrow entity instance
 	 * @param location the arrow's current location at this tick
 	 */
-	public void tick(AlchemicalArrowEntity arrow, Location location) { }
+	public void tick(@NotNull AlchemicalArrowEntity arrow, @NotNull Location location) { }
 
 	/**
 	 * Called when the arrow hits a solid block
@@ -72,7 +76,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the alchemical arrow entity instance
 	 * @param block the block on which the arrow landed
 	 */
-	public void onHitBlock(AlchemicalArrowEntity arrow, Block block) { }
+	public void onHitBlock(@NotNull AlchemicalArrowEntity arrow, @NotNull Block block) { }
 
 	/**
 	 * Called when the arrow hits a player
@@ -80,7 +84,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the alchemical arrow entity instance
 	 * @param player the player damaged by the arrow
 	 */
-	public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) { }
+	public void onHitPlayer(@NotNull AlchemicalArrowEntity arrow, @NotNull Player player) { }
 
 	/**
 	 * Called when the arrow hits an entity (this excludes Players. For Players, see
@@ -89,7 +93,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the alchemical arrow entity instance
 	 * @param entity the entity damaged by the arrow
 	 */
-	public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) { }
+	public void onHitEntity(@NotNull AlchemicalArrowEntity arrow, @NotNull Entity entity) { }
 
 	/**
 	 * Called at low priority when a player has successfully shot this alchemical arrow,
@@ -101,7 +105,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 *
 	 * @return whether the shot should be permitted or not
 	 */
-	public boolean onShootFromPlayer(AlchemicalArrowEntity arrow, Player player) {
+	public boolean onShootFromPlayer(@NotNull AlchemicalArrowEntity arrow, @NotNull Player player) {
 		return true;
 	}
 
@@ -116,7 +120,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 *
 	 * @return whether the shot should be permitted or not
 	 */
-	public boolean onShootFromSkeleton(AlchemicalArrowEntity arrow, Skeleton skeleton) {
+	public boolean onShootFromSkeleton(@NotNull AlchemicalArrowEntity arrow, @NotNull Skeleton skeleton) {
 		return true;
 	}
 
@@ -130,7 +134,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 *
 	 * @return whether the shot should be permitted or not
 	 */
-	public boolean onShootFromBlockSource(AlchemicalArrowEntity arrow, BlockProjectileSource source) {
+	public boolean onShootFromBlockSource(@NotNull AlchemicalArrowEntity arrow, @NotNull BlockProjectileSource source) {
 		return true;
 	}
 
@@ -142,7 +146,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the alchemical arrow entity instance
 	 * @param event the EntityDamageByEntityEvent source
 	 */
-	public void hitEntityEventHandler(AlchemicalArrowEntity arrow, EntityDamageByEntityEvent event) { }
+	public void hitEntityEventHandler(@NotNull AlchemicalArrowEntity arrow, @NotNull EntityDamageByEntityEvent event) { }
 
 	/**
 	 * Called the instant before {@link #onHitBlock(AlchemicalArrowEntity, Block)} is called.
@@ -151,7 +155,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the alchemical arrow entity instance
 	 * @param event the ProjectileHitEvent source
 	 */
-	public void hitGroundEventHandler(AlchemicalArrowEntity arrow, ProjectileHitEvent event) { }
+	public void hitGroundEventHandler(@NotNull AlchemicalArrowEntity arrow, @NotNull ProjectileHitEvent event) { }
 
 	/**
 	 * Called the instant before {@link #onShootFromPlayer(AlchemicalArrowEntity, Player)},
@@ -162,7 +166,7 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the alchemical arrow entity instance
 	 * @param event the ProjectileLaunchEvent source
 	 */
-	public void shootEventHandler(AlchemicalArrowEntity arrow, ProjectileLaunchEvent event) { }
+	public void shootEventHandler(@NotNull AlchemicalArrowEntity arrow, @NotNull ProjectileLaunchEvent event) { }
 
 	/**
 	 * Create a new instance of an {@link AlchemicalArrowEntity}. If a custom AlchemicalArrowEntity
@@ -174,7 +178,8 @@ public abstract class AlchemicalArrow implements Keyed {
 	 * @param arrow the Bukkit {@link Arrow} instance from which to create an AlchemicalArrowEntity
 	 * @return the new AlchemicalArrowEntity instance of this implementation
 	 */
-	public AlchemicalArrowEntity createNewArrow(Arrow arrow) {
+	@NotNull
+	public AlchemicalArrowEntity createNewArrow(@NotNull Arrow arrow) {
 		return new AlchemicalArrowEntity(this, arrow);
 	}
 

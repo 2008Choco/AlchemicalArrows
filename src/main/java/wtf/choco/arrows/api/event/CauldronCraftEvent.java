@@ -3,6 +3,8 @@ package wtf.choco.arrows.api.event;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.crafting.AlchemicalCauldron;
@@ -19,24 +21,27 @@ public class CauldronCraftEvent extends Event implements Cancellable {
 	private final AlchemicalCauldron cauldron;
 	private final CauldronRecipe recipe;
 
-	public CauldronCraftEvent(AlchemicalCauldron cauldron, CauldronRecipe recipe) {
+	public CauldronCraftEvent(@NotNull AlchemicalCauldron cauldron, @NotNull CauldronRecipe recipe) {
 		this.cauldron = cauldron;
 		this.recipe = recipe;
 		this.result = recipe.getResult();
 	}
 
+	@NotNull
 	public AlchemicalCauldron getCauldron() {
 		return cauldron;
 	}
 
+	@NotNull
 	public CauldronRecipe getRecipe() {
 		return recipe;
 	}
 
-	public void setResult(AlchemicalArrow result) {
+	public void setResult(@Nullable AlchemicalArrow result) {
 		this.result = result;
 	}
 
+	@Nullable
 	public AlchemicalArrow getResult() {
 		return result;
 	}

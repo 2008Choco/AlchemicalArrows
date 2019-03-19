@@ -3,6 +3,7 @@ package wtf.choco.arrows.api.event;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.projectiles.ProjectileSource;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 
@@ -25,7 +26,7 @@ public class AlchemicalArrowShootEvent extends AlchemicalArrowEvent implements C
 	 * @param arrow the arrow that was shot
 	 * @param shooter the source of the arrow
 	 */
-	public AlchemicalArrowShootEvent(AlchemicalArrowEntity arrow, ProjectileSource shooter) {
+	public AlchemicalArrowShootEvent(@NotNull AlchemicalArrowEntity arrow, @NotNull ProjectileSource shooter) {
 		super(arrow);
 		this.shooter = shooter;
 	}
@@ -35,6 +36,7 @@ public class AlchemicalArrowShootEvent extends AlchemicalArrowEvent implements C
 	 *
 	 * @return the shooter
 	 */
+	@NotNull
 	public ProjectileSource getShooter() {
 		return shooter;
 	}

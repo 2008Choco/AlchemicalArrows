@@ -20,6 +20,8 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.projectiles.BlockProjectileSource;
+import org.bukkit.projectiles.ProjectileSource;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -35,7 +37,7 @@ public class ProjectileShootListener implements Listener {
 	private final FileConfiguration config;
 	private final ArrowRegistry arrowRegistry;
 
-	public ProjectileShootListener(AlchemicalArrows plugin) {
+	public ProjectileShootListener(@NotNull AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
@@ -43,10 +45,12 @@ public class ProjectileShootListener implements Listener {
 	@EventHandler
 	public void onShootArrow(ProjectileLaunchEvent event) {
 		if (!(event.getEntity() instanceof Arrow)) return;
-		Arrow arrow = (Arrow) event.getEntity();
 
-		if (arrow.getShooter() instanceof Player) {
-			Player player = (Player) arrow.getShooter();
+		Arrow arrow = (Arrow) event.getEntity();
+		ProjectileSource source = arrow.getShooter();
+
+		if (source instanceof Player) {
+			Player player = (Player) source;
 			PlayerInventory inventory = player.getInventory();
 			if (!inventory.contains(Material.ARROW)) return;
 
@@ -57,6 +61,10 @@ public class ProjectileShootListener implements Listener {
 			if (arrowItem == null || arrowItem.getType() != Material.ARROW) {
 				arrowSlot = inventory.first(Material.ARROW);
 				arrowItem = inventory.getItem(arrowSlot);
+
+				if (arrowItem == null) { // If the arrow is STILL null, just give up
+					return;
+				}
 			}
 
 			AlchemicalArrow type = ArrowRegistry.getCustomArrow(arrowItem);
@@ -86,7 +94,7 @@ public class ProjectileShootListener implements Listener {
 				}
 			}
 
-			AlchemicalArrowShootEvent aasEvent = new AlchemicalArrowShootEvent(alchemicalArrow, arrow.getShooter());
+			AlchemicalArrowShootEvent aasEvent = new AlchemicalArrowShootEvent(alchemicalArrow, source);
 			Bukkit.getPluginManager().callEvent(aasEvent);
 			if (aasEvent.isCancelled()) {
 				event.setCancelled(true);
@@ -97,18 +105,18 @@ public class ProjectileShootListener implements Listener {
 			arrow.setPickupStatus(shouldBePickupable ? PickupStatus.ALLOWED : PickupStatus.CREATIVE_ONLY);
 		}
 
-		else if (arrow.getShooter() instanceof Skeleton && RANDOM.nextInt(100) < config.getDouble("Skeletons.ShootPercentage", 10.0)) {
+		else if (source instanceof Skeleton && RANDOM.nextInt(100) < config.getDouble("Skeletons.ShootPercentage", 10.0)) {
 			Set<AlchemicalArrow> arrows = ArrowRegistry.getRegisteredCustomArrows();
 			AlchemicalArrow type = Iterables.get(arrows, RANDOM.nextInt(arrows.size()));
 			if (type == null || !type.getProperties().getPropertyValue(ArrowProperty.SKELETONS_CAN_SHOOT)) return;
 
 			AlchemicalArrowEntity alchemicalArrow = type.createNewArrow(arrow);
-			if (!type.onShootFromSkeleton(alchemicalArrow, (Skeleton) arrow.getShooter())) {
+			if (!type.onShootFromSkeleton(alchemicalArrow, (Skeleton) source)) {
 				event.setCancelled(true);
 				return;
 			}
 
-			AlchemicalArrowShootEvent aasEvent = new AlchemicalArrowShootEvent(alchemicalArrow, arrow.getShooter());
+			AlchemicalArrowShootEvent aasEvent = new AlchemicalArrowShootEvent(alchemicalArrow, source);
 			Bukkit.getPluginManager().callEvent(aasEvent);
 			if (aasEvent.isCancelled()) {
 				event.setCancelled(true);
@@ -125,9 +133,10 @@ public class ProjectileShootListener implements Listener {
 		}
 	}
 
-	private boolean isShotFromMainHand(Player player) {
-		ItemStack mainHand = player.getInventory().getItemInMainHand();
-		ItemStack offHand = player.getInventory().getItemInOffHand();
+	private boolean isShotFromMainHand(@NotNull Player player) {
+		PlayerInventory inventory = player.getInventory();
+		ItemStack mainHand = inventory.getItemInMainHand();
+		ItemStack offHand = inventory.getItemInOffHand();
 
 		return ((mainHand != null && mainHand.getType() == Material.BOW) ||
 				(mainHand == null && offHand != null && offHand.getType() == Material.BOW));

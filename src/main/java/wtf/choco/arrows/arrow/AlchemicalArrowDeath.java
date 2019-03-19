@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -39,7 +40,10 @@ public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.SMOKE_LARGE, location, 2, 0.1, 0.1, 0.1, 0.01);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.SMOKE_LARGE, location, 2, 0.1, 0.1, 0.1, 0.01);
 	}
 
 	@Override

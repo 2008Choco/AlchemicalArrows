@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
+import org.jetbrains.annotations.NotNull;
 
 public class AlchemicalCauldron {
 
@@ -22,7 +23,7 @@ public class AlchemicalCauldron {
 
 	private final Block cauldronBlock, fireBlock;
 
-	public AlchemicalCauldron(Block block) {
+	public AlchemicalCauldron(@NotNull Block block) {
 		Preconditions.checkArgument(block.getType() == Material.CAULDRON, "AlchemicalCauldron block type must be CAULDRON");
 
 		this.cauldronBlock = block;
@@ -31,10 +32,12 @@ public class AlchemicalCauldron {
 		this.heatingStartTime = (fireBlock.getType() == Material.FIRE) ? System.currentTimeMillis() : -1;
 	}
 
+	@NotNull
 	public Block getCauldronBlock() {
 		return cauldronBlock;
 	}
 
+	@NotNull
 	public Block getFireBlock() {
 		return fireBlock;
 	}
@@ -75,15 +78,15 @@ public class AlchemicalCauldron {
 		return bubbling;
 	}
 
-	public void addIngredient(Material material, int potency) {
+	public void addIngredient(@NotNull Material material, int potency) {
 		this.ingredientPotency.merge(material, potency, Integer::sum);
 	}
 
-	public void addIngredient(Material material) {
+	public void addIngredient(@NotNull Material material) {
 		this.addIngredient(material, 1);
 	}
 
-	public void removeIngredient(Material material, int potency) {
+	public void removeIngredient(@NotNull Material material, int potency) {
 		if (!ingredientPotency.containsKey(material)) return;
 
 		int current = ingredientPotency.get(material);
@@ -94,18 +97,18 @@ public class AlchemicalCauldron {
 		}
 	}
 
-	public void removeIngredient(Material material) {
+	public void removeIngredient(@NotNull Material material) {
 		this.ingredientPotency.remove(material);
 	}
 
-	public void removeIngredients(CauldronRecipe recipe) {
+	public void removeIngredients(@NotNull CauldronRecipe recipe) {
 		for (Material material : recipe.getRecipeMaterials()) {
 			int recipeCount = recipe.getIngredientCount(material);
 			this.ingredientPotency.computeIfPresent(material, (m, current) -> (current - recipeCount <= 0) ? null : current - recipeCount);
 		}
 	}
 
-	public boolean hasIngredient(Material material) {
+	public boolean hasIngredient(@NotNull Material material) {
 		return ingredientPotency.containsKey(material);
 	}
 
@@ -113,10 +116,11 @@ public class AlchemicalCauldron {
 		return ingredientPotency.size() >= 1;
 	}
 
-	public int getIngredientPotency(Material material) {
+	public int getIngredientPotency(@NotNull Material material) {
 		return ingredientPotency.getOrDefault(material, 0);
 	}
 
+	@NotNull
 	public Map<Material, Integer> getIngredients() {
 		return new EnumMap<>(ingredientPotency);
 	}

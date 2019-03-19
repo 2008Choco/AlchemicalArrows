@@ -3,8 +3,8 @@ MetricsEnabled: true
 
 DeathMessages:
   Enabled: true
-  DeathByPlayer: "%player% was killed by %killer% using %type%"
-  DeathBySkeleton: "%player% was killed by a skeleton using %type%"
+  DeathByPlayer: "%player% was killed by %killer% using a %type%"
+  DeathBySkeleton: "%player% was killed by a skeleton using a %type%"
   DeathByBlockSource: "%player% was shot using a %type%"
 
 Skeletons:

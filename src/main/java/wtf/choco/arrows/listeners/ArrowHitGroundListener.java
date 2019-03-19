@@ -1,9 +1,11 @@
 package wtf.choco.arrows.listeners;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -14,14 +16,16 @@ public class ArrowHitGroundListener implements Listener {
 
 	private final ArrowRegistry arrowRegistry;
 
-	public ArrowHitGroundListener(AlchemicalArrows plugin) {
+	public ArrowHitGroundListener(@NotNull AlchemicalArrows plugin) {
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 
 	@EventHandler
 	public void onAlchemicalArrowHitGround(ProjectileHitEvent event) {
 		if (!(event.getEntity() instanceof Arrow)) return;
-		if (event.getHitBlock() == null) return;
+
+		Block hit = event.getHitBlock();
+		if (hit == null) return;
 
 		Arrow arrow = (Arrow) event.getEntity();
 		AlchemicalArrowEntity alchemicalArrow = arrowRegistry.getAlchemicalArrow(arrow);
@@ -29,7 +33,7 @@ public class ArrowHitGroundListener implements Listener {
 
 		AlchemicalArrow type = alchemicalArrow.getImplementation();
 		type.hitGroundEventHandler(alchemicalArrow, event);
-		type.onHitBlock(alchemicalArrow, event.getHitBlock());
+		type.onHitBlock(alchemicalArrow, hit);
 	}
 
 }

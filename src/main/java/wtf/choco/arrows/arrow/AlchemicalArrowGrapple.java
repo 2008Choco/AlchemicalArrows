@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
@@ -32,14 +33,19 @@ public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.CRIT, location, 3, 0.1, 0.1, 0.1, 0.1);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.CRIT, location, 3, 0.1, 0.1, 0.1, 0.1);
 	}
 
 	@Override
 	public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
 		Arrow bukkitArrow = arrow.getArrow();
 		if (!(bukkitArrow.getShooter() instanceof LivingEntity)) return;
+
 		LivingEntity shooter = (LivingEntity) bukkitArrow.getShooter();
+		if (shooter == null) return;
 
 		Vector grappleVelocity = bukkitArrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
 		grappleVelocity.multiply(properties.getPropertyValue(PROPERTY_GRAPPLE_FORCE).doubleValue());

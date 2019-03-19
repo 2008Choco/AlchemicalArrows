@@ -6,6 +6,7 @@ import com.google.common.base.Preconditions;
 
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -46,7 +47,7 @@ public final class ArrowProperty<T> implements Keyed {
 	 * @param type the type of value
 	 * @param defaultValue the value to which this property will default if not explicitly set
 	 */
-	public ArrowProperty(NamespacedKey key, Class<T> type, T defaultValue) {
+	public ArrowProperty(@NotNull NamespacedKey key, @NotNull Class<T> type, @NotNull T defaultValue) {
 		Preconditions.checkArgument(key != null, "Property key must not be null");
 		Preconditions.checkArgument(type != null, "Type must not be null");
 
@@ -65,6 +66,7 @@ public final class ArrowProperty<T> implements Keyed {
 	 *
 	 * @return the value type
 	 */
+	@NotNull
 	public Class<T> getType() {
 		return type;
 	}
@@ -74,6 +76,7 @@ public final class ArrowProperty<T> implements Keyed {
 	 *
 	 * @return the default value
 	 */
+	@NotNull
 	public T getDefaultValue() {
 		return defaultValue;
 	}

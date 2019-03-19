@@ -3,6 +3,7 @@ package wtf.choco.arrows.arrow;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -27,7 +28,10 @@ public class AlchemicalArrowMagic extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.SPELL_WITCH, location, 2, 0.1, 0.1, 0.1);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.SPELL_WITCH, location, 2, 0.1, 0.1, 0.1);
 	}
 
 	@Override

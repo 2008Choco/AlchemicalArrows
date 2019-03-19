@@ -16,6 +16,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A utility class to assist in the creation of ItemStacks in the confines of a single line.
@@ -29,7 +31,7 @@ public final class ItemBuilder {
 	private final ItemStack item;
 	private final ItemMeta meta;
 
-	private ItemBuilder(Material type, int amount) {
+	private ItemBuilder(@NotNull Material type, int amount) {
 		Preconditions.checkArgument(type != null, "Cannot create ItemBuilder for null Material");
 		Preconditions.checkArgument(!ILLEGAL_TYPES.contains(type), "Illegal material!");
 		Preconditions.checkArgument(amount > 0 && amount <= type.getMaxStackSize(), "Amount must be between 0 - " + type.getMaxStackSize());
@@ -38,7 +40,7 @@ public final class ItemBuilder {
 		this.meta = item.getItemMeta();
 	}
 
-	private ItemBuilder(ItemStack item) {
+	private ItemBuilder(@NotNull ItemStack item) {
 		Preconditions.checkArgument(item != null, "Cannot modify a null item");
 		Preconditions.checkArgument(!ILLEGAL_TYPES.contains(item.getType()), "Illegal material!");
 
@@ -55,7 +57,8 @@ public final class ItemBuilder {
 	 *
 	 * @return the ItemBuilder instance for the provided values
 	 */
-	public static ItemBuilder of(Material type, int amount) {
+	@NotNull
+	public static ItemBuilder of(@NotNull Material type, int amount) {
 		return new ItemBuilder(type, amount);
 	}
 
@@ -66,7 +69,8 @@ public final class ItemBuilder {
 	 *
 	 * @return the ItemBuilder instance for the provided material
 	 */
-	public static ItemBuilder of(Material type) {
+	@NotNull
+	public static ItemBuilder of(@NotNull Material type) {
 		return new ItemBuilder(type, 1);
 	}
 
@@ -81,7 +85,8 @@ public final class ItemBuilder {
 	 *
 	 * @return the ItemBuilder instance for the provided item
 	 */
-	public static ItemBuilder modify(ItemStack item) {
+	@NotNull
+	public static ItemBuilder modify(@NotNull ItemStack item) {
 		return new ItemBuilder(item);
 	}
 
@@ -92,7 +97,7 @@ public final class ItemBuilder {
 	 *
 	 * @return true if supported, false otherwise or if null
 	 */
-	public boolean isSupportedMeta(Class<? extends ItemMeta> type) {
+	public boolean isSupportedMeta(@NotNull Class<? extends ItemMeta> type) {
 		return type != null && type.isInstance(meta);
 	}
 
@@ -110,7 +115,8 @@ public final class ItemBuilder {
 	 *
 	 * @return this instance. Allows for chained method calls
 	 */
-	public <T extends ItemMeta> ItemBuilder specific(Class<T> type, Consumer<T> applier) {
+	@NotNull
+	public <T extends ItemMeta> ItemBuilder specific(@NotNull Class<T> type, @NotNull Consumer<T> applier) {
 		Preconditions.checkArgument(type != null, "Cannot apply meta for type null");
 		Preconditions.checkArgument(isSupportedMeta(type), "The specified ItemMeta type is not supported by this ItemBuilder instance");
 		Preconditions.checkArgument(applier != null, "Application function must not be null");
@@ -128,7 +134,8 @@ public final class ItemBuilder {
 	 *
 	 * @see ItemMeta#setDisplayName(String)
 	 */
-	public ItemBuilder name(String name) {
+	@NotNull
+	public ItemBuilder name(@Nullable String name) {
 		this.meta.setDisplayName(name);
 		return this;
 	}
@@ -143,7 +150,8 @@ public final class ItemBuilder {
 	 * @see ItemBuilder#lore(List)
 	 * @see ItemMeta#setLore(List)
 	 */
-	public ItemBuilder lore(String... lore) {
+	@NotNull
+	public ItemBuilder lore(@NotNull String... lore) {
 		if (lore.length > 0) {
 			this.meta.setLore(Arrays.asList(lore));
 		}
@@ -161,7 +169,8 @@ public final class ItemBuilder {
 	 * @see ItemBuilder#lore(String...)
 	 * @see ItemMeta#setLore(List)
 	 */
-	public ItemBuilder lore(List<String> lore) {
+	@NotNull
+	public ItemBuilder lore(@Nullable List<String> lore) {
 		this.meta.setLore(lore);
 		return this;
 	}
@@ -176,6 +185,7 @@ public final class ItemBuilder {
 	 *
 	 * @see Damageable#setDamage(int)
 	 */
+	@NotNull
 	public ItemBuilder damage(int damage) {
 		((Damageable) meta).setDamage(damage);
 		return this;
@@ -191,6 +201,7 @@ public final class ItemBuilder {
 	 *
 	 * @see ItemStack#setAmount(int)
 	 */
+	@NotNull
 	public ItemBuilder amount(int amount) {
 		this.item.setAmount(amount);
 		return this;
@@ -207,7 +218,8 @@ public final class ItemBuilder {
 	 *
 	 * @see ItemMeta#addEnchant(Enchantment, int, boolean)
 	 */
-	public ItemBuilder enchantment(Enchantment enchantment, int level) {
+	@NotNull
+	public ItemBuilder enchantment(@NotNull Enchantment enchantment, int level) {
 		this.meta.addEnchant(enchantment, level, true);
 		return this;
 	}
@@ -220,7 +232,8 @@ public final class ItemBuilder {
 	 *
 	 * @return this instance. Allows for chained method calls
 	 */
-	public ItemBuilder attribute(Attribute attribute, AttributeModifier modifier) {
+	@NotNull
+	public ItemBuilder attribute(@NotNull Attribute attribute, @NotNull AttributeModifier modifier) {
 		this.meta.addAttributeModifier(attribute, modifier);
 		return this;
 	}
@@ -234,7 +247,8 @@ public final class ItemBuilder {
 	 *
 	 * @see ItemMeta#addItemFlags(ItemFlag...)
 	 */
-	public ItemBuilder flags(ItemFlag... flags) {
+	@NotNull
+	public ItemBuilder flags(@NotNull ItemFlag... flags) {
 		if (flags.length > 0) {
 			this.meta.addItemFlags(flags);
 		}
@@ -249,6 +263,7 @@ public final class ItemBuilder {
 	 *
 	 * @see ItemMeta#setUnbreakable(boolean)
 	 */
+	@NotNull
 	public ItemBuilder unbreakable() {
 		this.meta.setUnbreakable(true);
 		return this;
@@ -263,7 +278,8 @@ public final class ItemBuilder {
 	 *
 	 * @see ItemMeta#setLocalizedName(String)
 	 */
-	public ItemBuilder localizedName(String name) {
+	@NotNull
+	public ItemBuilder localizedName(@Nullable String name) {
 		this.meta.setLocalizedName(name);
 		return this;
 	}
@@ -273,6 +289,7 @@ public final class ItemBuilder {
 	 *
 	 * @return the completed {@link ItemStack} instance built by this builder
 	 */
+	@NotNull
 	public ItemStack build() {
 		this.item.setItemMeta(meta);
 		return item;

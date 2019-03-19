@@ -35,7 +35,10 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.PORTAL, location, 3, 0.1, 0.1, 0.1);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.PORTAL, location, 3, 0.1, 0.1, 0.1);
 	}
 
 	@Override

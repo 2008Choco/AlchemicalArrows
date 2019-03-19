@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -32,7 +33,10 @@ public class AlchemicalArrowEarth extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.BLOCK_DUST, location, 1, 0.1, 0.1, 0.1, 0.1, DIRT);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.BLOCK_DUST, location, 1, 0.1, 0.1, 0.1, 0.1, DIRT);
 	}
 
 	@Override

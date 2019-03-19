@@ -13,6 +13,7 @@ import com.google.common.base.Preconditions;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.api.AlchemicalArrow;
 
@@ -25,12 +26,12 @@ public class CauldronRecipe implements Keyed {
 	private final Material catalyst;
 	private final Map<Material, Integer> ingredients = new EnumMap<>(Material.class);
 
-	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Map<Material, Integer> ingredients) {
+	public CauldronRecipe(@NotNull NamespacedKey key, @NotNull AlchemicalArrow result, @NotNull Material catalyst, @NotNull Map<Material, Integer> ingredients) {
 		this(key, result, catalyst);
 		this.ingredients.putAll(ingredients);
 	}
 
-	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Material... ingredients) {
+	public CauldronRecipe(@NotNull NamespacedKey key, @NotNull AlchemicalArrow result, @NotNull Material catalyst, @NotNull Material... ingredients) {
 		this(key, result, catalyst);
 
 		Preconditions.checkState(ingredients.length > 0, "Recipes contain at least one ingredient (excluding the catalyst)");
@@ -39,12 +40,12 @@ public class CauldronRecipe implements Keyed {
 		}
 	}
 
-	public CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst, Material ingredient) {
+	public CauldronRecipe(@NotNull NamespacedKey key, @NotNull AlchemicalArrow result, @NotNull Material catalyst, @NotNull Material ingredient) {
 		this(key, result, catalyst);
 		this.ingredients.put(ingredient, 1);
 	}
 
-	private CauldronRecipe(NamespacedKey key, AlchemicalArrow result, Material catalyst) {
+	private CauldronRecipe(@NotNull NamespacedKey key, @NotNull AlchemicalArrow result, @NotNull Material catalyst) {
 		Preconditions.checkNotNull(key, "Namespaced key must not be null");
 
 		this.key = key;
@@ -61,32 +62,36 @@ public class CauldronRecipe implements Keyed {
 		return key;
 	}
 
+	@NotNull
 	public AlchemicalArrow getResult() {
 		return result;
 	}
 
+	@NotNull
 	public Material getCatalyst() {
 		return catalyst;
 	}
 
-	public CauldronRecipe addIngredient(Material material, int amount) {
+	@NotNull
+	public CauldronRecipe addIngredient(@NotNull Material material, int amount) {
 		this.ingredients.put(material, amount);
 		return this;
 	}
 
-	public boolean isIngredient(Material material) {
+	public boolean isIngredient(@NotNull Material material) {
 		return ingredients.containsKey(material);
 	}
 
-	public int getIngredientCount(Material material) {
+	public int getIngredientCount(@NotNull Material material) {
 		return ingredients.getOrDefault(material, 0);
 	}
 
+	@NotNull
 	public Set<Material> getRecipeMaterials() {
 		return Collections.unmodifiableSet(ingredients.keySet());
 	}
 
-	public int getExpectedYieldFromIngredients(Map<Material, Integer> availableIngredients) {
+	public int getExpectedYieldFromIngredients(@NotNull Map<Material, Integer> availableIngredients) {
 		int yield = 0;
 		boolean initialFind = true;
 

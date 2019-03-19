@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.projectiles.ProjectileSource;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -41,14 +42,15 @@ public class ArrowHitPlayerListener implements Listener {
 		if (alchemicalArrow == null || player.isBlocking()) return;
 
 		/* WorldGuard Support */
-		if (plugin.isWorldGuardSupported()) {
+		ProjectileSource source = arrow.getShooter();
+		if (source != null && plugin.isWorldGuardSupported()) {
 			WorldGuardPlugin worldguardPlugin = WorldGuardPlugin.inst();
 			WorldGuardPlatform worldguard = WorldGuard.getInstance().getPlatform();
 			RegionQuery query = worldguard.getRegionContainer().createQuery();
 
 			// Check state of shooter
 			if (arrow.getShooter() instanceof Player) {
-				Player shooter = (Player) arrow.getShooter();
+				Player shooter = (Player) source;
 				if (!shooter.hasPermission("arrows.worldguardoverride")) {
 					StateFlag.State state = query.queryState(BukkitAdapter.adapt(shooter.getLocation()), worldguardPlugin.wrapPlayer(shooter), Flags.PVP);
 
@@ -63,7 +65,7 @@ public class ArrowHitPlayerListener implements Listener {
 			// Check state of damaged
 			if (event.isCancelled() || !query.testState(BukkitAdapter.adapt(player.getLocation()), null, Flags.PVP)) {
 				if (arrow.getShooter() instanceof Player){
-					((Player) arrow.getShooter()).sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "This player is protected from PvP");
+					((Player) source).sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "This player is protected from PvP");
 				}
 
 				event.setCancelled(true);

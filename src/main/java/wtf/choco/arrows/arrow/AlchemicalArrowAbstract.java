@@ -25,13 +25,13 @@ abstract class AlchemicalArrowAbstract extends AlchemicalArrow {
 
 	protected AlchemicalArrowAbstract(AlchemicalArrows plugin, String key, Function<FileConfiguration, String> nameFunction, Function<FileConfiguration, List<String>> loreFunction) {
 		this.key = new NamespacedKey(plugin, key);
+		this.name = ChatColor.translateAlternateColorCodes('&', nameFunction.apply(plugin.getConfig()));
 		this.item = ItemBuilder.of(Material.ARROW)
-				.name(ChatColor.translateAlternateColorCodes('&', nameFunction.apply(plugin.getConfig())))
+				.name(name)
 				.lore(loreFunction.apply(plugin.getConfig()).stream()
 					.map(s -> ChatColor.translateAlternateColorCodes('&', s))
 					.collect(Collectors.toList())
 				).build();
-		this.name = item.getItemMeta().getDisplayName();
 	}
 
 	@Override

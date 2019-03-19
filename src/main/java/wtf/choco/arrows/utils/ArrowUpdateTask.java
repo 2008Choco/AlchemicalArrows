@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
@@ -15,7 +16,7 @@ public final class ArrowUpdateTask extends BukkitRunnable {
 
 	private final ArrowRegistry arrowRegistry;
 
-	private ArrowUpdateTask(AlchemicalArrows plugin) {
+	private ArrowUpdateTask(@NotNull AlchemicalArrows plugin) {
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 
@@ -36,7 +37,8 @@ public final class ArrowUpdateTask extends BukkitRunnable {
 		}
 	}
 
-	public static ArrowUpdateTask startArrowUpdateTask(AlchemicalArrows plugin) {
+	@NotNull
+	public static ArrowUpdateTask startArrowUpdateTask(@NotNull AlchemicalArrows plugin) {
 		Preconditions.checkNotNull(plugin, "Cannot pass null instance of plugin");
 
 		if (instance == null) {

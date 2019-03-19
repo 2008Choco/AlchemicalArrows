@@ -7,6 +7,7 @@ import com.google.common.base.Preconditions;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Arrow;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents an in-world {@link AlchemicalArrow} implementation. This instance wraps a
@@ -28,7 +29,7 @@ public class AlchemicalArrowEntity {
 	 * @param implementation the alchemical arrow implementation to create
 	 * @param arrow the Bukkit arrow to wrap
 	 */
-	public AlchemicalArrowEntity(AlchemicalArrow implementation, Arrow arrow) {
+	public AlchemicalArrowEntity(@NotNull AlchemicalArrow implementation, @NotNull Arrow arrow) {
 		Preconditions.checkNotNull(implementation, "Cannot create an arrow of type null");
 		Preconditions.checkNotNull(arrow, "Cannot wrap a null org.bukkit.entity.Arrow");
 
@@ -41,6 +42,7 @@ public class AlchemicalArrowEntity {
 	 *
 	 * @return the alchemical arrow implementation
 	 */
+	@NotNull
 	public final AlchemicalArrow getImplementation() {
 		return implementation;
 	}
@@ -50,6 +52,7 @@ public class AlchemicalArrowEntity {
 	 *
 	 * @return the wrapped arrow
 	 */
+	@NotNull
 	public final Arrow getArrow() {
 		return arrow;
 	}
@@ -60,6 +63,7 @@ public class AlchemicalArrowEntity {
 	 *
 	 * @return the arrow's location
 	 */
+	@NotNull
 	public final Location getLocation() {
 		return arrow.getLocation();
 	}
@@ -70,6 +74,7 @@ public class AlchemicalArrowEntity {
 	 *
 	 * @return the arrow's world
 	 */
+	@NotNull
 	public final World getWorld() {
 		return arrow.getWorld();
 	}

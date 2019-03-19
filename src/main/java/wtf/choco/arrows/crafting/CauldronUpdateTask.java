@@ -15,8 +15,10 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
+import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.event.CauldronCraftEvent;
 import wtf.choco.arrows.registry.CauldronManager;
 
@@ -26,7 +28,7 @@ public class CauldronUpdateTask extends BukkitRunnable {
 
 	private final CauldronManager cauldronManager;
 
-	private CauldronUpdateTask(AlchemicalArrows plugin) {
+	private CauldronUpdateTask(@NotNull AlchemicalArrows plugin) {
 		this.cauldronManager = plugin.getCauldronManager();
 	}
 
@@ -91,7 +93,11 @@ public class CauldronUpdateTask extends BukkitRunnable {
 
 					ThreadLocalRandom random = ThreadLocalRandom.current();
 					Vector itemVelocity = new Vector(random.nextDouble() / 10.0, 0.2 + (random.nextDouble() / 2), random.nextDouble() / 10.0);
-					world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), ccEvent.getResult().getItem()).setVelocity(itemVelocity);
+
+					AlchemicalArrow result = ccEvent.getResult();
+					if (result != null) {
+						world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), result.getItem()).setVelocity(itemVelocity);
+					}
 
 					if (ccEvent.shouldConsumeIngredients()) {
 						cauldron.removeIngredients(activeRecipe);
@@ -104,7 +110,8 @@ public class CauldronUpdateTask extends BukkitRunnable {
 		}
 	}
 
-	public static CauldronUpdateTask startTask(AlchemicalArrows plugin) {
+	@NotNull
+	public static CauldronUpdateTask startTask(@NotNull AlchemicalArrows plugin) {
 		Preconditions.checkNotNull(plugin, "Cannot start task with null plugin instance");
 
 		if (instance == null) {

@@ -1,6 +1,7 @@
 package wtf.choco.arrows.arrow.entity;
 
 import org.bukkit.entity.Arrow;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
@@ -10,7 +11,7 @@ public class ArrowEntityFused extends AlchemicalArrowEntity {
 	private int fuse;
 	private final int maxFuseTicks;
 
-	public ArrowEntityFused(AlchemicalArrow type, Arrow arrow, int maxFuseTicks) {
+	public ArrowEntityFused(@NotNull AlchemicalArrow type, @NotNull Arrow arrow, int maxFuseTicks) {
 		super(type, arrow);
 		this.maxFuseTicks = maxFuseTicks;
 		this.fuse = 0;

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -16,7 +17,7 @@ public class ArrowHitEntityListener implements Listener {
 
 	private final ArrowRegistry arrowRegistry;
 
-	public ArrowHitEntityListener(AlchemicalArrows plugin) {
+	public ArrowHitEntityListener(@NotNull AlchemicalArrows plugin) {
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 

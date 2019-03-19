@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
@@ -17,7 +18,7 @@ public class PickupArrowListener implements Listener {
 
 	private final ArrowRegistry arrowRegistry;
 
-	public PickupArrowListener(AlchemicalArrows plugin) {
+	public PickupArrowListener(@NotNull AlchemicalArrows plugin) {
 		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 

@@ -29,6 +29,8 @@ public class AlchemicalArrowFire extends AlchemicalArrowAbstract {
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
 		World world = location.getWorld();
+		if (world == null) return;
+
 		world.spawnParticle(Particle.SMOKE_NORMAL, location, 1, 0.1, 0.1, 0.1, 0.001);
 		world.spawnParticle(Particle.FLAME, location, 1, 0.1, 0.1, 0.1, 0.001);
 	}

@@ -19,6 +19,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -42,7 +43,7 @@ public class GiveArrowCommand implements CommandExecutor {
 
 	private final AlchemicalArrows plugin;
 
-	public GiveArrowCommand(AlchemicalArrows plugin) {
+	public GiveArrowCommand(@NotNull AlchemicalArrows plugin) {
 		this.plugin = plugin;
 	}
 

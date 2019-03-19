@@ -1,6 +1,7 @@
 package wtf.choco.arrows.api.event;
 
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 
@@ -13,7 +14,7 @@ public abstract class AlchemicalArrowEvent extends Event {
 
 	private final AlchemicalArrowEntity arrow;
 
-	protected AlchemicalArrowEvent(AlchemicalArrowEntity arrow) {
+	protected AlchemicalArrowEvent(@NotNull AlchemicalArrowEntity arrow) {
 		this.arrow = arrow;
 	}
 
@@ -22,6 +23,7 @@ public abstract class AlchemicalArrowEvent extends Event {
 	 *
 	 * @return the involved arrow
 	 */
+	@NotNull
 	public AlchemicalArrowEntity getArrow() {
 		return arrow;
 	}

@@ -45,6 +45,8 @@ public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
 		World world = location.getWorld();
+		if (world == null) return;
+
 		world.spawnParticle(Particle.CLOUD, location, 1, 0.1, 0.1, 0.1, 0.01);
 
 		// Validate in-tile underwater arrow

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A map backed by a HashMap to associate a property to its set value. If no value has been
  * explicitly set for a property, its default value will be returned
@@ -23,7 +25,7 @@ public final class PropertyMap {
 	 *
 	 * @param <T> the arrow property value type
 	 */
-	public <T> void setProperty(ArrowProperty<T> property, T value) {
+	public <T> void setProperty(@NotNull ArrowProperty<T> property, @NotNull T value) {
 		this.properties.put(property, value);
 	}
 
@@ -32,7 +34,7 @@ public final class PropertyMap {
 	 *
 	 * @param property the property to remove
 	 */
-	public void removeProperty(ArrowProperty<?> property) {
+	public void removeProperty(@NotNull ArrowProperty<?> property) {
 		this.properties.remove(property);
 	}
 
@@ -42,7 +44,7 @@ public final class PropertyMap {
 	 * @param property the property to check
 	 * @return true if set, false otherwise
 	 */
-	public boolean hasProperty(ArrowProperty<?> property) {
+	public boolean hasProperty(@NotNull ArrowProperty<?> property) {
 		return properties.containsKey(property);
 	}
 
@@ -57,7 +59,8 @@ public final class PropertyMap {
 	 *
 	 * @return the property's value
 	 */
-	public <T> T getPropertyValue(ArrowProperty<T> property, T defaultValue) {
+	@NotNull
+	public <T> T getPropertyValue(@NotNull ArrowProperty<T> property, @NotNull T defaultValue) {
 		return property.getType().cast(properties.getOrDefault(property, defaultValue));
 	}
 
@@ -71,7 +74,8 @@ public final class PropertyMap {
 	 *
 	 * @return the property's value
 	 */
-	public <T> T getPropertyValue(ArrowProperty<T> property) {
+	@NotNull
+	public <T> T getPropertyValue(@NotNull ArrowProperty<T> property) {
 		return getPropertyValue(property, property.getDefaultValue());
 	}
 
@@ -80,6 +84,7 @@ public final class PropertyMap {
 	 *
 	 * @return all set properties
 	 */
+	@NotNull
 	public Set<ArrowProperty<?>> getProperties() {
 		return Collections.unmodifiableSet(properties.keySet());
 	}

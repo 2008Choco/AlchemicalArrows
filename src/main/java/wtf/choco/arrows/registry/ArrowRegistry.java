@@ -11,6 +11,8 @@ import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -41,7 +43,7 @@ public final class ArrowRegistry {
 	 * @throws IllegalArgumentException If ItemStack parameter is not of type {@link Material#ARROW},
 	 * or if a registered arrow is already using the ItemStack provided
 	 */
-	public static void registerCustomArrow(AlchemicalArrow arrow) {
+	public static void registerCustomArrow(@NotNull AlchemicalArrow arrow) {
 		ItemStack arrowItem = arrow.getItem();
 		if (arrowItem == null || arrowItem.getType() != Material.ARROW) {
 			throw new IllegalArgumentException("AlchemicalArrow ItemStacks must be of type Material#ARROW. Given " + (arrowItem != null ? arrowItem.getType() : "null"));
@@ -70,7 +72,7 @@ public final class ArrowRegistry {
 	 *
 	 * @param arrow the arrow to unregister
 	 */
-	public static void unregisterCustomArrow(AlchemicalArrow arrow) {
+	public static void unregisterCustomArrow(@NotNull AlchemicalArrow arrow) {
 		ARROW_REGISTRY.remove(arrow);
 	}
 
@@ -81,7 +83,7 @@ public final class ArrowRegistry {
 	 *
 	 * @param arrowClass the class of the arrow to unregister
 	 */
-	public static void unregisterCustomArrow(Class<? extends AlchemicalArrow> arrowClass) {
+	public static void unregisterCustomArrow(@NotNull Class<? extends AlchemicalArrow> arrowClass) {
 		ARROW_REGISTRY.removeIf(a -> a.getClass().equals(arrowClass));
 	}
 
@@ -97,7 +99,8 @@ public final class ArrowRegistry {
 	 *
 	 * @return the registered AlchemicalArrow. null if none
 	 */
-	public static <T extends AlchemicalArrow> T getCustomArrow(Class<T> clazz) {
+	@Nullable
+	public static <T extends AlchemicalArrow> T getCustomArrow(@NotNull Class<T> clazz) {
 		for (AlchemicalArrow arrow : ARROW_REGISTRY)
 			if (arrow.getClass() == clazz) return clazz.cast(arrow);
 		return null;
@@ -112,7 +115,8 @@ public final class ArrowRegistry {
 	 * @param arrowItem the item of the AlchemicalArrow instance to retrieve
 	 * @return the registered AlchemicalArrow represented by the provided ItemStack. null if none
 	 */
-	public static AlchemicalArrow getCustomArrow(ItemStack arrowItem) {
+	@Nullable
+	public static AlchemicalArrow getCustomArrow(@NotNull ItemStack arrowItem) {
 		for (AlchemicalArrow arrow : ARROW_REGISTRY)
 			if (arrow.getItem().isSimilar(arrowItem)) return arrow;
 		return null;
@@ -127,7 +131,8 @@ public final class ArrowRegistry {
 	 * @param key the registered NamespacedKey of the AlchemicalArrow instance to retrieve
 	 * @return the registered AlchemicalArrow represented by the provided ItemStack. null if none
 	 */
-	public static AlchemicalArrow getCustomArrow(String key) {
+	@Nullable
+	public static AlchemicalArrow getCustomArrow(@NotNull String key) {
 		for (AlchemicalArrow arrow : ARROW_REGISTRY)
 			if (arrow.getKey().toString().equals(key)) return arrow;
 		return null;
@@ -138,6 +143,7 @@ public final class ArrowRegistry {
 	 *
 	 * @return the arrow registration data
 	 */
+	@NotNull
 	public static Set<AlchemicalArrow> getRegisteredCustomArrows() {
 		return Collections.unmodifiableSet(ARROW_REGISTRY);
 	}
@@ -158,7 +164,7 @@ public final class ArrowRegistry {
 	 *
 	 * @param arrow the arrow to register
 	 */
-	public void addAlchemicalArrow(AlchemicalArrowEntity arrow) {
+	public void addAlchemicalArrow(@NotNull AlchemicalArrowEntity arrow) {
 		this.inWorld.put(arrow.getArrow().getUniqueId(), arrow);
 	}
 
@@ -171,7 +177,7 @@ public final class ArrowRegistry {
 	 *
 	 * @param arrow the arrow to unregister
 	 */
-	public void removeAlchemicalArrow(AlchemicalArrowEntity arrow) {
+	public void removeAlchemicalArrow(@NotNull AlchemicalArrowEntity arrow) {
 		this.arrowsToPurge.add(arrow.getArrow().getUniqueId());
 	}
 
@@ -185,7 +191,7 @@ public final class ArrowRegistry {
 	 *
 	 * @param arrow the Arrow entity to unregister
 	 */
-	public void removeAlchemicalArrow(Arrow arrow) {
+	public void removeAlchemicalArrow(@NotNull Arrow arrow) {
 		this.arrowsToPurge.add(arrow.getUniqueId());
 	}
 
@@ -199,7 +205,7 @@ public final class ArrowRegistry {
 	 *
 	 * @param uuid the UUID of the arrow to unregister
 	 */
-	public void removeAlchemicalArrow(UUID uuid) {
+	public void removeAlchemicalArrow(@NotNull UUID uuid) {
 		this.arrowsToPurge.add(uuid);
 	}
 
@@ -209,7 +215,8 @@ public final class ArrowRegistry {
 	 * @param arrow the arrow from which to get an instance
 	 * @return an instance of the in-world AlchemicalArrowEntity associated with the arrow
 	 */
-	public AlchemicalArrowEntity getAlchemicalArrow(Arrow arrow) {
+	@Nullable
+	public AlchemicalArrowEntity getAlchemicalArrow(@NotNull Arrow arrow) {
 		return (arrow != null) ? getAlchemicalArrow(arrow.getUniqueId()) : null;
 	}
 
@@ -219,7 +226,8 @@ public final class ArrowRegistry {
 	 * @param uuid the UUID from which to get an instance
 	 * @return an instance of the in-world AlchemicalArrowEntity associated with the arrow
 	 */
-	public AlchemicalArrowEntity getAlchemicalArrow(UUID uuid) {
+	@Nullable
+	public AlchemicalArrowEntity getAlchemicalArrow(@NotNull UUID uuid) {
 		return (uuid != null) ? inWorld.get(uuid) : null;
 	}
 
@@ -229,7 +237,7 @@ public final class ArrowRegistry {
 	 * @param arrow the arrow to check
 	 * @return true if being tracked, false otherwise
 	 */
-	public boolean isAlchemicalArrow(Arrow arrow) {
+	public boolean isAlchemicalArrow(@NotNull Arrow arrow) {
 		return arrow != null && inWorld.containsKey(arrow.getUniqueId());
 	}
 
@@ -239,7 +247,7 @@ public final class ArrowRegistry {
 	 * @param uuid the UUID to check
 	 * @return true if being tracked, false otherwise
 	 */
-	public boolean isAlchemicalArrow(UUID uuid) {
+	public boolean isAlchemicalArrow(@NotNull UUID uuid) {
 		return inWorld.containsKey(uuid);
 	}
 
@@ -248,6 +256,7 @@ public final class ArrowRegistry {
 	 *
 	 * @return all registered AlchemicalArrowEntities
 	 */
+	@NotNull
 	public Collection<AlchemicalArrowEntity> getAlchemicalArrows() {
 		return Collections.unmodifiableCollection(inWorld.values());
 	}

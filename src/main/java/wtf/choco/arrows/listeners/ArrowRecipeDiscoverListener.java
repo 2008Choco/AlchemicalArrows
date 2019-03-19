@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRecipeDiscoverEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ArrowRecipeDiscoverListener implements Listener {
 
@@ -18,7 +19,7 @@ public class ArrowRecipeDiscoverListener implements Listener {
 		event.getPlayer().discoverRecipes(alchemicalArrowRecipeKeys);
 	}
 
-	public void includeRecipeKey(NamespacedKey key) {
+	public void includeRecipeKey(@NotNull NamespacedKey key) {
 		this.alchemicalArrowRecipeKeys.add(key);
 	}
 

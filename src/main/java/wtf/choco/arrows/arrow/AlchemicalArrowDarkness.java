@@ -28,7 +28,10 @@ public class AlchemicalArrowDarkness extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.DAMAGE_INDICATOR, location, 1, 0.1, 0.1, 0.1, 0.1);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.DAMAGE_INDICATOR, location, 1, 0.1, 0.1, 0.1, 0.1);
 	}
 
 	@Override

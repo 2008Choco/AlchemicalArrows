@@ -11,6 +11,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.crafting.AlchemicalCauldron;
 import wtf.choco.arrows.crafting.CauldronRecipe;
@@ -20,32 +22,34 @@ public class CauldronManager {
 	private final Map<Block, AlchemicalCauldron> cauldrons = new HashMap<>();
 	private final Map<NamespacedKey, CauldronRecipe> recipes = new HashMap<>();
 
-	public void addAlchemicalCauldron(AlchemicalCauldron cauldron) {
+	public void addAlchemicalCauldron(@NotNull AlchemicalCauldron cauldron) {
 		Preconditions.checkNotNull(cauldron, "Cannot add null alchemical cauldron");
 		this.cauldrons.put(cauldron.getCauldronBlock(), cauldron);
 	}
 
-	public void removeAlchemicalCauldron(AlchemicalCauldron cauldron) {
-		if (cauldron == null) return;
+	public void removeAlchemicalCauldron(@NotNull AlchemicalCauldron cauldron) {
 		this.cauldrons.remove(cauldron.getCauldronBlock());
 	}
 
-	public AlchemicalCauldron getAlchemicalCauldron(Block block) {
+	@Nullable
+	public AlchemicalCauldron getAlchemicalCauldron(@NotNull Block block) {
 		return cauldrons.get(block);
 	}
 
-	public AlchemicalCauldron getAlchemicalCauldron(Location location) {
+	@Nullable
+	public AlchemicalCauldron getAlchemicalCauldron(@NotNull Location location) {
 		return (location != null) ? getAlchemicalCauldron(location.getBlock()) : null;
 	}
 
-	public boolean isAlchemicalCauldron(Block block) {
+	public boolean isAlchemicalCauldron(@NotNull Block block) {
 		return cauldrons.containsKey(block);
 	}
 
-	public boolean isAlchemicalCauldron(Location location) {
+	public boolean isAlchemicalCauldron(@NotNull Location location) {
 		return location != null && cauldrons.containsKey(location.getBlock());
 	}
 
+	@NotNull
 	public Collection<AlchemicalCauldron> getAlchemicalCauldrons() {
 		return Collections.unmodifiableCollection(cauldrons.values());
 	}
@@ -54,25 +58,28 @@ public class CauldronManager {
 		this.cauldrons.clear();
 	}
 
-	public void registerCauldronRecipe(CauldronRecipe recipe) {
+	public void registerCauldronRecipe(@NotNull CauldronRecipe recipe) {
 		Preconditions.checkNotNull(recipe, "Cannot register null recipe");
 		this.recipes.put(recipe.getKey(), recipe);
 	}
 
-	public void unregisterCauldronRecipe(CauldronRecipe recipe) {
+	public void unregisterCauldronRecipe(@NotNull CauldronRecipe recipe) {
 		this.recipes.remove(recipe.getKey());
 	}
 
-	public CauldronRecipe unregisterCauldronRecipe(NamespacedKey key) {
+	@Nullable
+	public CauldronRecipe unregisterCauldronRecipe(@NotNull NamespacedKey key) {
 		return recipes.remove(key);
 	}
 
-	public CauldronRecipe getApplicableRecipe(Material catalyst, Map<Material, Integer> ingredients) {
+	@Nullable
+	public CauldronRecipe getApplicableRecipe(@NotNull Material catalyst, @NotNull Map<Material, Integer> ingredients) {
 		return recipes.values().stream()
 				.filter(r -> r.getCatalyst() == catalyst && r.getExpectedYieldFromIngredients(ingredients) >= 1)
 				.findFirst().orElse(null);
 	}
 
+	@NotNull
 	public Collection<CauldronRecipe> getRecipes() {
 		return recipes.values(); // Intentionally mutable
 	}

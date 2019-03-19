@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.crafting.AlchemicalCauldron;
@@ -18,7 +19,7 @@ public class CauldronManipulationListener implements Listener {
 
 	private final AlchemicalArrows plugin;
 
-	public CauldronManipulationListener(AlchemicalArrows plugin) {
+	public CauldronManipulationListener(@NotNull AlchemicalArrows plugin) {
 		this.plugin = plugin;
 	}
 
@@ -39,7 +40,7 @@ public class CauldronManipulationListener implements Listener {
 		AlchemicalCauldron cauldron = manager.getAlchemicalCauldron(block);
 		if (cauldron == null) return;
 
-		manager.removeAlchemicalCauldron(manager.getAlchemicalCauldron(block));
+		manager.removeAlchemicalCauldron(cauldron);
 
 		// Drop cauldron ingredients, if any
 		if (!cauldron.hasIngredients()) return;

@@ -5,7 +5,9 @@ import java.util.Iterator;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -33,7 +35,10 @@ public class AlchemicalArrowNecrotic extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.ITEM_CRACK, location, 2, 0.1, 0.1, 0.1, 0.1, ROTTEN_FLESH);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.ITEM_CRACK, location, 2, 0.1, 0.1, 0.1, 0.1, ROTTEN_FLESH);
 	}
 
 	@Override
@@ -57,7 +62,8 @@ public class AlchemicalArrowNecrotic extends AlchemicalArrowAbstract {
 		if (!(shooter instanceof LivingEntity)) return;
 
 		LivingEntity source = (LivingEntity) shooter;
-		source.setHealth(Math.max(source.getHealth() + (damage / 2), source.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
+		AttributeInstance attributeMaxHealth = source.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+		source.setHealth(Math.max(source.getHealth() + (damage / 2), (attributeMaxHealth != null) ? attributeMaxHealth.getValue() : 20));
 	}
 
 }

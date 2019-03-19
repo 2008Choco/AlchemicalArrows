@@ -2,6 +2,7 @@ package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -28,7 +29,10 @@ public class AlchemicalArrowConfusion extends AlchemicalArrowAbstract {
 
 	@Override
 	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		location.getWorld().spawnParticle(Particle.SPELL, location, 2, 0.1, 0.1, 0.1, 1);
+		World world = location.getWorld();
+		if (world == null) return;
+
+		world.spawnParticle(Particle.SPELL, location, 2, 0.1, 0.1, 0.1, 1);
 	}
 
 	@Override

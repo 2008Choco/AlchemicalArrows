@@ -12,6 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.registry.ArrowRegistry;
@@ -23,7 +24,7 @@ public class AlchemicalArrowsCommand implements CommandExecutor {
 
 	private final AlchemicalArrows plugin;
 
-	public AlchemicalArrowsCommand(AlchemicalArrows plugin) {
+	public AlchemicalArrowsCommand(@NotNull AlchemicalArrows plugin) {
 		this.plugin = plugin;
 	}
 
