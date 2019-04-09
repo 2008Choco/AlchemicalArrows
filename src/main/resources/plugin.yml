@@ -15,6 +15,9 @@ commands:
       description: Give you or another player one of the specialized arrows
       usage: /<command> <arrow> [count] [player]
       aliases: [givearrows]
+    summonarrow:
+      description: Summon an alchemical arrow in the world
+      usage: /<command> <arrow> [x] [y] [z] [world] [velocityX] [velocityY] [velocityZ]
 
 permissions:
     arrows.worldguardoverride:
@@ -67,3 +70,4 @@ permissions:
             arrows.command.killallarrows: true
             arrows.command.reload: true
             arrows.command.givearrow: true
+            arrows.command.summonarrow: true

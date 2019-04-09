@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.utils.CommandUtil;
 
 public class GiveArrowCommand implements CommandExecutor {
 
@@ -59,7 +60,7 @@ public class GiveArrowCommand implements CommandExecutor {
 			return true;
 		}
 
-		int giveCount = (args.length >= 2) ? clamp(NumberUtils.toInt(args[1], 1), 1, 64) : 1;
+		int giveCount = (args.length >= 2) ? CommandUtil.clamp(NumberUtils.toInt(args[1], 1), 1, 64) : 1;
 		List<Player> targets = (sender instanceof Player) ? Arrays.asList((Player) sender) : Collections.EMPTY_LIST;
 
 		if (args.length >= 3) {
@@ -85,19 +86,16 @@ public class GiveArrowCommand implements CommandExecutor {
 			return true;
 		}
 
-		String arrowNamespace = args[0].toLowerCase();
-
-		if (!arrowNamespace.contains(":")) {
-			arrowNamespace = plugin.getName().toLowerCase() + ":" + arrowNamespace;
-		} else if (arrowNamespace.startsWith(":") || arrowNamespace.split(":").length > 2) {
+		String arrowId = CommandUtil.argToNamespace(args[0], plugin);
+		if (arrowId == null) {
 			sender.sendMessage(CHAT_PREFIX + "Invalid namespace. Pattern IDs should be formatted as " + ChatColor.YELLOW + "namespace:id"
 					+ ChatColor.GRAY + " (for example, " + ChatColor.YELLOW + "alchemicalarrows:air" + ChatColor.GRAY + ")");
 			return true;
 		}
 
-		AlchemicalArrow arrow = ArrowRegistry.getCustomArrow(arrowNamespace);
+		AlchemicalArrow arrow = ArrowRegistry.getCustomArrow(arrowId);
 		if (arrow == null) {
-			sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowNamespace);
+			sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowId);
 			return true;
 		}
 
@@ -113,10 +111,6 @@ public class GiveArrowCommand implements CommandExecutor {
 		}
 
 		return true;
-	}
-
-	private int clamp(int value, int min, int max) {
-		return (value < min ? min : (value > max ? max : value));
 	}
 
 }

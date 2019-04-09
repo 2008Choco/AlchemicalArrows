@@ -36,6 +36,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.arrow.*;
 import wtf.choco.arrows.commands.AlchemicalArrowsCommand;
 import wtf.choco.arrows.commands.GiveArrowCommand;
+import wtf.choco.arrows.commands.SummonArrowCommand;
 import wtf.choco.arrows.crafting.AlchemicalCauldron;
 import wtf.choco.arrows.crafting.CauldronRecipe;
 import wtf.choco.arrows.crafting.CauldronUpdateTask;
@@ -115,6 +116,7 @@ public class AlchemicalArrows extends JavaPlugin {
 		this.getLogger().info("Registering commands");
 		this.setupCommand("alchemicalarrows", new AlchemicalArrowsCommand(this), AlchemicalArrowsCommand.TAB_COMPLETER);
 		this.setupCommand("givearrow", new GiveArrowCommand(this), GiveArrowCommand.TAB_COMPLETER);
+		this.setupCommand("summonarrow", new SummonArrowCommand(this), SummonArrowCommand.TAB_COMPLETER);
 
 		// Register crafting recipes
 		this.getLogger().info("Registering default alchemical arrows and their recipes");
