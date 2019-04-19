@@ -88,7 +88,7 @@ public class GiveArrowCommand implements CommandExecutor {
 
 		String arrowId = CommandUtil.argToNamespace(args[0], plugin);
 		if (arrowId == null) {
-			sender.sendMessage(CHAT_PREFIX + "Invalid namespace. Pattern IDs should be formatted as " + ChatColor.YELLOW + "namespace:id"
+			sender.sendMessage(CHAT_PREFIX + "Invalid namespace. Arrow IDs should be formatted as " + ChatColor.YELLOW + "namespace:id"
 					+ ChatColor.GRAY + " (for example, " + ChatColor.YELLOW + "alchemicalarrows:air" + ChatColor.GRAY + ")");
 			return true;
 		}
