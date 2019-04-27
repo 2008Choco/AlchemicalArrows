@@ -1,8 +1,8 @@
 package wtf.choco.arrows.listeners;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -25,9 +25,11 @@ public class SkeletonKillListener implements Listener {
 	private static final Random RANDOM = new Random();
 
 	private final FileConfiguration config;
+	private final ArrowRegistry arrowRegistry;
 
 	public SkeletonKillListener(@NotNull AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
+		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 
 	@EventHandler
@@ -50,7 +52,7 @@ public class SkeletonKillListener implements Listener {
 	public ItemStack getWeightedRandom(int amount) {
 		double totalWeight = 0;
 
-		Set<AlchemicalArrow> arrows = ArrowRegistry.getRegisteredCustomArrows();
+		Collection<AlchemicalArrow> arrows = arrowRegistry.getRegisteredArrows();
 		for (AlchemicalArrow arrow : arrows) {
 			totalWeight += arrow.getProperties().getPropertyValue(ArrowProperty.SKELETON_LOOT_WEIGHT);
 		}

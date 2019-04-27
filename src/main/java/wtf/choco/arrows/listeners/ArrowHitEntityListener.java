@@ -11,14 +11,14 @@ import org.jetbrains.annotations.NotNull;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class ArrowHitEntityListener implements Listener {
 
-	private final ArrowRegistry arrowRegistry;
+	private final ArrowStateManager stateManager;
 
 	public ArrowHitEntityListener(@NotNull AlchemicalArrows plugin) {
-		this.arrowRegistry = plugin.getArrowRegistry();
+		this.stateManager = plugin.getArrowStateManager();
 	}
 
 	@EventHandler
@@ -28,7 +28,7 @@ public class ArrowHitEntityListener implements Listener {
 		Arrow arrow = (Arrow) event.getDamager();
 		Entity entity = event.getEntity();
 
-		AlchemicalArrowEntity alchemicalArrow = arrowRegistry.getAlchemicalArrow(arrow);
+		AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
 		if (alchemicalArrow == null) return;
 
 		AlchemicalArrow type = alchemicalArrow.getImplementation();

@@ -51,6 +51,7 @@ import wtf.choco.arrows.listeners.PickupArrowListener;
 import wtf.choco.arrows.listeners.ProjectileShootListener;
 import wtf.choco.arrows.listeners.SkeletonKillListener;
 import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.registry.CauldronManager;
 import wtf.choco.arrows.utils.ArrowUpdateTask;
 import wtf.choco.arrows.utils.ItemBuilder;
@@ -70,6 +71,7 @@ public class AlchemicalArrows extends JavaPlugin {
 	private static final Gson GSON = new Gson();
 	private static AlchemicalArrows instance;
 
+	private ArrowStateManager stateManager;
 	private ArrowRegistry arrowRegistry;
 	private CauldronManager cauldronManager;
 	private ArrowUpdateTask arrowUpdateTask;
@@ -85,6 +87,7 @@ public class AlchemicalArrows extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
+		this.stateManager = new ArrowStateManager();
 		this.arrowRegistry = new ArrowRegistry();
 		this.cauldronManager = new CauldronManager();
 		this.saveDefaultConfig();
@@ -108,7 +111,7 @@ public class AlchemicalArrows extends JavaPlugin {
 		manager.registerEvents(new CustomDeathMsgListener(this), this);
 		manager.registerEvents(new PickupArrowListener(this), this);
 		manager.registerEvents(new SkeletonKillListener(this), this);
-		manager.registerEvents(new CraftingPermissionListener(), this);
+		manager.registerEvents(new CraftingPermissionListener(this), this);
 		manager.registerEvents(new CauldronManipulationListener(this), this);
 		manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
 
@@ -170,8 +173,8 @@ public class AlchemicalArrows extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		ArrowRegistry.clearRegisteredArrows();
-		this.arrowRegistry.clearAlchemicalArrows();
+		this.arrowRegistry.clear();
+		this.stateManager.clear();
 		this.arrowUpdateTask.cancel();
 		this.recipeListener.clearRecipeKeys();
 
@@ -220,6 +223,15 @@ public class AlchemicalArrows extends JavaPlugin {
 	 */
 	public ArrowRegistry getArrowRegistry() {
 		return arrowRegistry;
+	}
+
+	/**
+	 * Get the arrow state manager.
+	 *
+	 * @return the arrow state manager instance
+	 */
+	public ArrowStateManager getArrowStateManager() {
+		return stateManager;
 	}
 
 	/**
@@ -291,7 +303,7 @@ public class AlchemicalArrows extends JavaPlugin {
 			this.recipeListener.includeRecipeKey(arrow.getKey());
 		}
 
-		ArrowRegistry.registerCustomArrow(arrow);
+		this.arrowRegistry.register(arrow);
 	}
 
 	@Nullable

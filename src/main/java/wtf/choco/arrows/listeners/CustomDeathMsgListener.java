@@ -16,16 +16,16 @@ import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class CustomDeathMsgListener implements Listener {
 
 	private final FileConfiguration config;
-	private final ArrowRegistry arrowRegistry;
+	private final ArrowStateManager stateManager;
 
 	public CustomDeathMsgListener(@NotNull AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
-		this.arrowRegistry = plugin.getArrowRegistry();
+		this.stateManager = plugin.getArrowStateManager();
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
@@ -39,7 +39,7 @@ public class CustomDeathMsgListener implements Listener {
 		if (!(lastEntityDamage.getDamager() instanceof Arrow)) return;
 
 		Arrow arrow = (Arrow) lastEntityDamage.getDamager();
-		AlchemicalArrowEntity alchemicalArrow = arrowRegistry.getAlchemicalArrow(arrow);
+		AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
 		if (alchemicalArrow == null) return;
 
 		String killedName = event.getEntity().getName();

@@ -32,7 +32,7 @@ public class GiveArrowCommand implements CommandExecutor {
 		if (args.length != 1) return null;
 
 		List<String> arguments = new ArrayList<>();
-		for (AlchemicalArrow arrow : ArrowRegistry.getRegisteredCustomArrows()) {
+		for (AlchemicalArrow arrow : AlchemicalArrows.getInstance().getArrowRegistry().getRegisteredArrows()) {
 			NamespacedKey key = arrow.getKey();
 			if (key.toString().startsWith(args[0]) || key.getKey().startsWith(args[0])) {
 				arguments.add(arrow.getKey().toString());
@@ -43,9 +43,11 @@ public class GiveArrowCommand implements CommandExecutor {
 	};
 
 	private final AlchemicalArrows plugin;
+	private final ArrowRegistry arrowRegistry;
 
 	public GiveArrowCommand(@NotNull AlchemicalArrows plugin) {
 		this.plugin = plugin;
+		this.arrowRegistry = plugin.getArrowRegistry();
 	}
 
 	@Override
@@ -93,7 +95,7 @@ public class GiveArrowCommand implements CommandExecutor {
 			return true;
 		}
 
-		AlchemicalArrow arrow = ArrowRegistry.getCustomArrow(arrowId);
+		AlchemicalArrow arrow = arrowRegistry.get(arrowId);
 		if (arrow == null) {
 			sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowId);
 			return true;

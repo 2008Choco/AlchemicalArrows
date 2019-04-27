@@ -4,6 +4,7 @@ import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -15,7 +16,8 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
-import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.api.AlchemicalArrowEntity;
+import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class AlchemicalArrowsCommand implements CommandExecutor {
 
@@ -23,9 +25,11 @@ public class AlchemicalArrowsCommand implements CommandExecutor {
 	public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> (args.length > 0) ? StringUtil.copyPartialMatches(args[0], DEFAULT_COMPLETIONS, new ArrayList<>()) : null;
 
 	private final AlchemicalArrows plugin;
+	private final ArrowStateManager stateManager;
 
 	public AlchemicalArrowsCommand(@NotNull AlchemicalArrows plugin) {
 		this.plugin = plugin;
+		this.stateManager = plugin.getArrowStateManager();
 	}
 
 	@Override
@@ -41,16 +45,16 @@ public class AlchemicalArrowsCommand implements CommandExecutor {
 				return true;
 			}
 
-			ArrowRegistry arrowRegistry = plugin.getArrowRegistry();
-			int arrowCount = arrowRegistry.getAlchemicalArrows().size();
+			Collection<AlchemicalArrowEntity> arrows = stateManager.getArrows();
+			int arrowCount = arrows.size();
 
 			if (arrowCount == 0) {
 				sender.sendMessage(CHAT_PREFIX + "No alchemical arrows were found in the world");
 				return true;
 			}
 
-			arrowRegistry.getAlchemicalArrows().forEach(a -> {
-				arrowRegistry.removeAlchemicalArrow(a);
+			arrows.forEach(a -> {
+				this.stateManager.remove(a);
 				a.getArrow().remove();
 			});
 

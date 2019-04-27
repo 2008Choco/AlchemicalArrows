@@ -1,7 +1,7 @@
 package wtf.choco.arrows.listeners;
 
+import java.util.Collection;
 import java.util.Random;
-import java.util.Set;
 
 import com.google.common.collect.Iterables;
 
@@ -29,6 +29,7 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.event.AlchemicalArrowShootEvent;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class ProjectileShootListener implements Listener {
 
@@ -36,10 +37,12 @@ public class ProjectileShootListener implements Listener {
 
 	private final FileConfiguration config;
 	private final ArrowRegistry arrowRegistry;
+	private final ArrowStateManager stateManager;
 
 	public ProjectileShootListener(@NotNull AlchemicalArrows plugin) {
 		this.config = plugin.getConfig();
 		this.arrowRegistry = plugin.getArrowRegistry();
+		this.stateManager = plugin.getArrowStateManager();
 	}
 
 	@EventHandler
@@ -67,7 +70,7 @@ public class ProjectileShootListener implements Listener {
 				}
 			}
 
-			AlchemicalArrow type = ArrowRegistry.getCustomArrow(arrowItem);
+			AlchemicalArrow type = arrowRegistry.get(arrowItem);
 			if (type == null) return;
 
 			AlchemicalArrowEntity alchemicalArrow = type.createNewArrow(arrow);
@@ -101,12 +104,12 @@ public class ProjectileShootListener implements Listener {
 				return;
 			}
 
-			this.arrowRegistry.addAlchemicalArrow(alchemicalArrow);
+			this.stateManager.add(alchemicalArrow);
 			arrow.setPickupStatus(shouldBePickupable ? PickupStatus.ALLOWED : PickupStatus.CREATIVE_ONLY);
 		}
 
 		else if (source instanceof Skeleton && RANDOM.nextInt(100) < config.getDouble("Skeletons.ShootPercentage", 10.0)) {
-			Set<AlchemicalArrow> arrows = ArrowRegistry.getRegisteredCustomArrows();
+			Collection<AlchemicalArrow> arrows = arrowRegistry.getRegisteredArrows();
 			AlchemicalArrow type = Iterables.get(arrows, RANDOM.nextInt(arrows.size()));
 			if (type == null || !type.getProperties().getPropertyValue(ArrowProperty.SKELETONS_CAN_SHOOT)) return;
 
@@ -123,7 +126,7 @@ public class ProjectileShootListener implements Listener {
 				return;
 			}
 
-			this.arrowRegistry.addAlchemicalArrow(alchemicalArrow);
+			this.stateManager.add(alchemicalArrow);
 		}
 
 		else if (arrow.getShooter() instanceof BlockProjectileSource) {

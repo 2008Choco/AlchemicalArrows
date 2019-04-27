@@ -19,16 +19,16 @@ import org.bukkit.projectiles.ProjectileSource;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class ArrowHitPlayerListener implements Listener {
 
 	private final AlchemicalArrows plugin;
-	private final ArrowRegistry arrowRegistry;
+	private final ArrowStateManager stateManager;
 
 	public ArrowHitPlayerListener(AlchemicalArrows plugin) {
 		this.plugin = plugin;
-		this.arrowRegistry = plugin.getArrowRegistry();
+		this.stateManager = plugin.getArrowStateManager();
 	}
 
 	@EventHandler
@@ -37,7 +37,7 @@ public class ArrowHitPlayerListener implements Listener {
 
 		Player player = (Player) event.getEntity();
 		Arrow arrow = (Arrow) event.getDamager();
-		AlchemicalArrowEntity alchemicalArrow = arrowRegistry.getAlchemicalArrow(arrow);
+		AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
 
 		if (alchemicalArrow == null || player.isBlocking()) return;
 
