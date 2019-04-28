@@ -14,26 +14,26 @@ import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class ArrowHitGroundListener implements Listener {
 
-	private final ArrowStateManager stateManager;
+    private final ArrowStateManager stateManager;
 
-	public ArrowHitGroundListener(@NotNull AlchemicalArrows plugin) {
-		this.stateManager = plugin.getArrowStateManager();
-	}
+    public ArrowHitGroundListener(@NotNull AlchemicalArrows plugin) {
+        this.stateManager = plugin.getArrowStateManager();
+    }
 
-	@EventHandler
-	public void onAlchemicalArrowHitGround(ProjectileHitEvent event) {
-		if (!(event.getEntity() instanceof Arrow)) return;
+    @EventHandler
+    public void onAlchemicalArrowHitGround(ProjectileHitEvent event) {
+        if (!(event.getEntity() instanceof Arrow)) return;
 
-		Block hit = event.getHitBlock();
-		if (hit == null) return;
+        Block hit = event.getHitBlock();
+        if (hit == null) return;
 
-		Arrow arrow = (Arrow) event.getEntity();
-		AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
-		if (alchemicalArrow == null) return;
+        Arrow arrow = (Arrow) event.getEntity();
+        AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
+        if (alchemicalArrow == null) return;
 
-		AlchemicalArrow type = alchemicalArrow.getImplementation();
-		type.hitGroundEventHandler(alchemicalArrow, event);
-		type.onHitBlock(alchemicalArrow, hit);
-	}
+        AlchemicalArrow type = alchemicalArrow.getImplementation();
+        type.hitGroundEventHandler(alchemicalArrow, event);
+        type.onHitBlock(alchemicalArrow, hit);
+    }
 
 }

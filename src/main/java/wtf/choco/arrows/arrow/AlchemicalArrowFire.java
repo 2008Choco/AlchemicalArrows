@@ -15,34 +15,34 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowFire extends AlchemicalArrowAbstract {
 
-	private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
-	public AlchemicalArrowFire(AlchemicalArrows plugin) {
-		super(plugin, "fire", c -> c.getString("Arrow.Fire.Item.DisplayName", "&cFire Arrow"), c -> c.getStringList("Arrow.Fire.Item.Lore"));
+    public AlchemicalArrowFire(AlchemicalArrows plugin) {
+        super(plugin, "fire", c -> c.getString("Arrow.Fire.Item.DisplayName", "&cFire Arrow"), c -> c.getStringList("Arrow.Fire.Item.Lore"));
 
-		FileConfiguration config = plugin.getConfig();
-		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Fire.Skeleton.CanShoot", true));
-		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Fire.AllowInfinity", false));
-		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Fire.Skeleton.LootDropWeight", 10.0));
-	}
+        FileConfiguration config = plugin.getConfig();
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Fire.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Fire.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Fire.Skeleton.LootDropWeight", 10.0));
+    }
 
-	@Override
-	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		World world = location.getWorld();
-		if (world == null) return;
+    @Override
+    public void tick(AlchemicalArrowEntity arrow, Location location) {
+        World world = location.getWorld();
+        if (world == null) return;
 
-		world.spawnParticle(Particle.SMOKE_NORMAL, location, 1, 0.1, 0.1, 0.1, 0.001);
-		world.spawnParticle(Particle.FLAME, location, 1, 0.1, 0.1, 0.1, 0.001);
-	}
+        world.spawnParticle(Particle.SMOKE_NORMAL, location, 1, 0.1, 0.1, 0.1, 0.001);
+        world.spawnParticle(Particle.FLAME, location, 1, 0.1, 0.1, 0.1, 0.001);
+    }
 
-	@Override
-	public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-		player.setFireTicks(40 + RANDOM.nextInt(61));
-	}
+    @Override
+    public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
+        player.setFireTicks(40 + RANDOM.nextInt(61));
+    }
 
-	@Override
-	public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-		entity.setFireTicks(40 + RANDOM.nextInt(61));
-	}
+    @Override
+    public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
+        entity.setFireTicks(40 + RANDOM.nextInt(61));
+    }
 
 }

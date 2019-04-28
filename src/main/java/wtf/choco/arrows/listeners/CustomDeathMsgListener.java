@@ -20,52 +20,52 @@ import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class CustomDeathMsgListener implements Listener {
 
-	private final FileConfiguration config;
-	private final ArrowStateManager stateManager;
+    private final FileConfiguration config;
+    private final ArrowStateManager stateManager;
 
-	public CustomDeathMsgListener(@NotNull AlchemicalArrows plugin) {
-		this.config = plugin.getConfig();
-		this.stateManager = plugin.getArrowStateManager();
-	}
+    public CustomDeathMsgListener(@NotNull AlchemicalArrows plugin) {
+        this.config = plugin.getConfig();
+        this.stateManager = plugin.getArrowStateManager();
+    }
 
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerDeath(PlayerDeathEvent event) {
-		if (!config.getBoolean("DeathMessages.Enabled", true)) return;
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        if (!config.getBoolean("DeathMessages.Enabled", true)) return;
 
-		EntityDamageEvent lastDamageCause = event.getEntity().getLastDamageCause();
-		if (!(lastDamageCause instanceof EntityDamageByEntityEvent)) return;
+        EntityDamageEvent lastDamageCause = event.getEntity().getLastDamageCause();
+        if (!(lastDamageCause instanceof EntityDamageByEntityEvent)) return;
 
-		EntityDamageByEntityEvent lastEntityDamage = (EntityDamageByEntityEvent) lastDamageCause;
-		if (!(lastEntityDamage.getDamager() instanceof Arrow)) return;
+        EntityDamageByEntityEvent lastEntityDamage = (EntityDamageByEntityEvent) lastDamageCause;
+        if (!(lastEntityDamage.getDamager() instanceof Arrow)) return;
 
-		Arrow arrow = (Arrow) lastEntityDamage.getDamager();
-		AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
-		if (alchemicalArrow == null) return;
+        Arrow arrow = (Arrow) lastEntityDamage.getDamager();
+        AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
+        if (alchemicalArrow == null) return;
 
-		String killedName = event.getEntity().getName();
-		String arrowType = alchemicalArrow.getImplementation().getDisplayName();
+        String killedName = event.getEntity().getName();
+        String arrowType = alchemicalArrow.getImplementation().getDisplayName();
 
-		// Change death messages
-		ProjectileSource source = arrow.getShooter();
-		if (source instanceof Player) {
-			Player killer = (Player) source;
-			String message = messageOrDefault("DeathMessages.DeathByPlayer", "%player% was killed by %killer% using a %type%");
-			event.setDeathMessage(message.replace("%player%", killedName).replace("%killer%", killer.getName()).replace("%type%", arrowType));
-		}
-		else if (source instanceof Skeleton) {
-			String message = messageOrDefault("DeathMessages.DeathBySkeleton", "%player% was killed by a skeleton using a %type%");
-			event.setDeathMessage(message.replace("%player%", killedName).replace("%type%", arrowType));
-		}
-		else if (source instanceof BlockProjectileSource) {
-			String message = messageOrDefault("DeathMessages.DeathByBlockSource", "%player% was shot using a %type%");
-			event.setDeathMessage(message.replace("%player%", killedName).replace("%type%", arrowType));
-		}
-	}
+        // Change death messages
+        ProjectileSource source = arrow.getShooter();
+        if (source instanceof Player) {
+            Player killer = (Player) source;
+            String message = messageOrDefault("DeathMessages.DeathByPlayer", "%player% was killed by %killer% using a %type%");
+            event.setDeathMessage(message.replace("%player%", killedName).replace("%killer%", killer.getName()).replace("%type%", arrowType));
+        }
+        else if (source instanceof Skeleton) {
+            String message = messageOrDefault("DeathMessages.DeathBySkeleton", "%player% was killed by a skeleton using a %type%");
+            event.setDeathMessage(message.replace("%player%", killedName).replace("%type%", arrowType));
+        }
+        else if (source instanceof BlockProjectileSource) {
+            String message = messageOrDefault("DeathMessages.DeathByBlockSource", "%player% was shot using a %type%");
+            event.setDeathMessage(message.replace("%player%", killedName).replace("%type%", arrowType));
+        }
+    }
 
-	@NotNull
-	private String messageOrDefault(@NotNull String path, @NotNull String defaultMessage) {
-		String message = config.getString(path);
-		return (message != null) ? message : defaultMessage;
-	}
+    @NotNull
+    private String messageOrDefault(@NotNull String path, @NotNull String defaultMessage) {
+        String message = config.getString(path);
+        return (message != null) ? message : defaultMessage;
+    }
 
 }

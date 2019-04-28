@@ -11,20 +11,20 @@ import org.jetbrains.annotations.NotNull;
 
 public class ArrowRecipeDiscoverListener implements Listener {
 
-	private final Set<NamespacedKey> alchemicalArrowRecipeKeys = new HashSet<>();
+    private final Set<NamespacedKey> alchemicalArrowRecipeKeys = new HashSet<>();
 
-	@EventHandler
-	public void onDiscoverArrowRecipe(PlayerRecipeDiscoverEvent event) {
-		if (!event.getRecipe().toString().equalsIgnoreCase("minecraft:arrow")) return;
-		event.getPlayer().discoverRecipes(alchemicalArrowRecipeKeys);
-	}
+    @EventHandler
+    public void onDiscoverArrowRecipe(PlayerRecipeDiscoverEvent event) {
+        if (!event.getRecipe().toString().equalsIgnoreCase("minecraft:arrow")) return;
+        event.getPlayer().discoverRecipes(alchemicalArrowRecipeKeys);
+    }
 
-	public void includeRecipeKey(@NotNull NamespacedKey key) {
-		this.alchemicalArrowRecipeKeys.add(key);
-	}
+    public void includeRecipeKey(@NotNull NamespacedKey key) {
+        this.alchemicalArrowRecipeKeys.add(key);
+    }
 
-	public void clearRecipeKeys() {
-		this.alchemicalArrowRecipeKeys.clear();
-	}
+    public void clearRecipeKeys() {
+        this.alchemicalArrowRecipeKeys.clear();
+    }
 
 }

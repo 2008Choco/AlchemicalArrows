@@ -16,39 +16,39 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowConfusion extends AlchemicalArrowAbstract {
 
-	private static final PotionEffect CONFUSION_EFFECT = new PotionEffect(PotionEffectType.CONFUSION, 100, 0);
+    private static final PotionEffect CONFUSION_EFFECT = new PotionEffect(PotionEffectType.CONFUSION, 100, 0);
 
-	public AlchemicalArrowConfusion(AlchemicalArrows plugin) {
-		super(plugin, "confusion", c -> c.getString("Arrow.Confusion.Item.DisplayName", "&dConfusion Arrow"), c -> c.getStringList("Arrow.Confusion.Item.Lore"));
+    public AlchemicalArrowConfusion(AlchemicalArrows plugin) {
+        super(plugin, "confusion", c -> c.getString("Arrow.Confusion.Item.DisplayName", "&dConfusion Arrow"), c -> c.getStringList("Arrow.Confusion.Item.Lore"));
 
-		FileConfiguration config = plugin.getConfig();
-		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Confusion.Skeleton.CanShoot", true));
-		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Confusion.AllowInfinity", false));
-		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Confusion.Skeleton.LootDropWeight", 10.0));
-	}
+        FileConfiguration config = plugin.getConfig();
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Confusion.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Confusion.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Confusion.Skeleton.LootDropWeight", 10.0));
+    }
 
-	@Override
-	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		World world = location.getWorld();
-		if (world == null) return;
+    @Override
+    public void tick(AlchemicalArrowEntity arrow, Location location) {
+        World world = location.getWorld();
+        if (world == null) return;
 
-		world.spawnParticle(Particle.SPELL, location, 2, 0.1, 0.1, 0.1, 1);
-	}
+        world.spawnParticle(Particle.SPELL, location, 2, 0.1, 0.1, 0.1, 1);
+    }
 
-	@Override
-	public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-		player.addPotionEffect(CONFUSION_EFFECT);
+    @Override
+    public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
+        player.addPotionEffect(CONFUSION_EFFECT);
 
-		Location backwards = player.getLocation();
-		backwards.setYaw(player.getLocation().getYaw() + 180);
-		player.teleport(backwards);
-	}
+        Location backwards = player.getLocation();
+        backwards.setYaw(player.getLocation().getYaw() + 180);
+        player.teleport(backwards);
+    }
 
-	@Override
-	public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-		if (!(entity instanceof Creature)) return;
+    @Override
+    public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
+        if (!(entity instanceof Creature)) return;
 
-		((Creature) entity).setTarget(null);
-	}
+        ((Creature) entity).setTarget(null);
+    }
 
 }

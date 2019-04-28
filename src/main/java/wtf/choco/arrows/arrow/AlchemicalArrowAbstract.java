@@ -19,39 +19,39 @@ import wtf.choco.arrows.utils.ItemBuilder;
 // For internal use. More convenient arrow construction for configuration-based arrows
 abstract class AlchemicalArrowAbstract extends AlchemicalArrow {
 
-	private final NamespacedKey key;
-	private final ItemStack item;
-	private final String name;
+    private final NamespacedKey key;
+    private final ItemStack item;
+    private final String name;
 
-	protected AlchemicalArrowAbstract(AlchemicalArrows plugin, String key, Function<FileConfiguration, String> nameFunction, Function<FileConfiguration, List<String>> loreFunction) {
-		this.key = new NamespacedKey(plugin, key);
-		this.name = ChatColor.translateAlternateColorCodes('&', nameFunction.apply(plugin.getConfig()));
-		this.item = ItemBuilder.of(Material.ARROW)
-				.name(name)
-				.lore(loreFunction.apply(plugin.getConfig()).stream()
-					.map(s -> ChatColor.translateAlternateColorCodes('&', s))
-					.collect(Collectors.toList())
-				).build();
-	}
+    protected AlchemicalArrowAbstract(AlchemicalArrows plugin, String key, Function<FileConfiguration, String> nameFunction, Function<FileConfiguration, List<String>> loreFunction) {
+        this.key = new NamespacedKey(plugin, key);
+        this.name = ChatColor.translateAlternateColorCodes('&', nameFunction.apply(plugin.getConfig()));
+        this.item = ItemBuilder.of(Material.ARROW)
+                .name(name)
+                .lore(loreFunction.apply(plugin.getConfig()).stream()
+                    .map(s -> ChatColor.translateAlternateColorCodes('&', s))
+                    .collect(Collectors.toList())
+                ).build();
+    }
 
-	@Override
-	public NamespacedKey getKey() {
-		return key;
-	}
+    @Override
+    public NamespacedKey getKey() {
+        return key;
+    }
 
-	@Override
-	public String getDisplayName() {
-		return name;
-	}
+    @Override
+    public String getDisplayName() {
+        return name;
+    }
 
-	@Override
-	public ItemStack getItem() {
-		return item.clone();
-	}
+    @Override
+    public ItemStack getItem() {
+        return item.clone();
+    }
 
-	@Override
-	public boolean onShootFromPlayer(AlchemicalArrowEntity arrow, Player player) {
-		return player.hasPermission("arrows.shoot." + key.getKey());
-	}
+    @Override
+    public boolean onShootFromPlayer(AlchemicalArrowEntity arrow, Player player) {
+        return player.hasPermission("arrows.shoot." + key.getKey());
+    }
 
 }

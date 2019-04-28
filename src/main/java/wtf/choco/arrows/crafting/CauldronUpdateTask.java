@@ -24,102 +24,102 @@ import wtf.choco.arrows.registry.CauldronManager;
 
 public class CauldronUpdateTask extends BukkitRunnable {
 
-	private static CauldronUpdateTask instance = null;
+    private static CauldronUpdateTask instance = null;
 
-	private final CauldronManager cauldronManager;
+    private final CauldronManager cauldronManager;
 
-	private CauldronUpdateTask(@NotNull AlchemicalArrows plugin) {
-		this.cauldronManager = plugin.getCauldronManager();
-	}
+    private CauldronUpdateTask(@NotNull AlchemicalArrows plugin) {
+        this.cauldronManager = plugin.getCauldronManager();
+    }
 
-	@Override
-	public void run() {
-		for (AlchemicalCauldron cauldron : cauldronManager.getAlchemicalCauldrons()) {
-			Block block = cauldron.getCauldronBlock();
-			Location location = block.getLocation().add(0.5, 0.25, 0.5);
-			World world = block.getWorld();
+    @Override
+    public void run() {
+        for (AlchemicalCauldron cauldron : cauldronManager.getAlchemicalCauldrons()) {
+            Block block = cauldron.getCauldronBlock();
+            Location location = block.getLocation().add(0.5, 0.25, 0.5);
+            World world = block.getWorld();
 
-			// Unheat if invalid
-			if (!cauldron.canHeatUp()) {
-				cauldron.stopHeatingUp();
-				cauldron.setBubbling(false);
+            // Unheat if invalid
+            if (!cauldron.canHeatUp()) {
+                cauldron.stopHeatingUp();
+                cauldron.setBubbling(false);
 
-				// Drop ingredients if any
-				if (!cauldron.hasIngredients()) continue;
+                // Drop ingredients if any
+                if (!cauldron.hasIngredients()) continue;
 
-				cauldron.getIngredients().forEach((m, a) -> world.dropItem(location, new ItemStack(m, a)));
-				cauldron.clearIngredients();
-				continue;
-			}
+                cauldron.getIngredients().forEach((m, a) -> world.dropItem(location, new ItemStack(m, a)));
+                cauldron.clearIngredients();
+                continue;
+            }
 
-			// Attempt to heat cauldron (if valid)
-			if (!cauldron.isBubbling() && !cauldron.isHeatingUp() && !cauldron.attemptToHeatUp()) continue;
+            // Attempt to heat cauldron (if valid)
+            if (!cauldron.isBubbling() && !cauldron.isHeatingUp() && !cauldron.attemptToHeatUp()) continue;
 
-			// Prepare bubbling cauldrons
-			if (cauldron.isHeatingUp()) {
-				if (System.currentTimeMillis() - cauldron.getHeatingStartTime() < AlchemicalCauldron.REQUIRED_BUBBLING_TICKS) continue;
+            // Prepare bubbling cauldrons
+            if (cauldron.isHeatingUp()) {
+                if (System.currentTimeMillis() - cauldron.getHeatingStartTime() < AlchemicalCauldron.REQUIRED_BUBBLING_TICKS) continue;
 
-				cauldron.stopHeatingUp();
-				cauldron.setBubbling(true);
-			}
+                cauldron.stopHeatingUp();
+                cauldron.setBubbling(true);
+            }
 
-			world.spawnParticle(Particle.WATER_BUBBLE, block.getLocation().add(0.5, 0.95, 0.5), 1, 0.175F, 0F, 0.175F, 0F);
+            world.spawnParticle(Particle.WATER_BUBBLE, block.getLocation().add(0.5, 0.95, 0.5), 1, 0.175F, 0F, 0.175F, 0F);
 
-			// Dissolve items in bubbling cauldrons
-			world.getNearbyEntities(location, 0.5, 0.5, 0.5).stream()
-				.filter(e -> e instanceof Item)
-				.forEach(e -> {
-					Item item = (Item) e;
-					ItemStack itemStack = item.getItemStack();
-					cauldron.addIngredient(itemStack.getType(), itemStack.getAmount());
-					item.remove();
+            // Dissolve items in bubbling cauldrons
+            world.getNearbyEntities(location, 0.5, 0.5, 0.5).stream()
+                .filter(e -> e instanceof Item)
+                .forEach(e -> {
+                    Item item = (Item) e;
+                    ItemStack itemStack = item.getItemStack();
+                    cauldron.addIngredient(itemStack.getType(), itemStack.getAmount());
+                    item.remove();
 
-					world.playSound(location, Sound.ENTITY_PLAYER_SPLASH, 1F, 2F);
-				});
+                    world.playSound(location, Sound.ENTITY_PLAYER_SPLASH, 1F, 2F);
+                });
 
-			// Attempt crafting recipes in bubbling cauldrons
-			if (CauldronRecipe.CATALYSTS.size() == 0) return;
+            // Attempt crafting recipes in bubbling cauldrons
+            if (CauldronRecipe.CATALYSTS.size() == 0) return;
 
-			for (Material catalyst : CauldronRecipe.CATALYSTS) {
-				while (cauldron.hasIngredient(catalyst)) {
-					CauldronRecipe activeRecipe = cauldronManager.getApplicableRecipe(catalyst, cauldron.getIngredients());
-					if (activeRecipe == null) return;
+            for (Material catalyst : CauldronRecipe.CATALYSTS) {
+                while (cauldron.hasIngredient(catalyst)) {
+                    CauldronRecipe activeRecipe = cauldronManager.getApplicableRecipe(catalyst, cauldron.getIngredients());
+                    if (activeRecipe == null) return;
 
-					CauldronCraftEvent ccEvent = new CauldronCraftEvent(cauldron, activeRecipe);
-					Bukkit.getPluginManager().callEvent(ccEvent);
-					if (ccEvent.isCancelled()) {
-						break;
-					}
+                    CauldronCraftEvent ccEvent = new CauldronCraftEvent(cauldron, activeRecipe);
+                    Bukkit.getPluginManager().callEvent(ccEvent);
+                    if (ccEvent.isCancelled()) {
+                        break;
+                    }
 
-					ThreadLocalRandom random = ThreadLocalRandom.current();
-					Vector itemVelocity = new Vector(random.nextDouble() / 10.0, 0.2 + (random.nextDouble() / 2), random.nextDouble() / 10.0);
+                    ThreadLocalRandom random = ThreadLocalRandom.current();
+                    Vector itemVelocity = new Vector(random.nextDouble() / 10.0, 0.2 + (random.nextDouble() / 2), random.nextDouble() / 10.0);
 
-					AlchemicalArrow result = ccEvent.getResult();
-					if (result != null) {
-						world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), result.getItem()).setVelocity(itemVelocity);
-					}
+                    AlchemicalArrow result = ccEvent.getResult();
+                    if (result != null) {
+                        world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), result.getItem()).setVelocity(itemVelocity);
+                    }
 
-					if (ccEvent.shouldConsumeIngredients()) {
-						cauldron.removeIngredients(activeRecipe);
-						cauldron.removeIngredient(catalyst, 1);
-					}
+                    if (ccEvent.shouldConsumeIngredients()) {
+                        cauldron.removeIngredients(activeRecipe);
+                        cauldron.removeIngredient(catalyst, 1);
+                    }
 
-					world.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, 1F, 1.5F);
-				}
-			}
-		}
-	}
+                    world.playSound(location, Sound.BLOCK_BUBBLE_COLUMN_UPWARDS_AMBIENT, 1F, 1.5F);
+                }
+            }
+        }
+    }
 
-	@NotNull
-	public static CauldronUpdateTask startTask(@NotNull AlchemicalArrows plugin) {
-		Preconditions.checkNotNull(plugin, "Cannot start task with null plugin instance");
+    @NotNull
+    public static CauldronUpdateTask startTask(@NotNull AlchemicalArrows plugin) {
+        Preconditions.checkNotNull(plugin, "Cannot start task with null plugin instance");
 
-		if (instance == null) {
-			instance = new CauldronUpdateTask(plugin);
-			instance.runTaskTimer(plugin, 0, 1);
-		}
+        if (instance == null) {
+            instance = new CauldronUpdateTask(plugin);
+            instance.runTaskTimer(plugin, 0, 1);
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 
 }

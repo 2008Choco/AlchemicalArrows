@@ -22,48 +22,48 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowNecrotic extends AlchemicalArrowAbstract {
 
-	private static final ItemStack ROTTEN_FLESH = new ItemStack(Material.ROTTEN_FLESH);
+    private static final ItemStack ROTTEN_FLESH = new ItemStack(Material.ROTTEN_FLESH);
 
-	public AlchemicalArrowNecrotic(AlchemicalArrows plugin) {
-		super(plugin, "necrotic", c -> c.getString("Arrow.Necrotic.Item.DisplayName", "&2Necrotic Arrow"), c -> c.getStringList("Arrow.Necrotic.Item.Lore"));
+    public AlchemicalArrowNecrotic(AlchemicalArrows plugin) {
+        super(plugin, "necrotic", c -> c.getString("Arrow.Necrotic.Item.DisplayName", "&2Necrotic Arrow"), c -> c.getStringList("Arrow.Necrotic.Item.Lore"));
 
-		FileConfiguration config = plugin.getConfig();
-		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Necrotic.Skeleton.CanShoot", true));
-		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Necrotic.AllowInfinity", false));
-		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Necrotic.Skeleton.LootDropWeight", 10.0));
-	}
+        FileConfiguration config = plugin.getConfig();
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Necrotic.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Necrotic.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Necrotic.Skeleton.LootDropWeight", 10.0));
+    }
 
-	@Override
-	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		World world = location.getWorld();
-		if (world == null) return;
+    @Override
+    public void tick(AlchemicalArrowEntity arrow, Location location) {
+        World world = location.getWorld();
+        if (world == null) return;
 
-		world.spawnParticle(Particle.ITEM_CRACK, location, 2, 0.1, 0.1, 0.1, 0.1, ROTTEN_FLESH);
-	}
+        world.spawnParticle(Particle.ITEM_CRACK, location, 2, 0.1, 0.1, 0.1, 0.1, ROTTEN_FLESH);
+    }
 
-	@Override
-	public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-		Iterator<Entity> nearbyEntities = player.getNearbyEntities(50, 10, 50).iterator();
+    @Override
+    public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
+        Iterator<Entity> nearbyEntities = player.getNearbyEntities(50, 10, 50).iterator();
 
-		while (nearbyEntities.hasNext()) {
-			Entity entity = nearbyEntities.next();
-			if (entity instanceof Monster) {
-				((Monster) entity).setTarget(player);
-			}
-		}
-	}
+        while (nearbyEntities.hasNext()) {
+            Entity entity = nearbyEntities.next();
+            if (entity instanceof Monster) {
+                ((Monster) entity).setTarget(player);
+            }
+        }
+    }
 
-	@Override
-	public void hitEntityEventHandler(AlchemicalArrowEntity arrow, EntityDamageByEntityEvent event) {
-		this.lifeSap(event.getDamager(), event.getFinalDamage());
-	}
+    @Override
+    public void hitEntityEventHandler(AlchemicalArrowEntity arrow, EntityDamageByEntityEvent event) {
+        this.lifeSap(event.getDamager(), event.getFinalDamage());
+    }
 
-	private void lifeSap(Entity shooter, double damage) {
-		if (!(shooter instanceof LivingEntity)) return;
+    private void lifeSap(Entity shooter, double damage) {
+        if (!(shooter instanceof LivingEntity)) return;
 
-		LivingEntity source = (LivingEntity) shooter;
-		AttributeInstance attributeMaxHealth = source.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-		source.setHealth(Math.max(source.getHealth() + (damage / 2), (attributeMaxHealth != null) ? attributeMaxHealth.getValue() : 20));
-	}
+        LivingEntity source = (LivingEntity) shooter;
+        AttributeInstance attributeMaxHealth = source.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        source.setHealth(Math.max(source.getHealth() + (damage / 2), (attributeMaxHealth != null) ? attributeMaxHealth.getValue() : 20));
+    }
 
 }

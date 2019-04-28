@@ -15,25 +15,25 @@ import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class ArrowHitEntityListener implements Listener {
 
-	private final ArrowStateManager stateManager;
+    private final ArrowStateManager stateManager;
 
-	public ArrowHitEntityListener(@NotNull AlchemicalArrows plugin) {
-		this.stateManager = plugin.getArrowStateManager();
-	}
+    public ArrowHitEntityListener(@NotNull AlchemicalArrows plugin) {
+        this.stateManager = plugin.getArrowStateManager();
+    }
 
-	@EventHandler
-	public void onAlchemicalArrowHitEntity(EntityDamageByEntityEvent event) {
-		if (!(event.getDamager() instanceof Arrow) || event.getEntity() instanceof Player) return;
+    @EventHandler
+    public void onAlchemicalArrowHitEntity(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Arrow) || event.getEntity() instanceof Player) return;
 
-		Arrow arrow = (Arrow) event.getDamager();
-		Entity entity = event.getEntity();
+        Arrow arrow = (Arrow) event.getDamager();
+        Entity entity = event.getEntity();
 
-		AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
-		if (alchemicalArrow == null) return;
+        AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
+        if (alchemicalArrow == null) return;
 
-		AlchemicalArrow type = alchemicalArrow.getImplementation();
-		type.hitEntityEventHandler(alchemicalArrow, event);
-		type.onHitEntity(alchemicalArrow, entity);
-	}
+        AlchemicalArrow type = alchemicalArrow.getImplementation();
+        type.hitEntityEventHandler(alchemicalArrow, event);
+        type.onHitEntity(alchemicalArrow, entity);
+    }
 
 }

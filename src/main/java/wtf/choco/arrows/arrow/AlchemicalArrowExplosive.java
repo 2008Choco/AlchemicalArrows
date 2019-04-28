@@ -17,46 +17,46 @@ import wtf.choco.arrows.arrow.entity.ArrowEntityFused;
 
 public class AlchemicalArrowExplosive extends AlchemicalArrowAbstract {
 
-	public static final ArrowProperty<Integer> PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "explosion_strength"), Integer.class, 4);
-	public static final ArrowProperty<Integer> PROPERTY_FUSE_TICKS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "fuse_ticks"), Integer.class, 40);
+    public static final ArrowProperty<Integer> PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "explosion_strength"), Integer.class, 4);
+    public static final ArrowProperty<Integer> PROPERTY_FUSE_TICKS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "fuse_ticks"), Integer.class, 40);
 
-	private static final BlockData TNT = Material.TNT.createBlockData();
-	private static final int EXPLOSION_STRENGTH_LIMIT = 10;
+    private static final BlockData TNT = Material.TNT.createBlockData();
+    private static final int EXPLOSION_STRENGTH_LIMIT = 10;
 
-	public AlchemicalArrowExplosive(AlchemicalArrows plugin) {
-		super(plugin, "explosive", c -> c.getString("Arrow.Explosive.Item.DisplayName", "&cExplosive Arrow"), c -> c.getStringList("Arrow.Explosive.Item.Lore"));
+    public AlchemicalArrowExplosive(AlchemicalArrows plugin) {
+        super(plugin, "explosive", c -> c.getString("Arrow.Explosive.Item.DisplayName", "&cExplosive Arrow"), c -> c.getStringList("Arrow.Explosive.Item.Lore"));
 
-		FileConfiguration config = plugin.getConfig();
-		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Explosive.Skeleton.CanShoot", true));
-		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Explosive.AllowInfinity", false));
-		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Explosive.Skeleton.LootDropWeight", 10.0));
-		this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, Math.min(config.getInt("Arrow.Explosive.Effect.ExplosionStrength", PROPERTY_EXPLOSION_STRENGTH.getDefaultValue()), EXPLOSION_STRENGTH_LIMIT));
-		this.properties.setProperty(PROPERTY_FUSE_TICKS, config.getInt("Arrow.Explosive.Effect.FuseTicks", PROPERTY_FUSE_TICKS.getDefaultValue()));
-	}
+        FileConfiguration config = plugin.getConfig();
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Explosive.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Explosive.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Explosive.Skeleton.LootDropWeight", 10.0));
+        this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, Math.min(config.getInt("Arrow.Explosive.Effect.ExplosionStrength", PROPERTY_EXPLOSION_STRENGTH.getDefaultValue()), EXPLOSION_STRENGTH_LIMIT));
+        this.properties.setProperty(PROPERTY_FUSE_TICKS, config.getInt("Arrow.Explosive.Effect.FuseTicks", PROPERTY_FUSE_TICKS.getDefaultValue()));
+    }
 
-	@Override
-	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		World world = arrow.getWorld();
-		if (!arrow.getArrow().isInBlock()) {
-			world.spawnParticle(Particle.BLOCK_CRACK, location, 1, 0.1, 0.1, 0.1, 0.001, TNT);
-			return;
-		}
+    @Override
+    public void tick(AlchemicalArrowEntity arrow, Location location) {
+        World world = arrow.getWorld();
+        if (!arrow.getArrow().isInBlock()) {
+            world.spawnParticle(Particle.BLOCK_CRACK, location, 1, 0.1, 0.1, 0.1, 0.001, TNT);
+            return;
+        }
 
-		world.spawnParticle(Particle.SMOKE_LARGE, location, 1, 0.1, 0.1, 0.1, 0.001);
+        world.spawnParticle(Particle.SMOKE_LARGE, location, 1, 0.1, 0.1, 0.1, 0.001);
 
-		ArrowEntityFused fusedArrow = (ArrowEntityFused) arrow;
-		if (fusedArrow.isFuseFinished()) {
-			world.createExplosion(location, properties.getPropertyValue(PROPERTY_EXPLOSION_STRENGTH).intValue());
-			arrow.getArrow().remove();
-		} else {
-			fusedArrow.tickFuse();
-			world.playSound(location, Sound.ENTITY_CREEPER_HURT, 1, 0.75F + (1 / ((float) fusedArrow.getMaxFuseTicks() / (float) fusedArrow.getFuse())));
-		}
-	}
+        ArrowEntityFused fusedArrow = (ArrowEntityFused) arrow;
+        if (fusedArrow.isFuseFinished()) {
+            world.createExplosion(location, properties.getPropertyValue(PROPERTY_EXPLOSION_STRENGTH).intValue());
+            arrow.getArrow().remove();
+        } else {
+            fusedArrow.tickFuse();
+            world.playSound(location, Sound.ENTITY_CREEPER_HURT, 1, 0.75F + (1 / ((float) fusedArrow.getMaxFuseTicks() / (float) fusedArrow.getFuse())));
+        }
+    }
 
-	@Override
-	public AlchemicalArrowEntity createNewArrow(Arrow arrow) {
-		return new ArrowEntityFused(this, arrow, properties.getPropertyValue(PROPERTY_FUSE_TICKS).intValue());
-	}
+    @Override
+    public AlchemicalArrowEntity createNewArrow(Arrow arrow) {
+        return new ArrowEntityFused(this, arrow, properties.getPropertyValue(PROPERTY_FUSE_TICKS).intValue());
+    }
 
 }

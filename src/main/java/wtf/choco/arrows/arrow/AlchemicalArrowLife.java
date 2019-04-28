@@ -26,97 +26,97 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 
-	public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "floral_radius"), Integer.class, 2);
+    public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "floral_radius"), Integer.class, 2);
 
-	private static final PotionEffect REGENERATION_EFFECT = new PotionEffect(PotionEffectType.REGENERATION, 300, 2);
-	private static final int FLORAL_RADIUS_LIMIT = 5;
-	private static final Material[] GROWABLE_MATERIALS = {
-		Material.ALLIUM, Material.AZURE_BLUET, Material.BLUE_ORCHID,
-		Material.DANDELION, Material.GRASS, Material.ORANGE_TULIP,
-		Material.OXEYE_DAISY, Material.PINK_TULIP, Material.POPPY,
-		Material.RED_TULIP, Material.WHITE_TULIP,
-	};
+    private static final PotionEffect REGENERATION_EFFECT = new PotionEffect(PotionEffectType.REGENERATION, 300, 2);
+    private static final int FLORAL_RADIUS_LIMIT = 5;
+    private static final Material[] GROWABLE_MATERIALS = {
+        Material.ALLIUM, Material.AZURE_BLUET, Material.BLUE_ORCHID,
+        Material.DANDELION, Material.GRASS, Material.ORANGE_TULIP,
+        Material.OXEYE_DAISY, Material.PINK_TULIP, Material.POPPY,
+        Material.RED_TULIP, Material.WHITE_TULIP,
+    };
 
-	private final AlchemicalArrows plugin;
+    private final AlchemicalArrows plugin;
 
-	public AlchemicalArrowLife(AlchemicalArrows plugin) {
-		super(plugin, "life", c -> c.getString("Arrow.Life.Item.DisplayName", "&aLife Arrow"), c -> c.getStringList("Arrow.Life.Item.Lore"));
-		this.plugin = plugin;
+    public AlchemicalArrowLife(AlchemicalArrows plugin) {
+        super(plugin, "life", c -> c.getString("Arrow.Life.Item.DisplayName", "&aLife Arrow"), c -> c.getStringList("Arrow.Life.Item.Lore"));
+        this.plugin = plugin;
 
-		FileConfiguration config = plugin.getConfig();
-		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Life.Skeleton.CanShoot", true));
-		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Life.AllowInfinity", false));
-		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Life.Skeleton.LootDropWeight", 10.0));
-		this.properties.setProperty(PROPERTY_FLORAL_RADIUS, Math.min(config.getInt("Arrow.Life.Effect.FloralRadius", PROPERTY_FLORAL_RADIUS.getDefaultValue()), FLORAL_RADIUS_LIMIT));
-	}
+        FileConfiguration config = plugin.getConfig();
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Life.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Life.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Life.Skeleton.LootDropWeight", 10.0));
+        this.properties.setProperty(PROPERTY_FLORAL_RADIUS, Math.min(config.getInt("Arrow.Life.Effect.FloralRadius", PROPERTY_FLORAL_RADIUS.getDefaultValue()), FLORAL_RADIUS_LIMIT));
+    }
 
-	@Override
-	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		World world = location.getWorld();
-		if (world == null) return;
+    @Override
+    public void tick(AlchemicalArrowEntity arrow, Location location) {
+        World world = location.getWorld();
+        if (world == null) return;
 
-		world.spawnParticle(Particle.HEART, location, 1, 0.1, 0.1, 0.1);
-	}
+        world.spawnParticle(Particle.HEART, location, 1, 0.1, 0.1, 0.1);
+    }
 
-	@Override
-	public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-		player.addPotionEffect(REGENERATION_EFFECT);
-	}
+    @Override
+    public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
+        player.addPotionEffect(REGENERATION_EFFECT);
+    }
 
-	@Override
-	public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-		if (!(entity instanceof LivingEntity)) return;
-		LivingEntity lEntity = (LivingEntity) entity;
+    @Override
+    public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
+        if (!(entity instanceof LivingEntity)) return;
+        LivingEntity lEntity = (LivingEntity) entity;
 
-		lEntity.addPotionEffect(REGENERATION_EFFECT);
-	}
+        lEntity.addPotionEffect(REGENERATION_EFFECT);
+    }
 
-	@Override
-	public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-		int radius = properties.getPropertyValue(PROPERTY_FLORAL_RADIUS).intValue();
-		if (radius <= 0) return;
+    @Override
+    public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
+        int radius = properties.getPropertyValue(PROPERTY_FLORAL_RADIUS).intValue();
+        if (radius <= 0) return;
 
-		// Generate flowers around the block at variable radius
-		ProjectileSource shooter = arrow.getArrow().getShooter();
-		boolean found = false, worldguard = plugin.isWorldGuardSupported(), isPlayer = shooter instanceof Player;
-		ThreadLocalRandom random = ThreadLocalRandom.current();
+        // Generate flowers around the block at variable radius
+        ProjectileSource shooter = arrow.getArrow().getShooter();
+        boolean found = false, worldguard = plugin.isWorldGuardSupported(), isPlayer = shooter instanceof Player;
+        ThreadLocalRandom random = ThreadLocalRandom.current();
 
-		for (int x = -radius; x <= radius; x++) {
-			for (int z = -radius; z <= radius; z++) {
-				if (random.nextInt(5) > 1) continue; // 40%
+        for (int x = -radius; x <= radius; x++) {
+            for (int z = -radius; z <= radius; z++) {
+                if (random.nextInt(5) > 1) continue; // 40%
 
-				found = false;
-				Block relative = block.getRelative(x, radius, z);
+                found = false;
+                Block relative = block.getRelative(x, radius, z);
 
-				while (relative.isEmpty()) { // Get highest air within radius
-					Block down = relative.getRelative(BlockFace.DOWN);
-					if (down.getType() == Material.GRASS_BLOCK) {
-						found = true;
-						break;
-					}
+                while (relative.isEmpty()) { // Get highest air within radius
+                    Block down = relative.getRelative(BlockFace.DOWN);
+                    if (down.getType() == Material.GRASS_BLOCK) {
+                        found = true;
+                        break;
+                    }
 
-					relative = down;
-				}
+                    relative = down;
+                }
 
-				if (!found) {
-					continue;
-				}
+                if (!found) {
+                    continue;
+                }
 
-				// WorldGuard check
-				Material type = GROWABLE_MATERIALS[random.nextInt(GROWABLE_MATERIALS.length)];
-				if (worldguard && isPlayer && WorldGuardPlugin.inst().createProtectionQuery().testBlockPlace(shooter, block.getLocation(), type)) {
-					continue;
-				}
+                // WorldGuard check
+                Material type = GROWABLE_MATERIALS[random.nextInt(GROWABLE_MATERIALS.length)];
+                if (worldguard && isPlayer && WorldGuardPlugin.inst().createProtectionQuery().testBlockPlace(shooter, block.getLocation(), type)) {
+                    continue;
+                }
 
-				relative.setType(type);
-			}
-		}
-	}
+                relative.setType(type);
+            }
+        }
+    }
 
-	@Override
-	public void hitEntityEventHandler(AlchemicalArrowEntity arrow, EntityDamageByEntityEvent event) {
-		arrow.getArrow().setKnockbackStrength(0);
-		event.setDamage(0);
-	}
+    @Override
+    public void hitEntityEventHandler(AlchemicalArrowEntity arrow, EntityDamageByEntityEvent event) {
+        arrow.getArrow().setKnockbackStrength(0);
+        event.setDamage(0);
+    }
 
 }

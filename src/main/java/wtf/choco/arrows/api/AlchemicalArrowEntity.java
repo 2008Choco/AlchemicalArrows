@@ -20,82 +20,82 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AlchemicalArrowEntity {
 
-	protected final AlchemicalArrow implementation;
-	protected final Arrow arrow;
+    protected final AlchemicalArrow implementation;
+    protected final Arrow arrow;
 
-	/**
-	 * Construct a new instance of AlchemicalArrowEntity given a type and arrow
-	 *
-	 * @param implementation the alchemical arrow implementation to create
-	 * @param arrow the Bukkit arrow to wrap
-	 */
-	public AlchemicalArrowEntity(@NotNull AlchemicalArrow implementation, @NotNull Arrow arrow) {
-		Preconditions.checkNotNull(implementation, "Cannot create an arrow of type null");
-		Preconditions.checkNotNull(arrow, "Cannot wrap a null org.bukkit.entity.Arrow");
+    /**
+     * Construct a new instance of AlchemicalArrowEntity given a type and arrow
+     *
+     * @param implementation the alchemical arrow implementation to create
+     * @param arrow the Bukkit arrow to wrap
+     */
+    public AlchemicalArrowEntity(@NotNull AlchemicalArrow implementation, @NotNull Arrow arrow) {
+        Preconditions.checkNotNull(implementation, "Cannot create an arrow of type null");
+        Preconditions.checkNotNull(arrow, "Cannot wrap a null org.bukkit.entity.Arrow");
 
-		this.implementation = implementation;
-		this.arrow = arrow;
-	}
+        this.implementation = implementation;
+        this.arrow = arrow;
+    }
 
-	/**
-	 * Get this AlchemicalArrowEntity's implementation (i.e. the underlying {@link AlchemicalArrow})
-	 *
-	 * @return the alchemical arrow implementation
-	 */
-	@NotNull
-	public final AlchemicalArrow getImplementation() {
-		return implementation;
-	}
+    /**
+     * Get this AlchemicalArrowEntity's implementation (i.e. the underlying {@link AlchemicalArrow})
+     *
+     * @return the alchemical arrow implementation
+     */
+    @NotNull
+    public final AlchemicalArrow getImplementation() {
+        return implementation;
+    }
 
-	/**
-	 * Get this AlchemicalArrowEntity's wrapped {@link Arrow} instance, its underlying instance
-	 *
-	 * @return the wrapped arrow
-	 */
-	@NotNull
-	public final Arrow getArrow() {
-		return arrow;
-	}
+    /**
+     * Get this AlchemicalArrowEntity's wrapped {@link Arrow} instance, its underlying instance
+     *
+     * @return the wrapped arrow
+     */
+    @NotNull
+    public final Arrow getArrow() {
+        return arrow;
+    }
 
-	/**
-	 * Get the location of this arrow. This is equivalent to invoking
-	 * {@code getArrow().getLocation()}
-	 *
-	 * @return the arrow's location
-	 */
-	@NotNull
-	public final Location getLocation() {
-		return arrow.getLocation();
-	}
+    /**
+     * Get the location of this arrow. This is equivalent to invoking
+     * {@code getArrow().getLocation()}
+     *
+     * @return the arrow's location
+     */
+    @NotNull
+    public final Location getLocation() {
+        return arrow.getLocation();
+    }
 
-	/**
-	 * Get the world in which this arrow resides. This is equivalent to invoking
-	 * {@code getArrow().getWorld()}
-	 *
-	 * @return the arrow's world
-	 */
-	@NotNull
-	public final World getWorld() {
-		return arrow.getWorld();
-	}
+    /**
+     * Get the world in which this arrow resides. This is equivalent to invoking
+     * {@code getArrow().getWorld()}
+     *
+     * @return the arrow's world
+     */
+    @NotNull
+    public final World getWorld() {
+        return arrow.getWorld();
+    }
 
-	@Override
-	public int hashCode() {
-		int prime = 31;
+    @Override
+    public int hashCode() {
+        int prime = 31;
 
-		int result = prime + (implementation != null ? implementation.hashCode() : 0);
-		result = prime * result + (arrow != null ? arrow.hashCode() : 0);
+        int result = prime + (implementation != null ? implementation.hashCode() : 0);
+        result = prime * result + (arrow != null ? arrow.hashCode() : 0);
 
-		return result;
-	}
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object object) {
-		if (object == this) return true;
-		if (!(object instanceof AlchemicalArrowEntity)) return false;
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) return true;
+        if (!(object instanceof AlchemicalArrowEntity)) return false;
 
-		AlchemicalArrowEntity other = (AlchemicalArrowEntity) object;
-		return Objects.equals(implementation, other.implementation) && Objects.equals(arrow, other.arrow);
-	}
+        AlchemicalArrowEntity other = (AlchemicalArrowEntity) object;
+        return Objects.equals(implementation, other.implementation) && Objects.equals(arrow, other.arrow);
+    }
 
 }

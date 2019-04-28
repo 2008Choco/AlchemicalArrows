@@ -17,42 +17,42 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
 
-	public static final ArrowProperty<Double> PROPERTY_GRAPPLE_FORCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "grapple_force"), Double.class, 2.5);
+    public static final ArrowProperty<Double> PROPERTY_GRAPPLE_FORCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "grapple_force"), Double.class, 2.5);
 
-	private static final double GRAPPLE_FORCE_LIMIT = 4.0;
+    private static final double GRAPPLE_FORCE_LIMIT = 4.0;
 
-	public AlchemicalArrowGrapple(AlchemicalArrows plugin) {
-		super(plugin, "grapple", c -> c.getString("Arrow.Grapple.Item.DisplayName", "&eGrapple Arrow"), c -> c.getStringList("Arrow.Grapple.Item.Lore"));
+    public AlchemicalArrowGrapple(AlchemicalArrows plugin) {
+        super(plugin, "grapple", c -> c.getString("Arrow.Grapple.Item.DisplayName", "&eGrapple Arrow"), c -> c.getStringList("Arrow.Grapple.Item.Lore"));
 
-		FileConfiguration config = plugin.getConfig();
-		this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Grapple.Skeleton.CanShoot", true));
-		this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Grapple.AllowInfinity", false));
-		this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Grapple.Skeleton.LootDropWeight", 10.0));
-		this.properties.setProperty(PROPERTY_GRAPPLE_FORCE, Math.min(config.getDouble("Arrow.Grapple.Effect.GrappleForce", PROPERTY_GRAPPLE_FORCE.getDefaultValue()), GRAPPLE_FORCE_LIMIT));
-	}
+        FileConfiguration config = plugin.getConfig();
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Grapple.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Grapple.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Grapple.Skeleton.LootDropWeight", 10.0));
+        this.properties.setProperty(PROPERTY_GRAPPLE_FORCE, Math.min(config.getDouble("Arrow.Grapple.Effect.GrappleForce", PROPERTY_GRAPPLE_FORCE.getDefaultValue()), GRAPPLE_FORCE_LIMIT));
+    }
 
-	@Override
-	public void tick(AlchemicalArrowEntity arrow, Location location) {
-		World world = location.getWorld();
-		if (world == null) return;
+    @Override
+    public void tick(AlchemicalArrowEntity arrow, Location location) {
+        World world = location.getWorld();
+        if (world == null) return;
 
-		world.spawnParticle(Particle.CRIT, location, 3, 0.1, 0.1, 0.1, 0.1);
-	}
+        world.spawnParticle(Particle.CRIT, location, 3, 0.1, 0.1, 0.1, 0.1);
+    }
 
-	@Override
-	public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-		Arrow bukkitArrow = arrow.getArrow();
-		if (!(bukkitArrow.getShooter() instanceof LivingEntity)) return;
+    @Override
+    public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
+        Arrow bukkitArrow = arrow.getArrow();
+        if (!(bukkitArrow.getShooter() instanceof LivingEntity)) return;
 
-		LivingEntity shooter = (LivingEntity) bukkitArrow.getShooter();
-		if (shooter == null) return;
+        LivingEntity shooter = (LivingEntity) bukkitArrow.getShooter();
+        if (shooter == null) return;
 
-		Vector grappleVelocity = bukkitArrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
-		grappleVelocity.multiply(properties.getPropertyValue(PROPERTY_GRAPPLE_FORCE).doubleValue());
+        Vector grappleVelocity = bukkitArrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
+        grappleVelocity.multiply(properties.getPropertyValue(PROPERTY_GRAPPLE_FORCE).doubleValue());
 
-		shooter.setVelocity(grappleVelocity);
-		bukkitArrow.getWorld().playSound(bukkitArrow.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
-		bukkitArrow.remove();
-	}
+        shooter.setVelocity(grappleVelocity);
+        bukkitArrow.getWorld().playSound(bukkitArrow.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
+        bukkitArrow.remove();
+    }
 
 }
