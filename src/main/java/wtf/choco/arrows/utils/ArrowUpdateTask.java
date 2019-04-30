@@ -28,7 +28,7 @@ public final class ArrowUpdateTask extends BukkitRunnable {
     public void run() {
         for (AlchemicalArrowEntity arrow : stateManager.getArrows()) {
             Arrow bukkitArrow = arrow.getArrow();
-            if (bukkitArrow.isDead() || !bukkitArrow.isValid()) {
+            if (!bukkitArrow.isValid()) {
                 this.purgeBuffer.add(arrow);
                 continue;
             }
@@ -48,7 +48,7 @@ public final class ArrowUpdateTask extends BukkitRunnable {
 
         if (instance == null) {
             instance = new ArrowUpdateTask(plugin.getArrowStateManager());
-            instance.runTaskTimer(plugin, 0, 1);
+            instance.runTaskTimer(plugin, 0, 10);
         }
 
         return instance;

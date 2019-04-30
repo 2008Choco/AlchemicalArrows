@@ -176,6 +176,7 @@ public abstract class AlchemicalArrow implements Keyed {
      * methods and override them where required
      *
      * @param arrow the Bukkit {@link Arrow} instance from which to create an AlchemicalArrowEntity
+     *
      * @return the new AlchemicalArrowEntity instance of this implementation
      */
     @NotNull

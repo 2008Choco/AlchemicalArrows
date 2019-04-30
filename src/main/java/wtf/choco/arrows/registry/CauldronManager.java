@@ -27,6 +27,11 @@ public class CauldronManager {
     private final Map<Block, AlchemicalCauldron> cauldrons = new HashMap<>();
     private final Map<NamespacedKey, CauldronRecipe> recipes = new HashMap<>();
 
+    /**
+     * Add an {@link AlchemicalCauldron} to the world.
+     *
+     * @param cauldron the cauldron to add
+     */
     public void addAlchemicalCauldron(@NotNull AlchemicalCauldron cauldron) {
         Preconditions.checkNotNull(cauldron, "Cannot add null alchemical cauldron");
         this.cauldrons.put(cauldron.getCauldronBlock(), cauldron);

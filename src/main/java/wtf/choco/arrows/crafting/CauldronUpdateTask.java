@@ -57,7 +57,7 @@ public class CauldronUpdateTask extends BukkitRunnable {
 
             // Prepare bubbling cauldrons
             if (cauldron.isHeatingUp()) {
-                if (System.currentTimeMillis() - cauldron.getHeatingStartTime() < AlchemicalCauldron.REQUIRED_BUBBLING_TICKS) continue;
+                if (System.currentTimeMillis() - cauldron.getHeatingStartTime() < AlchemicalCauldron.REQUIRED_BUBBLING_MS) continue;
 
                 cauldron.stopHeatingUp();
                 cauldron.setBubbling(true);
@@ -70,8 +70,7 @@ public class CauldronUpdateTask extends BukkitRunnable {
                 .filter(e -> e instanceof Item)
                 .forEach(e -> {
                     Item item = (Item) e;
-                    ItemStack itemStack = item.getItemStack();
-                    cauldron.addIngredient(itemStack.getType(), itemStack.getAmount());
+                    cauldron.addIngredient(item.getItemStack());
                     item.remove();
 
                     world.playSound(location, Sound.ENTITY_PLAYER_SPLASH, 1F, 2F);
@@ -116,7 +115,7 @@ public class CauldronUpdateTask extends BukkitRunnable {
 
         if (instance == null) {
             instance = new CauldronUpdateTask(plugin);
-            instance.runTaskTimer(plugin, 0, 1);
+            instance.runTaskTimer(plugin, 0, 10);
         }
 
         return instance;

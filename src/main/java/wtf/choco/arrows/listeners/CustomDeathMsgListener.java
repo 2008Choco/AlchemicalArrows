@@ -62,9 +62,9 @@ public class CustomDeathMsgListener implements Listener {
         }
     }
 
-    @NotNull
+    @NotNull // Due to nullability annotations, this method must exist to avoid repetitive (and unnecessary) null checks
     private String messageOrDefault(@NotNull String path, @NotNull String defaultMessage) {
-        String message = config.getString(path);
+        String message = config.getString(path, defaultMessage);
         return (message != null) ? message : defaultMessage;
     }
 

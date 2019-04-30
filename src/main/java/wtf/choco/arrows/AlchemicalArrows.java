@@ -24,7 +24,6 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginManager;
@@ -93,8 +92,7 @@ public class AlchemicalArrows extends JavaPlugin {
         this.saveDefaultConfig();
         this.cauldronFile = new File(getDataFolder(), "cauldrons.data");
 
-        // Variable initialization
-        this.worldGuardEnabled = Bukkit.getPluginManager().getPlugin("WorldGuard") != null;
+        this.worldGuardEnabled = Bukkit.getPluginManager().isPluginEnabled("WorldGuard");
         this.arrowUpdateTask = ArrowUpdateTask.startArrowUpdateTask(this);
 
         if (getConfig().getBoolean("Crafting.CauldronCrafting", true)) {
@@ -123,7 +121,6 @@ public class AlchemicalArrows extends JavaPlugin {
 
         // Register crafting recipes
         this.getLogger().info("Registering default alchemical arrows and their recipes");
-        FileConfiguration config = getConfig();
         this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER);
         this.createArrow(new AlchemicalArrowConfusion(this), "Confusion", Material.POISONOUS_POTATO);
         this.createArrow(new AlchemicalArrowDarkness(this), "Darkness", Material.COAL, Material.CHARCOAL);
@@ -157,15 +154,15 @@ public class AlchemicalArrows extends JavaPlugin {
         }
 
         // Load Metrics
-        if (config.getBoolean("MetricsEnabled", true)) {
+        if (getConfig().getBoolean("MetricsEnabled", true)) {
             this.getLogger().info("Enabling Plugin Metrics");
 
             Metrics metrics = new Metrics(this);
-            metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> config.getBoolean("Crafting.CauldronCrafting", true) ? "Cauldron Crafting" : "Vanilla Crafting"));
+            metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> getConfig().getBoolean("Crafting.CauldronCrafting", true) ? "Cauldron Crafting" : "Vanilla Crafting"));
         }
 
         // Check for newer version (Spiget API)
-        if (config.getBoolean("CheckForUpdates", true)) {
+        if (getConfig().getBoolean("CheckForUpdates", true)) {
             this.getLogger().info("Getting version information...");
             this.doVersionCheck();
         }

@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Levelled;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -23,7 +24,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
  */
 public class AlchemicalCauldron {
 
-    public static final long REQUIRED_BUBBLING_TICKS = 300L;
+    public static final long REQUIRED_BUBBLING_MS = 300L;
 
     private long heatingStartTime;
     private boolean heatingUp = false, bubbling = false;
@@ -140,6 +141,17 @@ public class AlchemicalCauldron {
      */
     public void addIngredient(@NotNull Material material, int potency) {
         this.ingredientPotency.merge(material, potency, Integer::sum);
+    }
+
+    /**
+     * Add an ingredient to this cauldron according to the specified item. The potency to be added
+     * will be equivalent to the item's quantity (i.e. {@link ItemStack#getAmount()})
+     *
+     * @param item the ingredient to add
+     */
+    public void addIngredient(@NotNull ItemStack item) {
+    	Preconditions.checkArgument(item != null, "Cannot add null item to cauldron");
+    	this.addIngredient(item.getType(), item.getAmount());
     }
 
     /**
