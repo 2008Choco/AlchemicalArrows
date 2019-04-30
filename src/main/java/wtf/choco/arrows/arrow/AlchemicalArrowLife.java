@@ -47,7 +47,7 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Life.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Life.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Life.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_FLORAL_RADIUS, Math.min(config.getInt("Arrow.Life.Effect.FloralRadius", PROPERTY_FLORAL_RADIUS.getDefaultValue()), FLORAL_RADIUS_LIMIT));
+        this.properties.setProperty(PROPERTY_FLORAL_RADIUS, Math.min(config.getInt("Arrow.Life.Effect.FloralRadius", 2), FLORAL_RADIUS_LIMIT));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-        int radius = properties.getPropertyValue(PROPERTY_FLORAL_RADIUS).intValue();
+        int radius = properties.getProperty(PROPERTY_FLORAL_RADIUS).orElse(2);
         if (radius <= 0) return;
 
         // Generate flowers around the block at variable radius

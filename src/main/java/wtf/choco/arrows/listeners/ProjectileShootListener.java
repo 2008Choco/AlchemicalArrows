@@ -80,7 +80,7 @@ public final class ProjectileShootListener implements Listener {
                 return;
             }
 
-            if (type.getProperties().getPropertyValue(ArrowProperty.ALLOW_INFINITY)) return;
+            if (type.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).orElse(true)) return;
 
             boolean shouldBePickupable = (player.getGameMode() != GameMode.CREATIVE);
 
@@ -111,7 +111,7 @@ public final class ProjectileShootListener implements Listener {
         else if (source instanceof Skeleton && RANDOM.nextInt(100) < config.getDouble("Skeletons.ShootPercentage", 10.0)) {
             Collection<AlchemicalArrow> arrows = arrowRegistry.getRegisteredArrows();
             AlchemicalArrow type = Iterables.get(arrows, RANDOM.nextInt(arrows.size()));
-            if (type == null || !type.getProperties().getPropertyValue(ArrowProperty.SKELETONS_CAN_SHOOT)) return;
+            if (type == null || type.getProperties().getProperty(ArrowProperty.SKELETONS_CAN_SHOOT).orElse(false)) return;
 
             AlchemicalArrowEntity alchemicalArrow = type.createNewArrow(arrow);
             if (!type.onShootFromSkeleton(alchemicalArrow, (Skeleton) source)) {

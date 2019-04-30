@@ -32,7 +32,7 @@ public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Frost.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Frost.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Frost.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_WATER_FREEZE_RADIUS, Math.min(config.getDouble("Arrow.Frost.Effect.WaterFreezeRadius", PROPERTY_WATER_FREEZE_RADIUS.getDefaultValue()), WATER_FREEZE_RADIUS_LIMIT));
+        this.properties.setProperty(PROPERTY_WATER_FREEZE_RADIUS, Math.min(config.getDouble("Arrow.Frost.Effect.WaterFreezeRadius", 3.5D), WATER_FREEZE_RADIUS_LIMIT));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
     }
 
     private void freezeRadius(AlchemicalArrowEntity arrow, Location location) {
-        double radius = properties.getPropertyValue(PROPERTY_WATER_FREEZE_RADIUS).doubleValue();
+        double radius = properties.getProperty(PROPERTY_WATER_FREEZE_RADIUS).orElse(3.5D);
         if (radius <= 0.0) return;
 
         // Center the location

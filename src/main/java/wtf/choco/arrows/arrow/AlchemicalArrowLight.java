@@ -24,7 +24,7 @@ public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Light.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Light.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Light.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_STRIKE_LIGHTNING, config.getBoolean("Arrow.Light.Effect.StrikeLightning", PROPERTY_STRIKE_LIGHTNING.getDefaultValue()));
+        this.properties.setProperty(PROPERTY_STRIKE_LIGHTNING, config.getBoolean("Arrow.Light.Effect.StrikeLightning", true));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
     }
 
     private void applyEffect(LivingEntity entity) {
-        if (properties.getPropertyValue(PROPERTY_STRIKE_LIGHTNING).booleanValue()) {
+        if (properties.getProperty(PROPERTY_STRIKE_LIGHTNING).orElse(true)) {
             entity.getWorld().strikeLightning(entity.getLocation());
         }
 

@@ -39,7 +39,7 @@ public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Air.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Air.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Air.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_BREATHE_RADIUS, Math.min(config.getDouble("Arrow.Air.Effect.BreatheRadius", PROPERTY_BREATHE_RADIUS.getDefaultValue()), BREATHE_RADIUS_LIMIT));
+        this.properties.setProperty(PROPERTY_BREATHE_RADIUS, Math.min(config.getDouble("Arrow.Air.Effect.BreatheRadius", 2.0), BREATHE_RADIUS_LIMIT));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
         BlockData data = block.getBlockData();
         if (block.getType() != Material.WATER || (data instanceof Waterlogged && !((Waterlogged) data).isWaterlogged())) return;
 
-        double radius = properties.getPropertyValue(PROPERTY_BREATHE_RADIUS).doubleValue();
+        double radius = properties.getProperty(PROPERTY_BREATHE_RADIUS).orElse(2.0D);
         if (radius <= 0.0) return;
 
         // Replenish air of nearby underwater entities

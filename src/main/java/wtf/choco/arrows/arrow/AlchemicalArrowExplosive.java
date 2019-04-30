@@ -30,8 +30,8 @@ public class AlchemicalArrowExplosive extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Explosive.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Explosive.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Explosive.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, Math.min(config.getInt("Arrow.Explosive.Effect.ExplosionStrength", PROPERTY_EXPLOSION_STRENGTH.getDefaultValue()), EXPLOSION_STRENGTH_LIMIT));
-        this.properties.setProperty(PROPERTY_FUSE_TICKS, config.getInt("Arrow.Explosive.Effect.FuseTicks", PROPERTY_FUSE_TICKS.getDefaultValue()));
+        this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, Math.min(config.getInt("Arrow.Explosive.Effect.ExplosionStrength", 4), EXPLOSION_STRENGTH_LIMIT));
+        this.properties.setProperty(PROPERTY_FUSE_TICKS, config.getInt("Arrow.Explosive.Effect.FuseTicks", 40));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AlchemicalArrowExplosive extends AlchemicalArrowAbstract {
 
         ArrowEntityFused fusedArrow = (ArrowEntityFused) arrow;
         if (fusedArrow.isFuseFinished()) {
-            world.createExplosion(location, properties.getPropertyValue(PROPERTY_EXPLOSION_STRENGTH).intValue());
+            world.createExplosion(location, properties.getProperty(PROPERTY_EXPLOSION_STRENGTH).orElse(40));
             arrow.getArrow().remove();
         } else {
             fusedArrow.tickFuse();
@@ -56,7 +56,7 @@ public class AlchemicalArrowExplosive extends AlchemicalArrowAbstract {
 
     @Override
     public AlchemicalArrowEntity createNewArrow(Arrow arrow) {
-        return new ArrowEntityFused(this, arrow, properties.getPropertyValue(PROPERTY_FUSE_TICKS).intValue());
+        return new ArrowEntityFused(this, arrow, properties.getProperty(PROPERTY_FUSE_TICKS).orElse(40));
     }
 
 }

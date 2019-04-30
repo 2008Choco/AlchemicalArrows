@@ -34,8 +34,8 @@ public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Death.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Death.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Death.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_INSTANT_DEATH_POSSIBLE, config.getBoolean("Arrow.Death.Effect.InstantDeathPossible", PROPERTY_INSTANT_DEATH_POSSIBLE.getDefaultValue()));
-        this.properties.setProperty(PROPERTY_INSTANT_DEATH_CHANCE, config.getDouble("Arrow.Death.Effect.InstantDeathChance", PROPERTY_INSTANT_DEATH_CHANCE.getDefaultValue()));
+        this.properties.setProperty(PROPERTY_INSTANT_DEATH_POSSIBLE, config.getBoolean("Arrow.Death.Effect.InstantDeathPossible", true));
+        this.properties.setProperty(PROPERTY_INSTANT_DEATH_CHANCE, config.getDouble("Arrow.Death.Effect.InstantDeathChance", 20.0));
     }
 
     @Override
@@ -64,10 +64,10 @@ public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
     }
 
     private void attemptInstantDeath(Arrow source, LivingEntity entity) {
-        if (!properties.getPropertyValue(PROPERTY_INSTANT_DEATH_POSSIBLE).booleanValue()) return;
+        if (!properties.getProperty(PROPERTY_INSTANT_DEATH_POSSIBLE).orElse(true)) return;
 
         int chance = RANDOM.nextInt(100);
-        if (chance > properties.getPropertyValue(PROPERTY_INSTANT_DEATH_CHANCE).doubleValue()) return;
+        if (chance > properties.getProperty(PROPERTY_INSTANT_DEATH_CHANCE).orElse(20.0D)) return;
 
         entity.damage(entity.getHealth(), source);
     }

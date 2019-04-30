@@ -28,7 +28,7 @@ public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Grapple.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Grapple.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Grapple.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_GRAPPLE_FORCE, Math.min(config.getDouble("Arrow.Grapple.Effect.GrappleForce", PROPERTY_GRAPPLE_FORCE.getDefaultValue()), GRAPPLE_FORCE_LIMIT));
+        this.properties.setProperty(PROPERTY_GRAPPLE_FORCE, Math.min(config.getDouble("Arrow.Grapple.Effect.GrappleForce", 2.5D), GRAPPLE_FORCE_LIMIT));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
         if (shooter == null) return;
 
         Vector grappleVelocity = bukkitArrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
-        grappleVelocity.multiply(properties.getPropertyValue(PROPERTY_GRAPPLE_FORCE).doubleValue());
+        grappleVelocity.multiply(properties.getProperty(PROPERTY_GRAPPLE_FORCE).orElse(2.5D));
 
         shooter.setVelocity(grappleVelocity);
         bukkitArrow.getWorld().playSound(bukkitArrow.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);

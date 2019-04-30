@@ -37,7 +37,7 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Magnetic.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Magnetic.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Magnetic.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_MAGNETISM_RADIUS, Math.min(config.getDouble("Arrow.Magnetic.Effect.MagnetismRadius", PROPERTY_MAGNETISM_RADIUS.getDefaultValue()), MAGNETISM_RADIUS_LIMIT));
+        this.properties.setProperty(PROPERTY_MAGNETISM_RADIUS, Math.min(config.getDouble("Arrow.Magnetic.Effect.MagnetismRadius", 5.0D), MAGNETISM_RADIUS_LIMIT));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
         // Validate in-tile arrow
         if (!arrow.getArrow().isInBlock()) return;
 
-        double radius = properties.getPropertyValue(PROPERTY_MAGNETISM_RADIUS).doubleValue();
+        double radius = properties.getProperty(PROPERTY_MAGNETISM_RADIUS).orElse(5.0D);
         if (radius <= 0.0) return;
 
         // Attract nearby entities

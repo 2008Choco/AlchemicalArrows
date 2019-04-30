@@ -30,7 +30,7 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Ender.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Ender.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Ender.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK, config.getBoolean("Arrow.Ender.Effect.TeleportOnHitBlock", PROPERTY_TELEPORT_ON_HIT_BLOCK.getDefaultValue()));
+        this.properties.setProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK, config.getBoolean("Arrow.Ender.Effect.TeleportOnHitBlock", true));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-        if (!properties.getPropertyValue(PROPERTY_TELEPORT_ON_HIT_BLOCK).booleanValue()) return;
+        if (!properties.getProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK).orElse(true)) return;
 
         ProjectileSource shooter = arrow.getArrow().getShooter();
         if (!(shooter instanceof LivingEntity)) return;
