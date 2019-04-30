@@ -119,7 +119,7 @@ public class SummonArrowCommand implements CommandExecutor {
         float velocityZ = args.length >= 8 ? CommandUtil.clamp(NumberUtils.toFloat(args[7]), -4.0F, 4.0F) : 0.0F;
         Vector direction = new Vector(velocityX, velocityY, velocityZ);
 
-        Arrow bukkitArrow = world.spawnArrow(new Location(world, x, y, z), direction, (float) direction.length(), 0.0F);
+        Arrow bukkitArrow = world.spawnArrow(new Location(world, x, y, z), direction, (float) direction.length(), 0.0F, Arrow.class);
         AlchemicalArrowEntity alchemicalArrow = arrow.createNewArrow(bukkitArrow);
         this.stateManager.add(alchemicalArrow);
         sender.sendMessage(CHAT_PREFIX + "Arrow successfully summoned at (" + x + ", " + y + ", " + z + ") in world \"" + world.getName() + "\" -> (" + velocityX + ", " + velocityY + ", " + velocityZ + ")");
