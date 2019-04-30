@@ -15,7 +15,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.crafting.AlchemicalCauldron;
 import wtf.choco.arrows.registry.CauldronManager;
 
-public class CauldronManipulationListener implements Listener {
+public final class CauldronManipulationListener implements Listener {
 
     private final AlchemicalArrows plugin;
 

@@ -20,7 +20,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
-public class SkeletonKillListener implements Listener {
+public final class SkeletonKillListener implements Listener {
 
     private static final Random RANDOM = new Random();
 

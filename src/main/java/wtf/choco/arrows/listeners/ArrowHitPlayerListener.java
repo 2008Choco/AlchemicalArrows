@@ -21,7 +21,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowStateManager;
 
-public class ArrowHitPlayerListener implements Listener {
+public final class ArrowHitPlayerListener implements Listener {
 
     private final AlchemicalArrows plugin;
     private final ArrowStateManager stateManager;

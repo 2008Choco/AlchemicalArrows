@@ -11,7 +11,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
-public class CraftingPermissionListener implements Listener {
+public final class CraftingPermissionListener implements Listener {
 
     private final ArrowRegistry arrowRegistry;
 

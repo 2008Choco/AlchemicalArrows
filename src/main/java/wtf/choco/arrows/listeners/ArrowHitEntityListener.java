@@ -13,7 +13,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowStateManager;
 
-public class ArrowHitEntityListener implements Listener {
+public final class ArrowHitEntityListener implements Listener {
 
     private final ArrowStateManager stateManager;
 

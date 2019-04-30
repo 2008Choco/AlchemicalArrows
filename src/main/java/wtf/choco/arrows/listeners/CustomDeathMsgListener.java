@@ -18,7 +18,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowStateManager;
 
-public class CustomDeathMsgListener implements Listener {
+public final class CustomDeathMsgListener implements Listener {
 
     private final FileConfiguration config;
     private final ArrowStateManager stateManager;

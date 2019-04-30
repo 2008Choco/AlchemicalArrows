@@ -14,7 +14,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowRegistry;
 
-public class PickupArrowListener implements Listener {
+public final class PickupArrowListener implements Listener {
 
     private final ArrowRegistry arrowRegistry;
 

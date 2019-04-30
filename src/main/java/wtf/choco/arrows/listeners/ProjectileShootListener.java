@@ -31,7 +31,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
 
-public class ProjectileShootListener implements Listener {
+public final class ProjectileShootListener implements Listener {
 
     private static final Random RANDOM = new Random();
 

@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRecipeDiscoverEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class ArrowRecipeDiscoverListener implements Listener {
+public final class ArrowRecipeDiscoverListener implements Listener {
 
     private final List<NamespacedKey> recipeKeys = new ArrayList<>();
 
