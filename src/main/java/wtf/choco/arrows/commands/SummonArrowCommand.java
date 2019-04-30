@@ -100,8 +100,8 @@ public class SummonArrowCommand implements CommandExecutor {
 
         Entity entitySender = (sender instanceof Entity) ? (Entity) sender : null;
         double x = (entitySender != null && (args.length < 2 || args[1].equals("~"))) ? entitySender.getLocation().getX() : NumberUtils.toDouble(args[1], Integer.MIN_VALUE);
-        double y = (entitySender != null && (args.length < 3 || args[1].equals("~"))) ? entitySender.getLocation().getY() : NumberUtils.toDouble(args[2], Integer.MIN_VALUE);
-        double z = (entitySender != null && (args.length < 4 || args[1].equals("~"))) ? entitySender.getLocation().getZ() : NumberUtils.toDouble(args[3], Integer.MIN_VALUE);
+        double y = (entitySender != null && (args.length < 3 || args[2].equals("~"))) ? entitySender.getLocation().getY() : NumberUtils.toDouble(args[2], Integer.MIN_VALUE);
+        double z = (entitySender != null && (args.length < 4 || args[3].equals("~"))) ? entitySender.getLocation().getZ() : NumberUtils.toDouble(args[3], Integer.MIN_VALUE);
 
         if (x == Integer.MIN_VALUE || y == Integer.MIN_VALUE || z == Integer.MIN_VALUE) {
             sender.sendMessage(CHAT_PREFIX + "Invalid " + ChatColor.YELLOW + "spawn coordinates " + ChatColor.GRAY + "were provided... were they proper numbers?");
