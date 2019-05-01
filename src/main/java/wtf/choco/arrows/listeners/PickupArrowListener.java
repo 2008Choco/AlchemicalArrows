@@ -1,5 +1,6 @@
 package wtf.choco.arrows.listeners;
 
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,8 +22,10 @@ public final class PickupArrowListener implements Listener {
     @EventHandler
     @SuppressWarnings("deprecation")
     public void onPickupArrow(PlayerPickupArrowEvent event) {
-        Arrow arrow = event.getArrow();
-        AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
+        AbstractArrow arrow = event.getArrow();
+        if (!(arrow instanceof Arrow)) return;
+
+        AlchemicalArrowEntity alchemicalArrow = stateManager.get((Arrow) arrow);
         if (alchemicalArrow == null) return;
 
         event.getItem().setItemStack(alchemicalArrow.getImplementation().getItem());
