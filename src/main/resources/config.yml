@@ -18,6 +18,7 @@ Arrow:
   Air:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '255,255,255'
     Effect:
       BreatheRadius: 2
     Skeleton:
@@ -32,6 +33,7 @@ Arrow:
   Confusion:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '255,102,249'
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
@@ -44,6 +46,7 @@ Arrow:
   Darkness:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '70,70,70'
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
@@ -56,6 +59,7 @@ Arrow:
   Death:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '0,0,0'
     Effect:
       InstantDeathPossible: true
       InstantDeathChance: 20.0
@@ -71,6 +75,7 @@ Arrow:
   Earth:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '153,93,56'
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
@@ -83,6 +88,7 @@ Arrow:
   Ender:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '181,42,191'
     Effect:
       TeleportOnHitBlock: true
     Skeleton:
@@ -97,6 +103,7 @@ Arrow:
   Explosive:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '193,34,34'
     Effect:
       FuseTicks: 40
       ExplosionStrength: 4
@@ -112,6 +119,7 @@ Arrow:
   Fire:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '232,11,11'
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
@@ -124,6 +132,7 @@ Arrow:
   Frost:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '11,213,232'
     Effect:
       WaterFreezeRadius: 3.5
     Skeleton:
@@ -138,6 +147,7 @@ Arrow:
   Grapple:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '244,187,95'
     Effect:
       GrappleForce: 2.5
     Skeleton:
@@ -152,6 +162,7 @@ Arrow:
   Life:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '57,229,97'
     Effect:
       FloralRadius: 2
     Skeleton:
@@ -166,6 +177,7 @@ Arrow:
   Light:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '255,250,0'
     Effect:
       StrikeLightning: true
     Skeleton:
@@ -180,6 +192,7 @@ Arrow:
   Magic:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '247,163,255'
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
@@ -192,6 +205,7 @@ Arrow:
   Magnetic:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '188,188,188'
     Effect:
       MagnetismRadius: 5.0
     Skeleton:
@@ -206,6 +220,7 @@ Arrow:
   Necrotic:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '19,119,7'
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
@@ -218,6 +233,7 @@ Arrow:
   Water:
     RecipeYield: 8
     AllowInfinity: false
+    Colour: '10,132,209'
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0

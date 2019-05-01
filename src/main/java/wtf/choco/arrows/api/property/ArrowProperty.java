@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import com.google.common.base.Preconditions;
 
-import org.bukkit.Color;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
