@@ -1,7 +1,5 @@
 package wtf.choco.arrows.arrow;
 
-import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.bukkit.ChatColor;
@@ -23,12 +21,15 @@ abstract class AlchemicalArrowAbstract extends AlchemicalArrow {
     private final ItemStack item;
     private final String name;
 
-    protected AlchemicalArrowAbstract(AlchemicalArrows plugin, String key, Function<FileConfiguration, String> nameFunction, Function<FileConfiguration, List<String>> loreFunction) {
-        this.key = new NamespacedKey(plugin, key);
-        this.name = ChatColor.translateAlternateColorCodes('&', nameFunction.apply(plugin.getConfig()));
+    protected AlchemicalArrowAbstract(AlchemicalArrows plugin, String key, String defaultName) {
+    	FileConfiguration config = plugin.getConfig();
+
+        this.key = new NamespacedKey(plugin, key.toLowerCase());
+        String nameRaw = config.getString("Arrow." + key + ".Item.DisplayName", defaultName);
+        this.name = (nameRaw != null) ? ChatColor.translateAlternateColorCodes('&', nameRaw) : nameRaw; // Never null anyways
         this.item = ItemBuilder.of(Material.ARROW)
                 .name(name)
-                .lore(loreFunction.apply(plugin.getConfig()).stream()
+                .lore(config.getStringList("Arrow." + key + ".Item.Lore").stream()
                     .map(s -> ChatColor.translateAlternateColorCodes('&', s))
                     .collect(Collectors.toList())
                 ).build();

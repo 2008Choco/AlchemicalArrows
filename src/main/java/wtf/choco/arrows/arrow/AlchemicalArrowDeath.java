@@ -28,7 +28,7 @@ public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
     private static final Random RANDOM = new Random();
 
     public AlchemicalArrowDeath(AlchemicalArrows plugin) {
-        super(plugin, "death", c -> c.getString("Arrow.Death.Item.DisplayName", "&0Death Arrow"), c -> c.getStringList("Arrow.Death.Item.Lore"));
+        super(plugin, "Death", "&0Death Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Death.Skeleton.CanShoot", true));

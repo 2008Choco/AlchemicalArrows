@@ -18,7 +18,7 @@ public class AlchemicalArrowFire extends AlchemicalArrowAbstract {
     private static final Random RANDOM = new Random();
 
     public AlchemicalArrowFire(AlchemicalArrows plugin) {
-        super(plugin, "fire", c -> c.getString("Arrow.Fire.Item.DisplayName", "&cFire Arrow"), c -> c.getStringList("Arrow.Fire.Item.Lore"));
+        super(plugin, "Fire", "&cFire Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Fire.Skeleton.CanShoot", true));

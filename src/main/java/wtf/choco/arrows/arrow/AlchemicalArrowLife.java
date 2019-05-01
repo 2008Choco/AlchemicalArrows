@@ -40,7 +40,7 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
     private final AlchemicalArrows plugin;
 
     public AlchemicalArrowLife(AlchemicalArrows plugin) {
-        super(plugin, "life", c -> c.getString("Arrow.Life.Item.DisplayName", "&aLife Arrow"), c -> c.getStringList("Arrow.Life.Item.Lore"));
+        super(plugin, "Life", "&aLife Arrow");
         this.plugin = plugin;
 
         FileConfiguration config = plugin.getConfig();

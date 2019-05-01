@@ -31,7 +31,7 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
     private static final int MAGNETISM_RADIUS_LIMIT = 10;
 
     public AlchemicalArrowMagnetic(AlchemicalArrows plugin) {
-        super(plugin, "magnetic", c -> c.getString("Arrow.Magnetic.Item.DisplayName", "&7Magnetic Arrow"), c -> c.getStringList("Arrow.Magnetic.Item.Lore"));
+        super(plugin, "Magnetic", "&7Magnetic Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Magnetic.Skeleton.CanShoot", true));

@@ -18,7 +18,7 @@ public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
     public static final ArrowProperty<Boolean> PROPERTY_STRIKE_LIGHTNING = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "strike_lightning"), Boolean.class, true);
 
     public AlchemicalArrowLight(AlchemicalArrows plugin) {
-        super(plugin, "light", c -> c.getString("Arrow.Light.Item.DisplayName", "&eLight Arrow"), c -> c.getStringList("Arrow.Light.Item.Lore"));
+        super(plugin, "Light", "&eLight Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Light.Skeleton.CanShoot", true));

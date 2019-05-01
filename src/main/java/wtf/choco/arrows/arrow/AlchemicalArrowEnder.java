@@ -24,7 +24,7 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
     public static final ArrowProperty<Boolean> PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "teleport_on_hit_block"), Boolean.class, true);
 
     public AlchemicalArrowEnder(AlchemicalArrows plugin) {
-        super(plugin, "ender", c -> c.getString("Arrow.Ender.Item.DisplayName", "&5Ender Arrow"), c -> c.getStringList("Arrow.Ender.Item.Lore"));
+        super(plugin, "Ender", "&5Ender Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Ender.Skeleton.CanShoot", true));

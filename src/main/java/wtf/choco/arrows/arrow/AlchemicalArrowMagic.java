@@ -18,7 +18,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 public class AlchemicalArrowMagic extends AlchemicalArrowAbstract {
 
     public AlchemicalArrowMagic(AlchemicalArrows plugin) {
-        super(plugin, "magic", c -> c.getString("Arrow.Magic.Item.DisplayName", "&dMagic Arrow"), c -> c.getStringList("Arrow.Magic.Item.Lore"));
+        super(plugin, "Magic", "&dMagic Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Magic.Skeleton.CanShoot", true));

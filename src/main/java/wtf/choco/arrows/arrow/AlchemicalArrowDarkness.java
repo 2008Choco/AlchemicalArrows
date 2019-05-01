@@ -18,7 +18,7 @@ public class AlchemicalArrowDarkness extends AlchemicalArrowAbstract {
     private static final PotionEffect BLINDNESS_EFFECT = new PotionEffect(PotionEffectType.BLINDNESS, 100, 1);
 
     public AlchemicalArrowDarkness(AlchemicalArrows plugin) {
-        super(plugin, "darkness", c -> c.getString("Arrow.Darkness.Item.DisplayName", "&8Darkness Arrow"), c -> c.getStringList("Arrow.Darkness.Item.Lore"));
+        super(plugin, "Darkness", "&8Darkness Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Darkness.Skeleton.CanShoot", true));

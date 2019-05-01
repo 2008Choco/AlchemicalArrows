@@ -23,7 +23,7 @@ public class AlchemicalArrowEarth extends AlchemicalArrowAbstract {
     private static final BlockData DIRT = Material.DIRT.createBlockData();
 
     public AlchemicalArrowEarth(AlchemicalArrows plugin) {
-        super(plugin, "earth", c -> c.getString("Arrow.Earth.Item.DisplayName", "&7Earth Arrow"), c -> c.getStringList("Arrow.Earth.Item.Lore"));
+        super(plugin, "Earth", "&7Earth Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Earth.Skeleton.CanShoot", true));

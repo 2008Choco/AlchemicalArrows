@@ -22,7 +22,7 @@ public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
     private static final double GRAPPLE_FORCE_LIMIT = 4.0;
 
     public AlchemicalArrowGrapple(AlchemicalArrows plugin) {
-        super(plugin, "grapple", c -> c.getString("Arrow.Grapple.Item.DisplayName", "&eGrapple Arrow"), c -> c.getStringList("Arrow.Grapple.Item.Lore"));
+        super(plugin, "Grapple", "&eGrapple Arrow");
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Grapple.Skeleton.CanShoot", true));
