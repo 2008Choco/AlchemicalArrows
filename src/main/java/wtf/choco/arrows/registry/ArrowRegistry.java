@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,6 +31,9 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
  * @author Parker Hawke - Choco
  */
 public final class ArrowRegistry {
+
+	public static final Set<Material> ARROW_MATERIALS = Sets.immutableEnumSet(Material.ARROW, Material.SPECTRAL_ARROW, Material.TIPPED_ARROW);
+	public static final Set<Material> BOW_MATERIALS = Sets.immutableEnumSet(Material.BOW, Material.CROSSBOW);
 
     private static final AlchemicalArrows PLUGIN = AlchemicalArrows.getInstance(); // For legacy sake
     private static final String NATIVE_ARROW_PACKAGE = "wtf.choco.arrows.arrow";
@@ -184,7 +188,7 @@ public final class ArrowRegistry {
         // Validate item
         ItemStack arrowItem = arrow.getItem();
         Preconditions.checkArgument(arrowItem != null, "AlchemicalArrow#getItem() must not be null");
-        Preconditions.checkArgument(arrowItem.getType() == Material.ARROW, "Result of AlchemicalArrow#getItem() must be of type Material.ARROW");
+        Preconditions.checkArgument(ARROW_MATERIALS.contains(arrowItem.getType()), "Result of AlchemicalArrow#getItem() must be an arrow material (arrow, tipped or spectral)");
 
         for (AlchemicalArrow registeredArrow : arrows.values()) {
             if (registeredArrow.getItem().isSimilar(arrowItem)) {

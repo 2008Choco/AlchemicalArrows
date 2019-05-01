@@ -7,7 +7,6 @@ import com.google.common.collect.Iterables;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow.PickupStatus;
@@ -55,15 +54,14 @@ public final class ProjectileShootListener implements Listener {
         if (source instanceof Player) {
             Player player = (Player) source;
             PlayerInventory inventory = player.getInventory();
-            if (!inventory.contains(Material.ARROW)) return;
+            if (!containsArrow(inventory)) return;
 
             // Register the arrow if it's in the arrow registry
-            int arrowSlot = (isShotFromMainHand(player) ? inventory.first(Material.ARROW) : inventory.getHeldItemSlot());
+            int arrowSlot = (isShotFromMainHand(player) ? findFirstArrow(inventory) : inventory.getHeldItemSlot());
             ItemStack arrowItem = inventory.getItem(arrowSlot);
 
-            if (arrowItem == null || arrowItem.getType() != Material.ARROW) {
-                arrowSlot = inventory.first(Material.ARROW);
-                arrowItem = inventory.getItem(arrowSlot);
+            if (arrowItem == null || ArrowRegistry.ARROW_MATERIALS.contains(arrowItem.getType())) {
+                arrowItem = inventory.getItem(arrowSlot = findFirstArrow(inventory));
 
                 if (arrowItem == null) { // If the arrow is STILL null, just give up
                     return;
@@ -141,8 +139,24 @@ public final class ProjectileShootListener implements Listener {
         ItemStack mainHand = inventory.getItemInMainHand();
         ItemStack offHand = inventory.getItemInOffHand();
 
-        return ((mainHand != null && mainHand.getType() == Material.BOW) ||
-                (mainHand == null && offHand != null && offHand.getType() == Material.BOW));
+        return ((mainHand != null && ArrowRegistry.BOW_MATERIALS.contains(mainHand.getType())) ||
+                (mainHand == null && offHand != null && ArrowRegistry.BOW_MATERIALS.contains(offHand.getType())));
+    }
+
+    private boolean containsArrow(PlayerInventory inventory) {
+    	return ArrowRegistry.ARROW_MATERIALS.stream().anyMatch(inventory::contains);
+    }
+
+    private int findFirstArrow(PlayerInventory inventory) {
+        ItemStack[] contents = inventory.getContents();
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack item = contents[i];
+            if (item != null && ArrowRegistry.ARROW_MATERIALS.contains(item.getType())) {
+            	return i;
+            }
+        }
+
+        return -1;
     }
 
 }
