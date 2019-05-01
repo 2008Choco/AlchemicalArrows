@@ -6,7 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Iterables;
 
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow.PickupStatus;
@@ -78,20 +78,25 @@ public final class ProjectileShootListener implements Listener {
                 return;
             }
 
-            if (type.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).orElse(true)) return;
-
-            boolean shouldBePickupable = (player.getGameMode() != GameMode.CREATIVE);
-
+            // Handle infinity
             ItemStack mainHand = inventory.getItemInMainHand(), offHand = inventory.getItemInOffHand();
             if ((mainHand != null && mainHand.containsEnchantment(Enchantment.ARROW_INFINITE))
                 || (offHand != null && offHand.containsEnchantment(Enchantment.ARROW_INFINITE))) {
 
-                shouldBePickupable = false;
-
-                if (arrowItem.getAmount() > 1) {
-                    arrowItem.setAmount(arrowItem.getAmount() - 1);
+                if (!type.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).orElse(true)) {
+                    if (arrowItem.getAmount() > 1) {
+                        arrowItem.setAmount(arrowItem.getAmount() - 1);
+                        inventory.setItem(arrowSlot, arrowItem);
+                    } else {
+                        inventory.setItem(arrowSlot, null);
+                    }
                 } else {
-                    inventory.setItem(arrowSlot, null);
+                    arrow.setPickupStatus(PickupStatus.CREATIVE_ONLY);
+
+                    // Special condition for non-regular arrows
+                    if (arrowItem.getType() != Material.ARROW) {
+                        inventory.setItem(arrowSlot, arrowItem); // Keep arrow count the same
+                    }
                 }
             }
 
@@ -103,7 +108,6 @@ public final class ProjectileShootListener implements Listener {
             }
 
             this.stateManager.add(alchemicalArrow);
-            arrow.setPickupStatus(shouldBePickupable ? PickupStatus.ALLOWED : PickupStatus.CREATIVE_ONLY);
         }
 
         else if (source instanceof Skeleton && RANDOM.nextInt(100) < config.getDouble("Skeletons.ShootPercentage", 10.0)) {
