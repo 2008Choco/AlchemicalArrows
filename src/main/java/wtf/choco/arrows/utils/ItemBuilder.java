@@ -285,6 +285,21 @@ public final class ItemBuilder {
     }
 
     /**
+     * Set the item's custom model data flag.
+     *
+     * @param data the data to set
+     *
+     * @return this instance. Allows for chained method calls
+     *
+     * @see ItemMeta#setCustomModelData(Integer)
+     */
+    @NotNull
+    public ItemBuilder modelData(int data) {
+        this.meta.setCustomModelData(data);
+        return this;
+    }
+
+    /**
      * Complete the building of this ItemBuilder and return the resulting ItemStack.
      *
      * @return the completed {@link ItemStack} instance built by this builder

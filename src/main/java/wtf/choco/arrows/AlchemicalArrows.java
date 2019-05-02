@@ -119,9 +119,9 @@ public class AlchemicalArrows extends JavaPlugin {
         this.setupCommand("givearrow", new GiveArrowCommand(this), GiveArrowCommand.TAB_COMPLETER);
         this.setupCommand("summonarrow", new SummonArrowCommand(this), SummonArrowCommand.TAB_COMPLETER);
 
-        // Register crafting recipes
+        // Register alchemical arrows
         this.getLogger().info("Registering default alchemical arrows and their recipes");
-        this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER);
+        this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER); // Custom model data 132 (+1 for every registration)
         this.createArrow(new AlchemicalArrowConfusion(this), "Confusion", Material.POISONOUS_POTATO);
         this.createArrow(new AlchemicalArrowDarkness(this), "Darkness", Material.COAL, Material.CHARCOAL);
         this.createArrow(new AlchemicalArrowDeath(this), "Death", Material.WITHER_SKELETON_SKULL);
@@ -136,7 +136,7 @@ public class AlchemicalArrows extends JavaPlugin {
         this.createArrow(new AlchemicalArrowMagic(this), "Magic", Material.BLAZE_POWDER);
         this.createArrow(new AlchemicalArrowMagnetic(this), "Magnetic", Material.IRON_INGOT);
         this.createArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
-        this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
+        this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET); // Custom model data 147
 
         // Load cauldrons
         if (cauldronFile.exists()) {
