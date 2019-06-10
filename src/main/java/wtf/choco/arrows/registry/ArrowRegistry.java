@@ -96,13 +96,7 @@ public final class ArrowRegistry {
      * @param arrowClass the class of the arrow to unregister
      */
     public void unregister(@NotNull Class<? extends AlchemicalArrow> arrowClass) {
-        Iterator<AlchemicalArrow> valueIterator = arrows.values().iterator();
-
-        while (valueIterator.hasNext()) {
-            if (valueIterator.next().getClass() == arrowClass) {
-                valueIterator.remove();
-            }
-        }
+        arrows.values().removeIf(alchemicalArrow -> alchemicalArrow.getClass() == arrowClass);
     }
 
     /**
