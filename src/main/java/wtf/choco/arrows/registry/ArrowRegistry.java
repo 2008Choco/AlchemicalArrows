@@ -25,7 +25,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
  *
  * @author Parker Hawke - Choco
  */
-public final class ArrowRegistry {
+public final class ArrowRegistry implements Iterable<AlchemicalArrow> {
 
     public static final Set<Material> ARROW_MATERIALS = Sets.immutableEnumSet(Material.ARROW, Material.SPECTRAL_ARROW, Material.TIPPED_ARROW);
     public static final Set<Material> BOW_MATERIALS = Sets.immutableEnumSet(Material.BOW, Material.CROSSBOW);
@@ -195,6 +195,11 @@ public final class ArrowRegistry {
      */
     public void clear() {
         this.arrows.clear();
+    }
+
+    @Override
+    public Iterator<AlchemicalArrow> iterator() {
+        return arrows.values().iterator();
     }
 
 }
