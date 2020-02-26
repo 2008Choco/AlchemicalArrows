@@ -17,7 +17,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowEarth extends AlchemicalArrowAbstract {
+public class AlchemicalArrowEarth extends AlchemicalArrowInternal {
 
     private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 100, 2);
     private static final BlockData DIRT = Material.DIRT.createBlockData();
@@ -34,7 +34,9 @@ public class AlchemicalArrowEarth extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.BLOCK_DUST, location, 1, 0.1, 0.1, 0.1, 0.1, DIRT);
     }
@@ -46,7 +48,10 @@ public class AlchemicalArrowEarth extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) return;
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
+
         this.burryEntity((LivingEntity) entity);
     }
 

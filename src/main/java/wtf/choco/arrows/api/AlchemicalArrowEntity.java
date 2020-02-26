@@ -91,8 +91,13 @@ public class AlchemicalArrowEntity {
 
     @Override
     public boolean equals(Object object) {
-        if (object == this) return true;
-        if (!(object instanceof AlchemicalArrowEntity)) return false;
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof AlchemicalArrowEntity)) {
+            return false;
+        }
 
         AlchemicalArrowEntity other = (AlchemicalArrowEntity) object;
         return Objects.equals(implementation, other.implementation) && Objects.equals(arrow, other.arrow);

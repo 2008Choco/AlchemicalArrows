@@ -24,7 +24,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
+public class AlchemicalArrowLife extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "floral_radius"), Integer.class, 2);
 
@@ -53,7 +53,9 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.HEART, location, 1, 0.1, 0.1, 0.1);
     }
@@ -65,16 +67,19 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) return;
-        LivingEntity lEntity = (LivingEntity) entity;
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
 
-        lEntity.addPotionEffect(REGENERATION_EFFECT);
+        ((LivingEntity) entity).addPotionEffect(REGENERATION_EFFECT);
     }
 
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
         int radius = properties.getProperty(PROPERTY_FLORAL_RADIUS).orElse(2);
-        if (radius <= 0) return;
+        if (radius <= 0) {
+            return;
+        }
 
         // Generate flowers around the block at variable radius
         ProjectileSource shooter = arrow.getArrow().getShooter();
@@ -83,7 +88,9 @@ public class AlchemicalArrowLife extends AlchemicalArrowAbstract {
 
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                if (random.nextInt(5) > 1) continue; // 40%
+                if (random.nextInt(5) > 1) { // 40%
+                    continue;
+                }
 
                 found = false;
                 Block relative = block.getRelative(x, radius, z);

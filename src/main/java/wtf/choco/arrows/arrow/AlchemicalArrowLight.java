@@ -13,7 +13,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
+public class AlchemicalArrowLight extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Boolean> PROPERTY_STRIKE_LIGHTNING = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "strike_lightning"), Boolean.class, true);
 
@@ -30,7 +30,9 @@ public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.FIREWORKS_SPARK, location, 1, 0.1, 0.1, 0.1, 0.01);
     }
@@ -42,7 +44,10 @@ public class AlchemicalArrowLight extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) return;
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
+
         this.applyEffect((LivingEntity) entity);
     }
 

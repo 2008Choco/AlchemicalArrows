@@ -26,7 +26,9 @@ public final class CauldronManipulationListener implements Listener {
     @EventHandler
     public void onPlaceCauldron(BlockPlaceEvent event) {
         Block block = event.getBlock();
-        if (block.getType() != Material.CAULDRON || !plugin.getConfig().getBoolean("Crafting.CauldronCrafting")) return;
+        if (block.getType() != Material.CAULDRON || !plugin.getConfig().getBoolean("Crafting.CauldronCrafting")) {
+            return;
+        }
 
         this.plugin.getCauldronManager().addAlchemicalCauldron(new AlchemicalCauldron(block));
     }
@@ -34,16 +36,22 @@ public final class CauldronManipulationListener implements Listener {
     @EventHandler
     public void onDestroyCauldron(BlockBreakEvent event) {
         Block block = event.getBlock();
-        if (block.getType() != Material.CAULDRON || !plugin.getConfig().getBoolean("Crafting.CauldronCrafting")) return;
+        if (block.getType() != Material.CAULDRON || !plugin.getConfig().getBoolean("Crafting.CauldronCrafting")) {
+            return;
+        }
 
         CauldronManager manager = plugin.getCauldronManager();
         AlchemicalCauldron cauldron = manager.getAlchemicalCauldron(block);
-        if (cauldron == null) return;
+        if (cauldron == null) {
+            return;
+        }
 
         manager.removeAlchemicalCauldron(cauldron);
 
         // Drop cauldron ingredients, if any
-        if (!cauldron.hasIngredients()) return;
+        if (!cauldron.hasIngredients()) {
+            return;
+        }
 
         World world = block.getWorld();
         Location location = block.getLocation().add(0.5, 0.25, 0.5);

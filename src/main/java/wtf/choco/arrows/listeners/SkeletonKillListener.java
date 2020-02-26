@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -18,41 +17,40 @@ import org.jetbrains.annotations.Nullable;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.property.ArrowProperty;
-import wtf.choco.arrows.registry.ArrowRegistry;
 
 public final class SkeletonKillListener implements Listener {
 
     private static final Random RANDOM = new Random();
 
-    private final FileConfiguration config;
-    private final ArrowRegistry arrowRegistry;
+    private final AlchemicalArrows plugin;
 
     public SkeletonKillListener(@NotNull AlchemicalArrows plugin) {
-        this.config = plugin.getConfig();
-        this.arrowRegistry = plugin.getArrowRegistry();
+        this.plugin = plugin;
     }
 
     @EventHandler
     public void onKillSkeleton(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
-
-        if (!(entity instanceof Skeleton)) return;
-        if ((RANDOM.nextInt(100) + 1) > config.getDouble("Skeletons.LootPercentage", 15.0)) return;
+        if (!(entity instanceof Skeleton) || RANDOM.nextInt(100) >= plugin.getConfig().getDouble("Skeletons.LootPercentage", 15.0)) {
+            return;
+        }
 
         List<ItemStack> drops = event.getDrops();
         drops.removeIf(i -> i.getType() == Material.ARROW);
 
-        ItemStack toDrop = getWeightedRandom(RANDOM.nextInt(2) + 1);
-        if (toDrop == null) return;
+        ItemStack toDrop = getWeightedRandom();
+        if (toDrop == null) {
+            return;
+        }
 
         drops.add(toDrop);
     }
 
     @Nullable
-    public ItemStack getWeightedRandom(int amount) {
+    public ItemStack getWeightedRandom() {
         double totalWeight = 0;
 
-        Collection<AlchemicalArrow> arrows = arrowRegistry.getRegisteredArrows();
+        Collection<AlchemicalArrow> arrows = plugin.getArrowRegistry().getRegisteredArrows();
         for (AlchemicalArrow arrow : arrows) {
             totalWeight += arrow.getProperties().getProperty(ArrowProperty.SKELETON_LOOT_WEIGHT).orElse(0.0D);
         }
@@ -69,9 +67,11 @@ public final class SkeletonKillListener implements Listener {
             }
         }
 
-        if (item == null) return null;
+        if (item == null) {
+            return null;
+        }
 
-        item.setAmount(amount);
+        item.setAmount(RANDOM.nextInt(2) + 1);
         return item;
     }
 

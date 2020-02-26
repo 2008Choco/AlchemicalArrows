@@ -286,7 +286,9 @@ public class AlchemicalArrows extends JavaPlugin {
 
     private void setupCommand(@NotNull String commandString, @NotNull CommandExecutor executor, @Nullable TabCompleter tabCompleter) {
         PluginCommand command = getCommand(commandString);
-        if (command == null) return;
+        if (command == null) {
+            return;
+        }
 
         command.setExecutor(executor);
         command.setTabCompleter(tabCompleter);
@@ -313,15 +315,17 @@ public class AlchemicalArrows extends JavaPlugin {
     @Nullable
     private Block blockFromString(@NotNull String value) {
         String[] parts = value.split(",");
-        if (parts.length != 4) return null;
+        if (parts.length != 4) {
+            return null;
+        }
 
         World world = Bukkit.getWorld(UUID.fromString(parts[0]));
-        if (world == null) return null;
+        if (world == null) {
+            return null;
+        }
 
         int x = NumberUtils.toInt(parts[1], Integer.MIN_VALUE), y = NumberUtils.toInt(parts[2], Integer.MIN_VALUE), z = NumberUtils.toInt(parts[3], Integer.MIN_VALUE);
-        if (x == Integer.MIN_VALUE || y == Integer.MIN_VALUE || z == Integer.MIN_VALUE) return null;
-
-        return world.getBlockAt(x, y, z);
+        return (x != Integer.MIN_VALUE && y != Integer.MIN_VALUE && z != Integer.MIN_VALUE) ? world.getBlockAt(x, y, z) : null;
     }
 
 }

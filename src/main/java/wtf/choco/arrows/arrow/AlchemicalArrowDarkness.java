@@ -13,7 +13,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowDarkness extends AlchemicalArrowAbstract {
+public class AlchemicalArrowDarkness extends AlchemicalArrowInternal {
 
     private static final PotionEffect BLINDNESS_EFFECT = new PotionEffect(PotionEffectType.BLINDNESS, 100, 1);
 
@@ -29,7 +29,9 @@ public class AlchemicalArrowDarkness extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.DAMAGE_INDICATOR, location, 1, 0.1, 0.1, 0.1, 0.1);
     }

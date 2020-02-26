@@ -15,7 +15,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowMagic extends AlchemicalArrowAbstract {
+public class AlchemicalArrowMagic extends AlchemicalArrowInternal {
 
     public AlchemicalArrowMagic(AlchemicalArrows plugin) {
         super(plugin, "Magic", "&dMagic Arrow");
@@ -29,7 +29,9 @@ public class AlchemicalArrowMagic extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.SPELL_WITCH, location, 2, 0.1, 0.1, 0.1);
     }
@@ -41,7 +43,10 @@ public class AlchemicalArrowMagic extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) return;
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
+
         this.launchEntity(arrow.getArrow(), (LivingEntity) entity);
     }
 

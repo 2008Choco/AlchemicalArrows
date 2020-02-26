@@ -12,7 +12,7 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.arrow.entity.ArrowEntityWater;
 
-public class AlchemicalArrowWater extends AlchemicalArrowAbstract {
+public class AlchemicalArrowWater extends AlchemicalArrowInternal {
 
     public AlchemicalArrowWater(AlchemicalArrows plugin) {
         super(plugin, "Water", "&9Water Arrow");
@@ -25,10 +25,14 @@ public class AlchemicalArrowWater extends AlchemicalArrowAbstract {
 
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
-        if (!(arrow instanceof ArrowEntityWater)) return;
+        if (!(arrow instanceof ArrowEntityWater)) {
+            return;
+        }
 
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.WATER_WAKE, location, 3, 0.1, 0.1, 0.1, 0.01);
 

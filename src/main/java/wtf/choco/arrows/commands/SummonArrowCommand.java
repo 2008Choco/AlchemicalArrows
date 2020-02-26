@@ -35,7 +35,9 @@ public class SummonArrowCommand implements CommandExecutor {
     // /summonarrow <arrow> [x] [y] [z] [world] [velocityX] [velocityY] [velocityZ]
 
     public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> {
-        if (args.length >= 6) return null;
+        if (args.length >= 6) {
+            return null;
+        }
 
         if (args.length == 1) {
             List<String> arguments = new ArrayList<>();

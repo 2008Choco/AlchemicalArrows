@@ -19,7 +19,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
+public class AlchemicalArrowDeath extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Boolean> PROPERTY_INSTANT_DEATH_POSSIBLE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "instant_death_possible"), Boolean.class, true);
     public static final ArrowProperty<Double> PROPERTY_INSTANT_DEATH_CHANCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "isntant_death_chance"), Double.class, 20.0);
@@ -41,7 +41,9 @@ public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.SMOKE_LARGE, location, 2, 0.1, 0.1, 0.1, 0.01);
     }
@@ -55,19 +57,25 @@ public class AlchemicalArrowDeath extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) return;
-        LivingEntity lEntity = (LivingEntity) entity;
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
 
-        this.attemptInstantDeath(arrow.getArrow(), lEntity);
-        lEntity.addPotionEffect(WITHER_EFFECT);
-        lEntity.getWorld().playSound(lEntity.getLocation(), Sound.ENTITY_WITHER_SKELETON_DEATH, 1, 0.5F);
+        LivingEntity livingEntity = (LivingEntity) entity;
+        this.attemptInstantDeath(arrow.getArrow(), livingEntity);
+        livingEntity.addPotionEffect(WITHER_EFFECT);
+        livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_WITHER_SKELETON_DEATH, 1, 0.5F);
     }
 
     private void attemptInstantDeath(Arrow source, LivingEntity entity) {
-        if (!properties.getProperty(PROPERTY_INSTANT_DEATH_POSSIBLE).orElse(true)) return;
+        if (!properties.getProperty(PROPERTY_INSTANT_DEATH_POSSIBLE).orElse(true)) {
+            return;
+        }
 
         int chance = RANDOM.nextInt(100);
-        if (chance > properties.getProperty(PROPERTY_INSTANT_DEATH_CHANCE).orElse(20.0D)) return;
+        if (chance > properties.getProperty(PROPERTY_INSTANT_DEATH_CHANCE).orElse(20.0D)) {
+            return;
+        }
 
         entity.damage(entity.getHealth(), source);
     }

@@ -22,7 +22,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
+public class AlchemicalArrowMagnetic extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Double> PROPERTY_MAGNETISM_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "magnetism_radius"), Double.class, 5.0);
 
@@ -43,7 +43,9 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.FALLING_DUST, location, 1, 0.1, 0.1, 0.1, IRON);
         if (RANDOM.nextInt(10) == 0) {
@@ -51,24 +53,36 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
         }
 
         // Validate in-tile arrow
-        if (!arrow.getArrow().isInBlock()) return;
+        if (!arrow.getArrow().isInBlock()) {
+            return;
+        }
 
         double radius = properties.getProperty(PROPERTY_MAGNETISM_RADIUS).orElse(5.0D);
-        if (radius <= 0.0) return;
+        if (radius <= 0.0) {
+            return;
+        }
 
         // Attract nearby entities
         Collection<Entity> nearbyEntities = world.getNearbyEntities(location, radius, radius, radius);
-        if (nearbyEntities.isEmpty()) return;
+        if (nearbyEntities.isEmpty()) {
+            return;
+        }
 
         Vector arrowPosition = location.toVector();
+        double radiusSquared = Math.pow(radius, 2);
+
         for (Entity entity : nearbyEntities) {
-            if (entity.getType() != EntityType.DROPPED_ITEM) continue;
+            if (entity.getType() != EntityType.DROPPED_ITEM) {
+                continue;
+            }
 
             Location entityLocation = entity.getLocation();
             Vector itemPosition = entityLocation.toVector();
 
-            double relativeDistance = entityLocation.distanceSquared(location) / Math.pow(radius, 2);
-            if (relativeDistance <= 0.05) continue; // Cut off for the sake of performance. "Close enough" to arrow (0.2 blocks)
+            double relativeDistance = entityLocation.distanceSquared(location) / radiusSquared;
+            if (relativeDistance <= 0.05) { // Cut off for the sake of performance. "Close enough" to arrow (0.2 blocks)
+                continue;
+            }
 
             Vector resultant = arrowPosition.subtract(itemPosition).normalize().multiply(relativeDistance / 10.0);
             entity.setVelocity(resultant);
@@ -82,7 +96,10 @@ public class AlchemicalArrowMagnetic extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) return;
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
+
         this.pullEntity(arrow.getArrow(), (LivingEntity) entity);
     }
 

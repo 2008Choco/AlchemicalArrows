@@ -10,26 +10,30 @@ import org.jetbrains.annotations.NotNull;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.registry.ArrowStateManager;
 
 public final class ArrowHitGroundListener implements Listener {
 
-    private final ArrowStateManager stateManager;
+    private final AlchemicalArrows plugin;
 
     public ArrowHitGroundListener(@NotNull AlchemicalArrows plugin) {
-        this.stateManager = plugin.getArrowStateManager();
+        this.plugin = plugin;
     }
 
     @EventHandler
     public void onAlchemicalArrowHitGround(ProjectileHitEvent event) {
-        if (!(event.getEntity() instanceof Arrow)) return;
+        if (!(event.getEntity() instanceof Arrow)) {
+            return;
+        }
 
         Block hit = event.getHitBlock();
-        if (hit == null) return;
+        if (hit == null) {
+            return;
+        }
 
-        Arrow arrow = (Arrow) event.getEntity();
-        AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
-        if (alchemicalArrow == null) return;
+        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get((Arrow) event.getEntity());
+        if (alchemicalArrow == null) {
+            return;
+        }
 
         AlchemicalArrow type = alchemicalArrow.getImplementation();
         type.hitGroundEventHandler(alchemicalArrow, event);

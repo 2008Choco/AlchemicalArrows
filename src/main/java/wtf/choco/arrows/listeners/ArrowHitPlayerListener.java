@@ -8,7 +8,6 @@ import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,27 +18,28 @@ import org.bukkit.projectiles.ProjectileSource;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.registry.ArrowStateManager;
 
 public final class ArrowHitPlayerListener implements Listener {
 
     private final AlchemicalArrows plugin;
-    private final ArrowStateManager stateManager;
 
     public ArrowHitPlayerListener(AlchemicalArrows plugin) {
         this.plugin = plugin;
-        this.stateManager = plugin.getArrowStateManager();
     }
 
     @EventHandler
     public void onAlchemicalArrowHitPlayer(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Arrow) || !(event.getEntity() instanceof Player)) return;
+        if (!(event.getDamager() instanceof Arrow) || !(event.getEntity() instanceof Player)) {
+            return;
+        }
 
         Player player = (Player) event.getEntity();
         Arrow arrow = (Arrow) event.getDamager();
-        AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
+        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get(arrow);
 
-        if (alchemicalArrow == null || player.isBlocking()) return;
+        if (alchemicalArrow == null || player.isBlocking()) {
+            return;
+        }
 
         /* WorldGuard Support */
         ProjectileSource source = arrow.getShooter();
@@ -55,7 +55,7 @@ public final class ArrowHitPlayerListener implements Listener {
                     StateFlag.State state = query.queryState(BukkitAdapter.adapt(shooter.getLocation()), worldguardPlugin.wrapPlayer(shooter), Flags.PVP);
 
                     if (!shooter.hasPermission("arrows.worldguardoverride") && state == StateFlag.State.DENY) {
-                        shooter.sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "You cannot hit a player whilst protected by PvP");
+                        shooter.sendMessage(AlchemicalArrows.CHAT_PREFIX + "You cannot hit a player whilst protected by PvP");
                         event.setCancelled(true);
                         return;
                     }
@@ -65,7 +65,7 @@ public final class ArrowHitPlayerListener implements Listener {
             // Check state of damaged
             if (event.isCancelled() || !query.testState(BukkitAdapter.adapt(player.getLocation()), null, Flags.PVP)) {
                 if (arrow.getShooter() instanceof Player){
-                    ((Player) source).sendMessage(ChatColor.DARK_AQUA + "AlchemicalArrows> " + ChatColor.GRAY + "This player is protected from PvP");
+                    ((Player) source).sendMessage(AlchemicalArrows.CHAT_PREFIX + "This player is protected from PvP");
                 }
 
                 event.setCancelled(true);

@@ -68,7 +68,9 @@ public class AlchemicalCauldron {
      * @return true if heating is possible, false otherwise
      */
     public boolean canHeatUp() {
-        if (cauldronBlock.getType() != Material.CAULDRON) return false;
+        if (cauldronBlock.getType() != Material.CAULDRON) {
+            return false;
+        }
 
         Levelled cauldron = (Levelled) cauldronBlock.getBlockData();
         return cauldron.getLevel() == cauldron.getMaximumLevel() && fireBlock.getType() == Material.FIRE;
@@ -80,7 +82,9 @@ public class AlchemicalCauldron {
      * @return true if the attempt is successful and heating has started, false otherwise
      */
     public boolean attemptToHeatUp() {
-        if (heatingUp || bubbling || !canHeatUp()) return false;
+        if (heatingUp || bubbling || !canHeatUp()) {
+            return false;
+        }
 
         this.heatingStartTime = System.currentTimeMillis();
         this.heatingUp = true;
@@ -171,7 +175,9 @@ public class AlchemicalCauldron {
      * @param potency the amount of the ingredient to remove
      */
     public void removeIngredient(@NotNull Material material, int potency) {
-        if (!ingredientPotency.containsKey(material)) return;
+        if (!ingredientPotency.containsKey(material)) {
+            return;
+        }
 
         int current = ingredientPotency.get(material);
         if (potency >= current) {

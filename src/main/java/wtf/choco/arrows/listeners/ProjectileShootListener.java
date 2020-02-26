@@ -7,8 +7,7 @@ import com.google.common.collect.Iterables;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.Tag;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractArrow.PickupStatus;
 import org.bukkit.entity.Arrow;
@@ -29,25 +28,22 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.event.AlchemicalArrowShootEvent;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.registry.ArrowRegistry;
-import wtf.choco.arrows.registry.ArrowStateManager;
 
 public final class ProjectileShootListener implements Listener {
 
     private static final Random RANDOM = new Random();
 
-    private final FileConfiguration config;
-    private final ArrowRegistry arrowRegistry;
-    private final ArrowStateManager stateManager;
+    private final AlchemicalArrows plugin;
 
     public ProjectileShootListener(@NotNull AlchemicalArrows plugin) {
-        this.config = plugin.getConfig();
-        this.arrowRegistry = plugin.getArrowRegistry();
-        this.stateManager = plugin.getArrowStateManager();
+        this.plugin = plugin;
     }
 
     @EventHandler
     public void onShootArrow(ProjectileLaunchEvent event) {
-        if (!(event.getEntity() instanceof Arrow)) return;
+        if (!(event.getEntity() instanceof Arrow)) {
+            return;
+        }
 
         Arrow arrow = (Arrow) event.getEntity();
         ProjectileSource source = arrow.getShooter();
@@ -55,13 +51,15 @@ public final class ProjectileShootListener implements Listener {
         if (source instanceof Player) {
             Player player = (Player) source;
             PlayerInventory inventory = player.getInventory();
-            if (!containsArrow(inventory)) return;
+            if (!containsArrow(inventory)) {
+                return;
+            }
 
-            // Register the arrow if it's in the arrow registry
+            // Find any available arrows in the player's inventory
             int arrowSlot = (isShotFromMainHand(player) ? findFirstArrow(inventory) : inventory.getHeldItemSlot());
             ItemStack arrowItem = inventory.getItem(arrowSlot);
 
-            if (arrowItem == null || ArrowRegistry.ARROW_MATERIALS.contains(arrowItem.getType())) {
+            if (arrowItem == null || !Tag.ITEMS_ARROWS.isTagged(arrowItem.getType())) {
                 arrowItem = inventory.getItem(arrowSlot = findFirstArrow(inventory));
 
                 if (arrowItem == null) { // If the arrow is STILL null, just give up
@@ -69,8 +67,10 @@ public final class ProjectileShootListener implements Listener {
                 }
             }
 
-            AlchemicalArrow type = arrowRegistry.get(arrowItem);
-            if (type == null) return;
+            AlchemicalArrow type = plugin.getArrowRegistry().get(arrowItem);
+            if (type == null) {
+                return;
+            }
 
             AlchemicalArrowEntity alchemicalArrow = type.createNewArrow(arrow);
             type.shootEventHandler(alchemicalArrow, event);
@@ -85,20 +85,12 @@ public final class ProjectileShootListener implements Listener {
                 || (offHand != null && offHand.containsEnchantment(Enchantment.ARROW_INFINITE))) {
 
                 if (!type.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).orElse(true) && player.getGameMode() != GameMode.CREATIVE) {
-                    if (arrowItem.getAmount() > 1) {
-                        arrowItem.setAmount(arrowItem.getAmount() - 1);
-                        inventory.setItem(arrowSlot, arrowItem);
-                    } else {
-                        inventory.setItem(arrowSlot, null);
-                    }
+                    arrowItem.setAmount(arrowItem.getAmount() - 1);
                 } else {
                     arrow.setPickupStatus(PickupStatus.CREATIVE_ONLY);
-
-                    // Special condition for non-regular arrows
-                    if (arrowItem.getType() != Material.ARROW) {
-                        inventory.setItem(arrowSlot, arrowItem); // Keep arrow count the same
-                    }
                 }
+
+                inventory.setItem(arrowSlot, arrowItem);
             }
 
             AlchemicalArrowShootEvent aasEvent = new AlchemicalArrowShootEvent(alchemicalArrow, source);
@@ -108,13 +100,15 @@ public final class ProjectileShootListener implements Listener {
                 return;
             }
 
-            this.stateManager.add(alchemicalArrow);
+            this.plugin.getArrowStateManager().add(alchemicalArrow);
         }
 
-        else if (source instanceof Skeleton && RANDOM.nextInt(100) < config.getDouble("Skeletons.ShootPercentage", 10.0)) {
-            Collection<AlchemicalArrow> arrows = arrowRegistry.getRegisteredArrows();
+        else if (source instanceof Skeleton && RANDOM.nextInt(100) < plugin.getConfig().getDouble("Skeletons.ShootPercentage", 10.0)) {
+            Collection<AlchemicalArrow> arrows = plugin.getArrowRegistry().getRegisteredArrows();
             AlchemicalArrow type = Iterables.get(arrows, RANDOM.nextInt(arrows.size()));
-            if (type == null || !type.getProperties().getProperty(ArrowProperty.SKELETONS_CAN_SHOOT).orElse(false)) return;
+            if (type == null || !type.getProperties().getProperty(ArrowProperty.SKELETONS_CAN_SHOOT).orElse(false)) {
+                return;
+            }
 
             AlchemicalArrowEntity alchemicalArrow = type.createNewArrow(arrow);
             if (!type.onShootFromSkeleton(alchemicalArrow, (Skeleton) source)) {
@@ -129,7 +123,7 @@ public final class ProjectileShootListener implements Listener {
                 return;
             }
 
-            this.stateManager.add(alchemicalArrow);
+            this.plugin.getArrowStateManager().add(alchemicalArrow);
         }
 
         else if (arrow.getShooter() instanceof BlockProjectileSource) {
@@ -149,14 +143,14 @@ public final class ProjectileShootListener implements Listener {
     }
 
     private boolean containsArrow(PlayerInventory inventory) {
-    	return ArrowRegistry.ARROW_MATERIALS.stream().anyMatch(inventory::contains);
+    	return Tag.ITEMS_ARROWS.getValues().stream().anyMatch(inventory::contains);
     }
 
     private int findFirstArrow(PlayerInventory inventory) {
         ItemStack[] contents = inventory.getContents();
         for (int i = 0; i < contents.length; i++) {
             ItemStack item = contents[i];
-            if (item != null && ArrowRegistry.ARROW_MATERIALS.contains(item.getType())) {
+            if (item != null && Tag.ITEMS_ARROWS.isTagged(item.getType())) {
             	return i;
             }
         }

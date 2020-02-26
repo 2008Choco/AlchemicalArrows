@@ -1,7 +1,7 @@
 package wtf.choco.arrows.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -11,16 +11,18 @@ import org.jetbrains.annotations.NotNull;
 
 public final class ArrowRecipeDiscoverListener implements Listener {
 
-    private final List<NamespacedKey> recipeKeys = new ArrayList<>();
+    private final Set<NamespacedKey> recipeKeys = new HashSet<>();
 
     @EventHandler
     public void onDiscoverArrowRecipe(PlayerRecipeDiscoverEvent event) {
-        if (!event.getRecipe().toString().equalsIgnoreCase("minecraft:arrow")) return;
+        if (!event.getRecipe().toString().equalsIgnoreCase("minecraft:arrow")) {
+            return;
+        }
+
         event.getPlayer().discoverRecipes(recipeKeys);
     }
 
     public void includeRecipeKey(@NotNull NamespacedKey key) {
-    	if (recipeKeys.contains(key)) return;
         this.recipeKeys.add(key);
     }
 

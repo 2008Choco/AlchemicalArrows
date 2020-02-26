@@ -12,6 +12,7 @@ import com.google.common.collect.Sets;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
 import org.bukkit.entity.Arrow;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,6 @@ import wtf.choco.arrows.api.AlchemicalArrow;
  */
 public final class ArrowRegistry implements Iterable<AlchemicalArrow> {
 
-    public static final Set<Material> ARROW_MATERIALS = Sets.immutableEnumSet(Material.ARROW, Material.SPECTRAL_ARROW, Material.TIPPED_ARROW);
     public static final Set<Material> BOW_MATERIALS = Sets.immutableEnumSet(Material.BOW, Material.CROSSBOW);
 
     private static final AlchemicalArrows PLUGIN = AlchemicalArrows.getInstance(); // For legacy sake
@@ -59,7 +59,7 @@ public final class ArrowRegistry implements Iterable<AlchemicalArrow> {
         // Validate item
         ItemStack arrowItem = arrow.getItem();
         Preconditions.checkArgument(arrowItem != null, "AlchemicalArrow#getItem() must not be null");
-        Preconditions.checkArgument(ARROW_MATERIALS.contains(arrowItem.getType()), "Result of AlchemicalArrow#getItem() must be an arrow material (arrow, tipped or spectral)");
+        Preconditions.checkArgument(Tag.ITEMS_ARROWS.isTagged(arrowItem.getType()), "Result of AlchemicalArrow#getItem() must be an arrow material (arrow, tipped or spectral)");
 
         for (AlchemicalArrow registeredArrow : arrows.values()) {
             if (registeredArrow.getItem().isSimilar(arrowItem)) {

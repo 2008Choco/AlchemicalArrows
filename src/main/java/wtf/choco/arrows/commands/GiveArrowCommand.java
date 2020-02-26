@@ -29,7 +29,9 @@ import wtf.choco.arrows.utils.CommandUtil;
 public class GiveArrowCommand implements CommandExecutor {
 
     public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> {
-        if (args.length != 1) return null;
+        if (args.length != 1) {
+            return null;
+        }
 
         List<String> arguments = new ArrayList<>();
         for (AlchemicalArrow arrow : AlchemicalArrows.getInstance().getArrowRegistry().getRegisteredArrows()) {

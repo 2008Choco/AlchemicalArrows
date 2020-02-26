@@ -14,7 +14,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowConfusion extends AlchemicalArrowAbstract {
+public class AlchemicalArrowConfusion extends AlchemicalArrowInternal {
 
     private static final PotionEffect CONFUSION_EFFECT = new PotionEffect(PotionEffectType.CONFUSION, 100, 0);
 
@@ -30,7 +30,9 @@ public class AlchemicalArrowConfusion extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.SPELL, location, 2, 0.1, 0.1, 0.1, 1);
     }
@@ -46,7 +48,9 @@ public class AlchemicalArrowConfusion extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof Creature)) return;
+        if (!(entity instanceof Creature)) {
+            return;
+        }
 
         ((Creature) entity).setTarget(null);
     }

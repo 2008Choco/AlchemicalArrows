@@ -45,7 +45,9 @@ public class CauldronUpdateTask extends BukkitRunnable {
                 cauldron.setBubbling(false);
 
                 // Drop ingredients if any
-                if (!cauldron.hasIngredients()) continue;
+                if (!cauldron.hasIngredients()) {
+                    continue;
+                }
 
                 cauldron.getIngredients().forEach((m, a) -> world.dropItem(location, new ItemStack(m, a)));
                 cauldron.clearIngredients();
@@ -53,11 +55,15 @@ public class CauldronUpdateTask extends BukkitRunnable {
             }
 
             // Attempt to heat cauldron (if valid)
-            if (!cauldron.isBubbling() && !cauldron.isHeatingUp() && !cauldron.attemptToHeatUp()) continue;
+            if (!cauldron.isBubbling() && !cauldron.isHeatingUp() && !cauldron.attemptToHeatUp()) {
+                continue;
+            }
 
             // Prepare bubbling cauldrons
             if (cauldron.isHeatingUp()) {
-                if (System.currentTimeMillis() - cauldron.getHeatingStartTime() < AlchemicalCauldron.REQUIRED_BUBBLING_MS) continue;
+                if (System.currentTimeMillis() - cauldron.getHeatingStartTime() < AlchemicalCauldron.REQUIRED_BUBBLING_MS) {
+                    continue;
+                }
 
                 cauldron.stopHeatingUp();
                 cauldron.setBubbling(true);
@@ -77,12 +83,16 @@ public class CauldronUpdateTask extends BukkitRunnable {
                 });
 
             // Attempt crafting recipes in bubbling cauldrons
-            if (CauldronRecipe.CATALYSTS.size() == 0) return;
+            if (CauldronRecipe.CATALYSTS.size() == 0) {
+                return;
+            }
 
             for (Material catalyst : CauldronRecipe.CATALYSTS) {
                 while (cauldron.hasIngredient(catalyst)) {
                     CauldronRecipe activeRecipe = cauldronManager.getApplicableRecipe(catalyst, cauldron.getIngredients());
-                    if (activeRecipe == null) return;
+                    if (activeRecipe == null) {
+                        return;
+                    }
 
                     CauldronCraftEvent ccEvent = new CauldronCraftEvent(cauldron, activeRecipe);
                     Bukkit.getPluginManager().callEvent(ccEvent);

@@ -20,7 +20,7 @@ import wtf.choco.arrows.utils.CommandUtil;
 import wtf.choco.arrows.utils.ItemBuilder;
 
 // For internal use. More convenient arrow construction for configuration-based arrows
-abstract class AlchemicalArrowAbstract extends AlchemicalArrow {
+abstract class AlchemicalArrowInternal extends AlchemicalArrow {
 
     private static int modelDataIndex = 132; // Start at model data 132
 
@@ -28,7 +28,7 @@ abstract class AlchemicalArrowAbstract extends AlchemicalArrow {
     private final ItemStack item;
     private final String name;
 
-    protected AlchemicalArrowAbstract(AlchemicalArrows plugin, String key, String defaultName) {
+    protected AlchemicalArrowInternal(AlchemicalArrows plugin, String key, String defaultName) {
     	FileConfiguration config = plugin.getConfig();
 
         this.key = new NamespacedKey(plugin, key.toLowerCase());

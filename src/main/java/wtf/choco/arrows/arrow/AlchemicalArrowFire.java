@@ -13,7 +13,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowFire extends AlchemicalArrowAbstract {
+public class AlchemicalArrowFire extends AlchemicalArrowInternal {
 
     private static final Random RANDOM = new Random();
 
@@ -29,7 +29,9 @@ public class AlchemicalArrowFire extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.SMOKE_NORMAL, location, 1, 0.1, 0.1, 0.1, 0.001);
         world.spawnParticle(Particle.FLAME, location, 1, 0.1, 0.1, 0.1, 0.001);

@@ -23,7 +23,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
+public class AlchemicalArrowAir extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Double> PROPERTY_BREATHE_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "breathe_radius"), Double.class, 2.0);
 
@@ -45,33 +45,47 @@ public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.CLOUD, location, 1, 0.1, 0.1, 0.1, 0.01);
 
         // Validate in-tile underwater arrow
-        if (!arrow.getArrow().isInBlock() || lastTick-- > 0) return;
+        if (!arrow.getArrow().isInBlock() || lastTick-- > 0) {
+            return;
+        }
 
         Block block = location.getBlock();
         BlockData data = block.getBlockData();
-        if (block.getType() != Material.WATER || (data instanceof Waterlogged && !((Waterlogged) data).isWaterlogged())) return;
+        if (block.getType() != Material.WATER || (data instanceof Waterlogged && !((Waterlogged) data).isWaterlogged())) {
+            return;
+        }
 
         double radius = properties.getProperty(PROPERTY_BREATHE_RADIUS).orElse(2.0D);
-        if (radius <= 0.0) return;
+        if (radius <= 0.0) {
+            return;
+        }
 
         // Replenish air of nearby underwater entities
         Collection<Entity> nearbyEntities = world.getNearbyEntities(location, radius, radius, radius);
-        if (nearbyEntities.size() <= 1) return;
+        if (nearbyEntities.size() <= 1) {
+            return;
+        }
 
         for (Entity entity : nearbyEntities) {
-            if (!(entity instanceof LivingEntity)) continue;
+            if (!(entity instanceof LivingEntity)) {
+                continue;
+            }
 
-            LivingEntity lEntity = (LivingEntity) entity;
-            if (lEntity.getRemainingAir() >= lEntity.getMaximumAir() + 40) continue;
+            LivingEntity livingEntity = (LivingEntity) entity;
+            if (livingEntity.getRemainingAir() >= livingEntity.getMaximumAir() + 40) {
+                continue;
+            }
 
-            lEntity.setRemainingAir(lEntity.getRemainingAir() - 40);
-            if (lEntity.getType() == EntityType.PLAYER) {
-                ((Player) lEntity).playSound(lEntity.getLocation(), Sound.ENTITY_BOAT_PADDLE_WATER, 1, 0.5F);
+            livingEntity.setRemainingAir(livingEntity.getRemainingAir() - 40);
+            if (livingEntity.getType() == EntityType.PLAYER) {
+                ((Player) livingEntity).playSound(livingEntity.getLocation(), Sound.ENTITY_BOAT_PADDLE_WATER, 1, 0.5F);
             }
 
             this.lastTick = 20;
@@ -80,9 +94,11 @@ public class AlchemicalArrowAir extends AlchemicalArrowAbstract {
 
     @Override
     public void hitEntityEventHandler(AlchemicalArrowEntity arrow, EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity)) return;
-        LivingEntity entity = (LivingEntity) event.getEntity();
+        if (!(event.getEntity() instanceof LivingEntity)) {
+            return;
+        }
 
+        LivingEntity entity = (LivingEntity) event.getEntity();
         entity.damage(event.getFinalDamage(), event.getDamager());
         entity.setVelocity(entity.getVelocity().setY((RANDOM.nextDouble() * 2) + 1));
         entity.getWorld().playSound(entity.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);

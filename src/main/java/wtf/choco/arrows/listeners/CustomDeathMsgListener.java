@@ -16,31 +16,37 @@ import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.registry.ArrowStateManager;
 
 public final class CustomDeathMsgListener implements Listener {
 
-    private final FileConfiguration config;
-    private final ArrowStateManager stateManager;
+    private final AlchemicalArrows plugin;
 
     public CustomDeathMsgListener(@NotNull AlchemicalArrows plugin) {
-        this.config = plugin.getConfig();
-        this.stateManager = plugin.getArrowStateManager();
+        this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (!config.getBoolean("DeathMessages.Enabled", true)) return;
+        FileConfiguration config = plugin.getConfig();
+        if (!config.getBoolean("DeathMessages.Enabled", true)) {
+            return;
+        }
 
         EntityDamageEvent lastDamageCause = event.getEntity().getLastDamageCause();
-        if (!(lastDamageCause instanceof EntityDamageByEntityEvent)) return;
+        if (!(lastDamageCause instanceof EntityDamageByEntityEvent)) {
+            return;
+        }
 
         EntityDamageByEntityEvent lastEntityDamage = (EntityDamageByEntityEvent) lastDamageCause;
-        if (!(lastEntityDamage.getDamager() instanceof Arrow)) return;
+        if (!(lastEntityDamage.getDamager() instanceof Arrow)) {
+            return;
+        }
 
         Arrow arrow = (Arrow) lastEntityDamage.getDamager();
-        AlchemicalArrowEntity alchemicalArrow = stateManager.get(arrow);
-        if (alchemicalArrow == null) return;
+        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get(arrow);
+        if (alchemicalArrow == null) {
+            return;
+        }
 
         String killedName = event.getEntity().getName();
         String arrowType = alchemicalArrow.getImplementation().getDisplayName();
@@ -49,23 +55,17 @@ public final class CustomDeathMsgListener implements Listener {
         ProjectileSource source = arrow.getShooter();
         if (source instanceof Player) {
             Player killer = (Player) source;
-            String message = messageOrDefault("DeathMessages.DeathByPlayer", "%player% was killed by %killer% using a %type%");
+            String message = config.getString("DeathMessages.DeathByPlayer", "%player% was killed by %killer% using a %type%");
             event.setDeathMessage(message.replace("%player%", killedName).replace("%killer%", killer.getName()).replace("%type%", arrowType));
         }
         else if (source instanceof Skeleton) {
-            String message = messageOrDefault("DeathMessages.DeathBySkeleton", "%player% was killed by a skeleton using a %type%");
+            String message = config.getString("DeathMessages.DeathBySkeleton", "%player% was killed by a skeleton using a %type%");
             event.setDeathMessage(message.replace("%player%", killedName).replace("%type%", arrowType));
         }
         else if (source instanceof BlockProjectileSource) {
-            String message = messageOrDefault("DeathMessages.DeathByBlockSource", "%player% was shot using a %type%");
+            String message = config.getString("DeathMessages.DeathByBlockSource", "%player% was shot using a %type%");
             event.setDeathMessage(message.replace("%player%", killedName).replace("%type%", arrowType));
         }
-    }
-
-    @NotNull // Due to nullability annotations, this method must exist to avoid repetitive (and unnecessary) null checks
-    private String messageOrDefault(@NotNull String path, @NotNull String defaultMessage) {
-        String message = config.getString(path, defaultMessage);
-        return (message != null) ? message : defaultMessage;
     }
 
 }

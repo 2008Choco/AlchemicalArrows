@@ -17,7 +17,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
+public class AlchemicalArrowFrost extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Double> PROPERTY_WATER_FREEZE_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "water_freeze_radius"), Double.class, 3.5);
 
@@ -38,11 +38,15 @@ public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.SNOW_SHOVEL, location, 3, 0.1, 0.1, 0.1, 0.01);
+        if (location.getBlock().getType() != Material.WATER) {
+            return;
+        }
 
-        if (location.getBlock().getType() != Material.WATER) return;
         this.freezeRadius(arrow, location);
     }
 
@@ -54,11 +58,13 @@ public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) return;
-        LivingEntity lEntity = (LivingEntity) entity;
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
 
-        lEntity.addPotionEffect(SLOWNESS_EFFECT);
-        lEntity.addPotionEffect(ANTI_JUMP_EFFECT);
+        LivingEntity livingEntity = (LivingEntity) entity;
+        livingEntity.addPotionEffect(SLOWNESS_EFFECT);
+        livingEntity.addPotionEffect(ANTI_JUMP_EFFECT);
     }
 
     @Override
@@ -68,7 +74,9 @@ public class AlchemicalArrowFrost extends AlchemicalArrowAbstract {
 
     private void freezeRadius(AlchemicalArrowEntity arrow, Location location) {
         double radius = properties.getProperty(PROPERTY_WATER_FREEZE_RADIUS).orElse(3.5D);
-        if (radius <= 0.0) return;
+        if (radius <= 0.0) {
+            return;
+        }
 
         // Center the location
         location.setX(location.getBlockX() + 0.5);

@@ -15,7 +15,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
+public class AlchemicalArrowGrapple extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Double> PROPERTY_GRAPPLE_FORCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "grapple_force"), Double.class, 2.5);
 
@@ -34,7 +34,9 @@ public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.CRIT, location, 3, 0.1, 0.1, 0.1, 0.1);
     }
@@ -42,10 +44,14 @@ public class AlchemicalArrowGrapple extends AlchemicalArrowAbstract {
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
         Arrow bukkitArrow = arrow.getArrow();
-        if (!(bukkitArrow.getShooter() instanceof LivingEntity)) return;
+        if (!(bukkitArrow.getShooter() instanceof LivingEntity)) {
+            return;
+        }
 
         LivingEntity shooter = (LivingEntity) bukkitArrow.getShooter();
-        if (shooter == null) return;
+        if (shooter == null) {
+            return;
+        }
 
         Vector grappleVelocity = bukkitArrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
         grappleVelocity.multiply(properties.getProperty(PROPERTY_GRAPPLE_FORCE).orElse(2.5D));

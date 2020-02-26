@@ -9,24 +9,27 @@ import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.registry.ArrowStateManager;
 
 public final class PickupArrowListener implements Listener {
 
-    private final ArrowStateManager stateManager;
+    private final AlchemicalArrows plugin;
 
     public PickupArrowListener(@NotNull AlchemicalArrows plugin) {
-    	this.stateManager = plugin.getArrowStateManager();
+        this.plugin = plugin;
     }
 
     @EventHandler
     @SuppressWarnings("deprecation")
     public void onPickupArrow(PlayerPickupArrowEvent event) {
         AbstractArrow arrow = event.getArrow();
-        if (!(arrow instanceof Arrow)) return;
+        if (!(arrow instanceof Arrow)) {
+            return;
+        }
 
-        AlchemicalArrowEntity alchemicalArrow = stateManager.get((Arrow) arrow);
-        if (alchemicalArrow == null) return;
+        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get((Arrow) arrow);
+        if (alchemicalArrow == null) {
+            return;
+        }
 
         event.getItem().setItemStack(alchemicalArrow.getImplementation().getItem());
     }

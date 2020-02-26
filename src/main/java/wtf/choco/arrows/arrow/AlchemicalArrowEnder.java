@@ -19,7 +19,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
+public class AlchemicalArrowEnder extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Boolean> PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "teleport_on_hit_block"), Boolean.class, true);
 
@@ -36,7 +36,9 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.PORTAL, location, 3, 0.1, 0.1, 0.1);
     }
@@ -44,7 +46,9 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
     @Override
     public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
         Arrow bukkitArrow = arrow.getArrow();
-        if (!(bukkitArrow.getShooter() instanceof LivingEntity)) return;
+        if (!(bukkitArrow.getShooter() instanceof LivingEntity)) {
+            return;
+        }
 
         this.swapLocations(bukkitArrow, (LivingEntity) bukkitArrow.getShooter(), player);
     }
@@ -52,17 +56,23 @@ public class AlchemicalArrowEnder extends AlchemicalArrowAbstract {
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
         Arrow bukkitArrow = arrow.getArrow();
-        if (!(bukkitArrow.getShooter() instanceof LivingEntity) || !(entity instanceof LivingEntity) || entity.getType() == EntityType.ARMOR_STAND) return;
+        if (!(bukkitArrow.getShooter() instanceof LivingEntity) || !(entity instanceof LivingEntity) || entity.getType() == EntityType.ARMOR_STAND) {
+            return;
+        }
 
         this.swapLocations(bukkitArrow, (LivingEntity) bukkitArrow.getShooter(), (LivingEntity) entity);
     }
 
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-        if (!properties.getProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK).orElse(true)) return;
+        if (!properties.getProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK).orElse(true)) {
+            return;
+        }
 
         ProjectileSource shooter = arrow.getArrow().getShooter();
-        if (!(shooter instanceof LivingEntity)) return;
+        if (!(shooter instanceof LivingEntity)) {
+            return;
+        }
 
         arrow.getArrow().remove();
         Location teleportLocation = block.getLocation().add(0.5, 1, 0.5);

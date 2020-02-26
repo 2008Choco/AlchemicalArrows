@@ -20,7 +20,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowNecrotic extends AlchemicalArrowAbstract {
+public class AlchemicalArrowNecrotic extends AlchemicalArrowInternal {
 
     private static final ItemStack ROTTEN_FLESH = new ItemStack(Material.ROTTEN_FLESH);
 
@@ -36,7 +36,9 @@ public class AlchemicalArrowNecrotic extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.ITEM_CRACK, location, 2, 0.1, 0.1, 0.1, 0.1, ROTTEN_FLESH);
     }
@@ -59,7 +61,9 @@ public class AlchemicalArrowNecrotic extends AlchemicalArrowAbstract {
     }
 
     private void lifeSap(Entity shooter, double damage) {
-        if (!(shooter instanceof LivingEntity)) return;
+        if (!(shooter instanceof LivingEntity)) {
+            return;
+        }
 
         LivingEntity source = (LivingEntity) shooter;
         AttributeInstance attributeMaxHealth = source.getAttribute(Attribute.GENERIC_MAX_HEALTH);

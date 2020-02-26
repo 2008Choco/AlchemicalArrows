@@ -17,7 +17,7 @@ public final class ArrowUpdateTask extends BukkitRunnable {
 
     private static ArrowUpdateTask instance = null;
 
-    private final List<AlchemicalArrowEntity> purgeBuffer = new ArrayList<>(5);
+    private final List<AlchemicalArrowEntity> purgeBuffer = new ArrayList<>(16);
     private final ArrowStateManager stateManager;
 
     private ArrowUpdateTask(@NotNull ArrowStateManager stateManager) {
