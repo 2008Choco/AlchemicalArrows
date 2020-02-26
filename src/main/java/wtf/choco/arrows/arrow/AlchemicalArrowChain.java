@@ -13,10 +13,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.Vector;
+
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
-
 
 public class AlchemicalArrowChain extends AlchemicalArrowAbstract {
 
@@ -44,7 +44,9 @@ public class AlchemicalArrowChain extends AlchemicalArrowAbstract {
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
         World world = location.getWorld();
-        if (world == null) return;
+        if (world == null) {
+            return;
+        }
 
         world.spawnParticle(Particle.SLIME, location, 1, 0.1, 0.1, 0.1, 0.001);
     }
@@ -58,36 +60,40 @@ public class AlchemicalArrowChain extends AlchemicalArrowAbstract {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
+        if (!(entity instanceof LivingEntity)) {
+            return;
+        }
+
         Arrow bukkitArrow = arrow.getArrow();
         this.attemptChain(bukkitArrow, bukkitArrow.getShooter(), (LivingEntity) entity);
         bukkitArrow.remove();
     }
 
-    /*
-    Chain the arrow to other nearby targets.
-     */
+    // Chain the arrow to other nearby targets.
     private void attemptChain(Arrow source, ProjectileSource shooter, LivingEntity hitEntity) {
-        if(shooter == hitEntity) {
+        if (shooter == hitEntity) {
             return;
         }
 
         World world = source.getWorld();
-        // Source location is center of hit entity instead of their feet
-        Location newArrowSourceLoc = hitEntity.getLocation().add(0,hitEntity.getHeight() / 2,0);
+        Location newArrowLocation = hitEntity.getLocation().add(0, hitEntity.getHeight() / 2.0, 0); // Source location is center of hit entity instead of their feet
+        Vector newArrowLocationVector = newArrowLocation.toVector();
         int searchRadius = properties.getProperty(CHAIN_SEARCH_DISTANCE).orElse(5);
-        for(Entity newTarget : world.getNearbyEntities(newArrowSourceLoc,searchRadius,searchRadius,searchRadius)){
+
+        for (Entity newTarget : world.getNearbyEntities(newArrowLocation, searchRadius, searchRadius, searchRadius)) {
             // Don't chain to non-living entities, shooter or the original hit entity
-            if(!(newTarget instanceof LivingEntity) || newTarget == hitEntity || newTarget == shooter) {
+            if (!(newTarget instanceof LivingEntity) || newTarget == hitEntity || newTarget == shooter) {
                 continue;
             }
 
-            // Calc vector to center of new target entity
-            Vector dirToTarget = newTarget.getLocation().toVector().add(new Vector(0,newTarget.getHeight() / 2,0)).subtract(newArrowSourceLoc.toVector());
-            Arrow chainArrow = world.spawnArrow(newArrowSourceLoc,dirToTarget, 1.2F,12);
+            // Calculate vector to center of new target entity
+            Vector directionToTarget = newTarget.getLocation().toVector().add(new Vector(0, newTarget.getHeight() / 2.0, 0)).subtract(newArrowLocationVector);
+            Arrow chainArrow = world.spawnArrow(newArrowLocation, directionToTarget, 1.2F, 12);
             chainArrow.setShooter(shooter);
             chainArrow.setDamage(chainArrow.getDamage() * properties.getProperty(CHAIN_DAMAGE_FACTOR).orElse(0.80));
             chainArrow.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
-            world.playSound(newArrowSourceLoc, Sound.ENTITY_ARROW_SHOOT,1,1);
+            world.playSound(newArrowLocation, Sound.ENTITY_ARROW_SHOOT, 1, 1);
         }
     }
+
 }
