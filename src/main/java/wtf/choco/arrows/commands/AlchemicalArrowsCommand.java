@@ -21,7 +21,7 @@ import wtf.choco.arrows.registry.ArrowStateManager;
 
 public class AlchemicalArrowsCommand implements CommandExecutor {
 
-    private static final List<String> DEFAULT_COMPLETIONS = Arrays.asList("killallarrows", "version", "reload");
+    private static final List<String> DEFAULT_COMPLETIONS = Arrays.asList("clear", "version", "reload");
     public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> (args.length > 0) ? StringUtil.copyPartialMatches(args[0], DEFAULT_COMPLETIONS, new ArrayList<>()) : null;
 
     private final AlchemicalArrows plugin;
@@ -39,8 +39,8 @@ public class AlchemicalArrowsCommand implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("killallarrows")) {
-            if (!sender.hasPermission("arrows.command.killallarrows")) {
+        if (args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("killallarrows") /* legacy */) {
+            if (!sender.hasPermission("arrows.command.clear") || !sender.hasPermission("arrows.command.killallarrows") /* legacy */) {
                 sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
                 return true;
             }

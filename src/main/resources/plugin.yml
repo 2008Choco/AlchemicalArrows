@@ -9,7 +9,7 @@ api-version: 1.14
 commands:
     alchemicalarrows:
       description: The administrative AlchemicalArrows command
-      usage: /<command> <version|reload|killallarrows>
+      usage: /<command> <clear|version|reload>
       aliases: [aa]
     givearrow:
       description: Give you or another player one of the specialized arrows
@@ -69,6 +69,7 @@ permissions:
         description: Allow the ability to use all administrative commands
         default: op
         children:
+            arrows.command.clear: true
             arrows.command.killallarrows: true
             arrows.command.reload: true
             arrows.command.givearrow: true
