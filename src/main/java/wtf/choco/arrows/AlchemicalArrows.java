@@ -65,7 +65,7 @@ public class AlchemicalArrows extends JavaPlugin {
     public static final String CHAT_PREFIX = ChatColor.GOLD.toString() + ChatColor.BOLD + "AlchemicalArrows | " + ChatColor.GRAY;
 
     private static final int RESOURCE_ID = 11693;
-    private static final String SPIGOT_LINK = "https://api.spigot.org/v2/resources/" + RESOURCE_ID + "/versions/latest";
+    private static final String SPIGET_LINK = "https://api.spiget.org/v2/resources/" + RESOURCE_ID + "/versions/latest";
 
     private static final Gson GSON = new Gson();
     private static AlchemicalArrows instance;
@@ -122,7 +122,7 @@ public class AlchemicalArrows extends JavaPlugin {
         // Register alchemical arrows
         this.getLogger().info("Registering default alchemical arrows and their recipes");
         this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER); // Custom model data 132 (+1 for every registration)
-        this.createArrow(new AlchemicalArrowChain(this), "Chain", Material.FIREWORK_ROCKET);
+        this.createArrow(new AlchemicalArrowChain(this), "Chain", Material.SLIME_BALL);
         this.createArrow(new AlchemicalArrowConfusion(this), "Confusion", Material.POISONOUS_POTATO);
         this.createArrow(new AlchemicalArrowDarkness(this), "Darkness", Material.COAL, Material.CHARCOAL);
         this.createArrow(new AlchemicalArrowDeath(this), "Death", Material.WITHER_SKELETON_SKULL);
@@ -162,7 +162,7 @@ public class AlchemicalArrows extends JavaPlugin {
             metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> getConfig().getBoolean("Crafting.CauldronCrafting", true) ? "Cauldron Crafting" : "Vanilla Crafting"));
         }
 
-        // Check for newer version (Spigot API)
+        // Check for newer version (Spiget API)
         if (getConfig().getBoolean("CheckForUpdates", true)) {
             this.getLogger().info("Getting version information...");
             this.doVersionCheck();
@@ -262,7 +262,7 @@ public class AlchemicalArrows extends JavaPlugin {
 
     private void doVersionCheck() {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(SPIGOT_LINK).openStream()))) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(SPIGET_LINK).openStream()))) {
                 JsonObject object = GSON.fromJson(reader, JsonObject.class);
                 String currentVersion = getDescription().getVersion(), recentVersion = object.get("name").getAsString();
 
