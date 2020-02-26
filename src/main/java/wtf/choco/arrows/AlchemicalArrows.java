@@ -146,7 +146,7 @@ public class AlchemicalArrows extends JavaPlugin {
         this.createArrow(new AlchemicalArrowMagic(this), "Magic", Material.BLAZE_POWDER);
         this.createArrow(new AlchemicalArrowMagnetic(this), "Magnetic", Material.IRON_INGOT);
         this.createArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
-        this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET); // Custom model data 147
+        this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET); // Custom model data 148
 
         // Load cauldrons
         if (cauldronFile.exists()) {
