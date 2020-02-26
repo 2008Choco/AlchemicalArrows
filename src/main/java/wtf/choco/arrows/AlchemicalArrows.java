@@ -4,15 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
@@ -32,7 +27,23 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.api.AlchemicalArrow;
-import wtf.choco.arrows.arrow.*;
+import wtf.choco.arrows.arrow.AlchemicalArrowAir;
+import wtf.choco.arrows.arrow.AlchemicalArrowChain;
+import wtf.choco.arrows.arrow.AlchemicalArrowConfusion;
+import wtf.choco.arrows.arrow.AlchemicalArrowDarkness;
+import wtf.choco.arrows.arrow.AlchemicalArrowDeath;
+import wtf.choco.arrows.arrow.AlchemicalArrowEarth;
+import wtf.choco.arrows.arrow.AlchemicalArrowEnder;
+import wtf.choco.arrows.arrow.AlchemicalArrowExplosive;
+import wtf.choco.arrows.arrow.AlchemicalArrowFire;
+import wtf.choco.arrows.arrow.AlchemicalArrowFrost;
+import wtf.choco.arrows.arrow.AlchemicalArrowGrapple;
+import wtf.choco.arrows.arrow.AlchemicalArrowLife;
+import wtf.choco.arrows.arrow.AlchemicalArrowLight;
+import wtf.choco.arrows.arrow.AlchemicalArrowMagic;
+import wtf.choco.arrows.arrow.AlchemicalArrowMagnetic;
+import wtf.choco.arrows.arrow.AlchemicalArrowNecrotic;
+import wtf.choco.arrows.arrow.AlchemicalArrowWater;
 import wtf.choco.arrows.commands.AlchemicalArrowsCommand;
 import wtf.choco.arrows.commands.GiveArrowCommand;
 import wtf.choco.arrows.commands.SummonArrowCommand;
@@ -54,6 +65,8 @@ import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.registry.CauldronManager;
 import wtf.choco.arrows.utils.ArrowUpdateTask;
 import wtf.choco.arrows.utils.ItemBuilder;
+import wtf.choco.arrows.utils.UpdateChecker;
+import wtf.choco.arrows.utils.UpdateChecker.UpdateReason;
 
 /**
  * The entry point of the AlchemicalArrows plugin and its API.
@@ -64,10 +77,6 @@ public class AlchemicalArrows extends JavaPlugin {
 
     public static final String CHAT_PREFIX = ChatColor.GOLD.toString() + ChatColor.BOLD + "AlchemicalArrows | " + ChatColor.GRAY;
 
-    private static final int RESOURCE_ID = 11693;
-    private static final String SPIGET_LINK = "https://api.spiget.org/v2/resources/" + RESOURCE_ID + "/versions/latest";
-
-    private static final Gson GSON = new Gson();
     private static AlchemicalArrows instance;
 
     private ArrowStateManager stateManager;
@@ -162,10 +171,25 @@ public class AlchemicalArrows extends JavaPlugin {
             metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> getConfig().getBoolean("Crafting.CauldronCrafting", true) ? "Cauldron Crafting" : "Vanilla Crafting"));
         }
 
-        // Check for newer version (Spiget API)
+        // Check for newer version
+        UpdateChecker updateChecker = UpdateChecker.init(this, 11693);
         if (getConfig().getBoolean("CheckForUpdates", true)) {
             this.getLogger().info("Getting version information...");
-            this.doVersionCheck();
+            updateChecker.requestUpdateCheck().whenComplete((result, exception) -> {
+                if (result.requiresUpdate()) {
+                    this.getLogger().info(String.format("An update is available! AlchemicalArrows %s may be downloaded on SpigotMC", result.getNewestVersion()));
+                    return;
+                }
+
+                UpdateReason reason = result.getReason();
+                if (reason == UpdateReason.UP_TO_DATE) {
+                    this.getLogger().info(String.format("Your version of AlchemicalArrows (%s) is up to date!", result.getNewestVersion()));
+                } else if (reason == UpdateReason.UNRELEASED_VERSION) {
+                    this.getLogger().info(String.format("Your version of AlchemicalArrows (%s) is more recent than the one publicly available. Are you on a development build?", result.getNewestVersion()));
+                } else {
+                    this.getLogger().warning("Could not check for a new version of AlchemicalArrows. Reason: " + reason);
+                }
+            });
         }
     }
 
@@ -258,22 +282,6 @@ public class AlchemicalArrows extends JavaPlugin {
      */
     public boolean isNewVersionAvailable() {
         return newVersionAvailable;
-    }
-
-    private void doVersionCheck() {
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(SPIGET_LINK).openStream()))) {
-                JsonObject object = GSON.fromJson(reader, JsonObject.class);
-                String currentVersion = getDescription().getVersion(), recentVersion = object.get("name").getAsString();
-
-                if (!currentVersion.equals(recentVersion)) {
-                    getLogger().info("New version available. Your Version = " + currentVersion + ". New Version = " + recentVersion);
-                    this.newVersionAvailable = true;
-                }
-            } catch(IOException e) {
-                getLogger().info("Could not check for a new version. Perhaps the website is down?");
-            }
-        });
     }
 
     private void setupCommand(@NotNull String commandString, @NotNull CommandExecutor executor, @Nullable TabCompleter tabCompleter) {
