@@ -9,7 +9,7 @@ DeathMessages:
 
 Skeletons:
   ShootPercentage: 10.0
-  LootDropChance: 25.0
+  LootDropChance: 40.0
 
 Crafting:
   CauldronCrafting: false
