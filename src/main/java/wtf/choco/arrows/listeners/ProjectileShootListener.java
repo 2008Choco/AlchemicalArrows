@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.collect.Iterables;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -83,7 +84,7 @@ public final class ProjectileShootListener implements Listener {
             if ((mainHand != null && mainHand.containsEnchantment(Enchantment.ARROW_INFINITE))
                 || (offHand != null && offHand.containsEnchantment(Enchantment.ARROW_INFINITE))) {
 
-                if (!type.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).orElse(true)) {
+                if (!type.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).orElse(true) && player.getGameMode() != GameMode.CREATIVE) {
                     if (arrowItem.getAmount() > 1) {
                         arrowItem.setAmount(arrowItem.getAmount() - 1);
                         inventory.setItem(arrowSlot, arrowItem);

@@ -122,6 +122,7 @@ public class AlchemicalArrows extends JavaPlugin {
         // Register alchemical arrows
         this.getLogger().info("Registering default alchemical arrows and their recipes");
         this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER); // Custom model data 132 (+1 for every registration)
+        this.createArrow(new AlchemicalArrowChain(this), "Chain", Material.SLIME_BALL);
         this.createArrow(new AlchemicalArrowConfusion(this), "Confusion", Material.POISONOUS_POTATO);
         this.createArrow(new AlchemicalArrowDarkness(this), "Darkness", Material.COAL, Material.CHARCOAL);
         this.createArrow(new AlchemicalArrowDeath(this), "Death", Material.WITHER_SKELETON_SKULL);

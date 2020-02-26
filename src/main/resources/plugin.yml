@@ -28,6 +28,7 @@ permissions:
         default: true
         children:
             arrows.shoot.air: true
+            arrows.shoot.chain: true
             arrows.shoot.confusion: true
             arrows.shoot.darkness: true
             arrows.shoot.death: true
@@ -48,6 +49,7 @@ permissions:
         default: true
         children:
             arrows.craft.air: true
+            arrows.craft.chain: true
             arrows.craft.confusion: true
             arrows.craft.darkness: true
             arrows.craft.death: true

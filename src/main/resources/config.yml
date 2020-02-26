@@ -29,7 +29,23 @@ Arrow:
       Lore:
       - "&f&oFeel the air beneath your feet"
       - "&f&oDamaged entities are launched into the air"
-  
+
+  Chain:
+    RecipeYield: 8
+    AllowInfinity: false
+    Colour: '0,170,0'
+    Effect:
+      DamageFactor: 0.80
+      SearchDistance: 5
+    Skeleton:
+      CanShoot: true
+      LootDropWeight: 10.0
+    Item:
+      DisplayName: "&2&nChain Arrow"
+      Lore:
+        - "&2Quick crowd dispersal"
+        - "&2Chains to other nearby entities"
+
   Confusion:
     RecipeYield: 8
     AllowInfinity: false
