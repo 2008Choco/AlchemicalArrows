@@ -30,7 +30,7 @@ public class AlchemicalArrowChain extends AlchemicalArrowInternal {
     private static final double DAMAGE_FACTOR_MIN = 0.0;
 
     public AlchemicalArrowChain(AlchemicalArrows plugin) {
-        super(plugin, "Chain", "&2&nChain Arrow");
+        super(plugin, "Chain", "&2&nChain Arrow", 148);
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Chain.Skeleton.CanShoot", true));

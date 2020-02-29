@@ -130,7 +130,7 @@ public class AlchemicalArrows extends JavaPlugin {
 
         // Register alchemical arrows
         this.getLogger().info("Registering default alchemical arrows and their recipes");
-        this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER); // Custom model data 132 (+1 for every registration)
+        this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER);
         this.createArrow(new AlchemicalArrowChain(this), "Chain", Material.SLIME_BALL);
         this.createArrow(new AlchemicalArrowConfusion(this), "Confusion", Material.POISONOUS_POTATO);
         this.createArrow(new AlchemicalArrowDarkness(this), "Darkness", Material.COAL, Material.CHARCOAL);
@@ -146,7 +146,7 @@ public class AlchemicalArrows extends JavaPlugin {
         this.createArrow(new AlchemicalArrowMagic(this), "Magic", Material.BLAZE_POWDER);
         this.createArrow(new AlchemicalArrowMagnetic(this), "Magnetic", Material.IRON_INGOT);
         this.createArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
-        this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET); // Custom model data 148
+        this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
 
         // Load cauldrons
         if (cauldronFile.exists()) {

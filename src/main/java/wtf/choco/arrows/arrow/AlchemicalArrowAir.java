@@ -33,7 +33,7 @@ public class AlchemicalArrowAir extends AlchemicalArrowInternal {
     private int lastTick = 10;
 
     public AlchemicalArrowAir(AlchemicalArrows plugin) {
-        super(plugin, "Air", "&oAir Arrow");
+        super(plugin, "Air", "&oAir Arrow", 132);
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Air.Skeleton.CanShoot", true));

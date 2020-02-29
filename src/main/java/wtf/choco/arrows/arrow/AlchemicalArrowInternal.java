@@ -22,13 +22,11 @@ import wtf.choco.arrows.utils.ItemBuilder;
 // For internal use. More convenient arrow construction for configuration-based arrows
 abstract class AlchemicalArrowInternal extends AlchemicalArrow {
 
-    private static int modelDataIndex = 132; // Start at model data 132
-
     private final NamespacedKey key;
     private final ItemStack item;
     private final String name;
 
-    protected AlchemicalArrowInternal(AlchemicalArrows plugin, String key, String defaultName) {
+    protected AlchemicalArrowInternal(AlchemicalArrows plugin, String key, String defaultName, int modelData) {
     	FileConfiguration config = plugin.getConfig();
 
         this.key = new NamespacedKey(plugin, key.toLowerCase());
@@ -58,7 +56,7 @@ abstract class AlchemicalArrowInternal extends AlchemicalArrow {
                     .map(s -> ChatColor.translateAlternateColorCodes('&', s))
                     .collect(Collectors.toList())
                 )
-                .modelData(modelDataIndex++);
+                .modelData(modelData);
 
         if (colour != null) {
             itemBuilder.specific(PotionMeta.class, m -> {

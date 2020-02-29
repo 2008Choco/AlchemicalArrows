@@ -40,7 +40,7 @@ public class AlchemicalArrowLife extends AlchemicalArrowInternal {
     private final AlchemicalArrows plugin;
 
     public AlchemicalArrowLife(AlchemicalArrows plugin) {
-        super(plugin, "Life", "&aLife Arrow");
+        super(plugin, "Life", "&aLife Arrow", 142);
         this.plugin = plugin;
 
         FileConfiguration config = plugin.getConfig();

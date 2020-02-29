@@ -24,7 +24,7 @@ public class AlchemicalArrowExplosive extends AlchemicalArrowInternal {
     private static final int EXPLOSION_STRENGTH_LIMIT = 10;
 
     public AlchemicalArrowExplosive(AlchemicalArrows plugin) {
-        super(plugin, "Explosive", "&cExplosive Arrow");
+        super(plugin, "Explosive", "&cExplosive Arrow", 138);
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Explosive.Skeleton.CanShoot", true));

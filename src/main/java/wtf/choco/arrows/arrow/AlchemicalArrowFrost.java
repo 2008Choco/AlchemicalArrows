@@ -26,7 +26,7 @@ public class AlchemicalArrowFrost extends AlchemicalArrowInternal {
     private static final double WATER_FREEZE_RADIUS_LIMIT = 7.0;
 
     public AlchemicalArrowFrost(AlchemicalArrows plugin) {
-        super(plugin, "Frost", "&bFrost Arrow");
+        super(plugin, "Frost", "&bFrost Arrow", 140);
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Frost.Skeleton.CanShoot", true));

@@ -15,7 +15,7 @@ import wtf.choco.arrows.arrow.entity.ArrowEntityWater;
 public class AlchemicalArrowWater extends AlchemicalArrowInternal {
 
     public AlchemicalArrowWater(AlchemicalArrows plugin) {
-        super(plugin, "Water", "&9Water Arrow");
+        super(plugin, "Water", "&9Water Arrow", 147);
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Water.Skeleton.CanShoot", true));

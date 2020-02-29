@@ -19,7 +19,7 @@ public class AlchemicalArrowConfusion extends AlchemicalArrowInternal {
     private static final PotionEffect CONFUSION_EFFECT = new PotionEffect(PotionEffectType.CONFUSION, 100, 0);
 
     public AlchemicalArrowConfusion(AlchemicalArrows plugin) {
-        super(plugin, "Confusion", "&dConfusion Arrow");
+        super(plugin, "Confusion", "&dConfusion Arrow", 133);
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Confusion.Skeleton.CanShoot", true));

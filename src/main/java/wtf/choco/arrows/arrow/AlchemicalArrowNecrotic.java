@@ -25,7 +25,7 @@ public class AlchemicalArrowNecrotic extends AlchemicalArrowInternal {
     private static final ItemStack ROTTEN_FLESH = new ItemStack(Material.ROTTEN_FLESH);
 
     public AlchemicalArrowNecrotic(AlchemicalArrows plugin) {
-        super(plugin, "Necrotic", "&2Necrotic Arrow");
+        super(plugin, "Necrotic", "&2Necrotic Arrow", 146);
 
         FileConfiguration config = plugin.getConfig();
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Necrotic.Skeleton.CanShoot", true));
