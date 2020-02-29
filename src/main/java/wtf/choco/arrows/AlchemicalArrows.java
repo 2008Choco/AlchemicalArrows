@@ -88,7 +88,6 @@ public class AlchemicalArrows extends JavaPlugin {
     private File cauldronFile;
 
     private boolean worldGuardEnabled = false;
-    private boolean newVersionAvailable = false;
 
     private ArrowRecipeDiscoverListener recipeListener;
 
@@ -272,16 +271,6 @@ public class AlchemicalArrows extends JavaPlugin {
      */
     public boolean isWorldGuardSupported() {
         return worldGuardEnabled;
-    }
-
-    /**
-     * Whether a new version of AlchemicalArrows is available or not. This method does not make a
-     * version check, but simply retrieves a cached value.
-     *
-     * @return true if a new version is available
-     */
-    public boolean isNewVersionAvailable() {
-        return newVersionAvailable;
     }
 
     private void setupCommand(@NotNull String commandString, @NotNull CommandExecutor executor, @Nullable TabCompleter tabCompleter) {

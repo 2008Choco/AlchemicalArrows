@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowStateManager;
+import wtf.choco.arrows.utils.UpdateChecker;
+import wtf.choco.arrows.utils.UpdateChecker.UpdateResult;
 
 public class AlchemicalArrowsCommand implements CommandExecutor {
 
@@ -67,7 +69,8 @@ public class AlchemicalArrowsCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "Developer / Maintainer: " + ChatColor.GRAY + "2008Choco" + ChatColor.YELLOW + "( https://choco.gg/ )");
             sender.sendMessage(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "Development Page: " + ChatColor.GRAY + "https://www.spigotmc.org/resources/alchemicalarrows.11693/");
             sender.sendMessage(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "Report Bugs To: " + ChatColor.GRAY + "https://github.com/2008Choco/AlchemicalArrows/issues/");
-            sender.sendMessage(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "New Version Available: " + (plugin.isNewVersionAvailable() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No"));
+            UpdateResult result = UpdateChecker.get().getLastResult();
+            sender.sendMessage(ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "New Version Available: " + (result == null ? ChatColor.YELLOW + "N/A (Unchecked)" : (result.requiresUpdate() ? ChatColor.GREEN + "Yes" : ChatColor.RED + "No")));
             sender.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD.toString() + ChatColor.STRIKETHROUGH + "--------------------------------------------");
         }
 
