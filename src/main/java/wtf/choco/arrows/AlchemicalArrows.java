@@ -23,6 +23,7 @@ import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,7 +104,7 @@ public class AlchemicalArrows extends JavaPlugin {
         this.worldGuardEnabled = Bukkit.getPluginManager().isPluginEnabled("WorldGuard");
         this.arrowUpdateTask = ArrowUpdateTask.startArrowUpdateTask(this);
 
-        if (getConfig().getBoolean("Crafting.CauldronCrafting", true)) {
+        if (getConfig().getBoolean("Crafting.CauldronCrafting", false)) {
             this.cauldronUpdateTask = CauldronUpdateTask.startTask(this);
         }
 
@@ -167,7 +168,7 @@ public class AlchemicalArrows extends JavaPlugin {
             this.getLogger().info("Enabling Plugin Metrics");
 
             Metrics metrics = new Metrics(this);
-            metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> getConfig().getBoolean("Crafting.CauldronCrafting", true) ? "Cauldron Crafting" : "Vanilla Crafting"));
+            metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> getConfig().getBoolean("Crafting.CauldronCrafting", false) ? "Cauldron Crafting" : "Vanilla Crafting"));
         }
 
         // Check for newer version
