@@ -109,10 +109,6 @@ public class SummonArrowCommand implements TabExecutor {
     @Override
     @Nullable
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length >= 6) {
-            return Collections.emptyList();
-        }
-
         if (args.length == 1) {
             List<String> suggestions = new ArrayList<>();
 
@@ -126,7 +122,7 @@ public class SummonArrowCommand implements TabExecutor {
             return suggestions;
         }
 
-        if (args.length >= 2 && args.length < 5) {
+        else if (args.length >= 2 && args.length < 5) {
             int tildasToComplete = 5 - args.length;
 
             List<String> suggestions = new ArrayList<>();
@@ -137,8 +133,22 @@ public class SummonArrowCommand implements TabExecutor {
             return suggestions;
         }
 
-        // At this point, only the world is left to complete
-        return StringUtil.copyPartialMatches(args[4], Bukkit.getWorlds().stream().map(World::getName).collect(Collectors.toList()), new ArrayList<>());
+        else if (args.length == 5) {
+            return StringUtil.copyPartialMatches(args[4], Bukkit.getWorlds().stream().map(World::getName).collect(Collectors.toList()), new ArrayList<>());
+        }
+
+        else if (args.length >= 6 && args.length < 9) {
+            int zeroesToComplete = 9 - args.length;
+
+            List<String> suggestions = new ArrayList<>();
+            for (int i = 1; i <= zeroesToComplete; i++) {
+                suggestions.add(StringUtils.repeat("0.0", " ", i));
+            }
+
+            return suggestions;
+        }
+
+        return Collections.emptyList();
     }
 
 }
