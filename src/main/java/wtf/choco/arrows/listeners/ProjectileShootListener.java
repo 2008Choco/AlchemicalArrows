@@ -1,11 +1,11 @@
 package wtf.choco.arrows.listeners;
 
+import com.google.common.collect.Iterables;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import com.google.common.collect.Iterables;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -47,6 +47,7 @@ public final class ProjectileShootListener implements Listener {
     }
 
     @EventHandler
+    @SuppressWarnings("deprecation") // Player#updateInventory()
     public void onEntityShootBow(EntityShootBowEvent event) {
         if (!(event.getProjectile() instanceof Arrow)) {
             return;
