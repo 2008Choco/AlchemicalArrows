@@ -121,6 +121,10 @@ public class GiveArrowCommand implements TabExecutor {
             return args[1].isEmpty() ? NUMBER_ARGS : Collections.emptyList();
         }
 
+        else if (args.length == 3) {
+            return null; // Player names
+        }
+
         return Collections.emptyList();
     }
 
