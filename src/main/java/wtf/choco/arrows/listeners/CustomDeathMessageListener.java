@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 
-public final class CustomDeathMsgListener implements Listener {
+public final class CustomDeathMessageListener implements Listener {
 
     private final AlchemicalArrows plugin;
 
-    public CustomDeathMsgListener(@NotNull AlchemicalArrows plugin) {
+    public CustomDeathMessageListener(@NotNull AlchemicalArrows plugin) {
         this.plugin = plugin;
     }
 

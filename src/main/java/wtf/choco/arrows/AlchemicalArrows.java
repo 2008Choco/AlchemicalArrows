@@ -58,7 +58,7 @@ import wtf.choco.arrows.listeners.ArrowHitPlayerListener;
 import wtf.choco.arrows.listeners.ArrowRecipeDiscoverListener;
 import wtf.choco.arrows.listeners.CauldronManipulationListener;
 import wtf.choco.arrows.listeners.CraftingPermissionListener;
-import wtf.choco.arrows.listeners.CustomDeathMsgListener;
+import wtf.choco.arrows.listeners.CustomDeathMessageListener;
 import wtf.choco.arrows.listeners.LegacyArrowConvertionListener;
 import wtf.choco.arrows.listeners.PickupArrowListener;
 import wtf.choco.arrows.listeners.ProjectileShootListener;
@@ -117,7 +117,7 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(new ArrowHitGroundListener(this), this);
         manager.registerEvents(new ArrowHitPlayerListener(this), this);
         manager.registerEvents(new ProjectileShootListener(this), this);
-        manager.registerEvents(new CustomDeathMsgListener(this), this);
+        manager.registerEvents(new CustomDeathMessageListener(this), this);
         manager.registerEvents(new PickupArrowListener(this), this);
         manager.registerEvents(new LegacyArrowConvertionListener(this), this);
         manager.registerEvents(new SkeletonKillListener(this), this);
