@@ -20,6 +20,7 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.StringUtil;
 import org.bukkit.util.Vector;
 
@@ -99,6 +100,10 @@ public class SummonArrowCommand implements TabExecutor {
         Vector direction = new Vector(velocityX, velocityY, velocityZ);
 
         Arrow bukkitArrow = world.spawnArrow(new Location(world, x, y, z), direction, (float) direction.length(), 0.0F);
+        if (entitySender instanceof ProjectileSource) {
+            bukkitArrow.setShooter((ProjectileSource) entitySender);
+        }
+
         AlchemicalArrowEntity alchemicalArrow = arrow.createNewArrow(bukkitArrow);
         this.stateManager.add(alchemicalArrow);
 
@@ -123,14 +128,7 @@ public class SummonArrowCommand implements TabExecutor {
         }
 
         else if (args.length >= 2 && args.length < 5) {
-            int tildasToComplete = 5 - args.length;
-
-            List<String> suggestions = new ArrayList<>();
-            for (int i = 1; i <= tildasToComplete; i++) {
-                suggestions.add(StringUtils.repeat("~", " ", i));
-            }
-
-            return suggestions;
+            return buildTupleSuggestions(args, 5, "~");
         }
 
         else if (args.length == 5) {
@@ -138,17 +136,21 @@ public class SummonArrowCommand implements TabExecutor {
         }
 
         else if (args.length >= 6 && args.length < 9) {
-            int zeroesToComplete = 9 - args.length;
-
-            List<String> suggestions = new ArrayList<>();
-            for (int i = 1; i <= zeroesToComplete; i++) {
-                suggestions.add(StringUtils.repeat("0.0", " ", i));
-            }
-
-            return suggestions;
+            return buildTupleSuggestions(args, 9, "0.0");
         }
 
         return Collections.emptyList();
+    }
+
+    private List<String> buildTupleSuggestions(String[] args, int startIndex, String suggestion) {
+        int amountToSuggest = startIndex - args.length;
+
+        List<String> suggestions = new ArrayList<>();
+        for (int i = 1; i <= amountToSuggest; i++) {
+            suggestions.add(StringUtils.repeat(suggestion, " ", i));
+        }
+
+        return suggestions;
     }
 
 }
