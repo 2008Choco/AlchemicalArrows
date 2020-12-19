@@ -7,70 +7,75 @@ softdepends: [WorldGuard]
 api-version: 1.16
 
 commands:
-    alchemicalarrows:
-      description: The administrative AlchemicalArrows command
-      usage: /<command> <clear|version|reload>
-      aliases: [aa]
-    givearrow:
-      description: Give you or another player one of the specialized arrows
-      usage: /<command> <arrow> [count] [player]
-      aliases: [givearrows]
-    summonarrow:
-      description: Summon an alchemical arrow in the world
-      usage: /<command> <arrow> [x] [y] [z] [world] [velocityX] [velocityY] [velocityZ]
+  alchemicalarrows:
+    description: The administrative AlchemicalArrows command
+    usage: /<command> <clear|version|reload>
+    aliases: [aa]
+  givearrow:
+    description: Give you or another player one of the specialized arrows
+    usage: /<command> <arrow> [count] [player]
+    aliases: [givearrows]
+    permission: arrows.command.givearrow
+  summonarrow:
+    description: Summon an alchemical arrow in the world
+    usage: /<command> <arrow> [x] [y] [z] [world] [velocityX] [velocityY] [velocityZ]
+    permission: arrows.command.summonarrow
 
 permissions:
-    arrows.worldguardoverride:
-        description: Override WorldGuard protection for arrows
-        default: false
-    arrows.shoot.*:
-        description: Allow the ability to fire every type of arrow available
-        default: true
-        children:
-            arrows.shoot.air: true
-            arrows.shoot.chain: true
-            arrows.shoot.confusion: true
-            arrows.shoot.darkness: true
-            arrows.shoot.death: true
-            arrows.shoot.earth: true
-            arrows.shoot.ender: true
-            arrows.shoot.explosive: true
-            arrows.shoot.fire: true
-            arrows.shoot.frost: true
-            arrows.shoot.grapple: true
-            arrows.shoot.life: true
-            arrows.shoot.light: true
-            arrows.shoot.magic: true
-            arrows.shoot.magnetic: true
-            arrows.shoot.necrotic: true
-            arrows.shoot.water: true
-    arrows.craft.*:
-        description: Allow the ability to craft every type of arrow available
-        default: true
-        children:
-            arrows.craft.air: true
-            arrows.craft.chain: true
-            arrows.craft.confusion: true
-            arrows.craft.darkness: true
-            arrows.craft.death: true
-            arrows.craft.earth: true
-            arrows.craft.ender: true
-            arrows.craft.explosive: true
-            arrows.craft.fire: true
-            arrows.craft.frost: true
-            arrows.craft.grapple: true
-            arrows.craft.life: true
-            arrows.craft.light: true
-            arrows.craft.magic: true
-            arrows.craft.magnetic: true
-            arrows.craft.necrotic: true
-            arrows.craft.water: true
-    arrows.command.*:
-        description: Allow the ability to use all administrative commands
-        default: op
-        children:
-            arrows.command.clear: true
-            arrows.command.killallarrows: true
-            arrows.command.reload: true
-            arrows.command.givearrow: true
-            arrows.command.summonarrow: true
+  arrows.worldguardoverride:
+    description: Override WorldGuard protection for arrows
+    default: false
+
+  arrows.shoot.*:
+    description: Allow the ability to fire every type of arrow available
+    default: true
+    children:
+      arrows.shoot.air: true
+      arrows.shoot.chain: true
+      arrows.shoot.confusion: true
+      arrows.shoot.darkness: true
+      arrows.shoot.death: true
+      arrows.shoot.earth: true
+      arrows.shoot.ender: true
+      arrows.shoot.explosive: true
+      arrows.shoot.fire: true
+      arrows.shoot.frost: true
+      arrows.shoot.grapple: true
+      arrows.shoot.life: true
+      arrows.shoot.light: true
+      arrows.shoot.magic: true
+      arrows.shoot.magnetic: true
+      arrows.shoot.necrotic: true
+      arrows.shoot.water: true
+
+  arrows.craft.*:
+    description: Allow the ability to craft every type of arrow available
+    default: true
+    children:
+      arrows.craft.air: true
+      arrows.craft.chain: true
+      arrows.craft.confusion: true
+      arrows.craft.darkness: true
+      arrows.craft.death: true
+      arrows.craft.earth: true
+      arrows.craft.ender: true
+      arrows.craft.explosive: true
+      arrows.craft.fire: true
+      arrows.craft.frost: true
+      arrows.craft.grapple: true
+      arrows.craft.life: true
+      arrows.craft.light: true
+      arrows.craft.magic: true
+      arrows.craft.magnetic: true
+      arrows.craft.necrotic: true
+      arrows.craft.water: true
+
+  arrows.command.*:
+    description: Allow the ability to use all administrative commands
+    default: op
+    children:
+      arrows.command.clear: true
+      arrows.command.killallarrows: true
+      arrows.command.reload: true
+      arrows.command.givearrow: true
+      arrows.command.summonarrow: true
