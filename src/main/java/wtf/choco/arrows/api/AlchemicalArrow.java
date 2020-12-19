@@ -2,9 +2,9 @@ package wtf.choco.arrows.api;
 
 import java.util.Objects;
 
-import org.bukkit.Keyed;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -14,11 +14,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.projectiles.BlockProjectileSource;
+
 import org.jetbrains.annotations.NotNull;
 
+import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.api.property.PropertyMap;
+import wtf.choco.arrows.persistence.AAPersistentDataTypes;
 
 /**
  * Represents the base of an alchemical arrow with special effects upon hitting a
@@ -26,9 +31,19 @@ import wtf.choco.arrows.api.property.PropertyMap;
  *
  * @author Parker Hawke - 2008Choco
  */
-public abstract class AlchemicalArrow implements Keyed {
+public abstract class AlchemicalArrow {
+
+    public static final NamespacedKey NBT_KEY_TYPE = AlchemicalArrows.key("type");
 
     protected final PropertyMap properties = new PropertyMap();
+
+    /**
+     * Get this arrow's unique key.
+     *
+     * @return the unique key
+     */
+    @NotNull
+    public abstract NamespacedKey getKey();
 
     /**
      * Get the display name of this alchemical arrow. This includes colour codes and formatting.
@@ -41,15 +56,67 @@ public abstract class AlchemicalArrow implements Keyed {
 
     /**
      * Get the item representation of this alchemical arrow. The type must be
-     * of {@link Material#ARROW} and unique to this type, otherwise an exception
-     * will be thrown. If this item is present in the player's inventory whilst
-     * attempting to shoot a bot, this arrow type will be used instead of a
-     * regular arrow.
+     * be tagged by {@link Tag#ITEMS_ARROWS}, otherwise an exception will be
+     * thrown at registration.
+     * <p>
+     * <strong>NOTE:</strong> This item does NOT have applied the NamespacedKey
+     * for this arrow and cannot be shot unless {@link #matchesItem(ItemStack)}
+     * is overridden by implementation. Callers should prefer instead to call
+     * {@link #createItemStack()}. This method is expected to be overridden by
+     * implementations, NOT to be called by API.
      *
      * @return the arrow item
      */
     @NotNull
     public abstract ItemStack getItem();
+
+    /**
+     * Create a new {@link ItemStack} that represents this AlchemicalArrow in
+     * an inventory. This arrow can be shot by a player.
+     *
+     * @return the item stack
+     */
+    public ItemStack createItemStack() {
+        ItemStack item = getItem().clone();
+        ItemMeta meta = item.getItemMeta();
+
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(NBT_KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY, getKey());
+
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    /**
+     * Create a new {@link ItemStack} that represents this AlchemicalArrow in
+     * an inventory. This arrow can be shot by a player.
+     *
+     * @param amount the item amount
+     *
+     * @return the item stack
+     */
+    public final ItemStack createItemStack(int amount) {
+        ItemStack item = createItemStack().clone();
+        item.setAmount(amount);
+        return item;
+    }
+
+    /**
+     * Check whether or not the provided {@link ItemStack} represents this
+     * AlchemicalArrow.
+     *
+     * @param item the item to check
+     *
+     * @return true if valid, false otherwise
+     */
+    public boolean matchesItem(ItemStack item) {
+        if (item == null) {
+            return false;
+        }
+
+        ItemMeta meta = item.getItemMeta();
+        return meta != null && getKey().equals(meta.getPersistentDataContainer().get(NBT_KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY));
+    }
 
     /**
      * Get a map containing all properties for this arrow

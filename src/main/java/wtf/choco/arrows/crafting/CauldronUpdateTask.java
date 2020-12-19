@@ -1,8 +1,8 @@
 package wtf.choco.arrows.crafting;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.google.common.base.Preconditions;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -15,6 +15,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
@@ -105,7 +106,7 @@ public class CauldronUpdateTask extends BukkitRunnable {
 
                     AlchemicalArrow result = ccEvent.getResult();
                     if (result != null) {
-                        world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), result.getItem()).setVelocity(itemVelocity);
+                        world.dropItem(block.getLocation().add(0.5, 1.1, 0.5), result.createItemStack()).setVelocity(itemVelocity);
                     }
 
                     if (ccEvent.shouldConsumeIngredients()) {

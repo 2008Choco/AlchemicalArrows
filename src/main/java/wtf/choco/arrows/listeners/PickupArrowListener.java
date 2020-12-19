@@ -5,6 +5,7 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPickupArrowEvent;
+
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
@@ -31,7 +32,7 @@ public final class PickupArrowListener implements Listener {
             return;
         }
 
-        event.getItem().setItemStack(alchemicalArrow.getImplementation().getItem());
+        event.getItem().setItemStack(alchemicalArrow.getImplementation().createItemStack());
     }
 
 }

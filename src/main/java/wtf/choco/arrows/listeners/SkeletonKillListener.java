@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +63,7 @@ public final class SkeletonKillListener implements Listener {
             randomValue -= arrow.getProperties().getProperty(ArrowProperty.SKELETON_LOOT_WEIGHT).orElse(0.0D);
 
             if (randomValue <= 0) {
-                item = arrow.getItem();
+                item = arrow.createItemStack();
                 break;
             }
         }

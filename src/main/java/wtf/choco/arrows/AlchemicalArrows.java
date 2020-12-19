@@ -14,6 +14,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
@@ -58,6 +59,7 @@ import wtf.choco.arrows.listeners.ArrowRecipeDiscoverListener;
 import wtf.choco.arrows.listeners.CauldronManipulationListener;
 import wtf.choco.arrows.listeners.CraftingPermissionListener;
 import wtf.choco.arrows.listeners.CustomDeathMsgListener;
+import wtf.choco.arrows.listeners.LegacyArrowConvertionListener;
 import wtf.choco.arrows.listeners.PickupArrowListener;
 import wtf.choco.arrows.listeners.ProjectileShootListener;
 import wtf.choco.arrows.listeners.SkeletonKillListener;
@@ -65,7 +67,6 @@ import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.registry.CauldronManager;
 import wtf.choco.arrows.utils.ArrowUpdateTask;
-import wtf.choco.arrows.utils.ItemBuilder;
 import wtf.choco.arrows.utils.UpdateChecker;
 import wtf.choco.arrows.utils.UpdateChecker.UpdateReason;
 
@@ -74,6 +75,7 @@ import wtf.choco.arrows.utils.UpdateChecker.UpdateReason;
  *
  * @author Parker Hawke - Choco
  */
+@SuppressWarnings("deprecation") // LegacyArrowConvertionListener
 public class AlchemicalArrows extends JavaPlugin {
 
     public static final String CHAT_PREFIX = ChatColor.GOLD.toString() + ChatColor.BOLD + "AlchemicalArrows | " + ChatColor.GRAY;
@@ -117,6 +119,7 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(new ProjectileShootListener(this), this);
         manager.registerEvents(new CustomDeathMsgListener(this), this);
         manager.registerEvents(new PickupArrowListener(this), this);
+        manager.registerEvents(new LegacyArrowConvertionListener(this), this);
         manager.registerEvents(new SkeletonKillListener(this), this);
         manager.registerEvents(new CraftingPermissionListener(this), this);
         manager.registerEvents(new CauldronManipulationListener(this), this);
@@ -130,23 +133,23 @@ public class AlchemicalArrows extends JavaPlugin {
 
         // Register alchemical arrows
         this.getLogger().info("Registering default alchemical arrows and their recipes");
-        this.createArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER);
-        this.createArrow(new AlchemicalArrowChain(this), "Chain", Material.SLIME_BALL);
-        this.createArrow(new AlchemicalArrowConfusion(this), "Confusion", Material.POISONOUS_POTATO);
-        this.createArrow(new AlchemicalArrowDarkness(this), "Darkness", Material.COAL, Material.CHARCOAL);
-        this.createArrow(new AlchemicalArrowDeath(this), "Death", Material.WITHER_SKELETON_SKULL);
-        this.createArrow(new AlchemicalArrowEarth(this), "Earth", Material.DIRT);
-        this.createArrow(new AlchemicalArrowEnder(this), "Ender", Material.ENDER_EYE);
-        this.createArrow(new AlchemicalArrowExplosive(this), "Explosive", Material.TNT);
-        this.createArrow(new AlchemicalArrowFire(this), "Fire", Material.FIRE_CHARGE);
-        this.createArrow(new AlchemicalArrowFrost(this), "Frost", Material.SNOWBALL);
-        this.createArrow(new AlchemicalArrowGrapple(this), "Grapple", Material.TRIPWIRE_HOOK);
-        this.createArrow(new AlchemicalArrowLife(this), "Life", Material.GLISTERING_MELON_SLICE);
-        this.createArrow(new AlchemicalArrowLight(this), "Light", Material.GLOWSTONE_DUST);
-        this.createArrow(new AlchemicalArrowMagic(this), "Magic", Material.BLAZE_POWDER);
-        this.createArrow(new AlchemicalArrowMagnetic(this), "Magnetic", Material.IRON_INGOT);
-        this.createArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
-        this.createArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
+        this.createAndRegisterArrow(new AlchemicalArrowAir(this), "Air", Material.FEATHER);
+        this.createAndRegisterArrow(new AlchemicalArrowChain(this), "Chain", Material.SLIME_BALL);
+        this.createAndRegisterArrow(new AlchemicalArrowConfusion(this), "Confusion", Material.POISONOUS_POTATO);
+        this.createAndRegisterArrow(new AlchemicalArrowDarkness(this), "Darkness", Material.COAL, Material.CHARCOAL);
+        this.createAndRegisterArrow(new AlchemicalArrowDeath(this), "Death", Material.WITHER_SKELETON_SKULL);
+        this.createAndRegisterArrow(new AlchemicalArrowEarth(this), "Earth", Material.DIRT);
+        this.createAndRegisterArrow(new AlchemicalArrowEnder(this), "Ender", Material.ENDER_EYE);
+        this.createAndRegisterArrow(new AlchemicalArrowExplosive(this), "Explosive", Material.TNT);
+        this.createAndRegisterArrow(new AlchemicalArrowFire(this), "Fire", Material.FIRE_CHARGE);
+        this.createAndRegisterArrow(new AlchemicalArrowFrost(this), "Frost", Material.SNOWBALL);
+        this.createAndRegisterArrow(new AlchemicalArrowGrapple(this), "Grapple", Material.TRIPWIRE_HOOK);
+        this.createAndRegisterArrow(new AlchemicalArrowLife(this), "Life", Material.GLISTERING_MELON_SLICE);
+        this.createAndRegisterArrow(new AlchemicalArrowLight(this), "Light", Material.GLOWSTONE_DUST);
+        this.createAndRegisterArrow(new AlchemicalArrowMagic(this), "Magic", Material.BLAZE_POWDER);
+        this.createAndRegisterArrow(new AlchemicalArrowMagnetic(this), "Magnetic", Material.IRON_INGOT);
+        this.createAndRegisterArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
+        this.createAndRegisterArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
 
         // Load cauldrons
         if (cauldronFile.exists()) {
@@ -237,6 +240,17 @@ public class AlchemicalArrows extends JavaPlugin {
     }
 
     /**
+     * Create a NamespacedKey with this plugin.
+     *
+     * @param key the key
+     *
+     * @return the created namespaced key
+     */
+    public static NamespacedKey key(String key) {
+        return new NamespacedKey(instance, key);
+    }
+
+    /**
      * Get the arrow registry instance used to register arrows to AlchemicalArrows. All arrows
      * must be registered in order to be recognized by the plugin.
      *
@@ -284,7 +298,7 @@ public class AlchemicalArrows extends JavaPlugin {
         command.setTabCompleter(tabCompleter);
     }
 
-    private void createArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
+    private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
         boolean cauldronCrafting = getConfig().getBoolean("Crafting.CauldronCrafting");
 
         if (cauldronCrafting) {
@@ -293,7 +307,7 @@ public class AlchemicalArrows extends JavaPlugin {
             }
         } else {
             int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);
-            Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), ItemBuilder.modify(arrow.getItem()).amount(amount).build())
+            Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), arrow.createItemStack(amount))
                     .shape("AAA", "ASA", "AAA").setIngredient('A', Material.ARROW)
                     .setIngredient('S', new MaterialChoice(Arrays.asList(secondaryMaterials))));
             this.recipeListener.includeRecipeKey(arrow.getKey());

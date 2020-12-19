@@ -1,5 +1,8 @@
 package wtf.choco.arrows.registry;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,19 +10,20 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Sets;
-
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.entity.Arrow;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
+import wtf.choco.arrows.persistence.AAPersistentDataTypes;
 
 /**
  * Handles the registration of {@link AlchemicalArrow} implementations.
@@ -127,19 +131,22 @@ public final class ArrowRegistry implements Iterable<AlchemicalArrow> {
      * as well as a method to construct a new instance of the AlchemicalArrowEntity such that an instance
      * of {@link Arrow} is provided.
      *
-     * @param arrowItem the item of the AlchemicalArrow instance to retrieve
+     * @param item the item of the AlchemicalArrow instance to retrieve
      *
      * @return the registered AlchemicalArrow represented by the provided ItemStack. null if none
      */
     @Nullable
-    public AlchemicalArrow get(@NotNull ItemStack arrowItem) {
-        for (AlchemicalArrow arrow : arrows.values()) {
-            if (arrow.getItem().isSimilar(arrowItem)) {
-                return arrow;
-            }
+    public AlchemicalArrow get(@NotNull ItemStack item) {
+        Preconditions.checkArgument(item != null, "arrowItem cannot be null");
+
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) {
+            return null;
         }
 
-        return null;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        NamespacedKey key = container.get(AlchemicalArrow.NBT_KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY);
+        return key != null ? get(key) : null;
     }
 
     /**

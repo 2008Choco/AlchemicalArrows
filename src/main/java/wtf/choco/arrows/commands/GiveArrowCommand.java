@@ -19,6 +19,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
@@ -103,8 +104,7 @@ public class GiveArrowCommand implements CommandExecutor {
             return true;
         }
 
-        ItemStack itemToGive = arrow.getItem().clone();
-        itemToGive.setAmount(giveCount);
+        ItemStack itemToGive = arrow.createItemStack(giveCount);
         targets.forEach(p -> p.getInventory().addItem(itemToGive));
 
         if (targets.size() == 1) {
