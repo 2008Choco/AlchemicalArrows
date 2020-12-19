@@ -13,9 +13,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,23 +26,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.utils.CommandUtil;
 
-public class GiveArrowCommand implements CommandExecutor {
-
-    public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> {
-        if (args.length != 1) {
-            return null;
-        }
-
-        List<String> arguments = new ArrayList<>();
-        for (AlchemicalArrow arrow : AlchemicalArrows.getInstance().getArrowRegistry().getRegisteredArrows()) {
-            NamespacedKey key = arrow.getKey();
-            if (key.toString().startsWith(args[0]) || key.getKey().startsWith(args[0])) {
-                arguments.add(arrow.getKey().toString());
-            }
-        }
-
-        return arguments;
-    };
+public class GiveArrowCommand implements TabExecutor {
 
     private final AlchemicalArrows plugin;
     private final ArrowRegistry arrowRegistry;
@@ -115,6 +98,30 @@ public class GiveArrowCommand implements CommandExecutor {
         }
 
         return true;
+    }
+
+    private static final List<String> NUMBER_ARGS = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
+
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length == 1) {
+            List<String> arguments = new ArrayList<>();
+
+            for (AlchemicalArrow arrow : plugin.getArrowRegistry().getRegisteredArrows()) {
+                NamespacedKey key = arrow.getKey();
+                if (key.toString().startsWith(args[0]) || key.getKey().startsWith(args[0])) {
+                    arguments.add(arrow.getKey().toString());
+                }
+            }
+
+            return arguments;
+        }
+
+        else if (args.length == 2) {
+            return args[1].isEmpty() ? NUMBER_ARGS : Collections.emptyList();
+        }
+
+        return Collections.emptyList();
     }
 
 }

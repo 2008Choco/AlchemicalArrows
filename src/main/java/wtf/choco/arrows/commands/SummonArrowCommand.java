@@ -3,10 +3,11 @@ package wtf.choco.arrows.commands;
 import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,14 +15,16 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 import org.bukkit.util.Vector;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -30,35 +33,9 @@ import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.utils.CommandUtil;
 
-public class SummonArrowCommand implements CommandExecutor {
+public class SummonArrowCommand implements TabExecutor {
 
     // /summonarrow <arrow> [x] [y] [z] [world] [velocityX] [velocityY] [velocityZ]
-
-    public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> {
-        if (args.length >= 6) {
-            return null;
-        }
-
-        if (args.length == 1) {
-            List<String> arguments = new ArrayList<>();
-
-            for (AlchemicalArrow arrow : AlchemicalArrows.getInstance().getArrowRegistry().getRegisteredArrows()) {
-                NamespacedKey key = arrow.getKey();
-                if (key.toString().startsWith(args[0]) || key.getKey().startsWith(args[0])) {
-                    arguments.add(arrow.getKey().toString());
-                }
-            }
-
-            return arguments;
-        }
-
-        if (args.length >= 2 && args.length < 5) {
-            return Arrays.asList("~");
-        }
-
-        // At this point, only the world is left to complete
-        return StringUtil.copyPartialMatches(args[4], Bukkit.getWorlds().stream().map(World::getName).collect(Collectors.toList()), new ArrayList<>());
-    };
 
     private final AlchemicalArrows plugin;
     private final ArrowRegistry arrowRegistry;
@@ -124,8 +101,44 @@ public class SummonArrowCommand implements CommandExecutor {
         Arrow bukkitArrow = world.spawnArrow(new Location(world, x, y, z), direction, (float) direction.length(), 0.0F);
         AlchemicalArrowEntity alchemicalArrow = arrow.createNewArrow(bukkitArrow);
         this.stateManager.add(alchemicalArrow);
+
         sender.sendMessage(CHAT_PREFIX + "Arrow successfully summoned at (" + x + ", " + y + ", " + z + ") in world \"" + world.getName() + "\" -> (" + velocityX + ", " + velocityY + ", " + velocityZ + ")");
         return true;
+    }
+
+    @Override
+    @Nullable
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length >= 6) {
+            return Collections.emptyList();
+        }
+
+        if (args.length == 1) {
+            List<String> suggestions = new ArrayList<>();
+
+            for (AlchemicalArrow arrow : AlchemicalArrows.getInstance().getArrowRegistry().getRegisteredArrows()) {
+                NamespacedKey key = arrow.getKey();
+                if (key.toString().startsWith(args[0]) || key.getKey().startsWith(args[0])) {
+                    suggestions.add(arrow.getKey().toString());
+                }
+            }
+
+            return suggestions;
+        }
+
+        if (args.length >= 2 && args.length < 5) {
+            int tildasToComplete = 5 - args.length;
+
+            List<String> suggestions = new ArrayList<>();
+            for (int i = 1; i <= tildasToComplete; i++) {
+                suggestions.add(StringUtils.repeat("~", " ", i));
+            }
+
+            return suggestions;
+        }
+
+        // At this point, only the world is left to complete
+        return StringUtil.copyPartialMatches(args[4], Bukkit.getWorlds().stream().map(World::getName).collect(Collectors.toList()), new ArrayList<>());
     }
 
 }

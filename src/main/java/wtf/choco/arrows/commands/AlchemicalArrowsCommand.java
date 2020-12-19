@@ -5,14 +5,15 @@ import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.util.StringUtil;
+
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
@@ -21,10 +22,7 @@ import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.utils.UpdateChecker;
 import wtf.choco.arrows.utils.UpdateChecker.UpdateResult;
 
-public class AlchemicalArrowsCommand implements CommandExecutor {
-
-    private static final List<String> DEFAULT_COMPLETIONS = Arrays.asList("clear", "version", "reload");
-    public static final TabCompleter TAB_COMPLETER = (s, c, l, args) -> (args.length > 0) ? StringUtil.copyPartialMatches(args[0], DEFAULT_COMPLETIONS, new ArrayList<>()) : null;
+public class AlchemicalArrowsCommand implements TabExecutor {
 
     private final AlchemicalArrows plugin;
     private final ArrowStateManager stateManager;
@@ -89,6 +87,13 @@ public class AlchemicalArrowsCommand implements CommandExecutor {
         }
 
         return true;
+    }
+
+    private static final List<String> BASE_ARGS = Arrays.asList("version", "reload", "clear");
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+        return args.length == 1 ? StringUtil.copyPartialMatches(args[0], BASE_ARGS, new ArrayList<>()) : Collections.emptyList();
     }
 
 }

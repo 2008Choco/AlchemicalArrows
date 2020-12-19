@@ -127,9 +127,9 @@ public class AlchemicalArrows extends JavaPlugin {
 
         // Register commands
         this.getLogger().info("Registering commands");
-        this.setupCommand("alchemicalarrows", new AlchemicalArrowsCommand(this), AlchemicalArrowsCommand.TAB_COMPLETER);
-        this.setupCommand("givearrow", new GiveArrowCommand(this), GiveArrowCommand.TAB_COMPLETER);
-        this.setupCommand("summonarrow", new SummonArrowCommand(this), SummonArrowCommand.TAB_COMPLETER);
+        this.setupCommand("alchemicalarrows", new AlchemicalArrowsCommand(this));
+        this.setupCommand("givearrow", new GiveArrowCommand(this));
+        this.setupCommand("summonarrow", new SummonArrowCommand(this));
 
         // Register alchemical arrows
         this.getLogger().info("Registering default alchemical arrows and their recipes");
@@ -288,14 +288,17 @@ public class AlchemicalArrows extends JavaPlugin {
         return worldGuardEnabled;
     }
 
-    private void setupCommand(@NotNull String commandString, @NotNull CommandExecutor executor, @Nullable TabCompleter tabCompleter) {
+    private void setupCommand(@NotNull String commandString, @NotNull CommandExecutor executor) {
         PluginCommand command = getCommand(commandString);
         if (command == null) {
             return;
         }
 
         command.setExecutor(executor);
-        command.setTabCompleter(tabCompleter);
+
+        if (executor instanceof TabCompleter) {
+            command.setTabCompleter((TabCompleter) executor);
+        }
     }
 
     private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
