@@ -129,8 +129,8 @@ Arrow:
     Item:
       DisplayName: "&cExplosive Arrow"
       Lore:
-      - "Boom!"
-      - "Ignites a fuse and explodes after hitting ground"
+      - "&4&lBoom!"
+      - "&4Ignites a fuse and explodes after hitting ground"
   
   Fire:
     RecipeYield: 8
