@@ -1,12 +1,6 @@
 package wtf.choco.arrows;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.UUID;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -28,6 +22,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import wtf.choco.alchema.crafting.CauldronIngredientMaterial;
+import wtf.choco.alchema.crafting.CauldronRecipe;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.arrow.AlchemicalArrowAir;
 import wtf.choco.arrows.arrow.AlchemicalArrowChain;
@@ -49,14 +45,11 @@ import wtf.choco.arrows.arrow.AlchemicalArrowWater;
 import wtf.choco.arrows.commands.AlchemicalArrowsCommand;
 import wtf.choco.arrows.commands.GiveArrowCommand;
 import wtf.choco.arrows.commands.SummonArrowCommand;
-import wtf.choco.arrows.crafting.AlchemicalCauldron;
-import wtf.choco.arrows.crafting.CauldronRecipe;
-import wtf.choco.arrows.crafting.CauldronUpdateTask;
+import wtf.choco.arrows.listeners.AlchemaRecipeIntegrationListener;
 import wtf.choco.arrows.listeners.ArrowHitEntityListener;
 import wtf.choco.arrows.listeners.ArrowHitGroundListener;
 import wtf.choco.arrows.listeners.ArrowHitPlayerListener;
 import wtf.choco.arrows.listeners.ArrowRecipeDiscoverListener;
-import wtf.choco.arrows.listeners.CauldronManipulationListener;
 import wtf.choco.arrows.listeners.CraftingPermissionListener;
 import wtf.choco.arrows.listeners.CustomDeathMessageListener;
 import wtf.choco.arrows.listeners.LegacyArrowConvertionListener;
@@ -65,7 +58,6 @@ import wtf.choco.arrows.listeners.ProjectileShootListener;
 import wtf.choco.arrows.listeners.SkeletonKillListener;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
-import wtf.choco.arrows.registry.CauldronManager;
 import wtf.choco.arrows.utils.ArrowUpdateTask;
 import wtf.choco.arrows.utils.UpdateChecker;
 import wtf.choco.arrows.utils.UpdateChecker.UpdateReason;
@@ -84,31 +76,22 @@ public class AlchemicalArrows extends JavaPlugin {
 
     private ArrowStateManager stateManager;
     private ArrowRegistry arrowRegistry;
-    private CauldronManager cauldronManager;
     private ArrowUpdateTask arrowUpdateTask;
-    private CauldronUpdateTask cauldronUpdateTask;
-
-    private File cauldronFile;
 
     private boolean worldGuardEnabled = false;
 
     private ArrowRecipeDiscoverListener recipeListener;
+    private AlchemaRecipeIntegrationListener alchemaIntegrationListener;
 
     @Override
     public void onEnable() {
         instance = this;
         this.stateManager = new ArrowStateManager();
         this.arrowRegistry = new ArrowRegistry();
-        this.cauldronManager = new CauldronManager();
         this.saveDefaultConfig();
-        this.cauldronFile = new File(getDataFolder(), "cauldrons.data");
 
         this.worldGuardEnabled = Bukkit.getPluginManager().isPluginEnabled("WorldGuard");
         this.arrowUpdateTask = ArrowUpdateTask.startArrowUpdateTask(this);
-
-        if (getConfig().getBoolean("Crafting.CauldronCrafting", false)) {
-            this.cauldronUpdateTask = CauldronUpdateTask.startTask(this);
-        }
 
         // Register events
         this.getLogger().info("Registering events");
@@ -122,8 +105,18 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(new LegacyArrowConvertionListener(this), this);
         manager.registerEvents(new SkeletonKillListener(this), this);
         manager.registerEvents(new CraftingPermissionListener(this), this);
-        manager.registerEvents(new CauldronManipulationListener(this), this);
         manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
+
+        if (Bukkit.getPluginManager().getPlugin("Alchema") != null) {
+            if (getConfig().getBoolean("Crafting.AlchemaIntegration", true)) {
+                this.getLogger().info("Found Alchema! Registering cauldron crafting recipes for all default arrows.");
+
+                this.alchemaIntegrationListener = new AlchemaRecipeIntegrationListener();
+                manager.registerEvents(alchemaIntegrationListener, this);
+            } else {
+                this.getLogger().info("Found Alchema but integration was disabled in the configuration file.");
+            }
+        }
 
         // Register commands
         this.getLogger().info("Registering commands");
@@ -150,21 +143,6 @@ public class AlchemicalArrows extends JavaPlugin {
         this.createAndRegisterArrow(new AlchemicalArrowMagnetic(this), "Magnetic", Material.IRON_INGOT);
         this.createAndRegisterArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
         this.createAndRegisterArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
-
-        // Load cauldrons
-        if (cauldronFile.exists()) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(cauldronFile))) {
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    Block block = blockFromString(line);
-                    if (block == null) continue;
-
-                    this.cauldronManager.addAlchemicalCauldron(new AlchemicalCauldron(block));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         // Load Metrics
         if (getConfig().getBoolean("MetricsEnabled", true)) {
@@ -202,32 +180,6 @@ public class AlchemicalArrows extends JavaPlugin {
         this.stateManager.clear();
         this.arrowUpdateTask.cancel();
         this.recipeListener.clearRecipeKeys();
-
-        if (cauldronUpdateTask != null) {
-            this.cauldronUpdateTask.cancel();
-        }
-
-        Collection<AlchemicalCauldron> cauldrons = this.cauldronManager.getAlchemicalCauldrons();
-        if (cauldrons.size() >= 1) {
-            try {
-                this.cauldronFile.createNewFile();
-                PrintWriter writer = new PrintWriter(cauldronFile);
-
-                for (AlchemicalCauldron cauldron : cauldrons) {
-                    Block block = cauldron.getCauldronBlock();
-                    writer.println(block.getWorld().getUID() + "," + block.getX() + "," + block.getY() + "," + block.getZ());
-                }
-
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            this.cauldronFile.delete();
-        }
-
-        this.cauldronManager.clearAlchemicalCauldrons();
-        this.cauldronManager.clearRecipes();
     }
 
     /**
@@ -270,15 +222,6 @@ public class AlchemicalArrows extends JavaPlugin {
     }
 
     /**
-     * Get the cauldron manager instance used to track in-world alchemical cauldrons.
-     *
-     * @return the cauldron manager
-     */
-    public CauldronManager getCauldronManager() {
-        return this.cauldronManager;
-    }
-
-    /**
      * Whether WorldGuard support is available or not. If the returned value is true, some arrow
      * functionality may be limited in WorldGuard regions.
      *
@@ -302,13 +245,22 @@ public class AlchemicalArrows extends JavaPlugin {
     }
 
     private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
-        boolean cauldronCrafting = getConfig().getBoolean("Crafting.CauldronCrafting");
+        boolean cauldronCrafting = getConfig().getBoolean("Crafting.AlchemaIntegration", true);
 
-        if (cauldronCrafting) {
-            for (Material secondaryMaterial : secondaryMaterials) {
-                this.cauldronManager.registerCauldronRecipe(new CauldronRecipe(arrow.getKey(), arrow, Material.ARROW, secondaryMaterial));
+        if (cauldronCrafting && alchemaIntegrationListener != null) {
+            for (int i = 1; i <= secondaryMaterials.length; i++) {
+                Material ingredient = secondaryMaterials[i - 1];
+                NamespacedKey key = arrow.getKey();
+
+                if (i > 1) {
+                    key = new NamespacedKey(key.getNamespace(), key.getKey() + "_" + i);
+                }
+
+                this.alchemaIntegrationListener.addRecipe(new CauldronRecipe(key, arrow.createItemStack(), new CauldronIngredientMaterial(Material.ARROW), new CauldronIngredientMaterial(ingredient)));
             }
-        } else {
+        }
+
+        if (getConfig().getBoolean("Crafting.VanillaCrafting", true)) {
             int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);
             Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), arrow.createItemStack(amount))
                     .shape("AAA", "ASA", "AAA").setIngredient('A', Material.ARROW)

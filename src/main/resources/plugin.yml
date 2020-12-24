@@ -3,7 +3,7 @@ main: wtf.choco.arrows.AlchemicalArrows
 version: ${project.version}
 description: ${project.description}
 author: 2008Choco
-softdepends: [WorldGuard]
+softdepend: [ WorldGuard, Alchema ]
 api-version: 1.16
 
 commands:

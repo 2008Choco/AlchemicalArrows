@@ -12,7 +12,8 @@ Skeletons:
   LootDropChance: 40.0
 
 Crafting:
-  CauldronCrafting: false
+  AlchemaIntegration: true
+  VanillaCrafting: true
 
 Arrow:
   Air:
