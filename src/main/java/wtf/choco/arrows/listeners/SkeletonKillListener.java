@@ -32,7 +32,7 @@ public final class SkeletonKillListener implements Listener {
     @EventHandler
     public void onKillSkeleton(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
-        if (!(entity instanceof Skeleton) || RANDOM.nextInt(100) >= plugin.getConfig().getDouble("Skeletons.LootPercentage", 15.0)) {
+        if (!(entity instanceof Skeleton) || RANDOM.nextInt(100) >= plugin.getConfig().getDouble("Skeletons.LootDropChance", 15.0)) {
             return;
         }
 
