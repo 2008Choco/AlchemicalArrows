@@ -21,10 +21,11 @@ import org.bukkit.inventory.ItemStack;
 
 import org.jetbrains.annotations.NotNull;
 
+import wtf.choco.alchema.util.NamespacedKeyUtil;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
-import wtf.choco.arrows.utils.CommandUtil;
+import wtf.choco.arrows.util.MathUtil;
 
 public class GiveArrowCommand implements TabExecutor {
 
@@ -48,7 +49,7 @@ public class GiveArrowCommand implements TabExecutor {
             return true;
         }
 
-        int giveCount = (args.length >= 2) ? CommandUtil.clamp(NumberUtils.toInt(args[1], 1), 1, 64) : 1;
+        int giveCount = (args.length >= 2) ? MathUtil.clamp(NumberUtils.toInt(args[1], 1), 1, 64) : 1;
         List<Player> targets = (sender instanceof Player) ? Arrays.asList((Player) sender) : Collections.EMPTY_LIST;
 
         if (args.length >= 3) {
@@ -74,16 +75,16 @@ public class GiveArrowCommand implements TabExecutor {
             return true;
         }
 
-        String arrowId = CommandUtil.argToNamespace(args[0], plugin);
-        if (arrowId == null) {
+        NamespacedKey arrowKey = NamespacedKeyUtil.fromString(args[0], plugin);
+        if (arrowKey == null) {
             sender.sendMessage(CHAT_PREFIX + "Invalid namespace. Arrow IDs should be formatted as " + ChatColor.YELLOW + "namespace:id"
                     + ChatColor.GRAY + " (for example, " + ChatColor.YELLOW + "alchemicalarrows:air" + ChatColor.GRAY + ")");
             return true;
         }
 
-        AlchemicalArrow arrow = arrowRegistry.get(arrowId);
+        AlchemicalArrow arrow = arrowRegistry.get(arrowKey);
         if (arrow == null) {
-            sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowId);
+            sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowKey);
             return true;
         }
 

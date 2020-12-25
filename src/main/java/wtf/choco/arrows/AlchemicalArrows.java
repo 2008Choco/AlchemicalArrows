@@ -58,9 +58,9 @@ import wtf.choco.arrows.listeners.ProjectileShootListener;
 import wtf.choco.arrows.listeners.SkeletonKillListener;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
-import wtf.choco.arrows.utils.ArrowUpdateTask;
-import wtf.choco.arrows.utils.UpdateChecker;
-import wtf.choco.arrows.utils.UpdateChecker.UpdateReason;
+import wtf.choco.arrows.util.ArrowUpdateTask;
+import wtf.choco.arrows.util.UpdateChecker;
+import wtf.choco.arrows.util.UpdateChecker.UpdateReason;
 
 /**
  * The entry point of the AlchemicalArrows plugin and its API.

@@ -16,8 +16,8 @@ import org.bukkit.inventory.meta.PotionMeta;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.utils.CommandUtil;
-import wtf.choco.arrows.utils.ItemBuilder;
+import wtf.choco.arrows.util.ItemBuilder;
+import wtf.choco.arrows.util.MathUtil;
 
 // For internal use. More convenient arrow construction for configuration-based arrows
 abstract class AlchemicalArrowInternal extends AlchemicalArrow {
@@ -42,9 +42,9 @@ abstract class AlchemicalArrowInternal extends AlchemicalArrow {
                 plugin.getLogger().warning("Attempted to set colour with invalid RGB. Expected 'r,g,b', received '" + colourRaw + "'. Arrow = " + key + ". Ignoring...");
             }
 
-           int r = CommandUtil.clamp(NumberUtils.toInt(rgbSplitRaw[0], Integer.MIN_VALUE), 0, 255);
-           int g = CommandUtil.clamp(NumberUtils.toInt(rgbSplitRaw[1], Integer.MIN_VALUE), 0, 255);
-           int b = CommandUtil.clamp(NumberUtils.toInt(rgbSplitRaw[2], Integer.MIN_VALUE), 0, 255);
+           int r = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[0], Integer.MIN_VALUE), 0, 255);
+           int g = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[1], Integer.MIN_VALUE), 0, 255);
+           int b = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[2], Integer.MIN_VALUE), 0, 255);
 
            colour = Color.fromRGB(r, g, b);
         }

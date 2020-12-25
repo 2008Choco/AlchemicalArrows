@@ -32,7 +32,8 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
-import wtf.choco.arrows.utils.CommandUtil;
+import wtf.choco.arrows.util.MathUtil;
+import wtf.choco.arrows.util.NamespacedKeyUtil;
 
 public class SummonArrowCommand implements TabExecutor {
 
@@ -60,16 +61,16 @@ public class SummonArrowCommand implements TabExecutor {
             return true;
         }
 
-        String arrowId = CommandUtil.argToNamespace(args[0], plugin);
-        if (arrowId == null) {
+        NamespacedKey arrowKey = NamespacedKeyUtil.fromString(args[0], plugin);
+        if (arrowKey == null) {
             sender.sendMessage(CHAT_PREFIX + "Invalid namespace. Pattern IDs should be formatted as " + ChatColor.YELLOW + "namespace:id"
                     + ChatColor.GRAY + " (for example, " + ChatColor.YELLOW + "alchemicalarrows:air" + ChatColor.GRAY + ")");
             return true;
         }
 
-        AlchemicalArrow arrow = arrowRegistry.get(arrowId);
+        AlchemicalArrow arrow = arrowRegistry.get(arrowKey);
         if (arrow == null) {
-            sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowId);
+            sender.sendMessage(CHAT_PREFIX + "Could not find an arrow with the ID " + ChatColor.YELLOW + arrowKey);
             return true;
         }
 
@@ -94,9 +95,9 @@ public class SummonArrowCommand implements TabExecutor {
             return true;
         }
 
-        float velocityX = args.length >= 6 ? CommandUtil.clamp(NumberUtils.toFloat(args[5]), -4.0F, 4.0F) : 0.0F;
-        float velocityY = args.length >= 7 ? CommandUtil.clamp(NumberUtils.toFloat(args[6]), -4.0F, 4.0F) : 0.0F;
-        float velocityZ = args.length >= 8 ? CommandUtil.clamp(NumberUtils.toFloat(args[7]), -4.0F, 4.0F) : 0.0F;
+        float velocityX = args.length >= 6 ? MathUtil.clamp(NumberUtils.toFloat(args[5]), -4.0F, 4.0F) : 0.0F;
+        float velocityY = args.length >= 7 ? MathUtil.clamp(NumberUtils.toFloat(args[6]), -4.0F, 4.0F) : 0.0F;
+        float velocityZ = args.length >= 8 ? MathUtil.clamp(NumberUtils.toFloat(args[7]), -4.0F, 4.0F) : 0.0F;
         Vector direction = new Vector(velocityX, velocityY, velocityZ);
 
         Arrow bukkitArrow = world.spawnArrow(new Location(world, x, y, z), direction, (float) direction.length(), 0.0F);

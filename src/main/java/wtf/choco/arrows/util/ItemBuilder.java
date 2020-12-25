@@ -1,4 +1,4 @@
-package wtf.choco.arrows.utils;
+package wtf.choco.arrows.util;
 
 import java.util.Arrays;
 import java.util.EnumSet;

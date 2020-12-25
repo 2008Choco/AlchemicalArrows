@@ -1,4 +1,4 @@
-package wtf.choco.arrows.utils;
+package wtf.choco.arrows.util;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;

@@ -1,4 +1,4 @@
-package wtf.choco.arrows.utils;
+package wtf.choco.arrows.util;
 
 import java.util.ArrayList;
 import java.util.List;

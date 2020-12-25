@@ -19,8 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowStateManager;
-import wtf.choco.arrows.utils.UpdateChecker;
-import wtf.choco.arrows.utils.UpdateChecker.UpdateResult;
+import wtf.choco.arrows.util.UpdateChecker;
+import wtf.choco.arrows.util.UpdateChecker.UpdateResult;
 
 public class AlchemicalArrowsCommand implements TabExecutor {
 
