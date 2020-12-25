@@ -9,7 +9,7 @@ DeathMessages:
 
 Skeletons:
   ShootPercentage: 10.0
-  LootDropChance: 40.0
+  LootDropChance: 15.0
 
 Crafting:
   AlchemaIntegration: true
