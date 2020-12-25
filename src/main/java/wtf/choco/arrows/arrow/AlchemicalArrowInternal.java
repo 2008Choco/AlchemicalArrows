@@ -26,7 +26,7 @@ abstract class AlchemicalArrowInternal extends AlchemicalArrow {
     private final ItemStack item;
     private final String name;
 
-    protected AlchemicalArrowInternal(AlchemicalArrows plugin, String key, String defaultName, int modelData) {
+    protected AlchemicalArrowInternal(AlchemicalArrows plugin, String key, String defaultName, int defaultModelData) {
     	FileConfiguration config = plugin.getConfig();
 
         this.key = new NamespacedKey(plugin, key.toLowerCase());
@@ -56,7 +56,7 @@ abstract class AlchemicalArrowInternal extends AlchemicalArrow {
                     .map(s -> ChatColor.translateAlternateColorCodes('&', s))
                     .collect(Collectors.toList())
                 )
-                .modelData(modelData);
+                .modelData(config.getInt("Arrow." + key + ".Item.CustomModelData", defaultModelData));
 
         if (colour != null) {
             itemBuilder.specific(PotionMeta.class, m -> {
