@@ -108,7 +108,7 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
 
         if (Bukkit.getPluginManager().getPlugin("Alchema") != null) {
-            if (getConfig().getBoolean("Crafting.AlchemaIntegration", true)) {
+            if (getConfig().getBoolean("Crafting.AlchemaIntegration.Enabled", true)) {
                 this.getLogger().info("Found Alchema! Registering cauldron crafting recipes for all default arrows.");
 
                 this.alchemaIntegrationListener = new AlchemaRecipeIntegrationListener();
@@ -245,9 +245,12 @@ public class AlchemicalArrows extends JavaPlugin {
     }
 
     private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
-        boolean cauldronCrafting = getConfig().getBoolean("Crafting.AlchemaIntegration", true);
+        boolean cauldronCrafting = getConfig().getBoolean("Crafting.AlchemaIntegration.Enabled", true);
 
         if (cauldronCrafting && alchemaIntegrationListener != null) {
+            int arrowsRequired = getConfig().getInt("Crafting.AlchemaIntegration.ArrowsRequired", 1);
+            int recipeYield = getConfig().getInt("Crafting.AlchemaIntegration.RecipeYield", 1);
+
             for (int i = 1; i <= secondaryMaterials.length; i++) {
                 Material ingredient = secondaryMaterials[i - 1];
                 NamespacedKey key = arrow.getKey();
@@ -256,7 +259,7 @@ public class AlchemicalArrows extends JavaPlugin {
                     key = new NamespacedKey(key.getNamespace(), key.getKey() + "_" + i);
                 }
 
-                this.alchemaIntegrationListener.addRecipe(new CauldronRecipe(key, arrow.createItemStack(), new CauldronIngredientMaterial(Material.ARROW), new CauldronIngredientMaterial(ingredient)));
+                this.alchemaIntegrationListener.addRecipe(new CauldronRecipe(key, arrow.createItemStack(recipeYield), new CauldronIngredientMaterial(Material.ARROW, arrowsRequired), new CauldronIngredientMaterial(ingredient)));
             }
         }
 

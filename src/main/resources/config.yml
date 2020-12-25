@@ -12,8 +12,11 @@ Skeletons:
   LootDropChance: 15.0
 
 Crafting:
-  AlchemaIntegration: true
   VanillaCrafting: true
+  AlchemaIntegration:
+    Enabled: true
+    ArrowsRequired: 1
+    RecipeYield: 1
 
 Arrow:
   Air:
