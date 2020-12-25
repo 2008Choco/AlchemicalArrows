@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginManager;
@@ -149,7 +150,25 @@ public class AlchemicalArrows extends JavaPlugin {
             this.getLogger().info("Enabling Plugin Metrics");
 
             Metrics metrics = new Metrics(this);
-            metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> getConfig().getBoolean("Crafting.CauldronCrafting", false) ? "Cauldron Crafting" : "Vanilla Crafting"));
+            metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> {
+                FileConfiguration config = getConfig();
+
+                boolean cauldronCrafting = config.getBoolean("Crafting.AlchemaIntegration.Enabled", true);
+                boolean vanillaCrafting = config.getBoolean("Crafting.VanillaCrafting", true);
+
+                if (cauldronCrafting && vanillaCrafting) {
+                    return "Both";
+                }
+                else if (cauldronCrafting) {
+                    return "Cauldron Crafting";
+                }
+                else if (vanillaCrafting) {
+                    return "Vanilla Crafting";
+                }
+                else {
+                    return "Uncraftable";
+                }
+            }));
         }
 
         // Check for newer version
