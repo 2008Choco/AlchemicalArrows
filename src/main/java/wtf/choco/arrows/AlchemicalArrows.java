@@ -120,9 +120,9 @@ public class AlchemicalArrows extends JavaPlugin {
 
         // Register commands
         this.getLogger().info("Registering commands");
-        this.setupCommand("alchemicalarrows", new AlchemicalArrowsCommand(this));
-        this.setupCommand("givearrow", new GiveArrowCommand(this));
-        this.setupCommand("summonarrow", new SummonArrowCommand(this));
+        this.registerCommandSafely("alchemicalarrows", new AlchemicalArrowsCommand(this));
+        this.registerCommandSafely("givearrow", new GiveArrowCommand(this));
+        this.registerCommandSafely("summonarrow", new SummonArrowCommand(this));
 
         // Register alchemical arrows
         this.getLogger().info("Registering default alchemical arrows and their recipes");
@@ -231,7 +231,7 @@ public class AlchemicalArrows extends JavaPlugin {
         return worldGuardEnabled;
     }
 
-    private void setupCommand(@NotNull String commandString, @NotNull CommandExecutor executor) {
+    private void registerCommandSafely(@NotNull String commandString, @NotNull CommandExecutor executor) {
         PluginCommand command = getCommand(commandString);
         if (command == null) {
             return;
