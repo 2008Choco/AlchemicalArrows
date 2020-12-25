@@ -1,12 +1,13 @@
 package wtf.choco.arrows.util;
 
+import com.google.common.base.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Preconditions;
-
 import org.bukkit.entity.Arrow;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
@@ -48,7 +49,7 @@ public final class ArrowUpdateTask extends BukkitRunnable {
 
         if (instance == null) {
             instance = new ArrowUpdateTask(plugin.getArrowStateManager());
-            instance.runTaskTimer(plugin, 0, 10);
+            instance.runTaskTimer(plugin, 0, 1);
         }
 
         return instance;
