@@ -17,7 +17,7 @@ import wtf.choco.arrows.arrow.entity.ArrowEntityFused;
 
 public class AlchemicalArrowExplosive extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Integer> PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "explosion_strength"), Integer.class, 4);
+    public static final ArrowProperty<Float> PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "explosion_strength"), Float.class, 4.0F);
     public static final ArrowProperty<Integer> PROPERTY_FUSE_TICKS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "fuse_ticks"), Integer.class, 40);
 
     private static final BlockData TNT = Material.TNT.createBlockData();
@@ -30,7 +30,7 @@ public class AlchemicalArrowExplosive extends AlchemicalArrowInternal {
         this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Explosive.Skeleton.CanShoot", true));
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Explosive.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Explosive.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, Math.min(config.getInt("Arrow.Explosive.Effect.ExplosionStrength", 4), EXPLOSION_STRENGTH_LIMIT));
+        this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, (float) Math.min(config.getDouble("Arrow.Explosive.Effect.ExplosionStrength", 4.0F), EXPLOSION_STRENGTH_LIMIT));
         this.properties.setProperty(PROPERTY_FUSE_TICKS, config.getInt("Arrow.Explosive.Effect.FuseTicks", 40));
     }
 
@@ -46,7 +46,7 @@ public class AlchemicalArrowExplosive extends AlchemicalArrowInternal {
 
         ArrowEntityFused fusedArrow = (ArrowEntityFused) arrow;
         if (fusedArrow.isFuseFinished()) {
-            world.createExplosion(location, properties.getProperty(PROPERTY_EXPLOSION_STRENGTH).orElse(40));
+            world.createExplosion(location, properties.getProperty(PROPERTY_EXPLOSION_STRENGTH).orElse(4.0F));
             arrow.getArrow().remove();
         } else {
             fusedArrow.tickFuse();
