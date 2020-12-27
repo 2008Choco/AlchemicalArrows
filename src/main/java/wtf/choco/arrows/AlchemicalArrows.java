@@ -169,6 +169,8 @@ public class AlchemicalArrows extends JavaPlugin {
                     return "Uncraftable";
                 }
             }));
+
+            metrics.addCustomChart(new Metrics.SimplePie("alchema_integration", () -> Bukkit.getPluginManager().isPluginEnabled("Alchema") ? "true" : "false"));
         }
 
         // Check for newer version
