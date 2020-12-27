@@ -108,7 +108,8 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(new CraftingPermissionListener(this), this);
         manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
 
-        if (Bukkit.getPluginManager().getPlugin("Alchema") != null) {
+        boolean alchemaInstalled = Bukkit.getPluginManager().isPluginEnabled("Alchema");
+        if (alchemaInstalled) {
             if (getConfig().getBoolean("Crafting.AlchemaIntegration.Enabled", true)) {
                 this.getLogger().info("Found Alchema! Registering cauldron crafting recipes for all default arrows.");
 
@@ -156,10 +157,10 @@ public class AlchemicalArrows extends JavaPlugin {
                 boolean cauldronCrafting = config.getBoolean("Crafting.AlchemaIntegration.Enabled", true);
                 boolean vanillaCrafting = config.getBoolean("Crafting.VanillaCrafting", true);
 
-                if (cauldronCrafting && vanillaCrafting) {
+                if ((cauldronCrafting && alchemaInstalled) && vanillaCrafting) {
                     return "Both";
                 }
-                else if (cauldronCrafting) {
+                else if (cauldronCrafting && alchemaInstalled) {
                     return "Cauldron Crafting";
                 }
                 else if (vanillaCrafting) {
@@ -170,7 +171,7 @@ public class AlchemicalArrows extends JavaPlugin {
                 }
             }));
 
-            metrics.addCustomChart(new Metrics.SimplePie("alchema_integration", () -> Bukkit.getPluginManager().isPluginEnabled("Alchema") ? "true" : "false"));
+            metrics.addCustomChart(new Metrics.SimplePie("alchema_integration", () -> String.valueOf(alchemaInstalled)));
         }
 
         // Check for newer version
