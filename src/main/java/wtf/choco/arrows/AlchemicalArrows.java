@@ -202,6 +202,10 @@ public class AlchemicalArrows extends JavaPlugin {
         this.stateManager.clear();
         this.arrowUpdateTask.cancel();
         this.recipeListener.clearRecipeKeys();
+
+        if (alchemaIntegrationListener != null) {
+            this.alchemaIntegrationListener.clearRecipes();
+        }
     }
 
     /**

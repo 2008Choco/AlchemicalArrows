@@ -24,4 +24,8 @@ public final class AlchemaRecipeIntegrationListener implements Listener {
         this.recipes.add(recipe);
     }
 
+    public void clearRecipes() {
+        this.recipes.clear();
+    }
+
 }
