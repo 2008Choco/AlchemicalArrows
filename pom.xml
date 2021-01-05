@@ -93,7 +93,7 @@
     <dependency>
       <groupId>com.github.2008Choco</groupId>
       <artifactId>Alchema</artifactId>
-      <version>v1.0.0.0</version>
+      <version>1.0.2.0</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
