@@ -94,7 +94,7 @@ public final class PropertyMap {
      */
     @NotNull
     public <T> Optional<T> getProperty(@NotNull ArrowProperty<T> property, @Nullable T defaultValue) {
-    	return Optional.ofNullable(property.getType().cast(properties.getOrDefault(property, defaultValue)));
+        return Optional.ofNullable(property.getType().cast(properties.getOrDefault(property, defaultValue)));
     }
 
     /**
@@ -111,7 +111,7 @@ public final class PropertyMap {
      */
     @NotNull
     public <T> Optional<T> getProperty(@NotNull ArrowProperty<T> property) {
-    	return getProperty(property, property.getDefaultValue());
+        return getProperty(property, property.getDefaultValue());
     }
 
     /**

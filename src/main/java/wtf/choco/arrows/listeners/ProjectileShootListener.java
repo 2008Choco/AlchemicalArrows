@@ -26,8 +26,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.bukkit.projectiles.ProjectileSource;
 
-import org.jetbrains.annotations.NotNull;
-
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
@@ -42,7 +40,7 @@ public final class ProjectileShootListener implements Listener {
 
     private final AlchemicalArrows plugin;
 
-    public ProjectileShootListener(@NotNull AlchemicalArrows plugin) {
+    public ProjectileShootListener(AlchemicalArrows plugin) {
         this.plugin = plugin;
     }
 

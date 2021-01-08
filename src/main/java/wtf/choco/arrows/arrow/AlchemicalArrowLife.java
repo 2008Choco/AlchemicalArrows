@@ -1,8 +1,8 @@
 package wtf.choco.arrows.arrow;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

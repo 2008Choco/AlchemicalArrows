@@ -64,7 +64,7 @@ public final class ArrowHitPlayerListener implements Listener {
 
             // Check state of damaged
             if (event.isCancelled() || !query.testState(BukkitAdapter.adapt(player.getLocation()), null, Flags.PVP)) {
-                if (arrow.getShooter() instanceof Player){
+                if (arrow.getShooter() instanceof Player) {
                     ((Player) source).sendMessage(AlchemicalArrows.CHAT_PREFIX + "This player is protected from PvP");
                 }
 

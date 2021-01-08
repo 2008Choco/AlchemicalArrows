@@ -65,7 +65,7 @@ Arrow:
       - "&dThis arrow is so... confusing"
       - "&dWhat does this do again?"
       CustomModelData: 133
-  
+
   Darkness:
     RecipeYield: 8
     AllowInfinity: false
@@ -79,7 +79,7 @@ Arrow:
       - "&8Who turned off the lights!?"
       - "&8Applies a temporary blindness effect to players"
       CustomModelData: 134
-  
+
   Death:
     RecipeYield: 8
     AllowInfinity: false
@@ -96,7 +96,7 @@ Arrow:
       - "&8Are you sure holding this is a good idea?"
       - "&8A sinister arrow. May instantly kill targets"
       CustomModelData: 135
-  
+
   Earth:
     RecipeYield: 8
     AllowInfinity: false
@@ -110,7 +110,7 @@ Arrow:
       - "&7Better than the Moon in my opinion"
       - "&7Burries damaged entities into the ground"
       CustomModelData: 136
-  
+
   Ender:
     RecipeYield: 8
     AllowInfinity: false
@@ -126,7 +126,7 @@ Arrow:
       - "&dIt's almost like a portal gun, but cooler"
       - "&dSwaps positions with damaged entities"
       CustomModelData: 137
-  
+
   Explosive:
     RecipeYield: 8
     AllowInfinity: false
@@ -143,7 +143,7 @@ Arrow:
       - "&4&lBoom!"
       - "&4Ignites a fuse and explodes after hitting ground"
       CustomModelData: 138
-  
+
   Fire:
     RecipeYield: 8
     AllowInfinity: false
@@ -157,7 +157,7 @@ Arrow:
       - "&cGather around the campfire..."
       - "&cIgnites damaged entities for 2 - 3 seconds"
       CustomModelData: 139
-  
+
   Frost:
     RecipeYield: 8
     AllowInfinity: false
@@ -173,7 +173,7 @@ Arrow:
       - "&bChill out. Snow reason to be angry"
       - "&bDamaged entities cannot move temporarily"
       CustomModelData: 140
-  
+
   Grapple:
     RecipeYield: 8
     AllowInfinity: false
@@ -189,7 +189,7 @@ Arrow:
       - "&eNa na na na, na na na na, na na na na..."
       - "&e&lBATMAN!"
       CustomModelData: 141
-  
+
   Life:
     RecipeYield: 8
     AllowInfinity: false
@@ -205,7 +205,7 @@ Arrow:
       - "&aThe gift of life embewed within an arrow"
       - "&aA harmless arrow. Inflicts no damage & applies regen"
       CustomModelData: 142
-  
+
   Light:
     RecipeYield: 8
     AllowInfinity: false
@@ -221,7 +221,7 @@ Arrow:
       - "&eMay the power of Zeus be upon you!"
       - "&eStrikes damaged entities with lightning"
       CustomModelData: 143
-  
+
   Magic:
     RecipeYield: 8
     AllowInfinity: false
@@ -235,7 +235,7 @@ Arrow:
       - "&dIt's almost... &k| &dMAGICAL &k|"
       - "&dLaunches entities backwards with great force"
       CustomModelData: 144
-  
+
   Magnetic:
     RecipeYield: 8
     AllowInfinity: false
@@ -251,7 +251,7 @@ Arrow:
       - "&7Opposites attract, likes repel"
       - "&7Pulls damaged entities closer to you"
       CustomModelData: 145
-  
+
   Necrotic:
     RecipeYield: 8
     AllowInfinity: false
@@ -265,7 +265,7 @@ Arrow:
       - "&2Count Dracula would be proud"
       - "&2Nearby hostile entities target damaged entities"
       CustomModelData: 146
-  
+
   Water:
     RecipeYield: 8
     AllowInfinity: false

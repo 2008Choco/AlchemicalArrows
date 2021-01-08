@@ -12,7 +12,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.bukkit.projectiles.ProjectileSource;
-import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
@@ -21,7 +20,7 @@ public final class CustomDeathMessageListener implements Listener {
 
     private final AlchemicalArrows plugin;
 
-    public CustomDeathMessageListener(@NotNull AlchemicalArrows plugin) {
+    public CustomDeathMessageListener(AlchemicalArrows plugin) {
         this.plugin = plugin;
     }
 

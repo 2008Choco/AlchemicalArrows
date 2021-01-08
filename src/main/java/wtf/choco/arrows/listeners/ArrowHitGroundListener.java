@@ -5,7 +5,6 @@ import org.bukkit.entity.Arrow;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -15,7 +14,7 @@ public final class ArrowHitGroundListener implements Listener {
 
     private final AlchemicalArrows plugin;
 
-    public ArrowHitGroundListener(@NotNull AlchemicalArrows plugin) {
+    public ArrowHitGroundListener(AlchemicalArrows plugin) {
         this.plugin = plugin;
     }
 

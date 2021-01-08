@@ -27,7 +27,7 @@ abstract class AlchemicalArrowInternal extends AlchemicalArrow {
     private final String name;
 
     protected AlchemicalArrowInternal(AlchemicalArrows plugin, String key, String defaultName, int defaultModelData) {
-    	FileConfiguration config = plugin.getConfig();
+        FileConfiguration config = plugin.getConfig();
 
         this.key = new NamespacedKey(plugin, key.toLowerCase());
         String nameRaw = config.getString("Arrow." + key + ".Item.DisplayName", defaultName);

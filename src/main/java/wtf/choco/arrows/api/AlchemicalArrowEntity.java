@@ -1,8 +1,8 @@
 package wtf.choco.arrows.api;
 
-import java.util.Objects;
-
 import com.google.common.base.Preconditions;
+
+import java.util.Objects;
 
 import org.bukkit.Location;
 import org.bukkit.World;

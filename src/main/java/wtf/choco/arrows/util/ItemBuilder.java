@@ -1,12 +1,12 @@
 package wtf.choco.arrows.util;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import com.google.common.base.Preconditions;
 
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;

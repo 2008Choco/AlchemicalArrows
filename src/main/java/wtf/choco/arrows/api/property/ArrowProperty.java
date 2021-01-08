@@ -1,8 +1,8 @@
 package wtf.choco.arrows.api.property;
 
-import java.util.Objects;
-
 import com.google.common.base.Preconditions;
+
+import java.util.Objects;
 
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
@@ -93,7 +93,7 @@ public final class ArrowProperty<T> implements Keyed {
     }
 
     private static NamespacedKey key(String value) {
-    	return new NamespacedKey(AlchemicalArrows.getInstance(), value);
+        return new NamespacedKey(AlchemicalArrows.getInstance(), value);
     }
 
 }

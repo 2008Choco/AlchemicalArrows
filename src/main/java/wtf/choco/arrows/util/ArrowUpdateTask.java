@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.bukkit.entity.Arrow;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;

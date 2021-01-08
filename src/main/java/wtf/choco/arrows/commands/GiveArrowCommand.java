@@ -1,7 +1,5 @@
 package wtf.choco.arrows.commands;
 
-import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,7 +16,6 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
 import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.alchema.util.NamespacedKeyUtil;
@@ -26,6 +23,8 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.util.MathUtil;
+
+import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 
 public class GiveArrowCommand implements TabExecutor {
 

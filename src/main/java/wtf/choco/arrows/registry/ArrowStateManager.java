@@ -1,13 +1,13 @@
 package wtf.choco.arrows.registry;
 
+import com.google.common.base.Preconditions;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
-import com.google.common.base.Preconditions;
 
 import org.bukkit.World;
 import org.bukkit.entity.Arrow;

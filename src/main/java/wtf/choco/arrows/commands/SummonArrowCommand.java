@@ -1,7 +1,5 @@
 package wtf.choco.arrows.commands;
 
-import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.util.StringUtil;
 import org.bukkit.util.Vector;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +31,8 @@ import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.util.MathUtil;
 import wtf.choco.arrows.util.NamespacedKeyUtil;
+
+import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 
 public class SummonArrowCommand implements TabExecutor {
 

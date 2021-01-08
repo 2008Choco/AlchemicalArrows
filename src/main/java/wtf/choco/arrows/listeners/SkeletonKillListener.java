@@ -11,8 +11,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
-
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import wtf.choco.arrows.AlchemicalArrows;
@@ -25,7 +23,7 @@ public final class SkeletonKillListener implements Listener {
 
     private final AlchemicalArrows plugin;
 
-    public SkeletonKillListener(@NotNull AlchemicalArrows plugin) {
+    public SkeletonKillListener(AlchemicalArrows plugin) {
         this.plugin = plugin;
     }
 
