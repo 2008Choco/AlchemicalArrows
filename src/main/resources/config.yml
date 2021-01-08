@@ -211,7 +211,7 @@ Arrow:
     AllowInfinity: false
     Colour: '255,250,0'
     Effect:
-      StrikeLightning: true
+      LightningChance: 5.0
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
