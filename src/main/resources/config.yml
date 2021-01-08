@@ -25,6 +25,8 @@ Arrow:
     Colour: '255,255,255'
     Effect:
       BreatheRadius: 2
+      LaunchStrengthMin: 1.0
+      LaunchStrengthMax: 2.0
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0

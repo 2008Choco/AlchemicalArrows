@@ -22,10 +22,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
+import wtf.choco.arrows.util.MathUtil;
 
 public class AlchemicalArrowAir extends AlchemicalArrowInternal {
 
     public static final ArrowProperty<Double> PROPERTY_BREATHE_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "breathe_radius"), Double.class, 2.0);
+    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MIN = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "launch_strength_min"), Double.class, 1.0);
+    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MAX = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "launch_strength_max"), Double.class, 2.0);
 
     private static final Random RANDOM = new Random();
     private static final int BREATHE_RADIUS_LIMIT = 4;
@@ -40,6 +43,8 @@ public class AlchemicalArrowAir extends AlchemicalArrowInternal {
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Air.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Air.Skeleton.LootDropWeight", 10.0));
         this.properties.setProperty(PROPERTY_BREATHE_RADIUS, Math.min(config.getDouble("Arrow.Air.Effect.BreatheRadius", 2.0), BREATHE_RADIUS_LIMIT));
+        this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MIN, MathUtil.clamp(config.getDouble("Arrow.Air.Effect.LaunchStrengthMin", 1.0), 0.0, 4.0));
+        this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MAX, MathUtil.clamp(config.getDouble("Arrow.Air.Effect.LaunchStrengthMax", 2.0), 0.0, 4.0));
     }
 
     @Override
@@ -98,9 +103,12 @@ public class AlchemicalArrowAir extends AlchemicalArrowInternal {
             return;
         }
 
+        double min = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MIN).orElse(1.0), 0.0, 4.0);
+        double max = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MAX).orElse(1.0), min, 4.0);
+
         LivingEntity entity = (LivingEntity) event.getEntity();
         entity.damage(event.getFinalDamage(), event.getDamager());
-        entity.setVelocity(entity.getVelocity().setY((RANDOM.nextDouble() * 2) + 1));
+        entity.setVelocity(entity.getVelocity().setY((RANDOM.nextDouble() * (max - min)) + min));
         entity.getWorld().playSound(entity.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);
 
         event.setCancelled(true);
