@@ -24,17 +24,17 @@ public final class ArrowProperty<T> implements Keyed {
     /**
      * A boolean valued property determining whether skeletons may shoot an arrow or not. Defaults to true.
      */
-    public static final ArrowProperty<Boolean> SKELETONS_CAN_SHOOT = new ArrowProperty<>(key("skeletons_can_shoot"), Boolean.class, true);
+    public static final ArrowProperty<Boolean> SKELETONS_CAN_SHOOT = new ArrowProperty<>(AlchemicalArrows.key("skeletons_can_shoot"), Boolean.class, true);
 
     /**
      * A boolean valued property determining whether the infinity enchantment is permitted or not.
      */
-    public static final ArrowProperty<Boolean> ALLOW_INFINITY = new ArrowProperty<>(key("allow_infinity"), Boolean.class, false);
+    public static final ArrowProperty<Boolean> ALLOW_INFINITY = new ArrowProperty<>(AlchemicalArrows.key("allow_infinity"), Boolean.class, false);
 
     /**
      * A double valued property determining the weighted chance for an alchemical arrow to drop.
      */
-    public static final ArrowProperty<Double> SKELETON_LOOT_WEIGHT = new ArrowProperty<>(key("skeleton_loot_weight"), Double.class, 10.0);
+    public static final ArrowProperty<Double> SKELETON_LOOT_WEIGHT = new ArrowProperty<>(AlchemicalArrows.key("skeleton_loot_weight"), Double.class, 10.0);
 
 
     private final NamespacedKey key;
@@ -90,10 +90,6 @@ public final class ArrowProperty<T> implements Keyed {
     @Override
     public boolean equals(Object object) {
         return object == this || (object instanceof ArrowProperty<?> && Objects.equals(key, ((ArrowProperty<?>) object).key));
-    }
-
-    private static NamespacedKey key(String value) {
-        return new NamespacedKey(AlchemicalArrows.getInstance(), value);
     }
 
 }

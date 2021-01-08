@@ -1,7 +1,6 @@
 package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -20,8 +19,8 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowChain extends AlchemicalArrowInternal {
 
-    private static final ArrowProperty<Double> PROPERTY_DAMAGE_FACTOR = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "damage_factor"), Double.class, 0.80);
-    private static final ArrowProperty<Integer> PROPERY_SEARCH_DISTANCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "search_distance"), Integer.class, 5);
+    private static final ArrowProperty<Double> PROPERTY_DAMAGE_FACTOR = new ArrowProperty<>(AlchemicalArrows.key("damage_factor"), Double.class, 0.80);
+    private static final ArrowProperty<Integer> PROPERY_SEARCH_DISTANCE = new ArrowProperty<>(AlchemicalArrows.key("search_distance"), Integer.class, 5);
 
     private static final int SEARCH_DISTANCE_MAX = 10;
     private static final int SEARCH_DISTANCE_MIN = 1;

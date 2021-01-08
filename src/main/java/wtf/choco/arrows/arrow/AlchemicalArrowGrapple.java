@@ -1,7 +1,6 @@
 package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -17,7 +16,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowGrapple extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Double> PROPERTY_GRAPPLE_FORCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "grapple_force"), Double.class, 2.5);
+    public static final ArrowProperty<Double> PROPERTY_GRAPPLE_FORCE = new ArrowProperty<>(AlchemicalArrows.key("grapple_force"), Double.class, 2.5);
 
     private static final double GRAPPLE_FORCE_LIMIT = 4.0;
 

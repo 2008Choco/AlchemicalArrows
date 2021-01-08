@@ -5,7 +5,6 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -26,9 +25,9 @@ import wtf.choco.arrows.util.MathUtil;
 
 public class AlchemicalArrowAir extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Double> PROPERTY_BREATHE_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "breathe_radius"), Double.class, 2.0);
-    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MIN = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "launch_strength_min"), Double.class, 1.0);
-    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MAX = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "launch_strength_max"), Double.class, 2.0);
+    public static final ArrowProperty<Double> PROPERTY_BREATHE_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("breathe_radius"), Double.class, 2.0);
+    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MIN = new ArrowProperty<>(AlchemicalArrows.key("launch_strength_min"), Double.class, 1.0);
+    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MAX = new ArrowProperty<>(AlchemicalArrows.key("launch_strength_max"), Double.class, 2.0);
 
     private static final Random RANDOM = new Random();
     private static final int BREATHE_RADIUS_LIMIT = 4;

@@ -3,7 +3,6 @@ package wtf.choco.arrows.arrow;
 import java.util.Random;
 
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -21,8 +20,8 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowDeath extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Boolean> PROPERTY_INSTANT_DEATH_POSSIBLE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "instant_death_possible"), Boolean.class, true);
-    public static final ArrowProperty<Double> PROPERTY_INSTANT_DEATH_CHANCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "isntant_death_chance"), Double.class, 20.0);
+    public static final ArrowProperty<Boolean> PROPERTY_INSTANT_DEATH_POSSIBLE = new ArrowProperty<>(AlchemicalArrows.key("instant_death_possible"), Boolean.class, true);
+    public static final ArrowProperty<Double> PROPERTY_INSTANT_DEATH_CHANCE = new ArrowProperty<>(AlchemicalArrows.key("isntant_death_chance"), Double.class, 20.0);
 
     private static final PotionEffect WITHER_EFFECT = new PotionEffect(PotionEffectType.WITHER, 100, 2);
     private static final Random RANDOM = new Random();

@@ -3,7 +3,6 @@ package wtf.choco.arrows.arrow;
 import java.util.Random;
 
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,7 +16,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowLight extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Double> PROPERTY_LIGHTNING_CHANCE = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "lightning_chance"), Double.class, 5.0);
+    public static final ArrowProperty<Double> PROPERTY_LIGHTNING_CHANCE = new ArrowProperty<>(AlchemicalArrows.key("lightning_chance"), Double.class, 5.0);
 
     private static final Random RANDOM = new Random();
 

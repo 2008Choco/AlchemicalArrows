@@ -5,7 +5,6 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -24,7 +23,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowMagnetic extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Double> PROPERTY_MAGNETISM_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "magnetism_radius"), Double.class, 5.0);
+    public static final ArrowProperty<Double> PROPERTY_MAGNETISM_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("magnetism_radius"), Double.class, 5.0);
 
     private static final Random RANDOM = new Random();
     private static final BlockData IRON = Material.IRON_BLOCK.createBlockData(), GOLD = Material.GOLD_BLOCK.createBlockData();

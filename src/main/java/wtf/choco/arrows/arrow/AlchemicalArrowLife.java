@@ -6,7 +6,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -26,7 +25,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowLife extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "floral_radius"), Integer.class, 2);
+    public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("floral_radius"), Integer.class, 2);
 
     private static final PotionEffect REGENERATION_EFFECT = new PotionEffect(PotionEffectType.REGENERATION, 300, 2);
     private static final int FLORAL_RADIUS_LIMIT = 5;

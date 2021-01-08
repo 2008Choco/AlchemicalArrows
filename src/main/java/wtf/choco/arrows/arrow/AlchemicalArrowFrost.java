@@ -2,7 +2,6 @@ package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -19,7 +18,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowFrost extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Double> PROPERTY_WATER_FREEZE_RADIUS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "water_freeze_radius"), Double.class, 3.5);
+    public static final ArrowProperty<Double> PROPERTY_WATER_FREEZE_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("water_freeze_radius"), Double.class, 3.5);
 
     private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 100, 254);
     private static final PotionEffect ANTI_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 100, 500);

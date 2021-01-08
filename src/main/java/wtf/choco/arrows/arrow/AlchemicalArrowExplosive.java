@@ -2,7 +2,6 @@ package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -17,8 +16,8 @@ import wtf.choco.arrows.arrow.entity.ArrowEntityFused;
 
 public class AlchemicalArrowExplosive extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Float> PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "explosion_strength"), Float.class, 4.0F);
-    public static final ArrowProperty<Integer> PROPERTY_FUSE_TICKS = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "fuse_ticks"), Integer.class, 40);
+    public static final ArrowProperty<Float> PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty<>(AlchemicalArrows.key("explosion_strength"), Float.class, 4.0F);
+    public static final ArrowProperty<Integer> PROPERTY_FUSE_TICKS = new ArrowProperty<>(AlchemicalArrows.key("fuse_ticks"), Integer.class, 40);
 
     private static final BlockData TNT = Material.TNT.createBlockData();
     private static final int EXPLOSION_STRENGTH_LIMIT = 10;

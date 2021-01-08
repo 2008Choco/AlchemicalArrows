@@ -1,7 +1,6 @@
 package wtf.choco.arrows.arrow;
 
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -21,7 +20,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowEnder extends AlchemicalArrowInternal {
 
-    public static final ArrowProperty<Boolean> PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty<>(new NamespacedKey(AlchemicalArrows.getInstance(), "teleport_on_hit_block"), Boolean.class, true);
+    public static final ArrowProperty<Boolean> PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty<>(AlchemicalArrows.key("teleport_on_hit_block"), Boolean.class, true);
 
     public AlchemicalArrowEnder(AlchemicalArrows plugin) {
         super(plugin, "Ender", "&5Ender Arrow", 137);
