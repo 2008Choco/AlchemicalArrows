@@ -18,11 +18,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import wtf.choco.alchema.util.NamespacedKeyUtil;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.util.MathUtil;
+import wtf.choco.arrows.util.NamespacedKeyUtil;
 
 import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 
