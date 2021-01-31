@@ -59,9 +59,9 @@ public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
             return;
         }
 
+        BlockData data;
         Block block = location.getBlock();
-        BlockData data = block.getBlockData();
-        if (block.getType() != Material.WATER || (data instanceof Waterlogged && !((Waterlogged) data).isWaterlogged())) {
+        if (block.getType() != Material.WATER || ((data = block.getBlockData()) instanceof Waterlogged && !((Waterlogged) data).isWaterlogged())) {
             return;
         }
 

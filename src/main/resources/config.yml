@@ -150,6 +150,9 @@ Arrow:
     RecipeYield: 8
     AllowInfinity: false
     Colour: '232,11,11'
+    Effect:
+      Extinguishable: true
+      TicksToMelt: 60
     Skeleton:
       CanShoot: true
       LootDropWeight: 10.0
