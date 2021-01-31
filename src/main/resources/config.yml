@@ -48,7 +48,7 @@ Arrow:
       CanShoot: true
       LootDropWeight: 10.0
     Item:
-      DisplayName: "&2&nChain Arrow"
+      DisplayName: "&2Chain Arrow"
       Lore:
         - "&2Quick crowd dispersal"
         - "&2Chains to other nearby entities"
