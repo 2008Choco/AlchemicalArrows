@@ -217,6 +217,7 @@ Arrow:
     AllowInfinity: false
     Colour: '255,250,0'
     Effect:
+      Disorient: true
       LightningChance: 5.0
     Skeleton:
       CanShoot: true

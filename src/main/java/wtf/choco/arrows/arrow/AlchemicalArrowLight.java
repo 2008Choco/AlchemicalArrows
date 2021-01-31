@@ -15,6 +15,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
 
+    public static final ArrowProperty PROPERTY_DISORIENT = new ArrowProperty(AlchemicalArrows.key("disorient"), true);
     public static final ArrowProperty PROPERTY_LIGHTNING_CHANCE = new ArrowProperty(AlchemicalArrows.key("lightning_chance"), 5.0);
 
     private static final Random RANDOM = new Random();
@@ -26,6 +27,7 @@ public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
         this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Light.AllowInfinity", false));
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Light.Skeleton.LootDropWeight", 10.0));
 
+        this.properties.setProperty(PROPERTY_DISORIENT, () -> plugin.getConfig().getBoolean("Arrow.Light.Effect.Disorient", true));
         this.properties.setProperty(PROPERTY_LIGHTNING_CHANCE, () -> plugin.getConfig().getDouble("Arrow.Light.Effect.LightningChance", 5.0));
     }
 
@@ -59,9 +61,11 @@ public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
             entity.getWorld().strikeLightning(entity.getLocation());
         }
 
-        Location upwards = entity.getLocation();
-        upwards.setPitch(-180);
-        entity.teleport(upwards);
+        if (properties.getProperty(PROPERTY_DISORIENT).getAsBoolean()) {
+            Location upwards = entity.getLocation();
+            upwards.setPitch(-180);
+            entity.teleport(upwards);
+        }
     }
 
 }
