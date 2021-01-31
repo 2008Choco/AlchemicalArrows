@@ -7,6 +7,10 @@ import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
@@ -18,6 +22,7 @@ public class AlchemicalArrowExplosive extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty(AlchemicalArrows.key("explosion_strength"), 4.0F);
     public static final ArrowProperty PROPERTY_FUSE_TICKS = new ArrowProperty(AlchemicalArrows.key("fuse_ticks"), 40);
+    public static final ArrowProperty PROPERTY_IGNITE_CREEPERS = new ArrowProperty(AlchemicalArrows.key("ignite_creepers"), true);
 
     private static final BlockData TNT = Material.TNT.createBlockData();
     private static final float EXPLOSION_STRENGTH_LIMIT = 10.0F;
@@ -31,6 +36,7 @@ public class AlchemicalArrowExplosive extends ConfigurableAlchemicalArrow {
 
         this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, () -> MathUtil.clamp((float) plugin.getConfig().getDouble("Arrow.Explosive.Effect.ExplosionStrength", 4.0), 0.0F, EXPLOSION_STRENGTH_LIMIT));
         this.properties.setProperty(PROPERTY_FUSE_TICKS, () -> plugin.getConfig().getInt("Arrow.Explosive.Effect.FuseTicks", 40));
+        this.properties.setProperty(PROPERTY_IGNITE_CREEPERS, () -> plugin.getConfig().getBoolean("Arrow.Explosive.Effect.IgniteCreepers", true));
     }
 
     @Override
@@ -51,6 +57,15 @@ public class AlchemicalArrowExplosive extends ConfigurableAlchemicalArrow {
             fusedArrow.tickFuse();
             world.playSound(location, Sound.ENTITY_CREEPER_HURT, 1, 0.75F + (1 / ((float) fusedArrow.getMaxFuseTicks() / (float) fusedArrow.getFuse())));
         }
+    }
+
+    @Override
+    public void onHitEntity(@NotNull AlchemicalArrowEntity arrow, @NotNull Entity entity) {
+        if (entity.getType() != EntityType.CREEPER || !properties.getProperty(PROPERTY_IGNITE_CREEPERS).getAsBoolean()) {
+            return;
+        }
+
+        ((Creeper) entity).ignite();
     }
 
     @Override

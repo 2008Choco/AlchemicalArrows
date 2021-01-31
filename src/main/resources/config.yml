@@ -136,6 +136,7 @@ Arrow:
     Effect:
       FuseTicks: 40
       ExplosionStrength: 4
+      IgniteCreepers: true
     Skeleton:
       CanShoot: false
       LootdropWeight: 10.0
