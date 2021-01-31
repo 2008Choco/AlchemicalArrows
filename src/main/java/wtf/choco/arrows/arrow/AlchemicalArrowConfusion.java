@@ -14,7 +14,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowConfusion extends AlchemicalArrowInternal {
+public class AlchemicalArrowConfusion extends ConfigurableAlchemicalArrow {
 
     private static final PotionEffect CONFUSION_EFFECT = new PotionEffect(PotionEffectType.CONFUSION, 100, 0);
 

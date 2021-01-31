@@ -16,7 +16,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowFrost extends AlchemicalArrowInternal {
+public class AlchemicalArrowFrost extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Double> PROPERTY_WATER_FREEZE_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("water_freeze_radius"), Double.class, 3.5);
 

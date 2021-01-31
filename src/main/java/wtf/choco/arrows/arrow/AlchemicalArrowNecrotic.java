@@ -20,7 +20,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowNecrotic extends AlchemicalArrowInternal {
+public class AlchemicalArrowNecrotic extends ConfigurableAlchemicalArrow {
 
     private static final ItemStack ROTTEN_FLESH = new ItemStack(Material.ROTTEN_FLESH);
 

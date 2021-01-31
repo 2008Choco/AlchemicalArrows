@@ -21,7 +21,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowMagnetic extends AlchemicalArrowInternal {
+public class AlchemicalArrowMagnetic extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Double> PROPERTY_MAGNETISM_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("magnetism_radius"), Double.class, 5.0);
 

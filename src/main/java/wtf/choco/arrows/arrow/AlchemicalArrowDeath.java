@@ -18,7 +18,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowDeath extends AlchemicalArrowInternal {
+public class AlchemicalArrowDeath extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Boolean> PROPERTY_INSTANT_DEATH_POSSIBLE = new ArrowProperty<>(AlchemicalArrows.key("instant_death_possible"), Boolean.class, true);
     public static final ArrowProperty<Double> PROPERTY_INSTANT_DEATH_CHANCE = new ArrowProperty<>(AlchemicalArrows.key("isntant_death_chance"), Double.class, 20.0);

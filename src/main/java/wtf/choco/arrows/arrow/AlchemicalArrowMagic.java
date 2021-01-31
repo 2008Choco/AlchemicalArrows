@@ -15,7 +15,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowMagic extends AlchemicalArrowInternal {
+public class AlchemicalArrowMagic extends ConfigurableAlchemicalArrow {
 
     public AlchemicalArrowMagic(AlchemicalArrows plugin) {
         super(plugin, "Magic", "&dMagic Arrow", 144);

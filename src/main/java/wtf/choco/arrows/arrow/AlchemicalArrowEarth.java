@@ -17,7 +17,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowEarth extends AlchemicalArrowInternal {
+public class AlchemicalArrowEarth extends ConfigurableAlchemicalArrow {
 
     private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 100, 2);
     private static final BlockData DIRT = Material.DIRT.createBlockData();

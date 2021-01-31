@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
+import wtf.choco.arrows.arrow.ConfigurableAlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.util.UpdateChecker;
 import wtf.choco.arrows.util.UpdateChecker.UpdateResult;
@@ -82,6 +83,12 @@ public class AlchemicalArrowsCommand implements TabExecutor {
             }
 
             this.plugin.reloadConfig();
+            this.plugin.getArrowRegistry().forEach(arrow -> {
+                if (arrow instanceof ConfigurableAlchemicalArrow) {
+                    ((ConfigurableAlchemicalArrow) arrow).reload();
+                }
+            });
+
             sender.sendMessage(CHAT_PREFIX + ChatColor.GREEN + "AlchemicalArrows configuration successfully reloaded");
         }
 

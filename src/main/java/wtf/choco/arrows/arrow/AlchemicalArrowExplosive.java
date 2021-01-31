@@ -14,7 +14,7 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.arrow.entity.ArrowEntityFused;
 
-public class AlchemicalArrowExplosive extends AlchemicalArrowInternal {
+public class AlchemicalArrowExplosive extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Float> PROPERTY_EXPLOSION_STRENGTH = new ArrowProperty<>(AlchemicalArrows.key("explosion_strength"), Float.class, 4.0F);
     public static final ArrowProperty<Integer> PROPERTY_FUSE_TICKS = new ArrowProperty<>(AlchemicalArrows.key("fuse_ticks"), Integer.class, 40);

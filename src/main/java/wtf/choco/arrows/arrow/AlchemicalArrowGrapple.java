@@ -14,7 +14,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowGrapple extends AlchemicalArrowInternal {
+public class AlchemicalArrowGrapple extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Double> PROPERTY_GRAPPLE_FORCE = new ArrowProperty<>(AlchemicalArrows.key("grapple_force"), Double.class, 2.5);
 

@@ -13,7 +13,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowDarkness extends AlchemicalArrowInternal {
+public class AlchemicalArrowDarkness extends ConfigurableAlchemicalArrow {
 
     private static final PotionEffect BLINDNESS_EFFECT = new PotionEffect(PotionEffectType.BLINDNESS, 100, 1);
 

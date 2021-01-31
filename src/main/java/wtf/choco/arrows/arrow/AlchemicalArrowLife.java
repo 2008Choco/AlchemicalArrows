@@ -23,7 +23,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowLife extends AlchemicalArrowInternal {
+public class AlchemicalArrowLife extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("floral_radius"), Integer.class, 2);
 

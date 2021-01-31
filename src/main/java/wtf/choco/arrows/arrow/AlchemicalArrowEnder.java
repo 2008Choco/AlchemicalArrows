@@ -18,7 +18,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowEnder extends AlchemicalArrowInternal {
+public class AlchemicalArrowEnder extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Boolean> PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty<>(AlchemicalArrows.key("teleport_on_hit_block"), Boolean.class, true);
 

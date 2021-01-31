@@ -45,7 +45,6 @@ public final class ProjectileShootListener implements Listener {
     }
 
     @EventHandler
-    @SuppressWarnings("deprecation") // Player#updateInventory()
     public void onEntityShootBow(EntityShootBowEvent event) {
         if (!(event.getProjectile() instanceof Arrow)) {
             return;

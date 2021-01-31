@@ -12,7 +12,7 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.arrow.entity.ArrowEntityWater;
 
-public class AlchemicalArrowWater extends AlchemicalArrowInternal {
+public class AlchemicalArrowWater extends ConfigurableAlchemicalArrow {
 
     public AlchemicalArrowWater(AlchemicalArrows plugin) {
         super(plugin, "Water", "&9Water Arrow", 147);

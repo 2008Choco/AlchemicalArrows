@@ -14,7 +14,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowLight extends AlchemicalArrowInternal {
+public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Double> PROPERTY_LIGHTNING_CHANCE = new ArrowProperty<>(AlchemicalArrows.key("lightning_chance"), Double.class, 5.0);
 

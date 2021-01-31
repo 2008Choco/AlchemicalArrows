@@ -17,7 +17,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 
-public class AlchemicalArrowChain extends AlchemicalArrowInternal {
+public class AlchemicalArrowChain extends ConfigurableAlchemicalArrow {
 
     private static final ArrowProperty<Double> PROPERTY_DAMAGE_FACTOR = new ArrowProperty<>(AlchemicalArrows.key("damage_factor"), Double.class, 0.80);
     private static final ArrowProperty<Integer> PROPERY_SEARCH_DISTANCE = new ArrowProperty<>(AlchemicalArrows.key("search_distance"), Integer.class, 5);

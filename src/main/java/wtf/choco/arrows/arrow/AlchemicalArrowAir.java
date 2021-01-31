@@ -23,7 +23,7 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.util.MathUtil;
 
-public class AlchemicalArrowAir extends AlchemicalArrowInternal {
+public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty<Double> PROPERTY_BREATHE_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("breathe_radius"), Double.class, 2.0);
     public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MIN = new ArrowProperty<>(AlchemicalArrows.key("launch_strength_min"), Double.class, 1.0);
