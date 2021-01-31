@@ -3,7 +3,7 @@ package wtf.choco.arrows.api.property;
 /**
  * Represents a transformable value of an {@link ArrowProperty}.
  *
- * @author Parker Hawke
+ * @author Parker Hawke - Choco
  */
 public interface ArrowPropertyValue {
 

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * in the AlchemcialArrow implementation must be overwritten to return an instance of
  * the custom implementation in order to be recognised by the AlchemicalArrows plugin
  *
- * @author Parker Hawke - 2008Choco
+ * @author Parker Hawke - Choco
  */
 public class AlchemicalArrowEntity {
 

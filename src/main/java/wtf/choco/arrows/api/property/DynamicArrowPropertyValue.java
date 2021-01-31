@@ -6,7 +6,7 @@ import java.util.function.Supplier;
  * Represents an {@link ArrowPropertyValue} that gets recomputed every time it
  * is fetched. Useful for configuration-based values.
  *
- * @author Parker Hawke
+ * @author Parker Hawke - Choco
  */
 public class DynamicArrowPropertyValue extends SimpleArrowProperty {
 

@@ -28,7 +28,7 @@ import wtf.choco.arrows.persistence.AAPersistentDataTypes;
  * Represents the base of an alchemical arrow with special effects upon hitting a
  * block, entity or player
  *
- * @author Parker Hawke - 2008Choco
+ * @author Parker Hawke - Choco
  */
 public abstract class AlchemicalArrow {
 

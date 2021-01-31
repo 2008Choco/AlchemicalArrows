@@ -5,7 +5,7 @@ import org.bukkit.util.NumberConversions;
 /**
  * Represents an {@link ArrowPropertyValue} with a fixed value.
  *
- * @author Parker Hawke
+ * @author Parker Hawke - Choco
  */
 public class SimpleArrowProperty implements ArrowPropertyValue {
 

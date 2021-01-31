@@ -2,7 +2,7 @@ name: ${project.name}
 main: wtf.choco.arrows.AlchemicalArrows
 version: ${project.version}
 description: ${project.description}
-author: 2008Choco
+author: Choco
 softdepend: [ WorldGuard, Alchema ]
 api-version: 1.16
 
