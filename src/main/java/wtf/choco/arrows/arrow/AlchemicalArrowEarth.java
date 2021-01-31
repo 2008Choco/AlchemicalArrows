@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -18,7 +19,7 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowEarth extends ConfigurableAlchemicalArrow {
 
-    private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 100, 2);
+    private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 100, 1);
     private static final BlockData DIRT = Material.DIRT.createBlockData();
 
     public AlchemicalArrowEarth(AlchemicalArrows plugin) {
@@ -41,7 +42,7 @@ public class AlchemicalArrowEarth extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-        this.burryEntity(player);
+        this.buryEntity(player);
     }
 
     @Override
@@ -50,13 +51,18 @@ public class AlchemicalArrowEarth extends ConfigurableAlchemicalArrow {
             return;
         }
 
-        this.burryEntity((LivingEntity) entity);
+        this.buryEntity((LivingEntity) entity);
     }
 
-    private void burryEntity(LivingEntity entity) {
+    private void buryEntity(LivingEntity entity) {
         Location location = entity.getLocation();
         while (location.getBlockY() >= 1 && !location.getBlock().getType().isSolid()) {
             location.subtract(0, 1, 0);
+        }
+
+        // Don't drop them down if there's no block to catch them
+        if (location.getBlock().getRelative(BlockFace.DOWN).isEmpty()) {
+            return;
         }
 
         // Round to block coordinate and add 0.5 (centre coordinates)
