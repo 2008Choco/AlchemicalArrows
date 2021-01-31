@@ -31,10 +31,12 @@ public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
 
     private final AlchemicalArrows plugin;
     private final NamespacedKey key;
+    private final String configPath;
 
     protected ConfigurableAlchemicalArrow(AlchemicalArrows plugin, String key, String defaultName, int defaultModelData) {
         this.plugin = plugin;
         this.key = new NamespacedKey(plugin, key.toLowerCase());
+        this.configPath = "Arrow." + key;
 
         this.defaultName = defaultName;
         this.defaultModelData = defaultModelData;
@@ -64,7 +66,7 @@ public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
 
     public void reload() {
         FileConfiguration config = plugin.getConfig();
-        ConfigurationSection arrowSection = config.getConfigurationSection("Arrow." + key);
+        ConfigurationSection arrowSection = config.getConfigurationSection(configPath);
 
         String nameRaw = arrowSection.getString("Item.DisplayName", defaultName);
         this.name = (nameRaw != null) ? ChatColor.translateAlternateColorCodes('&', nameRaw) : nameRaw; // Never null anyways
