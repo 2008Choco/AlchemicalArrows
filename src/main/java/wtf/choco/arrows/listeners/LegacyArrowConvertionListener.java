@@ -1,8 +1,10 @@
 package wtf.choco.arrows.listeners;
 
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -31,26 +33,40 @@ public final class LegacyArrowConvertionListener implements Listener {
     }
 
     @EventHandler
-    private void onOpenInventory(InventoryOpenEvent event) {
-        convertInventory(event.getInventory());
+    private void onClickItem(InventoryClickEvent event) {
+        event.setCurrentItem(convertItemStack(event.getCurrentItem()));
+    }
+
+    @EventHandler
+    private void onPickupItem(EntityPickupItemEvent event) {
+        Item item = event.getItem();
+        ItemStack stack = item.getItemStack();
+        ItemStack converted = convertItemStack(stack);
+
+        if (stack != converted) {
+            item.setItemStack(converted);
+        }
+    }
+
+    private ItemStack convertItemStack(ItemStack item) {
+        if (item == null) {
+            return null;
+        }
+
+        ArrowRegistry registry = plugin.getArrowRegistry();
+        AlchemicalArrow arrow = get(registry, item);
+        if (arrow == null) {
+            return item;
+        }
+
+        return arrow.createItemStack(item.getAmount());
     }
 
     private void convertInventory(Inventory inventory) {
         ItemStack[] contents = inventory.getContents();
-        ArrowRegistry registry = plugin.getArrowRegistry();
 
         for (int i = 0; i < contents.length; i++) {
-            ItemStack item = contents[i];
-            if (item == null) {
-                continue;
-            }
-
-            AlchemicalArrow arrow = get(registry, item);
-            if (arrow == null) {
-                continue;
-            }
-
-            contents[i] = arrow.createItemStack(item.getAmount());
+            contents[i] = convertItemStack(contents[i]);
         }
 
         inventory.setContents(contents);
