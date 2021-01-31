@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -15,10 +14,11 @@ import org.bukkit.potion.PotionEffectType;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
+import wtf.choco.arrows.util.MathUtil;
 
 public class AlchemicalArrowFrost extends ConfigurableAlchemicalArrow {
 
-    public static final ArrowProperty<Double> PROPERTY_WATER_FREEZE_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("water_freeze_radius"), Double.class, 3.5);
+    public static final ArrowProperty PROPERTY_WATER_FREEZE_RADIUS = new ArrowProperty(AlchemicalArrows.key("water_freeze_radius"), 3.5);
 
     private static final PotionEffect SLOWNESS_EFFECT = new PotionEffect(PotionEffectType.SLOW, 100, 254);
     private static final PotionEffect ANTI_JUMP_EFFECT = new PotionEffect(PotionEffectType.JUMP, 100, 500);
@@ -27,11 +27,11 @@ public class AlchemicalArrowFrost extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowFrost(AlchemicalArrows plugin) {
         super(plugin, "Frost", "&bFrost Arrow", 140);
 
-        FileConfiguration config = plugin.getConfig();
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Frost.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Frost.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Frost.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_WATER_FREEZE_RADIUS, Math.min(config.getDouble("Arrow.Frost.Effect.WaterFreezeRadius", 3.5D), WATER_FREEZE_RADIUS_LIMIT));
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Frost.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Frost.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Frost.Skeleton.LootDropWeight", 10.0));
+
+        this.properties.setProperty(PROPERTY_WATER_FREEZE_RADIUS, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Frost.Effect.WaterFreezeRadius", 3.5D), 0.0D, WATER_FREEZE_RADIUS_LIMIT));
     }
 
     @Override
@@ -72,7 +72,7 @@ public class AlchemicalArrowFrost extends ConfigurableAlchemicalArrow {
     }
 
     private void freezeRadius(AlchemicalArrowEntity arrow, Location location) {
-        double radius = properties.getProperty(PROPERTY_WATER_FREEZE_RADIUS).orElse(3.5D);
+        double radius = properties.getProperty(PROPERTY_WATER_FREEZE_RADIUS).getAsDouble();
         if (radius <= 0.0) {
             return;
         }

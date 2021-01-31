@@ -5,7 +5,6 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -20,16 +19,16 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowEnder extends ConfigurableAlchemicalArrow {
 
-    public static final ArrowProperty<Boolean> PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty<>(AlchemicalArrows.key("teleport_on_hit_block"), Boolean.class, true);
+    public static final ArrowProperty PROPERTY_TELEPORT_ON_HIT_BLOCK = new ArrowProperty(AlchemicalArrows.key("teleport_on_hit_block"), true);
 
     public AlchemicalArrowEnder(AlchemicalArrows plugin) {
         super(plugin, "Ender", "&5Ender Arrow", 137);
 
-        FileConfiguration config = plugin.getConfig();
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Ender.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Ender.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Ender.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK, config.getBoolean("Arrow.Ender.Effect.TeleportOnHitBlock", true));
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Ender.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Ender.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Ender.Skeleton.LootDropWeight", 10.0));
+
+        this.properties.setProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK, () -> plugin.getConfig().getBoolean("Arrow.Ender.Effect.TeleportOnHitBlock", true));
     }
 
     @Override
@@ -64,7 +63,7 @@ public class AlchemicalArrowEnder extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-        if (!properties.getProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK).orElse(true)) {
+        if (!properties.getProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK).getAsBoolean()) {
             return;
         }
 

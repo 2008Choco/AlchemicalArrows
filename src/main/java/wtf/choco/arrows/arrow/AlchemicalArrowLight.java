@@ -5,7 +5,6 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -16,18 +15,18 @@ import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
 
-    public static final ArrowProperty<Double> PROPERTY_LIGHTNING_CHANCE = new ArrowProperty<>(AlchemicalArrows.key("lightning_chance"), Double.class, 5.0);
+    public static final ArrowProperty PROPERTY_LIGHTNING_CHANCE = new ArrowProperty(AlchemicalArrows.key("lightning_chance"), 5.0);
 
     private static final Random RANDOM = new Random();
 
     public AlchemicalArrowLight(AlchemicalArrows plugin) {
         super(plugin, "Light", "&eLight Arrow", 143);
 
-        FileConfiguration config = plugin.getConfig();
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Light.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Light.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Light.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_LIGHTNING_CHANCE, config.getDouble("Arrow.Light.Effect.LightningChance", 5.0));
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Light.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Light.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Light.Skeleton.LootDropWeight", 10.0));
+
+        this.properties.setProperty(PROPERTY_LIGHTNING_CHANCE, () -> plugin.getConfig().getDouble("Arrow.Light.Effect.LightningChance", 5.0));
     }
 
     @Override
@@ -55,7 +54,7 @@ public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
     }
 
     private void applyEffect(LivingEntity entity) {
-        double lightningChance = properties.getProperty(PROPERTY_LIGHTNING_CHANCE).orElse(5.0);
+        double lightningChance = properties.getProperty(PROPERTY_LIGHTNING_CHANCE).getAsDouble();
         if (lightningChance > 0.0 && RANDOM.nextDouble() * 100 < lightningChance) {
             entity.getWorld().strikeLightning(entity.getLocation());
         }

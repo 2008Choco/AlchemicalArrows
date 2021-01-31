@@ -10,7 +10,6 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -22,13 +21,15 @@ import org.bukkit.projectiles.ProjectileSource;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
+import wtf.choco.arrows.util.MathUtil;
 
 public class AlchemicalArrowLife extends ConfigurableAlchemicalArrow {
 
-    public static final ArrowProperty<Integer> PROPERTY_FLORAL_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("floral_radius"), Integer.class, 2);
+    public static final ArrowProperty PROPERTY_FLORAL_RADIUS = new ArrowProperty(AlchemicalArrows.key("floral_radius"), 2);
 
     private static final PotionEffect REGENERATION_EFFECT = new PotionEffect(PotionEffectType.REGENERATION, 300, 2);
     private static final int FLORAL_RADIUS_LIMIT = 5;
+
     private static final Material[] GROWABLE_MATERIALS = {
         Material.ALLIUM, Material.AZURE_BLUET, Material.BLUE_ORCHID,
         Material.DANDELION, Material.GRASS, Material.ORANGE_TULIP,
@@ -42,11 +43,11 @@ public class AlchemicalArrowLife extends ConfigurableAlchemicalArrow {
         super(plugin, "Life", "&aLife Arrow", 142);
         this.plugin = plugin;
 
-        FileConfiguration config = plugin.getConfig();
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Life.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Life.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Life.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_FLORAL_RADIUS, Math.min(config.getInt("Arrow.Life.Effect.FloralRadius", 2), FLORAL_RADIUS_LIMIT));
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Life.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Life.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Life.Skeleton.LootDropWeight", 10.0));
+
+        this.properties.setProperty(PROPERTY_FLORAL_RADIUS, () -> MathUtil.clamp(plugin.getConfig().getInt("Arrow.Life.Effect.FloralRadius", 2), 0, FLORAL_RADIUS_LIMIT));
     }
 
     @Override
@@ -75,7 +76,7 @@ public class AlchemicalArrowLife extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-        int radius = properties.getProperty(PROPERTY_FLORAL_RADIUS).orElse(2);
+        int radius = properties.getProperty(PROPERTY_FLORAL_RADIUS).getAsInt();
         if (radius <= 0) {
             return;
         }

@@ -11,7 +11,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Waterlogged;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -25,9 +24,9 @@ import wtf.choco.arrows.util.MathUtil;
 
 public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
 
-    public static final ArrowProperty<Double> PROPERTY_BREATHE_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("breathe_radius"), Double.class, 2.0);
-    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MIN = new ArrowProperty<>(AlchemicalArrows.key("launch_strength_min"), Double.class, 1.0);
-    public static final ArrowProperty<Double> PROPERTY_LAUNCH_STRENGTH_MAX = new ArrowProperty<>(AlchemicalArrows.key("launch_strength_max"), Double.class, 2.0);
+    public static final ArrowProperty PROPERTY_BREATHE_RADIUS = new ArrowProperty(AlchemicalArrows.key("breathe_radius"), 2.0);
+    public static final ArrowProperty PROPERTY_LAUNCH_STRENGTH_MIN = new ArrowProperty(AlchemicalArrows.key("launch_strength_min"), 1.0);
+    public static final ArrowProperty PROPERTY_LAUNCH_STRENGTH_MAX = new ArrowProperty(AlchemicalArrows.key("launch_strength_max"), 2.0);
 
     private static final Random RANDOM = new Random();
     private static final int BREATHE_RADIUS_LIMIT = 4;
@@ -37,13 +36,13 @@ public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowAir(AlchemicalArrows plugin) {
         super(plugin, "Air", "&oAir Arrow", 132);
 
-        FileConfiguration config = plugin.getConfig();
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Air.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Air.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Air.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_BREATHE_RADIUS, Math.min(config.getDouble("Arrow.Air.Effect.BreatheRadius", 2.0), BREATHE_RADIUS_LIMIT));
-        this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MIN, MathUtil.clamp(config.getDouble("Arrow.Air.Effect.LaunchStrengthMin", 1.0), 0.0, 4.0));
-        this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MAX, MathUtil.clamp(config.getDouble("Arrow.Air.Effect.LaunchStrengthMax", 2.0), 0.0, 4.0));
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Air.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Air.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Air.Skeleton.LootDropWeight", 10.0));
+
+        this.properties.setProperty(PROPERTY_BREATHE_RADIUS, () -> Math.min(plugin.getConfig().getDouble("Arrow.Air.Effect.BreatheRadius", 2.0), BREATHE_RADIUS_LIMIT));
+        this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MIN, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Air.Effect.LaunchStrengthMin", 1.0), 0.0, 4.0));
+        this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MAX, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Air.Effect.LaunchStrengthMax", 2.0), 0.0, 4.0));
     }
 
     @Override
@@ -66,7 +65,7 @@ public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
             return;
         }
 
-        double radius = properties.getProperty(PROPERTY_BREATHE_RADIUS).orElse(2.0D);
+        double radius = properties.getProperty(PROPERTY_BREATHE_RADIUS).getAsDouble();
         if (radius <= 0.0) {
             return;
         }
@@ -102,8 +101,8 @@ public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
             return;
         }
 
-        double min = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MIN).orElse(1.0), 0.0, 4.0);
-        double max = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MAX).orElse(1.0), min, 4.0);
+        double min = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MIN).getAsDouble(), 0.0, 4.0);
+        double max = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MAX).getAsDouble(), min, 4.0);
 
         LivingEntity entity = (LivingEntity) event.getEntity();
         entity.damage(event.getFinalDamage(), event.getDamager());

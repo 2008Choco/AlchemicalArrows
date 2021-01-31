@@ -9,7 +9,6 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -20,10 +19,11 @@ import org.bukkit.util.Vector;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
+import wtf.choco.arrows.util.MathUtil;
 
 public class AlchemicalArrowMagnetic extends ConfigurableAlchemicalArrow {
 
-    public static final ArrowProperty<Double> PROPERTY_MAGNETISM_RADIUS = new ArrowProperty<>(AlchemicalArrows.key("magnetism_radius"), Double.class, 5.0);
+    public static final ArrowProperty PROPERTY_MAGNETISM_RADIUS = new ArrowProperty(AlchemicalArrows.key("magnetism_radius"), 5.0);
 
     private static final Random RANDOM = new Random();
     private static final BlockData IRON = Material.IRON_BLOCK.createBlockData(), GOLD = Material.GOLD_BLOCK.createBlockData();
@@ -32,11 +32,11 @@ public class AlchemicalArrowMagnetic extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowMagnetic(AlchemicalArrows plugin) {
         super(plugin, "Magnetic", "&7Magnetic Arrow", 145);
 
-        FileConfiguration config = plugin.getConfig();
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, config.getBoolean("Arrow.Magnetic.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, config.getBoolean("Arrow.Magnetic.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, config.getDouble("Arrow.Magnetic.Skeleton.LootDropWeight", 10.0));
-        this.properties.setProperty(PROPERTY_MAGNETISM_RADIUS, Math.min(config.getDouble("Arrow.Magnetic.Effect.MagnetismRadius", 5.0D), MAGNETISM_RADIUS_LIMIT));
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Magnetic.Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Magnetic.AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Magnetic.Skeleton.LootDropWeight", 10.0));
+
+        this.properties.setProperty(PROPERTY_MAGNETISM_RADIUS, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Magnetic.Effect.MagnetismRadius", 5.0D), 0.0D, MAGNETISM_RADIUS_LIMIT));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AlchemicalArrowMagnetic extends ConfigurableAlchemicalArrow {
             return;
         }
 
-        double radius = properties.getProperty(PROPERTY_MAGNETISM_RADIUS).orElse(5.0D);
+        double radius = properties.getProperty(PROPERTY_MAGNETISM_RADIUS).getAsDouble();
         if (radius <= 0.0) {
             return;
         }

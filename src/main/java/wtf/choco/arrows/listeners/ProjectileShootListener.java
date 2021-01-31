@@ -61,7 +61,7 @@ public final class ProjectileShootListener implements Listener {
 
             Collection<AlchemicalArrow> arrows = plugin.getArrowRegistry().getRegisteredArrows();
             AlchemicalArrow type = Iterables.get(arrows, RANDOM.nextInt(arrows.size()));
-            if (type == null || !type.getProperties().getProperty(ArrowProperty.SKELETONS_CAN_SHOOT).orElse(false)) {
+            if (type == null || !type.getProperties().getProperty(ArrowProperty.SKELETONS_CAN_SHOOT).getAsBoolean()) {
                 return;
             }
         } else {
@@ -82,7 +82,7 @@ public final class ProjectileShootListener implements Listener {
 
         ItemStack bow = event.getBow();
         if (bow != null && bow.hasItemMeta() && bow.getItemMeta().hasEnchant(Enchantment.ARROW_INFINITE)) {
-            if (alchemicalArrow.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).orElse(true)) {
+            if (alchemicalArrow.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).getAsBoolean()) {
                 event.setConsumeItem(false);
                 if (shooter instanceof Player) {
                     ((Player) shooter).updateInventory();

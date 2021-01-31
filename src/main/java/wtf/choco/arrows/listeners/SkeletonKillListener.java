@@ -51,14 +51,14 @@ public final class SkeletonKillListener implements Listener {
 
         Collection<AlchemicalArrow> arrows = plugin.getArrowRegistry().getRegisteredArrows();
         for (AlchemicalArrow arrow : arrows) {
-            totalWeight += arrow.getProperties().getProperty(ArrowProperty.SKELETON_LOOT_WEIGHT).orElse(0.0D);
+            totalWeight += arrow.getProperties().getProperty(ArrowProperty.SKELETON_LOOT_WEIGHT).getAsDouble();
         }
 
         ItemStack item = null;
         double randomValue = RANDOM.nextDouble() * totalWeight;
 
         for (AlchemicalArrow arrow : arrows) {
-            randomValue -= arrow.getProperties().getProperty(ArrowProperty.SKELETON_LOOT_WEIGHT).orElse(0.0D);
+            randomValue -= arrow.getProperties().getProperty(ArrowProperty.SKELETON_LOOT_WEIGHT).getAsDouble();
 
             if (randomValue <= 0) {
                 item = arrow.createItemStack();
