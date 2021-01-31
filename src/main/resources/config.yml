@@ -110,7 +110,7 @@ Arrow:
       DisplayName: "&7Earth Arrow"
       Lore:
       - "&7Better than the Moon in my opinion"
-      - "&7Burries damaged entities into the ground"
+      - "&7Buries damaged entities into the ground"
       CustomModelData: 136
 
   Ender:
@@ -208,7 +208,7 @@ Arrow:
     Item:
       DisplayName: "&aLife Arrow"
       Lore:
-      - "&aThe gift of life embewed within an arrow"
+      - "&aThe gift of life imbued within an arrow"
       - "&aA harmless arrow. Inflicts no damage & applies regen"
       CustomModelData: 142
 
