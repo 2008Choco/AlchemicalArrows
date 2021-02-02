@@ -80,7 +80,7 @@ public class AlchemicalArrowEnder extends ConfigurableAlchemicalArrow {
         Location teleportLocation = block.getLocation().add(0.5, 1, 0.5);
         teleportLocation.setPitch(shooterLocation.getPitch());
         teleportLocation.setYaw(shooterLocation.getYaw());
-        shooterEntity.teleport(shooterLocation);
+        shooterEntity.teleport(teleportLocation);
     }
 
     private void swapLocations(Arrow source, LivingEntity shooter, LivingEntity target) {
