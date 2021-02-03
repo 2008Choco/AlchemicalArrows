@@ -28,7 +28,9 @@ public class ArrowEntityFire extends AlchemicalArrowEntity {
     private static final Set<Material> MELTABLE_BLOCKS = EnumSet.of(
         Material.ICE,
         Material.FROSTED_ICE,
-        Material.BLUE_ICE
+        Material.BLUE_ICE,
+        Material.SNOW_BLOCK,
+        Material.SNOW
     );
 
     private Block currentBlock;
