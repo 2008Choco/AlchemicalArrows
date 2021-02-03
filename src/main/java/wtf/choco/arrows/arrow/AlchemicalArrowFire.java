@@ -67,6 +67,13 @@ public class AlchemicalArrowFire extends ConfigurableAlchemicalArrow {
                 }
             }
         }
+        else {
+            Material type = location.getBlock().getType();
+
+            if (type == Material.LAVA || type == Material.FIRE) {
+                fireArrow.setExtinguished(false);
+            }
+        }
 
         fireArrow.tick();
     }
