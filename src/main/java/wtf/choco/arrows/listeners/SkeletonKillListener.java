@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.property.ArrowProperty;
+import wtf.choco.arrows.util.AAConstants;
 
 public final class SkeletonKillListener implements Listener {
 
@@ -30,7 +31,7 @@ public final class SkeletonKillListener implements Listener {
     @EventHandler
     public void onKillSkeleton(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
-        if (!(entity instanceof Skeleton) || RANDOM.nextInt(100) >= plugin.getConfig().getDouble("Skeletons.LootDropChance", 15.0)) {
+        if (!(entity instanceof Skeleton) || RANDOM.nextInt(100) >= plugin.getConfig().getDouble(AAConstants.CONFIG_SKELETONS_LOOT_DROP_CHANCE, 15.0)) {
             return;
         }
 

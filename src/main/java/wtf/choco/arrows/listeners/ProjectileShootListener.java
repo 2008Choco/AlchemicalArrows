@@ -31,6 +31,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.event.AlchemicalArrowShootEvent;
 import wtf.choco.arrows.api.property.ArrowProperty;
+import wtf.choco.arrows.util.AAConstants;
 
 public final class ProjectileShootListener implements Listener {
 
@@ -55,7 +56,7 @@ public final class ProjectileShootListener implements Listener {
         ItemStack arrowItem = event.getConsumable();
 
         if (arrowItem == null) {
-            if (!(shooter instanceof Skeleton) || RANDOM.nextInt(100) > plugin.getConfig().getDouble("Skeletons.ShootPercentage", 10.0)) {
+            if (!(shooter instanceof Skeleton) || RANDOM.nextInt(100) > plugin.getConfig().getDouble(AAConstants.CONFIG_SKELETONS_SHOOT_PERCENTAGE, 10.0)) {
                 return;
             }
 

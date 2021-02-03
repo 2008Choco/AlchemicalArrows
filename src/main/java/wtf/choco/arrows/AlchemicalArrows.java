@@ -59,6 +59,7 @@ import wtf.choco.arrows.listeners.ProjectileShootListener;
 import wtf.choco.arrows.listeners.SkeletonKillListener;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
+import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.arrows.util.ArrowUpdateTask;
 import wtf.choco.arrows.util.UpdateChecker;
 import wtf.choco.arrows.util.UpdateChecker.UpdateReason;
@@ -111,7 +112,7 @@ public class AlchemicalArrows extends JavaPlugin {
 
         boolean alchemaInstalled = Bukkit.getPluginManager().isPluginEnabled("Alchema");
         if (alchemaInstalled) {
-            if (getConfig().getBoolean("Crafting.AlchemaIntegration.Enabled", true)) {
+            if (getConfig().getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true)) {
                 this.getLogger().info("Found Alchema! Registering cauldron crafting recipes for all default arrows.");
 
                 this.alchemaIntegrationListener = new AlchemaRecipeIntegrationListener();
@@ -148,7 +149,7 @@ public class AlchemicalArrows extends JavaPlugin {
         this.createAndRegisterArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
 
         // Load Metrics
-        if (getConfig().getBoolean("MetricsEnabled", true)) {
+        if (getConfig().getBoolean(AAConstants.CONFIG_METRICS_ENABLED, true)) {
             this.getLogger().info("Enabling Plugin Metrics");
 
             Metrics metrics = new Metrics(this);
@@ -177,7 +178,7 @@ public class AlchemicalArrows extends JavaPlugin {
 
         // Check for newer version
         UpdateChecker updateChecker = UpdateChecker.init(this, 11693);
-        if (getConfig().getBoolean("CheckForUpdates", true)) {
+        if (getConfig().getBoolean(AAConstants.CONFIG_CHECK_FOR_UPDATES, true)) {
             this.getLogger().info("Getting version information...");
             updateChecker.requestUpdateCheck().whenComplete((result, exception) -> {
                 if (result.requiresUpdate()) {
@@ -272,11 +273,11 @@ public class AlchemicalArrows extends JavaPlugin {
     }
 
     private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
-        boolean cauldronCrafting = getConfig().getBoolean("Crafting.AlchemaIntegration.Enabled", true);
+        boolean cauldronCrafting = getConfig().getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true);
 
         if (cauldronCrafting && alchemaIntegrationListener != null) {
-            int arrowsRequired = getConfig().getInt("Crafting.AlchemaIntegration.ArrowsRequired", 1);
-            int recipeYield = getConfig().getInt("Crafting.AlchemaIntegration.RecipeYield", 1);
+            int arrowsRequired = getConfig().getInt(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ARROWS_REQUIRED, 1);
+            int recipeYield = getConfig().getInt(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_RECIPE_YIELD, 1);
 
             for (int i = 1; i <= secondaryMaterials.length; i++) {
                 Material ingredient = secondaryMaterials[i - 1];
@@ -290,7 +291,7 @@ public class AlchemicalArrows extends JavaPlugin {
             }
         }
 
-        if (getConfig().getBoolean("Crafting.VanillaCrafting", true)) {
+        if (getConfig().getBoolean(AAConstants.CONFIG_CRAFTING_VANILLA_CRAFTING, true)) {
             int amount = getConfig().getInt("Arrow." + name + "RecipeYield", 8);
             Bukkit.addRecipe(new ShapedRecipe(arrow.getKey(), arrow.createItemStack(amount))
                     .shape("AAA", "ASA", "AAA").setIngredient('A', Material.ARROW)

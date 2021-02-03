@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.persistence.AAPersistentDataTypes;
+import wtf.choco.arrows.util.AAConstants;
 
 /**
  * Handles the registration of {@link AlchemicalArrow} implementations.
@@ -144,7 +145,7 @@ public final class ArrowRegistry implements Iterable<AlchemicalArrow> {
         }
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        NamespacedKey key = container.get(AlchemicalArrow.NBT_KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY);
+        NamespacedKey key = container.get(AAConstants.KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY);
         return key != null ? get(key) : null;
     }
 

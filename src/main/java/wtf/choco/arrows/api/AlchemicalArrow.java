@@ -19,10 +19,10 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.jetbrains.annotations.NotNull;
 
-import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.api.property.PropertyMap;
 import wtf.choco.arrows.persistence.AAPersistentDataTypes;
+import wtf.choco.arrows.util.AAConstants;
 
 /**
  * Represents the base of an alchemical arrow with special effects upon hitting a
@@ -31,8 +31,6 @@ import wtf.choco.arrows.persistence.AAPersistentDataTypes;
  * @author Parker Hawke - Choco
  */
 public abstract class AlchemicalArrow {
-
-    public static final NamespacedKey NBT_KEY_TYPE = AlchemicalArrows.key("type");
 
     protected final PropertyMap properties = new PropertyMap();
 
@@ -80,7 +78,7 @@ public abstract class AlchemicalArrow {
         ItemMeta meta = item.getItemMeta();
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
-        container.set(NBT_KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY, getKey());
+        container.set(AAConstants.KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY, getKey());
 
         item.setItemMeta(meta);
         return item;
@@ -114,7 +112,7 @@ public abstract class AlchemicalArrow {
         }
 
         ItemMeta meta = item.getItemMeta();
-        return meta != null && getKey().equals(meta.getPersistentDataContainer().get(NBT_KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY));
+        return meta != null && getKey().equals(meta.getPersistentDataContainer().get(AAConstants.KEY_TYPE, AAPersistentDataTypes.NAMESPACED_KEY));
     }
 
     /**

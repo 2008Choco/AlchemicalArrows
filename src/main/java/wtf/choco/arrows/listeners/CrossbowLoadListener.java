@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.CrossbowMeta;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
+import wtf.choco.arrows.util.AAConstants;
 
 public final class CrossbowLoadListener implements Listener {
 
@@ -26,7 +27,7 @@ public final class CrossbowLoadListener implements Listener {
 
     @EventHandler
     private void onLoadCrossbow(InventoryClickEvent event) {
-        if (!plugin.getConfig().getBoolean("Inventory.CrossbowLoading", true)) {
+        if (!plugin.getConfig().getBoolean(AAConstants.CONFIG_INVENTORY_CROSSBOW_LOADING, true)) {
             return;
         }
 
