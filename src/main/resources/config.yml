@@ -153,6 +153,8 @@ Arrow:
     Colour: '232,11,11'
     Effect:
       Extinguishable: true
+      FireTicksMin: 40
+      FireTicksMax: 100
       TicksToMelt: 60
     Skeleton:
       CanShoot: true

@@ -1,6 +1,6 @@
 package wtf.choco.arrows.arrow;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,9 +23,9 @@ import wtf.choco.arrows.arrow.entity.ArrowEntityFire;
 public class AlchemicalArrowFire extends ConfigurableAlchemicalArrow {
 
     public static final ArrowProperty PROPERTY_EXTINGUISHABLE = new ArrowProperty(AlchemicalArrows.key("extinguishable"), true);
+    public static final ArrowProperty PROPERTY_FIRE_TICKS_MIN = new ArrowProperty(AlchemicalArrows.key("fire_ticks_min"), 40);
+    public static final ArrowProperty PROPERTY_FIRE_TICKS_MAX = new ArrowProperty(AlchemicalArrows.key("fire_ticks_max"), 100);
     public static final ArrowProperty PROPERTY_TICKS_TO_MELT = new ArrowProperty(AlchemicalArrows.key("ticks_to_melt"), 60);
-
-    private static final Random RANDOM = new Random();
 
     private final AlchemicalArrows plugin;
 
@@ -39,6 +39,8 @@ public class AlchemicalArrowFire extends ConfigurableAlchemicalArrow {
         this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Fire.Skeleton.LootDropWeight", 10.0));
 
         this.properties.setProperty(PROPERTY_EXTINGUISHABLE, () -> plugin.getConfig().getBoolean("Arrow.Fire.Effect.Extinguishable", true));
+        this.properties.setProperty(PROPERTY_FIRE_TICKS_MIN, () -> Math.max(plugin.getConfig().getInt("Arrow.Fire.Effect.FireTicksMin", 40), 0));
+        this.properties.setProperty(PROPERTY_FIRE_TICKS_MAX, () -> plugin.getConfig().getInt("Arrow.Fire.Effect.FireTicksMax", 100));
         this.properties.setProperty(PROPERTY_TICKS_TO_MELT, () -> plugin.getConfig().getInt("Arrow.Fire.Effect.TicksToMelt", 60));
     }
 
@@ -71,20 +73,26 @@ public class AlchemicalArrowFire extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-        if (((ArrowEntityFire) arrow).isExtinguished()) {
-            return;
-        }
-
-        player.setFireTicks(40 + RANDOM.nextInt(61));
+        this.applyFireTo(arrow, player);
     }
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
+        this.applyFireTo(arrow, entity);
+    }
+
+    private void applyFireTo(AlchemicalArrowEntity arrow, Entity entity) {
         if (((ArrowEntityFire) arrow).isExtinguished()) {
             return;
         }
 
-        entity.setFireTicks(40 + RANDOM.nextInt(61));
+        int minTicks = properties.getProperty(PROPERTY_FIRE_TICKS_MIN).getAsInt();
+        int maxTicks = Math.max(properties.getProperty(PROPERTY_FIRE_TICKS_MAX).getAsInt(), minTicks);
+        if (maxTicks == 0) {
+            return;
+        }
+
+        entity.setFireTicks(ThreadLocalRandom.current().nextInt(minTicks, maxTicks + 1));
     }
 
     @Override
