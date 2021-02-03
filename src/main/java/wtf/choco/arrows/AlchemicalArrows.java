@@ -101,14 +101,14 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(new ArrowHitEntityListener(this), this);
         manager.registerEvents(new ArrowHitGroundListener(this), this);
         manager.registerEvents(new ArrowHitPlayerListener(this), this);
-        manager.registerEvents(new ProjectileShootListener(this), this);
-        manager.registerEvents(new CustomDeathMessageListener(this), this);
-        manager.registerEvents(new PickupArrowListener(this), this);
-        manager.registerEvents(new LegacyArrowConvertionListener(this), this);
-        manager.registerEvents(new SkeletonKillListener(this), this);
-        manager.registerEvents(new CraftingPermissionListener(this), this);
         manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
+        manager.registerEvents(new CraftingPermissionListener(this), this);
         manager.registerEvents(new CrossbowLoadListener(this), this);
+        manager.registerEvents(new CustomDeathMessageListener(this), this);
+        manager.registerEvents(new LegacyArrowConvertionListener(this), this);
+        manager.registerEvents(new PickupArrowListener(this), this);
+        manager.registerEvents(new SkeletonKillListener(this), this);
+        manager.registerEvents(new ProjectileShootListener(this), this);
 
         boolean alchemaInstalled = Bukkit.getPluginManager().isPluginEnabled("Alchema");
         if (alchemaInstalled) {
