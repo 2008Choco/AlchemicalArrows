@@ -51,6 +51,7 @@ import wtf.choco.arrows.listeners.ArrowHitGroundListener;
 import wtf.choco.arrows.listeners.ArrowHitPlayerListener;
 import wtf.choco.arrows.listeners.ArrowRecipeDiscoverListener;
 import wtf.choco.arrows.listeners.CraftingPermissionListener;
+import wtf.choco.arrows.listeners.CrossbowLoadListener;
 import wtf.choco.arrows.listeners.CustomDeathMessageListener;
 import wtf.choco.arrows.listeners.LegacyArrowConvertionListener;
 import wtf.choco.arrows.listeners.PickupArrowListener;
@@ -106,6 +107,7 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(new SkeletonKillListener(this), this);
         manager.registerEvents(new CraftingPermissionListener(this), this);
         manager.registerEvents(recipeListener = new ArrowRecipeDiscoverListener(), this);
+        manager.registerEvents(new CrossbowLoadListener(this), this);
 
         boolean alchemaInstalled = Bukkit.getPluginManager().isPluginEnabled("Alchema");
         if (alchemaInstalled) {

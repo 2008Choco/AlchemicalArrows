@@ -18,6 +18,9 @@ Crafting:
     ArrowsRequired: 1
     RecipeYield: 1
 
+Inventory:
+  CrossbowLoading: true
+
 Arrow:
   Air:
     RecipeYield: 8
