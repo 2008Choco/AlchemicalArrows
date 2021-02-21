@@ -287,7 +287,11 @@ public class AlchemicalArrows extends JavaPlugin {
                     key = new NamespacedKey(key.getNamespace(), key.getKey() + "_" + i);
                 }
 
-                this.alchemaIntegrationListener.addRecipe(new CauldronRecipe(key, arrow.createItemStack(recipeYield), new CauldronIngredientMaterial(Material.ARROW, arrowsRequired), new CauldronIngredientMaterial(ingredient)));
+                this.alchemaIntegrationListener.addRecipe(CauldronRecipe.builder(key, arrow.createItemStack(recipeYield))
+                    .addIngredient(new CauldronIngredientMaterial(Material.ARROW, arrowsRequired))
+                    .addIngredient(new CauldronIngredientMaterial(ingredient))
+                    .build()
+                );
             }
         }
 

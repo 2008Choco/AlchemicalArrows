@@ -109,6 +109,7 @@
 			<scope>compile</scope>
 		</dependency>
 
+        <!-- Plugin dependencies -->
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
 			<artifactId>worldguard-bukkit</artifactId>
@@ -118,7 +119,7 @@
 		<dependency>
 			<groupId>com.github.2008Choco</groupId>
 			<artifactId>Alchema</artifactId>
-			<version>1.0.2.0</version>
+			<version>1.1.1</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
