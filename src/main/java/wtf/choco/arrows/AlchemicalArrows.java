@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -152,8 +153,8 @@ public class AlchemicalArrows extends JavaPlugin {
         if (getConfig().getBoolean(AAConstants.CONFIG_METRICS_ENABLED, true)) {
             this.getLogger().info("Enabling Plugin Metrics");
 
-            Metrics metrics = new Metrics(this);
-            metrics.addCustomChart(new Metrics.SimplePie("crafting_type", () -> {
+            Metrics metrics = new Metrics(this, 2427); // https://bstats.org/what-is-my-plugin-id
+            metrics.addCustomChart(new SimplePie("crafting_type", () -> {
                 FileConfiguration config = getConfig();
 
                 boolean cauldronCrafting = config.getBoolean("Crafting.AlchemaIntegration.Enabled", true);
@@ -173,7 +174,7 @@ public class AlchemicalArrows extends JavaPlugin {
                 }
             }));
 
-            metrics.addCustomChart(new Metrics.SimplePie("alchema_integration", () -> String.valueOf(alchemaInstalled)));
+            metrics.addCustomChart(new SimplePie("alchema_integration", () -> String.valueOf(alchemaInstalled)));
         }
 
         // Check for newer version
