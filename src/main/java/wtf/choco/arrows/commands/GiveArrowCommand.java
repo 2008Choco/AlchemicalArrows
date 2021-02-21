@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
+import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.arrows.util.MathUtil;
 import wtf.choco.arrows.util.NamespacedKeyUtil;
 
@@ -38,7 +39,8 @@ public class GiveArrowCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("arrows.command.givearrow")) {
+        // TODO: This is legacy. The whole block can be removed after legacy support is removed. Permission is handled by the command in the plugin.yml
+        if (!AAConstants.PERMISSION_COMMAND_GIVEARROW_PREDICATE.test(sender)) {
             sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
             return true;
         }

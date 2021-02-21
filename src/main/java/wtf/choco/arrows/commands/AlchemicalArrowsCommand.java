@@ -17,6 +17,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.arrow.ConfigurableAlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowStateManager;
+import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.arrows.util.UpdateChecker;
 import wtf.choco.arrows.util.UpdateChecker.UpdateResult;
 
@@ -40,7 +41,7 @@ public class AlchemicalArrowsCommand implements TabExecutor {
         }
 
         if (args[0].equalsIgnoreCase("clear")) {
-            if (!sender.hasPermission("arrows.command.clear")) {
+            if (!AAConstants.PERMISSION_COMMAND_CLEAR_PREDICATE.test(sender)) {
                 sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
                 return true;
             }
@@ -77,7 +78,7 @@ public class AlchemicalArrowsCommand implements TabExecutor {
         }
 
         else if (args[0].equalsIgnoreCase("reload")) {
-            if (!sender.hasPermission("arrows.command.reload")) {
+            if (!AAConstants.PERMISSION_COMMAND_RELOAD_PREDICATE.test(sender)) {
                 sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
                 return true;
             }

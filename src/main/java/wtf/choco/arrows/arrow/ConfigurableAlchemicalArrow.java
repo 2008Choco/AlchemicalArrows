@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
+import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.arrows.util.ItemBuilder;
 import wtf.choco.arrows.util.MathUtil;
 
@@ -61,7 +62,7 @@ public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
 
     @Override
     public boolean onShootFromPlayer(AlchemicalArrowEntity arrow, Player player) {
-        return player.hasPermission("arrows.shoot." + key.getKey());
+        return AAConstants.PERMISSION_SHOOT_ARROW_PREDICATE.test(player, key.getKey());
     }
 
     public void reload() {

@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
+import wtf.choco.arrows.util.AAConstants;
 
 public final class CraftingPermissionListener implements Listener {
 
@@ -28,7 +29,7 @@ public final class CraftingPermissionListener implements Listener {
             return;
         }
 
-        if (!event.getViewers().get(0).hasPermission("arrows.craft." + type.getKey().getKey())) {
+        if (!AAConstants.PERMISSION_CRAFT_ARROW_PREDICATE.test(event.getViewers().get(0), type.getKey().getKey())) {
             event.getInventory().setResult(null);
         }
     }

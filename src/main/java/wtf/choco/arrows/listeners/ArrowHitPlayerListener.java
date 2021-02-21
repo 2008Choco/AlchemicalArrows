@@ -24,6 +24,7 @@ import org.bukkit.projectiles.ProjectileSource;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
+import wtf.choco.arrows.util.AAConstants;
 
 public final class ArrowHitPlayerListener implements Listener {
 
@@ -58,7 +59,7 @@ public final class ArrowHitPlayerListener implements Listener {
             RegionQuery query = worldguard.getRegionContainer().createQuery();
 
             // Check state of shooter
-            if (source instanceof Player && !((Player) source).hasPermission("arrows.worldguardoverride")) {
+            if (source instanceof Player && !AAConstants.PERMISSION_WORLDGUARD_OVERRIDE_PREDICATE.test((Player) source)) {
                 Player shooter = (Player) source;
                 LocalPlayer localShooter = worldguardPlugin.wrapPlayer(shooter);
 

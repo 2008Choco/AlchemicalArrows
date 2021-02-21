@@ -15,13 +15,71 @@ commands:
     description: Give you or another player one of the specialized arrows
     usage: /<command> <arrow> [count] [player]
     aliases: [givearrows]
-    permission: arrows.command.givearrow
+    permission: alchemicalarrows.command.givearrow
   summonarrow:
     description: Summon an alchemical arrow in the world
     usage: /<command> <arrow> [x] [y] [z] [world] [velocityX] [velocityY] [velocityZ]
-    permission: arrows.command.summonarrow
+    permission: alchemicalarrows.command.summonarrow
 
 permissions:
+  alchemicalarrows.worldguard.override:
+    description: Override WorldGuard protection for arrows
+    default: false
+
+  alchemicalarrows.shoot.*:
+    description: Allow the ability to fire every type of arrow available
+    default: true
+    children:
+      alchemicalarrows.shoot.air: true
+      alchemicalarrows.shoot.chain: true
+      alchemicalarrows.shoot.confusion: true
+      alchemicalarrows.shoot.darkness: true
+      alchemicalarrows.shoot.death: true
+      alchemicalarrows.shoot.earth: true
+      alchemicalarrows.shoot.ender: true
+      alchemicalarrows.shoot.explosive: true
+      alchemicalarrows.shoot.fire: true
+      alchemicalarrows.shoot.frost: true
+      alchemicalarrows.shoot.grapple: true
+      alchemicalarrows.shoot.life: true
+      alchemicalarrows.shoot.light: true
+      alchemicalarrows.shoot.magic: true
+      alchemicalarrows.shoot.magnetic: true
+      alchemicalarrows.shoot.necrotic: true
+      alchemicalarrows.shoot.water: true
+
+  alchemicalarrows.craft.*:
+    description: Allow the ability to craft every type of arrow available
+    default: true
+    children:
+      alchemicalarrows.craft.air: true
+      alchemicalarrows.craft.chain: true
+      alchemicalarrows.craft.confusion: true
+      alchemicalarrows.craft.darkness: true
+      alchemicalarrows.craft.death: true
+      alchemicalarrows.craft.earth: true
+      alchemicalarrows.craft.ender: true
+      alchemicalarrows.craft.explosive: true
+      alchemicalarrows.craft.fire: true
+      alchemicalarrows.craft.frost: true
+      alchemicalarrows.craft.grapple: true
+      alchemicalarrows.craft.life: true
+      alchemicalarrows.craft.light: true
+      alchemicalarrows.craft.magic: true
+      alchemicalarrows.craft.magnetic: true
+      alchemicalarrows.craft.necrotic: true
+      alchemicalarrows.craft.water: true
+
+  alchemicalarrows.command.*:
+    description: Allow the ability to use all administrative commands
+    default: op
+    children:
+      alchemicalarrows.command.clear: true
+      alchemicalarrows.command.reload: true
+      alchemicalarrows.command.givearrow: true
+      alchemicalarrows.command.summonarrow: true
+
+  # LEGACY PERMISSION NODES: TO BE REMOVED IN A FUTURE RELEASE
   arrows.worldguardoverride:
     description: Override WorldGuard protection for arrows
     default: false

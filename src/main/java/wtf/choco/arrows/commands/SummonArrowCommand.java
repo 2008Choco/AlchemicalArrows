@@ -29,6 +29,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
+import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.arrows.util.MathUtil;
 import wtf.choco.arrows.util.NamespacedKeyUtil;
 
@@ -50,7 +51,8 @@ public class SummonArrowCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("arrows.command.summonarrow")) {
+        // TODO: This is legacy. The whole block can be removed after legacy support is removed. Permission is handled by the command in the plugin.yml
+        if (!AAConstants.PERMISSION_COMMAND_SUMMONARROW_PREDICATE.test(sender)) {
             sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
             return true;
         }
