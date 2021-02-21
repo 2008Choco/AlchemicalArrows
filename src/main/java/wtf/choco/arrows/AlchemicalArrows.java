@@ -157,8 +157,8 @@ public class AlchemicalArrows extends JavaPlugin {
             metrics.addCustomChart(new SimplePie("crafting_type", () -> {
                 FileConfiguration config = getConfig();
 
-                boolean cauldronCrafting = config.getBoolean("Crafting.AlchemaIntegration.Enabled", true);
-                boolean vanillaCrafting = config.getBoolean("Crafting.VanillaCrafting", true);
+                boolean cauldronCrafting = config.getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true);
+                boolean vanillaCrafting = config.getBoolean(AAConstants.CONFIG_CRAFTING_VANILLA_CRAFTING, true);
 
                 if ((cauldronCrafting && alchemaInstalled) && vanillaCrafting) {
                     return "Both";
