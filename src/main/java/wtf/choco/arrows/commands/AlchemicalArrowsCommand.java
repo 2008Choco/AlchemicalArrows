@@ -39,8 +39,8 @@ public class AlchemicalArrowsCommand implements TabExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("clear") || args[0].equalsIgnoreCase("killallarrows") /* legacy */) {
-            if (!sender.hasPermission("arrows.command.clear") || !sender.hasPermission("arrows.command.killallarrows") /* legacy */) {
+        if (args[0].equalsIgnoreCase("clear")) {
+            if (!sender.hasPermission("arrows.command.clear")) {
                 sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
                 return true;
             }

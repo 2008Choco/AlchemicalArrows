@@ -75,7 +75,6 @@ permissions:
     default: op
     children:
       arrows.command.clear: true
-      arrows.command.killallarrows: true
       arrows.command.reload: true
       arrows.command.givearrow: true
       arrows.command.summonarrow: true
