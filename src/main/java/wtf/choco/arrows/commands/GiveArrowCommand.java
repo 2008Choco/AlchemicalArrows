@@ -22,8 +22,8 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.util.AAConstants;
-import wtf.choco.arrows.util.MathUtil;
-import wtf.choco.arrows.util.NamespacedKeyUtil;
+import wtf.choco.commons.util.MathUtil;
+import wtf.choco.commons.util.NamespacedKeyUtil;
 
 import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 

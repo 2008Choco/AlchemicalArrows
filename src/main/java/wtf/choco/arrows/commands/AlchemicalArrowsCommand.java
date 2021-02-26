@@ -18,8 +18,8 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.arrow.ConfigurableAlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.util.AAConstants;
-import wtf.choco.arrows.util.UpdateChecker;
-import wtf.choco.arrows.util.UpdateChecker.UpdateResult;
+import wtf.choco.commons.util.UpdateChecker;
+import wtf.choco.commons.util.UpdateChecker.UpdateResult;
 
 import static wtf.choco.arrows.AlchemicalArrows.CHAT_PREFIX;
 

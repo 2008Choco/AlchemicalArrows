@@ -18,8 +18,8 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.util.AAConstants;
-import wtf.choco.arrows.util.ItemBuilder;
-import wtf.choco.arrows.util.MathUtil;
+import wtf.choco.commons.util.ItemBuilder;
+import wtf.choco.commons.util.MathUtil;
 
 // For internal use. More convenient arrow construction for configuration-based arrows
 public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
