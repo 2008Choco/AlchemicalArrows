@@ -1,6 +1,7 @@
 package wtf.choco.arrows;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.commons.lang.math.NumberUtils;
@@ -23,8 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import wtf.choco.alchema.crafting.CauldronIngredientMaterial;
-import wtf.choco.alchema.crafting.CauldronRecipe;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.arrow.AlchemicalArrowAir;
 import wtf.choco.arrows.arrow.AlchemicalArrowChain;
@@ -46,7 +45,7 @@ import wtf.choco.arrows.arrow.AlchemicalArrowWater;
 import wtf.choco.arrows.commands.AlchemicalArrowsCommand;
 import wtf.choco.arrows.commands.GiveArrowCommand;
 import wtf.choco.arrows.commands.SummonArrowCommand;
-import wtf.choco.arrows.listeners.AlchemaRecipeIntegrationListener;
+import wtf.choco.arrows.integration.alchema.PluginIntegrationAlchema;
 import wtf.choco.arrows.listeners.ArrowHitEntityListener;
 import wtf.choco.arrows.listeners.ArrowHitGroundListener;
 import wtf.choco.arrows.listeners.ArrowHitPlayerListener;
@@ -62,6 +61,7 @@ import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.arrows.util.ArrowUpdateTask;
+import wtf.choco.commons.integration.IntegrationHandler;
 import wtf.choco.commons.util.UpdateChecker;
 import wtf.choco.commons.util.UpdateChecker.UpdateReason;
 
@@ -84,7 +84,14 @@ public class AlchemicalArrows extends JavaPlugin {
     private boolean worldGuardEnabled = false;
 
     private ArrowRecipeDiscoverListener recipeListener;
-    private AlchemaRecipeIntegrationListener alchemaIntegrationListener;
+
+    private final IntegrationHandler integrationHandler = new IntegrationHandler(this);
+
+    @Override
+    public void onLoad() {
+        this.integrationHandler.registerIntegrations("Alchema", () -> PluginIntegrationAlchema::new);
+        this.integrationHandler.integrate();
+    }
 
     @Override
     public void onEnable() {
@@ -110,18 +117,6 @@ public class AlchemicalArrows extends JavaPlugin {
         manager.registerEvents(new PickupArrowListener(this), this);
         manager.registerEvents(new SkeletonKillListener(this), this);
         manager.registerEvents(new ProjectileShootListener(this), this);
-
-        boolean alchemaInstalled = Bukkit.getPluginManager().isPluginEnabled("Alchema");
-        if (alchemaInstalled) {
-            if (getConfig().getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true)) {
-                this.getLogger().info("Found Alchema! Registering cauldron crafting recipes for all default arrows.");
-
-                this.alchemaIntegrationListener = new AlchemaRecipeIntegrationListener();
-                manager.registerEvents(alchemaIntegrationListener, this);
-            } else {
-                this.getLogger().info("Found Alchema but integration was disabled in the configuration file.");
-            }
-        }
 
         // Register commands
         this.getLogger().info("Registering commands");
@@ -149,9 +144,14 @@ public class AlchemicalArrows extends JavaPlugin {
         this.createAndRegisterArrow(new AlchemicalArrowNecrotic(this), "Necrotic", Material.ROTTEN_FLESH);
         this.createAndRegisterArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
 
+        // Enable integrations
+        this.integrationHandler.integrate();
+
         // Load Metrics
         if (getConfig().getBoolean(AAConstants.CONFIG_METRICS_ENABLED, true)) {
             this.getLogger().info("Enabling Plugin Metrics");
+
+            boolean alchemaEnabled = Bukkit.getPluginManager().isPluginEnabled("Alchema");
 
             Metrics metrics = new Metrics(this, 2427); // https://bstats.org/what-is-my-plugin-id
             metrics.addCustomChart(new SimplePie("crafting_type", () -> {
@@ -160,10 +160,10 @@ public class AlchemicalArrows extends JavaPlugin {
                 boolean cauldronCrafting = config.getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true);
                 boolean vanillaCrafting = config.getBoolean(AAConstants.CONFIG_CRAFTING_VANILLA_CRAFTING, true);
 
-                if ((cauldronCrafting && alchemaInstalled) && vanillaCrafting) {
+                if ((cauldronCrafting && alchemaEnabled) && vanillaCrafting) {
                     return "Both";
                 }
-                else if (cauldronCrafting && alchemaInstalled) {
+                else if (cauldronCrafting && alchemaEnabled) {
                     return "Cauldron Crafting";
                 }
                 else if (vanillaCrafting) {
@@ -174,7 +174,7 @@ public class AlchemicalArrows extends JavaPlugin {
                 }
             }));
 
-            metrics.addCustomChart(new SimplePie("alchema_integration", () -> String.valueOf(alchemaInstalled)));
+            metrics.addCustomChart(new SimplePie("alchema_integration", () -> String.valueOf(alchemaEnabled)));
         }
 
         // Check for newer version
@@ -201,14 +201,12 @@ public class AlchemicalArrows extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        this.integrationHandler.disableIntegrations(true);
+
         this.arrowRegistry.clear();
         this.stateManager.clear();
         this.arrowUpdateTask.cancel();
         this.recipeListener.clearRecipeKeys();
-
-        if (alchemaIntegrationListener != null) {
-            this.alchemaIntegrationListener.clearRecipes();
-        }
     }
 
     /**
@@ -251,6 +249,16 @@ public class AlchemicalArrows extends JavaPlugin {
     }
 
     /**
+     * Get the integration handler instance.
+     *
+     * @return the integration handler
+     */
+    @NotNull
+    public IntegrationHandler getIntegrationHandler() {
+        return integrationHandler;
+    }
+
+    /**
      * Whether WorldGuard support is available or not. If the returned value is true, some arrow
      * functionality may be limited in WorldGuard regions.
      *
@@ -275,8 +283,11 @@ public class AlchemicalArrows extends JavaPlugin {
 
     private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
         boolean cauldronCrafting = getConfig().getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true);
+        Optional<@NotNull PluginIntegrationAlchema> alchemaIntegration = integrationHandler.getIntegration(PluginIntegrationAlchema.class);
 
-        if (cauldronCrafting && alchemaIntegrationListener != null) {
+        if (cauldronCrafting && alchemaIntegration.isPresent()) {
+            PluginIntegrationAlchema alchemaIntegrationInstance = alchemaIntegration.get();
+
             int arrowsRequired = getConfig().getInt(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ARROWS_REQUIRED, 1);
             int recipeYield = getConfig().getInt(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_RECIPE_YIELD, 1);
 
@@ -288,11 +299,7 @@ public class AlchemicalArrows extends JavaPlugin {
                     key = new NamespacedKey(key.getNamespace(), key.getKey() + "_" + i);
                 }
 
-                this.alchemaIntegrationListener.addRecipe(CauldronRecipe.builder(key, arrow.createItemStack(recipeYield))
-                    .addIngredient(new CauldronIngredientMaterial(Material.ARROW, arrowsRequired))
-                    .addIngredient(new CauldronIngredientMaterial(ingredient))
-                    .build()
-                );
+                alchemaIntegrationInstance.addRecipe(key, arrow, recipeYield, arrowsRequired, ingredient);
             }
         }
 
