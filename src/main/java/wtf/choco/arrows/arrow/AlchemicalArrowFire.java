@@ -34,10 +34,6 @@ public class AlchemicalArrowFire extends ConfigurableAlchemicalArrow {
 
         this.plugin = plugin;
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Fire.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Fire.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Fire.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_EXTINGUISHABLE, () -> plugin.getConfig().getBoolean("Arrow.Fire.Effect.Extinguishable", true));
         this.properties.setProperty(PROPERTY_FIRE_TICKS_MIN, () -> Math.max(plugin.getConfig().getInt("Arrow.Fire.Effect.FireTicksMin", 40), 0));
         this.properties.setProperty(PROPERTY_FIRE_TICKS_MAX, () -> plugin.getConfig().getInt("Arrow.Fire.Effect.FireTicksMax", 100));

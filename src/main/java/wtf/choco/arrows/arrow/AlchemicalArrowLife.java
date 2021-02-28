@@ -43,10 +43,6 @@ public class AlchemicalArrowLife extends ConfigurableAlchemicalArrow {
         super(plugin, "Life", "&aLife Arrow", 142);
         this.plugin = plugin;
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Life.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Life.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Life.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_FLORAL_RADIUS, () -> MathUtil.clamp(plugin.getConfig().getInt("Arrow.Life.Effect.FloralRadius", 2), 0, FLORAL_RADIUS_LIMIT));
     }
 

@@ -11,7 +11,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowConfusion extends ConfigurableAlchemicalArrow {
 
@@ -19,10 +18,6 @@ public class AlchemicalArrowConfusion extends ConfigurableAlchemicalArrow {
 
     public AlchemicalArrowConfusion(AlchemicalArrows plugin) {
         super(plugin, "Confusion", "&dConfusion Arrow", 133);
-
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Confusion.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Confusion.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Confusion.Skeleton.LootDropWeight", 10.0));
     }
 
     @Override

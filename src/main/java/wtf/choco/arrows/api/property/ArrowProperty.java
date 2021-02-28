@@ -24,9 +24,14 @@ public class ArrowProperty {
     public static final ArrowProperty SKELETONS_CAN_SHOOT = new ArrowProperty(AlchemicalArrows.key("skeletons_can_shoot"), true);
 
     /**
-     * A boolean valued property determining whether the infinity enchantment is permitted or not.
+     * A boolean valued property determining whether or not the infinity enchantment is permitted.
      */
     public static final ArrowProperty ALLOW_INFINITY = new ArrowProperty(AlchemicalArrows.key("allow_infinity"), false);
+
+    /**
+     * A boolean valued property determining whether or not the multishot enchantment is permitted.
+     */
+    public static final ArrowProperty ALLOW_MULTISHOT = new ArrowProperty(AlchemicalArrows.key("allow_multishot"), true);
 
     /**
      * A double valued property determining the weighted chance for an alchemical arrow to drop.

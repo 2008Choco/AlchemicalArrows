@@ -30,10 +30,6 @@ public class AlchemicalArrowExplosive extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowExplosive(AlchemicalArrows plugin) {
         super(plugin, "Explosive", "&cExplosive Arrow", 138);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Explosive.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Explosive.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Explosive.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_EXPLOSION_STRENGTH, () -> MathUtil.clamp((float) plugin.getConfig().getDouble("Arrow.Explosive.Effect.ExplosionStrength", 4.0), 0.0F, EXPLOSION_STRENGTH_LIMIT));
         this.properties.setProperty(PROPERTY_FUSE_TICKS, () -> plugin.getConfig().getInt("Arrow.Explosive.Effect.FuseTicks", 40));
         this.properties.setProperty(PROPERTY_IGNITE_CREEPERS, () -> plugin.getConfig().getBoolean("Arrow.Explosive.Effect.IgniteCreepers", true));

@@ -28,10 +28,6 @@ public class AlchemicalArrowDeath extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowDeath(AlchemicalArrows plugin) {
         super(plugin, "Death", "&0Death Arrow", 135);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Death.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Death.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Death.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_INSTANT_DEATH_POSSIBLE, () -> plugin.getConfig().getBoolean("Arrow.Death.Effect.InstantDeathPossible", true));
         this.properties.setProperty(PROPERTY_INSTANT_DEATH_CHANCE, () -> plugin.getConfig().getDouble("Arrow.Death.Effect.InstantDeathChance", 20.0));
     }

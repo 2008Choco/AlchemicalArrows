@@ -27,10 +27,6 @@ public class AlchemicalArrowFrost extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowFrost(AlchemicalArrows plugin) {
         super(plugin, "Frost", "&bFrost Arrow", 140);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Frost.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Frost.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Frost.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_WATER_FREEZE_RADIUS, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Frost.Effect.WaterFreezeRadius", 3.5D), 0.0D, WATER_FREEZE_RADIUS_LIMIT));
     }
 

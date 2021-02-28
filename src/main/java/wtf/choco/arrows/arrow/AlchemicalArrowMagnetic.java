@@ -32,10 +32,6 @@ public class AlchemicalArrowMagnetic extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowMagnetic(AlchemicalArrows plugin) {
         super(plugin, "Magnetic", "&7Magnetic Arrow", 145);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Magnetic.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Magnetic.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Magnetic.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_MAGNETISM_RADIUS, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Magnetic.Effect.MagnetismRadius", 5.0D), 0.0D, MAGNETISM_RADIUS_LIMIT));
     }
 

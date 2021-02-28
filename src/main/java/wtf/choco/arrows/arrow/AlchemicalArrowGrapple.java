@@ -23,10 +23,6 @@ public class AlchemicalArrowGrapple extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowGrapple(AlchemicalArrows plugin) {
         super(plugin, "Grapple", "&eGrapple Arrow", 141);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Grapple.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Grapple.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Grapple.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_GRAPPLE_FORCE, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Grapple.Effect.GrappleForce", 2.5D), 0.0D, GRAPPLE_FORCE_LIMIT));
     }
 

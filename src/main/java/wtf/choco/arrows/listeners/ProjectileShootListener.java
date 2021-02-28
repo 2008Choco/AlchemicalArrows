@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -23,6 +24,8 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.CrossbowMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.projectiles.BlockProjectileSource;
 import org.bukkit.projectiles.ProjectileSource;
 
@@ -38,6 +41,7 @@ public final class ProjectileShootListener implements Listener {
     private static final Random RANDOM = new Random();
 
     private final Map<Block, AlchemicalArrow> recentlyDispensed = new HashMap<>();
+    private final Map<UUID, Long> lastShotMultishotArrow = new HashMap<>();
 
     private final AlchemicalArrows plugin;
 
@@ -82,17 +86,36 @@ public final class ProjectileShootListener implements Listener {
         }
 
         ItemStack bow = event.getBow();
-        if (bow != null && bow.hasItemMeta() && bow.getItemMeta().hasEnchant(Enchantment.ARROW_INFINITE)) {
-            if (alchemicalArrow.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).getAsBoolean()) {
-                event.setConsumeItem(false);
-                if (shooter instanceof Player) {
-                    ((Player) shooter).updateInventory();
+        if (bow != null && bow.hasItemMeta()) {
+            ItemMeta bowMeta = bow.getItemMeta();
+
+            if (bowMeta.hasEnchant(Enchantment.ARROW_INFINITE)) {
+                if (alchemicalArrow.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).getAsBoolean()) {
+                    event.setConsumeItem(false);
+                    if (shooter instanceof Player) {
+                        ((Player) shooter).updateInventory();
+                    }
+                }
+                else if (shooter instanceof Player && ((Player) shooter).getGameMode() != GameMode.CREATIVE) {
+                    event.setConsumeItem(true);
+                } else {
+                    arrow.setPickupStatus(PickupStatus.CREATIVE_ONLY);
                 }
             }
-            else if (shooter instanceof Player && ((Player) shooter).getGameMode() != GameMode.CREATIVE) {
-                event.setConsumeItem(true);
-            } else {
-                arrow.setPickupStatus(PickupStatus.CREATIVE_ONLY);
+
+            if (bowMeta.hasEnchant(Enchantment.MULTISHOT) && bowMeta instanceof CrossbowMeta && !alchemicalArrow.getProperties().getProperty(ArrowProperty.ALLOW_MULTISHOT).getAsBoolean()) {
+                long now = System.currentTimeMillis();
+                UUID shooterUUID = shooter.getUniqueId();
+                Long lastShot = lastShotMultishotArrow.put(shooterUUID, now);
+
+                if (lastShot != null) {
+                    long difference = now - lastShot.longValue();
+
+                    if (difference <= 50) { // 1 tick
+                        event.setCancelled(true);
+                        return;
+                    }
+                }
             }
         }
 

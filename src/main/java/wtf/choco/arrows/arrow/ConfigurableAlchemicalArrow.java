@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
+import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.commons.util.ItemBuilder;
 import wtf.choco.commons.util.MathUtil;
@@ -41,6 +42,11 @@ public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
 
         this.defaultName = defaultName;
         this.defaultModelData = defaultModelData;
+
+        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean(configPath + ".Skeleton.CanShoot", true));
+        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean(configPath + ".AllowInfinity", false));
+        this.properties.setProperty(ArrowProperty.ALLOW_MULTISHOT, () -> plugin.getConfig().getBoolean(configPath + ".AllowMultishot", true));
+        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble(configPath + ".Skeleton.LootDropWeight", 10.0));
 
         this.reload();
     }

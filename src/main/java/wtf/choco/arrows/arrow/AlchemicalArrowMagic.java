@@ -12,16 +12,11 @@ import org.bukkit.util.Vector;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
-import wtf.choco.arrows.api.property.ArrowProperty;
 
 public class AlchemicalArrowMagic extends ConfigurableAlchemicalArrow {
 
     public AlchemicalArrowMagic(AlchemicalArrows plugin) {
         super(plugin, "Magic", "&dMagic Arrow", 144);
-
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Magic.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Magic.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Magic.Skeleton.LootDropWeight", 10.0));
     }
 
     @Override

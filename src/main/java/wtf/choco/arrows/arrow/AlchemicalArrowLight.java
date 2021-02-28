@@ -23,10 +23,6 @@ public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowLight(AlchemicalArrows plugin) {
         super(plugin, "Light", "&eLight Arrow", 143);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Light.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Light.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Light.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_DISORIENT, () -> plugin.getConfig().getBoolean("Arrow.Light.Effect.Disorient", true));
         this.properties.setProperty(PROPERTY_LIGHTNING_CHANCE, () -> plugin.getConfig().getDouble("Arrow.Light.Effect.LightningChance", 5.0));
     }

@@ -36,10 +36,6 @@ public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowAir(AlchemicalArrows plugin) {
         super(plugin, "Air", "&oAir Arrow", 132);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Air.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Air.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Air.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_BREATHE_RADIUS, () -> Math.min(plugin.getConfig().getDouble("Arrow.Air.Effect.BreatheRadius", 2.0), BREATHE_RADIUS_LIMIT));
         this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MIN, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Air.Effect.LaunchStrengthMin", 1.0), 0.0, 4.0));
         this.properties.setProperty(PROPERTY_LAUNCH_STRENGTH_MAX, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Air.Effect.LaunchStrengthMax", 2.0), 0.0, 4.0));

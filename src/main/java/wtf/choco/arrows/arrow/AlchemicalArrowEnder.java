@@ -24,10 +24,6 @@ public class AlchemicalArrowEnder extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowEnder(AlchemicalArrows plugin) {
         super(plugin, "Ender", "&5Ender Arrow", 137);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Ender.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Ender.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Ender.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_TELEPORT_ON_HIT_BLOCK, () -> plugin.getConfig().getBoolean("Arrow.Ender.Effect.TeleportOnHitBlock", true));
     }
 

@@ -31,10 +31,6 @@ public class AlchemicalArrowChain extends ConfigurableAlchemicalArrow {
     public AlchemicalArrowChain(AlchemicalArrows plugin) {
         super(plugin, "Chain", "&2&nChain Arrow", 148);
 
-        this.properties.setProperty(ArrowProperty.SKELETONS_CAN_SHOOT, () -> plugin.getConfig().getBoolean("Arrow.Chain.Skeleton.CanShoot", true));
-        this.properties.setProperty(ArrowProperty.ALLOW_INFINITY, () -> plugin.getConfig().getBoolean("Arrow.Chain.AllowInfinity", false));
-        this.properties.setProperty(ArrowProperty.SKELETON_LOOT_WEIGHT, () -> plugin.getConfig().getDouble("Arrow.Chain.Skeleton.LootDropWeight", 10.0));
-
         this.properties.setProperty(PROPERTY_DAMAGE_FACTOR, () -> MathUtil.clamp(plugin.getConfig().getDouble("Arrow.Chain.Effect.DamageFactor", 0.80), DAMAGE_FACTOR_MIN, DAMAGE_FACTOR_MAX));
         this.properties.setProperty(PROPERY_SEARCH_DISTANCE, () -> MathUtil.clamp(plugin.getConfig().getInt("Arrow.Chain.Effect.SearchDistance", 5), SEARCH_DISTANCE_MIN, SEARCH_DISTANCE_MAX));
     }
