@@ -145,7 +145,7 @@ public class AlchemicalArrows extends JavaPlugin {
         this.createAndRegisterArrow(new AlchemicalArrowWater(this), "Water", Material.WATER_BUCKET);
 
         // Enable integrations
-        this.integrationHandler.integrate();
+        this.integrationHandler.enableIntegrations();
 
         // Load Metrics
         if (getConfig().getBoolean(AAConstants.CONFIG_METRICS_ENABLED, true)) {
