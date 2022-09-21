@@ -41,7 +41,7 @@ public class AlchemicalArrowsCommand implements TabExecutor {
         }
 
         if (args[0].equalsIgnoreCase("clear")) {
-            if (!AAConstants.PERMISSION_COMMAND_CLEAR_PREDICATE.test(sender)) {
+            if (!sender.hasPermission(AAConstants.PERMISSION_COMMAND_CLEAR)) {
                 sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
                 return true;
             }
@@ -78,7 +78,7 @@ public class AlchemicalArrowsCommand implements TabExecutor {
         }
 
         else if (args[0].equalsIgnoreCase("reload")) {
-            if (!AAConstants.PERMISSION_COMMAND_RELOAD_PREDICATE.test(sender)) {
+            if (!sender.hasPermission(AAConstants.PERMISSION_COMMAND_RELOAD)) {
                 sender.sendMessage(CHAT_PREFIX + ChatColor.RED + "You have insufficient permissions to execute this command");
                 return true;
             }

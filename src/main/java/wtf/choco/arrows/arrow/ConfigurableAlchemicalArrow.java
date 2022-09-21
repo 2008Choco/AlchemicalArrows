@@ -68,7 +68,7 @@ public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
 
     @Override
     public boolean onShootFromPlayer(AlchemicalArrowEntity arrow, Player player) {
-        return AAConstants.PERMISSION_SHOOT_ARROW_PREDICATE.test(player, key.getKey());
+        return AAConstants.hasPermissionShootArrow(player, this);
     }
 
     public void reload() {

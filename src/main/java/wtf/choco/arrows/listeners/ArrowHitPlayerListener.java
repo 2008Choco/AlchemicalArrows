@@ -56,7 +56,7 @@ public final class ArrowHitPlayerListener implements Listener {
             RegionQuery query = worldguard.getRegionContainer().createQuery();
 
             // Check state of shooter
-            if (source instanceof Player shooter && !AAConstants.PERMISSION_WORLDGUARD_OVERRIDE_PREDICATE.test(shooter)) {
+            if (source instanceof Player shooter && !shooter.hasPermission(AAConstants.PERMISSION_WORLDGUARD_OVERRIDE)) {
                 LocalPlayer localShooter = worldguardPlugin.wrapPlayer(shooter);
 
                 // Check state of shooter

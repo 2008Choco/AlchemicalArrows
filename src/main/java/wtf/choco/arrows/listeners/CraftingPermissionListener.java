@@ -24,12 +24,12 @@ public final class CraftingPermissionListener implements Listener {
             return;
         }
 
-        AlchemicalArrow type = plugin.getArrowRegistry().get(item);
-        if (type == null || !type.getClass().getPackage().getName().startsWith("me.choco.arrows.arrow")) {
+        AlchemicalArrow arrow = plugin.getArrowRegistry().get(item);
+        if (arrow == null || !arrow.getClass().getPackage().getName().startsWith("me.choco.arrows.arrow")) {
             return;
         }
 
-        if (!AAConstants.PERMISSION_CRAFT_ARROW_PREDICATE.test(event.getViewers().get(0), type.getKey().getKey())) {
+        if (!AAConstants.hasPermissionCraftArrow(event.getViewers().get(0), arrow)) {
             event.getInventory().setResult(null);
         }
     }
