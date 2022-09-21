@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
@@ -61,6 +60,7 @@ import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.util.AAConstants;
 import wtf.choco.arrows.util.ArrowUpdateTask;
+import wtf.choco.arrows.util.NumberUtils;
 import wtf.choco.commons.integration.IntegrationHandler;
 import wtf.choco.commons.util.UpdateChecker;
 import wtf.choco.commons.util.UpdateChecker.UpdateReason;

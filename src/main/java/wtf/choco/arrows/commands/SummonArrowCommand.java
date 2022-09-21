@@ -3,10 +3,9 @@ package wtf.choco.arrows.commands;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -30,6 +29,7 @@ import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.registry.ArrowStateManager;
 import wtf.choco.arrows.util.AAConstants;
+import wtf.choco.arrows.util.NumberUtils;
 import wtf.choco.commons.util.MathUtil;
 import wtf.choco.commons.util.NamespacedKeyUtil;
 
@@ -149,7 +149,13 @@ public class SummonArrowCommand implements TabExecutor {
 
         List<String> suggestions = new ArrayList<>();
         for (int i = 1; i <= amountToSuggest; i++) {
-            suggestions.add(StringUtils.repeat(suggestion, " ", i));
+            StringJoiner joiner = new StringJoiner(" ");
+
+            for (int j = 0; j < i; i++) {
+                joiner.add(suggestion);
+            }
+
+            suggestions.add(joiner.toString());
         }
 
         return suggestions;

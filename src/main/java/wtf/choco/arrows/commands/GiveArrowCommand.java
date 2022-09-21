@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -22,6 +21,7 @@ import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.registry.ArrowRegistry;
 import wtf.choco.arrows.util.AAConstants;
+import wtf.choco.arrows.util.NumberUtils;
 import wtf.choco.commons.util.MathUtil;
 import wtf.choco.commons.util.NamespacedKeyUtil;
 

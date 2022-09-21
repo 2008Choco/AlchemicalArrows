@@ -2,7 +2,6 @@ package wtf.choco.arrows.arrow;
 
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -19,6 +18,7 @@ import wtf.choco.arrows.api.AlchemicalArrow;
 import wtf.choco.arrows.api.AlchemicalArrowEntity;
 import wtf.choco.arrows.api.property.ArrowProperty;
 import wtf.choco.arrows.util.AAConstants;
+import wtf.choco.arrows.util.NumberUtils;
 import wtf.choco.commons.util.ItemBuilder;
 import wtf.choco.commons.util.MathUtil;
 
@@ -87,9 +87,9 @@ public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
                this.plugin.getLogger().warning("Attempted to set colour with invalid RGB. Expected 'r,g,b', received '" + colourRaw + "'. Arrow = " + key + ". Ignoring...");
            }
 
-           int r = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[0], 0), 0, 255);
-           int g = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[1], 0), 0, 255);
-           int b = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[2], 0), 0, 255);
+           int r = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[0]), 0, 255);
+           int g = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[1]), 0, 255);
+           int b = MathUtil.clamp(NumberUtils.toInt(rgbSplitRaw[2]), 0, 255);
 
            colour = Color.fromRGB(r, g, b);
         }
