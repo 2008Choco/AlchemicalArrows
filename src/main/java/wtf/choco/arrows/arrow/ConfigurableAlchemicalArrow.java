@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.jetbrains.annotations.ApiStatus.Internal;
 
 import wtf.choco.arrows.AlchemicalArrows;
 import wtf.choco.arrows.api.AlchemicalArrow;
@@ -22,7 +23,7 @@ import wtf.choco.arrows.util.NumberUtils;
 import wtf.choco.commons.util.ItemBuilder;
 import wtf.choco.commons.util.MathUtil;
 
-// For internal use. More convenient arrow construction for configuration-based arrows
+@Internal
 public abstract class ConfigurableAlchemicalArrow extends AlchemicalArrow {
 
     private String name;

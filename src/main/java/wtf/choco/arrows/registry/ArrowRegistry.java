@@ -34,7 +34,6 @@ public final class ArrowRegistry implements Iterable<AlchemicalArrow> {
 
     public static final Set<Material> BOW_MATERIALS = Sets.immutableEnumSet(Material.BOW, Material.CROSSBOW);
 
-    private static final AlchemicalArrows PLUGIN = AlchemicalArrows.getInstance(); // For legacy sake
     private static final String NATIVE_ARROW_PACKAGE = "wtf.choco.arrows.arrow";
 
     private final Map<String, AlchemicalArrow> arrows = new HashMap<>();
@@ -73,7 +72,7 @@ public final class ArrowRegistry implements Iterable<AlchemicalArrow> {
 
         Class<?> arrowClass = arrow.getClass();
         if (!arrowClass.getPackage().getName().startsWith(NATIVE_ARROW_PACKAGE)) {
-            PLUGIN.getLogger().info("Successfully registered external arrow (" + arrowClass.getName() + ")");
+            AlchemicalArrows.getInstance().getLogger().info("Successfully registered external arrow (" + arrowClass.getName() + ")");
         }
 
         this.arrows.put(key.toString(), arrow);

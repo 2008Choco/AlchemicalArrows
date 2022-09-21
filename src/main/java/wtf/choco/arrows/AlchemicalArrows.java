@@ -69,7 +69,6 @@ import wtf.choco.commons.util.UpdateChecker.UpdateReason;
  *
  * @author Parker Hawke - Choco
  */
-@SuppressWarnings("deprecation") // LegacyArrowConvertionListener
 public class AlchemicalArrows extends JavaPlugin {
 
     public static final String CHAT_PREFIX = ChatColor.GOLD.toString() + ChatColor.BOLD + "AlchemicalArrows | " + ChatColor.GRAY;
@@ -279,6 +278,7 @@ public class AlchemicalArrows extends JavaPlugin {
         }
     }
 
+    @Deprecated // NamespacedKey(String, String)
     private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
         boolean cauldronCrafting = getConfig().getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true);
         Optional<@NotNull PluginIntegrationAlchema> alchemaIntegration = integrationHandler.getIntegration(PluginIntegrationAlchema.class);
