@@ -73,11 +73,10 @@ public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
         }
 
         for (Entity entity : nearbyEntities) {
-            if (!(entity instanceof LivingEntity)) {
+            if (!(entity instanceof LivingEntity livingEntity)) {
                 continue;
             }
 
-            LivingEntity livingEntity = (LivingEntity) entity;
             if (livingEntity.getRemainingAir() >= livingEntity.getMaximumAir() + 40) {
                 continue;
             }
@@ -93,14 +92,13 @@ public class AlchemicalArrowAir extends ConfigurableAlchemicalArrow {
 
     @Override
     public void hitEntityEventHandler(AlchemicalArrowEntity arrow, EntityDamageByEntityEvent event) {
-        if (!(event.getEntity() instanceof LivingEntity)) {
+        if (!(event.getEntity() instanceof LivingEntity entity)) {
             return;
         }
 
         double min = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MIN).getAsDouble(), 0.0, 4.0);
         double max = MathUtil.clamp(properties.getProperty(PROPERTY_LAUNCH_STRENGTH_MAX).getAsDouble(), min, 4.0);
 
-        LivingEntity entity = (LivingEntity) event.getEntity();
         entity.damage(event.getFinalDamage(), event.getDamager());
         entity.setVelocity(entity.getVelocity().setY((RANDOM.nextDouble() * (max - min)) + min));
         entity.getWorld().playSound(entity.getLocation(), Sound.ITEM_BUCKET_EMPTY, 1, 2);

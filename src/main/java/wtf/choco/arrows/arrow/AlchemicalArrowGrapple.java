@@ -5,7 +5,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
@@ -38,20 +38,15 @@ public class AlchemicalArrowGrapple extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitBlock(AlchemicalArrowEntity arrow, Block block) {
-        Arrow bukkitArrow = arrow.getArrow();
-        if (!(bukkitArrow.getShooter() instanceof LivingEntity)) {
+        AbstractArrow bukkitArrow = arrow.getArrow();
+        if (!(bukkitArrow.getShooter() instanceof LivingEntity entity) || entity == null) {
             return;
         }
 
-        LivingEntity shooter = (LivingEntity) bukkitArrow.getShooter();
-        if (shooter == null) {
-            return;
-        }
-
-        Vector grappleVelocity = bukkitArrow.getLocation().toVector().subtract(shooter.getLocation().toVector()).normalize();
+        Vector grappleVelocity = bukkitArrow.getLocation().toVector().subtract(entity.getLocation().toVector()).normalize();
         grappleVelocity.multiply(properties.getProperty(PROPERTY_GRAPPLE_FORCE).getAsDouble());
 
-        shooter.setVelocity(grappleVelocity);
+        entity.setVelocity(grappleVelocity);
         bukkitArrow.getWorld().playSound(bukkitArrow.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1, 2);
         bukkitArrow.remove();
     }

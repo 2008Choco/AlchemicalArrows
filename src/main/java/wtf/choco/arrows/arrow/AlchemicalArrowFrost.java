@@ -53,11 +53,10 @@ public class AlchemicalArrowFrost extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        LivingEntity livingEntity = (LivingEntity) entity;
         livingEntity.addPotionEffect(SLOWNESS_EFFECT);
         livingEntity.addPotionEffect(ANTI_JUMP_EFFECT);
     }

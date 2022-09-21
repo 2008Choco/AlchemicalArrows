@@ -80,7 +80,7 @@ public class SummonArrowCommand implements TabExecutor {
             return true;
         }
 
-        Entity entitySender = (sender instanceof Entity) ? (Entity) sender : null;
+        Entity entitySender = (sender instanceof Entity entity) ? entity : null;
         double x = (entitySender != null && (args.length < 2 || args[1].equals("~"))) ? entitySender.getLocation().getX() : NumberUtils.toDouble(args[1], Integer.MIN_VALUE);
         double y = (entitySender != null && (args.length < 3 || args[2].equals("~"))) ? entitySender.getLocation().getY() : NumberUtils.toDouble(args[2], Integer.MIN_VALUE);
         double z = (entitySender != null && (args.length < 4 || args[3].equals("~"))) ? entitySender.getLocation().getZ() : NumberUtils.toDouble(args[3], Integer.MIN_VALUE);
@@ -102,8 +102,8 @@ public class SummonArrowCommand implements TabExecutor {
         Vector direction = new Vector(velocityX, velocityY, velocityZ);
 
         Arrow bukkitArrow = world.spawnArrow(new Location(world, x, y, z), direction, (float) direction.length(), 0.0F);
-        if (entitySender instanceof ProjectileSource) {
-            bukkitArrow.setShooter((ProjectileSource) entitySender);
+        if (entitySender instanceof ProjectileSource projectileSource) {
+            bukkitArrow.setShooter(projectileSource);
         }
 
         AlchemicalArrowEntity alchemicalArrow = arrow.createNewArrow(bukkitArrow);

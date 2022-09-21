@@ -276,8 +276,8 @@ public class AlchemicalArrows extends JavaPlugin {
 
         command.setExecutor(executor);
 
-        if (executor instanceof TabCompleter) {
-            command.setTabCompleter((TabCompleter) executor);
+        if (executor instanceof TabCompleter tabCompleter) {
+            command.setTabCompleter(tabCompleter);
         }
     }
 

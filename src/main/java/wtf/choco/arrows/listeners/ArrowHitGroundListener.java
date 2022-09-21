@@ -20,23 +20,23 @@ public final class ArrowHitGroundListener implements Listener {
 
     @EventHandler
     public void onAlchemicalArrowHitGround(ProjectileHitEvent event) {
-        if (!(event.getEntity() instanceof Arrow)) {
+        if (!(event.getEntity() instanceof Arrow arrow)) {
             return;
         }
 
-        Block hit = event.getHitBlock();
-        if (hit == null) {
+        Block block = event.getHitBlock();
+        if (block == null) {
             return;
         }
 
-        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get((Arrow) event.getEntity());
+        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get(arrow);
         if (alchemicalArrow == null) {
             return;
         }
 
         AlchemicalArrow type = alchemicalArrow.getImplementation();
         type.hitGroundEventHandler(alchemicalArrow, event);
-        type.onHitBlock(alchemicalArrow, hit);
+        type.onHitBlock(alchemicalArrow, block);
     }
 
 }

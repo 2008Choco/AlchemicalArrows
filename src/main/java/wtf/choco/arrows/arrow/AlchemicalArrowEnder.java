@@ -5,7 +5,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -39,22 +39,22 @@ public class AlchemicalArrowEnder extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-        Arrow bukkitArrow = arrow.getArrow();
-        if (!(bukkitArrow.getShooter() instanceof LivingEntity)) {
+        AbstractArrow bukkitArrow = arrow.getArrow();
+        if (!(bukkitArrow.getShooter() instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        this.swapLocations(bukkitArrow, (LivingEntity) bukkitArrow.getShooter(), player);
+        this.swapLocations(bukkitArrow, livingEntity, player);
     }
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        Arrow bukkitArrow = arrow.getArrow();
-        if (!(bukkitArrow.getShooter() instanceof LivingEntity) || !(entity instanceof LivingEntity) || entity.getType() == EntityType.ARMOR_STAND) {
+        AbstractArrow bukkitArrow = arrow.getArrow();
+        if (!(bukkitArrow.getShooter() instanceof LivingEntity livingShooter) || !(entity instanceof LivingEntity livingEntity) || entity.getType() == EntityType.ARMOR_STAND) {
             return;
         }
 
-        this.swapLocations(bukkitArrow, (LivingEntity) bukkitArrow.getShooter(), (LivingEntity) entity);
+        this.swapLocations(bukkitArrow, livingShooter, livingEntity);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class AlchemicalArrowEnder extends ConfigurableAlchemicalArrow {
         shooterEntity.teleport(teleportLocation);
     }
 
-    private void swapLocations(Arrow source, LivingEntity shooter, LivingEntity target) {
+    private void swapLocations(AbstractArrow source, LivingEntity shooter, LivingEntity target) {
         source.setKnockbackStrength(0);
 
         Location targetLocation = target.getLocation();

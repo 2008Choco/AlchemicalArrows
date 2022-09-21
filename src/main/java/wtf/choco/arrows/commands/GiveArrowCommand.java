@@ -51,7 +51,7 @@ public class GiveArrowCommand implements TabExecutor {
         }
 
         int giveCount = (args.length >= 2) ? MathUtil.clamp(NumberUtils.toInt(args[1], 1), 1, 64) : 1;
-        List<Player> targets = (sender instanceof Player) ? Arrays.asList((Player) sender) : Collections.EMPTY_LIST;
+        List<Player> targets = (sender instanceof Player player) ? Arrays.asList(player) : Collections.EMPTY_LIST;
 
         if (args.length >= 3) {
             try {

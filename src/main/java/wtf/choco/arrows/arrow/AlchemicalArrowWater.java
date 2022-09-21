@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.World;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 
 import wtf.choco.arrows.AlchemicalArrows;
@@ -18,7 +19,7 @@ public class AlchemicalArrowWater extends ConfigurableAlchemicalArrow {
 
     @Override
     public void tick(AlchemicalArrowEntity arrow, Location location) {
-        if (!(arrow instanceof ArrowEntityWater)) {
+        if (!(arrow instanceof ArrowEntityWater waterArrow)) {
             return;
         }
 
@@ -29,9 +30,9 @@ public class AlchemicalArrowWater extends ConfigurableAlchemicalArrow {
 
         world.spawnParticle(Particle.WATER_WAKE, location, 3, 0.1, 0.1, 0.1, 0.01);
 
-        Arrow bukkitArrow = arrow.getArrow();
+        AbstractArrow bukkitArrow = arrow.getArrow();
         if (bukkitArrow.getLocation().getBlock().getType() == Material.WATER) {
-            bukkitArrow.setVelocity(((ArrowEntityWater) arrow).getVelocity(0.9995));
+            bukkitArrow.setVelocity(waterArrow.getVelocity(0.9995));
         }
     }
 

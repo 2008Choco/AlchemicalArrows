@@ -9,7 +9,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -91,14 +91,14 @@ public class AlchemicalArrowMagnetic extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        this.pullEntity(arrow.getArrow(), (LivingEntity) entity);
+        this.pullEntity(arrow.getArrow(), livingEntity);
     }
 
-    private void pullEntity(Arrow source, LivingEntity entity) {
+    private void pullEntity(AbstractArrow source, LivingEntity entity) {
         Vector targetVelocity = source.getVelocity().multiply(-1);
 
         // No reason to exceed 4.0

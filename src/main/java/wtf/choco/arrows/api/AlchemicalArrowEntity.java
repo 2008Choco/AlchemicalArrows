@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,12 +49,12 @@ public class AlchemicalArrowEntity {
     }
 
     /**
-     * Get this AlchemicalArrowEntity's wrapped {@link Arrow} instance, its underlying instance
+     * Get this AlchemicalArrowEntity's wrapped {@link AbstractArrow} instance, its underlying instance
      *
      * @return the wrapped arrow
      */
     @NotNull
-    public final Arrow getArrow() {
+    public final AbstractArrow getArrow() {
         return arrow;
     }
 

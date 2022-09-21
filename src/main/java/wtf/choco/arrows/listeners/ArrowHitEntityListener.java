@@ -1,6 +1,7 @@
 package wtf.choco.arrows.listeners;
 
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,18 +21,20 @@ public final class ArrowHitEntityListener implements Listener {
 
     @EventHandler
     public void onAlchemicalArrowHitEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Arrow) || event.getEntity() instanceof Player) {
+        Entity damagedEntity = event.getEntity();
+
+        if (!(event.getDamager() instanceof Arrow arrow) || damagedEntity instanceof Player) {
             return;
         }
 
-        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get((Arrow) event.getDamager());
+        AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get(arrow);
         if (alchemicalArrow == null) {
             return;
         }
 
         AlchemicalArrow type = alchemicalArrow.getImplementation();
         type.hitEntityEventHandler(alchemicalArrow, event);
-        type.onHitEntity(alchemicalArrow, event.getEntity());
+        type.onHitEntity(alchemicalArrow, damagedEntity);
     }
 
 }

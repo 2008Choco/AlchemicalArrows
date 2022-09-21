@@ -41,11 +41,11 @@ public class AlchemicalArrowConfusion extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof Creature)) {
+        if (!(entity instanceof Creature creature)) {
             return;
         }
 
-        ((Creature) entity).setTarget(null);
+        creature.setTarget(null);
     }
 
 }

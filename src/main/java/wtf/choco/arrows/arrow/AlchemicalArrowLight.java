@@ -44,11 +44,11 @@ public class AlchemicalArrowLight extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        this.applyEffect((LivingEntity) entity);
+        this.applyEffect(livingEntity);
     }
 
     private void applyEffect(LivingEntity entity) {

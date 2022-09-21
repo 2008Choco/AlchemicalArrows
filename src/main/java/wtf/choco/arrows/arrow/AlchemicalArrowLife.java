@@ -63,11 +63,11 @@ public class AlchemicalArrowLife extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        ((LivingEntity) entity).addPotionEffect(REGENERATION_EFFECT);
+        livingEntity.addPotionEffect(REGENERATION_EFFECT);
     }
 
     @Override

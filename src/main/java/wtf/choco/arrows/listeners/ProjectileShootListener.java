@@ -51,7 +51,7 @@ public final class ProjectileShootListener implements Listener {
 
     @EventHandler
     public void onEntityShootBow(EntityShootBowEvent event) {
-        if (!(event.getProjectile() instanceof Arrow)) {
+        if (!(event.getProjectile() instanceof Arrow arrow)) {
             return;
         }
 
@@ -77,7 +77,6 @@ public final class ProjectileShootListener implements Listener {
             return;
         }
 
-        Arrow arrow = (Arrow) event.getProjectile();
         AlchemicalArrowEntity alchemicalArrowEntity = alchemicalArrow.createNewArrow(arrow);
 
         if (!handleOnShootFromSource(alchemicalArrow, alchemicalArrowEntity, shooter)) {
@@ -92,11 +91,11 @@ public final class ProjectileShootListener implements Listener {
             if (bowMeta.hasEnchant(Enchantment.ARROW_INFINITE)) {
                 if (alchemicalArrow.getProperties().getProperty(ArrowProperty.ALLOW_INFINITY).getAsBoolean()) {
                     event.setConsumeItem(false);
-                    if (shooter instanceof Player) {
-                        ((Player) shooter).updateInventory();
+                    if (shooter instanceof Player player) {
+                        player.updateInventory();
                     }
                 }
-                else if (shooter instanceof Player && ((Player) shooter).getGameMode() != GameMode.CREATIVE) {
+                else if (shooter instanceof Player player && player.getGameMode() != GameMode.CREATIVE) {
                     event.setConsumeItem(true);
                 } else {
                     arrow.setPickupStatus(PickupStatus.CREATIVE_ONLY);

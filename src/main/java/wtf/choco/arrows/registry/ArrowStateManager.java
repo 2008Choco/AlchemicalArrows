@@ -10,7 +10,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.World;
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -53,25 +53,25 @@ public final class ArrowStateManager {
     }
 
     /**
-     * Remove an {@link Arrow} (and therefore its associated {@link AlchemicalArrowEntity}, if
-     * one exists) from the state manager.
+     * Remove an {@link AbstractArrow} (and therefore its associated {@link AlchemicalArrowEntity},
+     * if one exists) from the state manager.
      *
      * @param arrow the arrow to remove
      */
-    public void remove(@NotNull Arrow arrow) {
+    public void remove(@NotNull AbstractArrow arrow) {
         Preconditions.checkArgument(arrow != null, "Arrow entity cannot be null");
         this.entities.remove(arrow.getUniqueId());
     }
 
     /**
-     * Get the {@link AlchemicalArrowEntity} associated with the provided {@link Arrow}.
+     * Get the {@link AlchemicalArrowEntity} associated with the provided {@link AbstractArrow}.
      *
      * @param arrow the Bukkit arrow from which to get an alchemical arrow
      *
      * @return an instance of the alchemical arrow entity. null if not stated
      */
     @Nullable
-    public AlchemicalArrowEntity get(@Nullable Arrow arrow) {
+    public AlchemicalArrowEntity get(@Nullable AbstractArrow arrow) {
         return (arrow != null) ? get(arrow.getUniqueId()) : null;
     }
 

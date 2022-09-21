@@ -47,24 +47,24 @@ public class AlchemicalArrowChain extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitPlayer(AlchemicalArrowEntity arrow, Player player) {
-        Arrow bukkitArrow = arrow.getArrow();
+        AbstractArrow bukkitArrow = arrow.getArrow();
         this.attemptChain(bukkitArrow, bukkitArrow.getShooter(), player);
         bukkitArrow.remove();
     }
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        Arrow bukkitArrow = arrow.getArrow();
-        this.attemptChain(bukkitArrow, bukkitArrow.getShooter(), (LivingEntity) entity);
+        AbstractArrow bukkitArrow = arrow.getArrow();
+        this.attemptChain(bukkitArrow, bukkitArrow.getShooter(), livingEntity);
         bukkitArrow.remove();
     }
 
     // Chain the arrow to other nearby targets.
-    private void attemptChain(Arrow source, ProjectileSource shooter, LivingEntity hitEntity) {
+    private void attemptChain(AbstractArrow source, ProjectileSource shooter, LivingEntity hitEntity) {
         if (shooter == hitEntity) {
             return;
         }

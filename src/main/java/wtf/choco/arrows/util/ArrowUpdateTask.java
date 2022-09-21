@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +27,7 @@ public final class ArrowUpdateTask extends BukkitRunnable {
     @Override
     public void run() {
         for (AlchemicalArrowEntity arrow : stateManager.getArrows()) {
-            Arrow bukkitArrow = arrow.getArrow();
+            AbstractArrow bukkitArrow = arrow.getArrow();
             if (!bukkitArrow.isValid()) {
                 this.purgeBuffer.add(arrow);
                 continue;

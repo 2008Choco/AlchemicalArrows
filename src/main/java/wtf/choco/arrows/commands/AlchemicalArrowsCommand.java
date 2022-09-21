@@ -85,8 +85,8 @@ public class AlchemicalArrowsCommand implements TabExecutor {
 
             this.plugin.reloadConfig();
             this.plugin.getArrowRegistry().forEach(arrow -> {
-                if (arrow instanceof ConfigurableAlchemicalArrow) {
-                    ((ConfigurableAlchemicalArrow) arrow).reload();
+                if (arrow instanceof ConfigurableAlchemicalArrow configurableArrow) {
+                    configurableArrow.reload();
                 }
             });
 

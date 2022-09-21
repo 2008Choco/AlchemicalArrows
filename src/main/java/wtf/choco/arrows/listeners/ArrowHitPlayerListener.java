@@ -39,14 +39,11 @@ public final class ArrowHitPlayerListener implements Listener {
 
     @EventHandler
     public void onAlchemicalArrowHitPlayer(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Arrow) || !(event.getEntity() instanceof Player)) {
+        if (!(event.getDamager() instanceof Arrow arrow) || !(event.getEntity() instanceof Player damaged)) {
             return;
         }
 
-        Player damaged = (Player) event.getEntity();
-        Arrow arrow = (Arrow) event.getDamager();
         AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get(arrow);
-
         if (alchemicalArrow == null) {
             return;
         }
@@ -59,8 +56,7 @@ public final class ArrowHitPlayerListener implements Listener {
             RegionQuery query = worldguard.getRegionContainer().createQuery();
 
             // Check state of shooter
-            if (source instanceof Player && !AAConstants.PERMISSION_WORLDGUARD_OVERRIDE_PREDICATE.test((Player) source)) {
-                Player shooter = (Player) source;
+            if (source instanceof Player shooter && !AAConstants.PERMISSION_WORLDGUARD_OVERRIDE_PREDICATE.test(shooter)) {
                 LocalPlayer localShooter = worldguardPlugin.wrapPlayer(shooter);
 
                 // Check state of shooter

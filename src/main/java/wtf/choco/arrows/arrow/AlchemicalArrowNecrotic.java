@@ -42,8 +42,8 @@ public class AlchemicalArrowNecrotic extends ConfigurableAlchemicalArrow {
 
         while (nearbyEntities.hasNext()) {
             Entity entity = nearbyEntities.next();
-            if (entity instanceof Monster) {
-                ((Monster) entity).setTarget(player);
+            if (entity instanceof Monster monster) {
+                monster.setTarget(player);
             }
         }
     }
@@ -54,13 +54,12 @@ public class AlchemicalArrowNecrotic extends ConfigurableAlchemicalArrow {
     }
 
     private void lifeSap(Entity shooter, double damage) {
-        if (!(shooter instanceof LivingEntity)) {
+        if (!(shooter instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        LivingEntity source = (LivingEntity) shooter;
-        AttributeInstance attributeMaxHealth = source.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        source.setHealth(Math.max(source.getHealth() + (damage / 2), (attributeMaxHealth != null) ? attributeMaxHealth.getValue() : 20));
+        AttributeInstance attributeMaxHealth = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        livingEntity.setHealth(Math.max(livingEntity.getHealth() + (damage / 2), (attributeMaxHealth != null) ? attributeMaxHealth.getValue() : 20));
     }
 
 }

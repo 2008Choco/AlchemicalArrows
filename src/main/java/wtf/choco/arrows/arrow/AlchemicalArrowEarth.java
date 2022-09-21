@@ -42,11 +42,11 @@ public class AlchemicalArrowEarth extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        this.buryEntity((LivingEntity) entity);
+        this.buryEntity(livingEntity);
     }
 
     private void buryEntity(LivingEntity entity) {

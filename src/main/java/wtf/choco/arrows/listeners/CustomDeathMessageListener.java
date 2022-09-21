@@ -33,16 +33,10 @@ public final class CustomDeathMessageListener implements Listener {
         }
 
         EntityDamageEvent lastDamageCause = event.getEntity().getLastDamageCause();
-        if (!(lastDamageCause instanceof EntityDamageByEntityEvent)) {
+        if (!(lastDamageCause instanceof EntityDamageByEntityEvent lastEntityDamage) || !(lastEntityDamage.getDamager() instanceof Arrow arrow)) {
             return;
         }
 
-        EntityDamageByEntityEvent lastEntityDamage = (EntityDamageByEntityEvent) lastDamageCause;
-        if (!(lastEntityDamage.getDamager() instanceof Arrow)) {
-            return;
-        }
-
-        Arrow arrow = (Arrow) lastEntityDamage.getDamager();
         AlchemicalArrowEntity alchemicalArrow = plugin.getArrowStateManager().get(arrow);
         if (alchemicalArrow == null) {
             return;
@@ -53,8 +47,7 @@ public final class CustomDeathMessageListener implements Listener {
 
         // Change death messages
         ProjectileSource source = arrow.getShooter();
-        if (source instanceof Player) {
-            Player killer = (Player) source;
+        if (source instanceof Player killer) {
             String message = config.getString(AAConstants.CONFIG_DEATH_MESSAGES_DEATH_BY_PLAYER, "%player% was killed by %killer% using a %type%");
             event.setDeathMessage(message.replace("%player%", killedName).replace("%killer%", killer.getName()).replace("%type%", arrowType));
         }

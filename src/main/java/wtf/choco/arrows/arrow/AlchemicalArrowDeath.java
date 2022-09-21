@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.entity.Arrow;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -51,17 +51,16 @@ public class AlchemicalArrowDeath extends ConfigurableAlchemicalArrow {
 
     @Override
     public void onHitEntity(AlchemicalArrowEntity arrow, Entity entity) {
-        if (!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity livingEntity)) {
             return;
         }
 
-        LivingEntity livingEntity = (LivingEntity) entity;
         this.attemptInstantDeath(arrow.getArrow(), livingEntity);
         livingEntity.addPotionEffect(WITHER_EFFECT);
         livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_WITHER_SKELETON_DEATH, 1, 0.5F);
     }
 
-    private void attemptInstantDeath(Arrow source, LivingEntity entity) {
+    private void attemptInstantDeath(AbstractArrow source, LivingEntity entity) {
         if (!properties.getProperty(PROPERTY_INSTANT_DEATH_POSSIBLE).getAsBoolean()) {
             return;
         }

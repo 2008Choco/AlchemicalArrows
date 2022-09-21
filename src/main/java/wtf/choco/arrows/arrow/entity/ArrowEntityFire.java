@@ -102,7 +102,7 @@ public class ArrowEntityFire extends AlchemicalArrowEntity {
                 ProjectileSource shooter = arrow.getShooter();
 
                 com.sk89q.worldedit.util.Location worldguardLocation = BukkitAdapter.adapt(block.getLocation());
-                if (!query.testState(worldguardLocation, shooter instanceof Player ? worldguardPlugin.wrapPlayer((Player) shooter) : null, Flags.ICE_MELT, Flags.BLOCK_BREAK)) {
+                if (!query.testState(worldguardLocation, shooter instanceof Player player ? worldguardPlugin.wrapPlayer(player) : null, Flags.ICE_MELT, Flags.BLOCK_BREAK)) {
                     this.inWorldGuardedBlock = true;
                     return;
                 }
