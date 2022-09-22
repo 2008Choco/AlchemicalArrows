@@ -278,7 +278,7 @@ public class AlchemicalArrows extends JavaPlugin {
         }
     }
 
-    @Deprecated // NamespacedKey(String, String)
+    @SuppressWarnings("deprecation") // NamespacedKey(String, String)
     private void createAndRegisterArrow(@NotNull AlchemicalArrow arrow, @NotNull String name, @NotNull Material... secondaryMaterials) {
         boolean cauldronCrafting = getConfig().getBoolean(AAConstants.CONFIG_CRAFTING_ALCHEMA_INTEGRATION_ENABLED, true);
         Optional<@NotNull PluginIntegrationAlchema> alchemaIntegration = integrationHandler.getIntegration(PluginIntegrationAlchema.class);
